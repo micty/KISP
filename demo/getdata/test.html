@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<script src="jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="http://mob.cmcloud.cn/kisplus/kisplus.js" type="text/javascript"></script>
+
+<script>
+
+var g_EID="25753";//TEST 后面必须改
+var g_OpenID="U0001-U0001-U0001-U0009";//TEST 后面必须改
+var g_methodhead = "kis.APP002129.uequery.KisMobileController.";
+
+
+var  g_MethodNameTest='GetTasksStatistics';
+
+var xt_openid = g_OpenID;
+var xt_eid = g_EID;
+
+function kisplusCallBack(data, method, errmsg,tag) {
+	alert(json2str(data));	
+    if (data == null && errmsg != null) {
+        if(errmsg.length>200)
+		{
+			jAlert(method + "   err:" + errmsg.substr(0,200));
+		}else
+		{
+			jAlert(method + "   err:" + errmsg);
+		}
+    }
+    else {
+		
+		if(data.Result == 221)
+		{
+			jumptobind();
+			return;	
+		}				
+		if (method == g_methodhead + "g_MethodNameTest") {	
+		
+        }
+
+		
+    }
+}
+
+
+
+
+function testCallFunction()
+{
+	var function_name = g_MethodNameTest;
+    var strDataJson =  getTestJsonPara();
+	var m_Method = g_methodhead + function_name;
+	kisplusPostData(m_Method, strDataJson, "", "N");
+	
+}
+
+function getTestJsonPara() {
+
+
+    var strHead = '{"Result":"","ErrMsg":"","AccountDB":"'+""+'","TotalPage":"","CurrentPage":"' + 1 + '","ItemsOfPage":"' + 20 + '","Data":';
+    var objParam = new Object();
+
+    objParam.FUserID = "16410";
+    objParam.FName =  "";
+	objParam.Status =  "0";
+
+    var strJson = json2str(objParam);
+    var strEnd = '}';
+
+    var strParam = strHead + strJson + strEnd;
+    var strResult = encodeURIComponent(strParam);
+    return strResult;
+
+}
+
+function json2str(o) {
+    var arr = [];
+    var fmt = function (s) {
+        if (typeof s == 'object' && s != null) return json2str(s);
+        return /^(string|number)$/.test(typeof s) ? '"' + s + '"' : s;
+    }
+    for (var i in o) arr.push('"' + i + '":' + fmt(o[i]));
+    return '{' + arr.join(',') + '}';
+}
+
+
+</script>
+
+</head>
+
+<body>
+
+<button onClick="testCallFunction()">test</button>
+</body>
+</html>
+
+

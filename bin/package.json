@@ -1,0 +1,33 @@
+﻿
+{
+    "name": "KISP",
+    "version": "3.0.0",
+    "repository": {},
+    "description": "KISP JavaScript Library",
+    "dependencies": {},
+    
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "load-grunt-tasks": "0.6.0", 
+        "grunt-contrib-concat": "0.5.0",
+        "grunt-contrib-uglify": "0.5.0",
+        "grunt-contrib-less": "0.11.0",
+        "grunt-contrib-watch": "0.6.1",
+        "grunt-contrib-copy": "0.5.0",
+        "grunt-contrib-htmlmin": "0.3.0",
+        "grunt-contrib-clean": "0.6.0"
+
+    }, 
+
+    "engines": {
+        "node": ">=0.8.0"
+    },
+
+    "dir": {
+        "root": "../",
+        "src": "../src/",
+        "css": "../src/style/css/",
+        "less": "../src/style/less/",
+        "build": "../build/"
+    }
+}

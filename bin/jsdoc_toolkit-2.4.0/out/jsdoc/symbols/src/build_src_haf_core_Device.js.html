@@ -1,0 +1,116 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	span{font-family: Courier;}
+	.KEYW {color: blue;}
+	.COMM {color: green; }
+	.NUMB {color: red;}
+	.STRN {color: #A31515;}
+	.REGX {color: #339;}
+	.PUNC {color: #800080;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span> * 硬件信息。
+<span class='line'>  6</span> * @namespace
+<span class='line'>  7</span> */</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Device</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Device</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ViewPort</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 11</span>     * HAE 需要返回的 Native 的硬件信息 Device，包括:
+<span class='line'> 12</span>     * {
+<span class='line'> 13</span>     *    cpu:800,          //单位Mhz
+<span class='line'> 14</span>     *    mem:1024,         //单位M,
+<span class='line'> 15</span>     *    os:'Android',     //操作系统:Android/iOS
+<span class='line'> 16</span>     *    osVersion:'4.0',  //操作系统版本
+<span class='line'> 17</span>     *    vendor:'sumsang', //设备厂商
+<span class='line'> 18</span>     *    model:'galaxy s3',//设备型号
+<span class='line'> 19</span>     *    density:1,        //屏幕密度，Android下取值0.75,1,1.5,2,iOS取值1,2
+<span class='line'> 20</span>     *    screenInch:3.5,   //屏幕尺寸(对角线)，单位英寸
+<span class='line'> 21</span>     *    getRotation:function(){}  //屏幕旋转角度，0~3,分别代表逆时针旋转的0,90,180,270度
+<span class='line'> 22</span>     *    setRotation:function(rotation){}
+<span class='line'> 23</span>     * },
+<span class='line'> 24</span>     *
+<span class='line'> 25</span>     * Viewport 为程序可以显示的区域
+<span class='line'> 26</span>     * {
+<span class='line'> 27</span>     *    absoluteWidth:320, //viewport的绝对宽度,单位px,iphone4s上按照640*960来算
+<span class='line'> 28</span>     *    absoluteHeight:460,//viewport的绝对高度,单位px,和app.xml是否设置了状态栏有关
+<span class='line'> 29</span>     * }
+<span class='line'> 30</span>     */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dpis</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">        </span><span class="STRN">"0.75"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'ldpi'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">        </span><span class="STRN">"1"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'mdpi'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">        </span><span class="STRN">"1.5"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'hdpi'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">        </span><span class="STRN">"2"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'xhdpi'</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 41</span>         * 获取设备的dpi，分四种:ldpi,mdpi,hdpi,xhdpi,分别和Android对应
+<span class='line'> 42</span>         * 对于iOS，非视网膜屏对应mdpi，视网膜屏对应xhdpi
+<span class='line'> 43</span>         */</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="NAME">dpi</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">dpis</span><span class="PUNC">[</span><span class="NAME">Device.density</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 47</span>         * 设备的cpu频率，单位Mhz
+<span class='line'> 48</span>         */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">cpu</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.cpu</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 52</span>         * 获取设备的物理内存
+<span class='line'> 53</span>         */</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="NAME">mem</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.mem</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 57</span>         * phone/pad
+<span class='line'> 58</span>         */</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">        </span><span class="NAME">profile</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.screenInch</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">4.5</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">'pad'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'phone'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 62</span>         * Android/iOS
+<span class='line'> 63</span>         */</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">os</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.os</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 67</span>         * 操作系统版本
+<span class='line'> 68</span>         */</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="NAME">osVersion</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.osVersion</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 72</span>         * 获取设备厂商信息
+<span class='line'> 73</span>         */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">        </span><span class="NAME">vendor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.vendor</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 77</span>         * 返回设备型号，类似.iPhone4/S3等信息
+<span class='line'> 78</span>         */</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">        </span><span class="NAME">model</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Device.model</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 82</span>         * 获取viewport的宽度,这里的单位为程序坐标！
+<span class='line'> 83</span>         */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">        </span><span class="NAME">viewportWidth</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ViewPort.absoluteWidth</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">Device.density</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 87</span>         * 获取viewport的高度,这里的单位为程序坐标！
+<span class='line'> 88</span>         */</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">        </span><span class="NAME">viewportHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">ViewPort.absoluteHeight</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">Device.density</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 92</span>         * 将包含适配信息的路径替换为实际的路径
+<span class='line'> 93</span>         * @image的写法时参照android的
+<span class='line'> 94</span>         * res/@image/abc.png==>res/image-hdpi/abc.png
+<span class='line'> 95</span>         * @param path
+<span class='line'> 96</span>         */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="NAME">adapterPath</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">path.replace</span><span class="PUNC">(</span><span class="REGX">/@(\w*)/g</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">m.replace</span><span class="PUNC">(</span><span class="STRN">'@'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">dpis</span><span class="PUNC">[</span><span class="NAME">Device.density</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="NAME">Haf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Hae.Device</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Hae.ViewPort</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span></pre></body></html>

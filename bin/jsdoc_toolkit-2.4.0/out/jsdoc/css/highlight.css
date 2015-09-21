@@ -1,0 +1,51 @@
+
+
+.hljs {
+    display: block; 
+    line-height: normal;
+    font-family: 'Fixedsys Excelsior 3.01' Fixedsys;
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.hljs span {
+    line-height: 1.1em;
+    display: inline-block;
+
+}
+
+
+.hljs-string{
+  color: #C11515;
+}
+
+
+.hljs-comment {
+    color: green;
+}
+
+
+
+.hljs-number {
+    color: red;
+}
+
+
+
+.hljs-keyword,
+.hljs-reserved {
+
+    color: blue;
+
+}
+
+.hljs-regexp {
+    color: #800063;
+}
+
+.hljs-built_in,
+.hljs-title {
+    color: #2B91C9;
+}
+
+

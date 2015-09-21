@@ -1,0 +1,55 @@
+.KISP.Toast-font-awesome {
+  position: absolute;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  border-radius: 10px;
+  bottom: initial;
+  color: #ffffff;
+  font-size: 15px;
+  height: 102px;
+  left: 50%;
+  right: initial;
+  top: 50%;
+  width: 120px;
+  z-index: 1024;
+  margin-left: -60px;
+  margin-top: -51px;
+  background: rgba(0, 0, 0, 0.701961);
+}
+.KISP.Toast-font-awesome div {
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+.KISP.Toast-font-awesome div i {
+  font-size: 35px;
+}
+.KISP.Toast-font-awesome .text {
+  display: block;
+  font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  padding: 0 10px;
+  text-align: center;
+}
+.KISP.Toast-font-awesome.has-text div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -18px;
+  margin-top: -32px;
+  width: 36px;
+  height: 36px;
+}
+.KISP.Toast-font-awesome.has-icon .text {
+  margin-top: 42px;
+}
+.KISP.Toast-font-awesome.no-text div i {
+  font-size: 60px;
+}
+.KISP.Toast-font-awesome.no-text .text {
+  display: none;
+}
+.KISP.Toast-font-awesome.no-icon div {
+  display: none;
+}

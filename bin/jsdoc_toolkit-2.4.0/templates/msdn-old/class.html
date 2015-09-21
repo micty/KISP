@@ -1,0 +1,844 @@
+﻿
+
+{! Link.base = "../"; /* all generated links will be relative to this */ !}
+{+subtemplate("subtemplates/head.html", {subtitle: data.alias})+}
+{+subtemplate("subtemplates/menu.html")+}
+
+{!
+
+ImageTypes = (function()
+{
+    var list = 
+    {
+        //'bar': '', 
+        'class': '公共类',
+        'collapse-': '收起',
+        'collapse+': '展开',
+        'enum': '公共枚举',
+        'event': '公共事件',
+        'field': '公共字段',
+        'method': '公共方法',
+        'property': '公共属性',
+        'static': '静态成员',
+        'jsfile': 'JavaScript文件'
+    };
+    
+    var exports = {};
+    for(var key in list)
+    {
+        var desc = list[key];
+        exports[key] = '<img src="../css/img/' + key + '.bmp" alt="' + desc + '" title="' + desc + '" />';
+    }
+    
+    return exports;
+})();
+
+
+
+!}
+
+<div class="content">
+<div class="innerContent">
+<article>
+	<header>
+		<h1 class="classTitle">
+			{!//<script>
+				var classType = "";
+				
+				if (data.isBuiltin()) 
+				{
+					classType += "Built-In ";
+				}
+				
+				if (data.isNamespace) 
+				{
+					if (data.is('FUNCTION')) 
+					{
+						classType += "函数";
+					}
+					classType += "命名空间";
+				} 
+				else 
+				{
+					classType += "类";
+				}
+			//</script>!}
+			
+			<span>{+data.alias+} {+classType+}</span>
+			
+		</h1>
+		<div class="intro">
+			<p class="description summary">
+				{+resolveLinks(data.classDesc)+}
+			</p>
+			<if test="data.version || !data.isBuiltin() || data.augments.length">
+				<ul class="summary">
+					<if test="data.version">
+						<li>Version {+ data.version +}</li>
+					</if>
+					<if test="!data.isBuiltin()">{# isn't defined in any file #}
+						<li>定义在：{+ ImageTypes['jsfile'] +}{+new Link().toSrc(data.srcFile)+}</li>
+					</if>
+					
+				</ul>
+			</if>
+		</div>
+	</header>
+	
+
+    <if test="data.augments.length">
+		{+subtemplate("subtemplates/inherits.html", data)+}
+	</if>
+
+	<!--<if test="!data.isBuiltin() && (!data.isNamespace || data.is('CONSTRUCTOR'))">
+		<section>
+			<div class="props">
+			    <h2 class="sectionTitle">
+					<span onclick="UI.collapse(this)" style="cursor:pointer">
+						{+ ImageTypes['collapse-'] +}
+						{+classType+}概述
+					</span>
+				</h2>
+				<table class="summaryTable" cellpadding="1" cellspacing="2"  
+				    summary="A summary of the constructor documented in the class {+data.alias+}.">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">名称</th>
+							<th scope="col">描述</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="attributes">
+							{!
+							    output += ImageTypes['class'];
+								if (data.isPrivate) output += "&lt;private&gt; ";
+								if (data.isInner) output += "&lt;inner&gt; ";
+							!}
+							</td>
+							<td class="methodName" 
+							    {!
+							        if (data.comment.getTag("hilited").length)
+							        {
+							            output += 'style="color: red"'
+							        }
+							    !}>
+								<div class="fixedFont">
+									<b>
+									{! 
+									    output += (function()
+									    {
+									        var a = new Link().toSymbol(data.alias).inner('constructor').toString();
+									        
+									        //去掉命名空间
+									        var ps = data.alias.split('.'); 
+									        var len = ps.length;
+									        var name = len > 0 ? ps[len -1] : ps[0];
+									        
+									        return a.replace( data.alias + '</a>', name + '</a>');
+									    })();
+									!}
+									</b>
+									<if test="classType != 'Namespace '">
+									    {+ makeSignature(data.params) +}
+									</if>
+								</div>
+							</td>
+							<td class="nameDescription">
+							    <div class="description">{+resolveLinks(summarize(data.desc))+}</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</if>-->
+	
+	<if test="data.properties.length">
+		{! 
+		    var ownProperties = data.properties.filter(function($)
+		    {
+		        return $.memberOf == data.alias && !$.isNamespace;
+		        
+		    }).sort( makeSortby("name") ); 
+		!}
+		<section>
+			<div class="props">
+				<if test="ownProperties.length">
+					<h2 class="sectionTitle">
+						<span onclick="UI.collapse(this)" style="cursor:pointer">
+							{+ ImageTypes['collapse-'] +}
+							属性列表
+						</span>
+					</h2>
+					<nav>
+						<table class="summaryTable" cellpadding="1" cellspacing="2" 
+							summary="A summary of the fields documented in the class {+data.alias+}.">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col">名称</th>
+									<th scope="col">描述</th>
+								</tr>
+							</thead>
+							<tbody>
+								<for each="member" in="ownProperties">
+									<tr>
+										<td class="attributes">
+										{!
+											output += ImageTypes['property'];
+											
+											if (member.isPrivate) output += "&lt;private&gt; ";
+											if (member.isInner) output += "&lt;inner&gt; ";
+											if (member.isStatic) 
+												output += ImageTypes['static'];
+											if (member.isConstant) output += "&lt;constant&gt; ";
+										!}
+										</td>
+										<td class="methodName">
+											<div class="fixedFont">
+												<!--
+												<if test="member.isStatic && member.memberOf != '_global_'">
+													{+member.memberOf+}.
+												</if>
+												-->
+												<b>
+													{+new Link().toSymbol(member.alias).withText(member.name)+}
+												</b>
+											</div>
+										</td>
+										<td class="nameDescription">
+											
+											<div class="description">
+												{+resolveLinks(summarize(member.desc))+}
+											</div>
+										</td>
+									</tr>
+								</for>
+							</tbody>
+						</table>
+					</nav>
+				</if>
+				<if test="data.inheritsFrom.length">
+					<nav>
+						<dl class="inheritsList">
+						{!
+							var borrowedMembers = data.properties.filter(function($) 
+							{
+							    return $.memberOf != data.alias;
+							});
+							
+							var contributers = [];
+							borrowedMembers.map(function($) 
+							{
+							    if (contributers.indexOf($.memberOf) < 0)
+							        contributers.push($.memberOf);
+							});
+							
+							for (var i = 0, l = contributers.length; i < l; i++) 
+							{
+								output +=
+									"<dt>Fields borrowed from class " + 
+									    new Link().toSymbol(contributers[i]) + 
+									": </dt>" +
+									"<dd>" +
+									    borrowedMembers.filter(function($) 
+									    { 
+									        return $.memberOf == contributers[i];
+									        
+									    }).sort(makeSortby("name")).map(function($) 
+									    { 
+									        return new Link().toSymbol($.alias).withText($.name);
+									    }).join(", ") +
+									"</dd>";
+							}
+						!}
+						</dl>
+					</nav>
+				</if>
+			</div>
+		</section>
+	</if>
+<!--
+#### METHODS SUMMARY
+-->
+	<if test="data.methods.length">
+		<section>
+			{! 
+				ownMethods = data.methods.filter(function($)
+				{
+					return $.memberOf == data.alias  && !$.isNamespace
+					
+				}).sort( makeSortby("name") ); 
+			!}
+			
+			<div class="props">
+				<if test="ownMethods.length">
+					<h2 class="sectionTitle">
+						<span onclick="UI.collapse(this)" style="cursor:pointer">
+							{+ ImageTypes['collapse-'] +}
+							方法列表
+						</span>
+					</h2>
+					<nav>
+						<table class="summaryTable" id="MethodsList" cellpadding="1" cellspacing="2"
+							summary="A summary of the methods documented in the class {+data.alias+}.">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col">名称</th>
+									<th scope="col">描述</th>
+								</tr>
+							</thead>
+							<tbody>
+								{!
+									var methodSummaryCount = 0;
+								!}
+								<for each="member" in="ownMethods">
+									<tr {!
+										output += " class='item"+ methodSummaryCount +"'";
+										methodSummaryCount++
+										!}>
+										
+										<td class="attributes methods">
+										{!
+											
+											output += ImageTypes['method'];
+											if (member.isPrivate) 
+												output += '<span class="private"></span>';
+											if (member.isInner) 
+												output += '<span class="inner"></span>';
+											if (member.isStatic) 
+											    output += ImageTypes['static'];
+												
+										!}
+										</td>
+										<td class="methodName">
+											<div class="fixedFont">
+												<!--暂时去掉
+												<if test="member.isStatic && member.memberOf != '_global_'">
+													{+member.memberOf+}.
+												</if>
+												-->
+												<b>
+													{+new Link().toSymbol(member.alias).withText(member.name.replace(/\^\d+$/, ''))+}
+													
+													
+												</b>
+												<!--暂时去掉
+												{+makeSignature(member.params)+}
+												-->
+											</div>
+										</td>
+										<td class="nameDescription">
+											<div class="description">
+												{+resolveLinks(summarize(member.desc))+}
+											</div>
+										</td>
+									</tr>
+								</for>
+								
+							</tbody>
+						</table>
+					</nav>
+				</if>
+				<if test="data.inheritsFrom.length">
+					<nav>
+						<dl class="inheritsList" id="MethodsListInherited">
+						{!
+							var borrowedMembers = data.methods.filter(function($) {return $.memberOf != data.alias});
+							var contributers = [];
+							borrowedMembers.map(function($) {if (contributers.indexOf($.memberOf) < 0) contributers.push($.memberOf)});
+							for (var i = 0, l = contributers.length; i < l; i++) {
+								output +=
+									"<dt>Methods borrowed from class <span class='fixedFont'>"+new Link().toSymbol(contributers[i])+"</span>: </dt>"
+									+
+									borrowedMembers
+									.filter(
+										function($) { return $.memberOf == contributers[i] }
+									)
+									.sort(makeSortby("name"))
+									.map(
+										function($) {
+											var link = "";
+											link += "<dd><span class='fixedFont'>";
+											link += new Link().toSymbol($.alias).withText($.name);
+											link += "</span></dd>";
+											return link;
+										}
+									)
+									.join(" ");
+							}
+						!}
+						</dl>
+					</nav>
+				</if>
+			</div>
+		</section>
+	</if>
+	
+<!--
+#### EVENTS SUMMARY
+-->
+	<if test="data.events.length">
+		{! var ownEvents = data.events.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}).sort(makeSortby("name")); !}
+		<section>
+			<if test="ownEvents.length">
+			    <div class="props">
+			        <h2 class="sectionTitle">
+					    <span onclick="UI.collapse(this)" style="cursor:pointer">
+						    {+ ImageTypes['collapse-'] +}
+						    事件列表
+					    </span>
+				    </h2>
+				    <nav>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the events documented in the class {+data.alias+}.">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col">名称</th>
+									<th scope="col">描述</th>
+								</tr>
+							</thead>
+							<tbody>
+								<for each="member" in="ownEvents">
+									<tr>
+										<td class="attributes">
+										{!
+										    output += ImageTypes['event'];
+										    
+											if (member.isPrivate) output += "&lt;private&gt; ";
+											if (member.isInner) output += "&lt;inner&gt; ";
+											if (member.isStatic) 
+											    output += ImageTypes['static'];
+										!}
+										</td>
+										<td class="methodName">
+										    <div class="fixedFont">
+											    <if test="member.isStatic && member.memberOf != '_global_'">
+											        {+member.memberOf+}.
+											    </if>
+											    <b>{+new Link().toSymbol(member.alias).withText(member.name)+}</b>
+											    <!--去掉签名
+											    {+makeSignature(member.params)+}
+											    -->
+											</div>
+										</td>
+										<td class="nameDescription">
+											<div class="description">
+											    {+resolveLinks(summarize(member.desc))+}
+											</div>
+										</td>
+									</tr>
+								</for>
+							</tbody>
+						</table>
+				    </nav>
+				</div>
+			</if>
+			
+			<if test="data.inheritsFrom.length">
+				<nav>
+					<dl class="inheritsList">
+					{!
+						var borrowedMembers = data.events.filter(function($) {return $.memberOf != data.alias});
+						var contributers = [];
+						borrowedMembers.map(function($) {if (contributers.indexOf($.memberOf) < 0) contributers.push($.memberOf)});
+						for (var i = 0, l = contributers.length; i < l; i++) {
+							output +=
+								"<dt>Events borrowed from class "+new Link().toSymbol(contributers[i])+": </dt>"
+								+
+								"<dd>" +
+								borrowedMembers
+								.filter(
+									function($) { return $.memberOf == contributers[i] }
+								)
+								.sort(makeSortby("name"))
+								.map(
+									function($) { return new Link().toSymbol($.alias).withText($.name) }
+								)
+								.join(", ")
+								+
+								"</dd>";
+						}
+					
+					!}
+					</dl>
+				</nav>
+			</if>
+		</section>
+	</if>
+<!--
+#### CONSTRUCTOR DETAILS
+-->
+	<if test="!data.isBuiltin() && (!data.isNamespace || data.is('CONSTRUCTOR'))">
+		<section>
+			<div class="details props">
+			    <h2 class="sectionTitle" id="constructor">
+					<span onclick="UI.collapse(this)" style="cursor:pointer">
+						{+ ImageTypes['collapse-'] +}
+						{+classType+}详细说明
+					</span>
+				</h2>
+				<div class="innerProps">
+					<div class="fixedFont heading">
+					{!
+						if (data.isPrivate) output += "&lt;private&gt; ";
+						if (data.isInner) output += "&lt;inner&gt; ";
+						if (classType == '类')
+							output += ImageTypes['class'];
+					!}
+						<b>{+ data.alias +}</b> {+classType+}
+					</div>
+					
+					<div class="description">
+						{+resolveLinks(data.desc)+}
+						<if test="data.author"><br /><i>Author: </i>{+data.author+}.</if>
+					</div>
+					
+					<dl class="detailList params">
+						<dt class="heading">语法:</dt>
+						<dd class="syntax">
+							{+ data.alias +}
+							<if test="classType != 'Namespace '">
+								<span class="params">{+ makeSignature(data.params) +}</span>
+							</if>
+						</dd>
+						<dd>
+							<if test="data.params.length">
+								<dl class="detailList params">
+									<dt class="heading">参数:</dt>
+									<for each="item" in="data.params">
+										<dt>
+											<b>{+item.name+}</b>
+																						
+											
+										</dt>
+										<dd>
+											{+((item.type) ? "" + ("类型：<span class=\"light fixedFont argumentType\">"+(new Link().toSymbol(item.type)+"</span> ")) : "")+}
+										</dd>
+										<if test="item.isOptional">
+											<i>可选
+												<if test="item.defaultValue">
+													 ，默认值: {+item.defaultValue+}
+												</if>
+											</i>
+										</if>
+										<dd>{+resolveLinks(item.desc)+}</dd>
+										
+									</for>
+									
+								</dl>
+							</if>
+							
+							<if test="data.returns.length">	
+								<dl class="detailList params">
+									<dt class="heading">返回值:</dt>
+									<for each="item" in="data.returns">
+										<dd>
+											{+((item.type)?"<span class=\"light fixedFont\">类型："+(new Link().toSymbol(item.type))+"</span> " : "")+}
+										</dd>
+										<dd>{+resolveLinks(item.desc)+}</dd>
+									</for>
+								</dl>
+							</if>
+						</dd>
+					</dl>
+					
+					<if test="data.example.length">
+
+						<dl class="detailList params">
+							<dt class="heading">示例:</dt>
+							<for each="example" in="data.example">
+								<pre class="code">{+example+}</pre>
+							</for>
+						</dl>
+					</if>
+					
+					<if test="data.deprecated || data.since || data.exceptions.length || data.requires.length || data.see.length">
+						<dl class="detailList nomargin">
+							<if test="data.deprecated">
+								<dt>
+									{+resolveLinks(data.deprecated)+}
+								</dt>
+							</if>
+							
+							<if test="data.since">
+								<dt class="heading">Since:</dt>
+								<dd>{+ data.since +}</dd>
+							</if>
+							
+							<if test="data.exceptions.length">
+								<dt class="heading">Throws:</dt>
+								<for each="item" in="data.exceptions">
+									<dt>
+										{+((item.type)?"<span class=\"light fixedFont\">{"+(new Link().toSymbol(item.type))+"}</span> " : "")+} <b>{+item.name+}</b>
+									</dt>
+										<dd>{+resolveLinks(item.desc)+}</dd>
+								</for>
+							</if>
+							
+							
+							
+							<if test="data.requires.length">
+								<dt class="heading">Requires:</dt>
+								<for each="item" in="data.requires">
+									<dd>{+ resolveLinks(item) +}</dd>
+								</for>
+							</if>
+							
+							<if test="data.see.length">
+								<dt class="heading">See:</dt>
+								<for each="item" in="data.see">
+									<dd>{+ new Link().toSymbol(item) +}</dd>
+								</for>
+							</if>
+						</dl>
+					</if>
+				</div>
+			</div>
+		</section>
+	</if>
+<!--
+#### FIELD DETAILS
+-->
+	<if test="defined(ownProperties) && ownProperties.length">
+		<section>
+			<div class="details props">
+				<div class="innerProps">
+					<h2 class="sectionTitle">
+						属性详细说明
+					</h2>
+					
+					<for each="member" in="ownProperties">
+						<div class="fixedFont heading" id="{+Link.symbolNameToLinkName(member)+}">
+							<span class='lighter'>
+							{!
+								output += ImageTypes['property'];
+								if (member.isPrivate) output += "&lt;private&gt; ";
+								if (member.isInner) output += "&lt;inner&gt; ";
+								if (member.isStatic) 
+								    output += ImageTypes['static'];
+								   
+								if (member.isConstant) output += "&lt;constant&gt; ";
+							!}
+							</span>
+							
+							<if test="member.type">
+								<span class="light">{{+new Link().toSymbol(member.type)+}}</span>
+							</if>
+							
+							<if test="member.isStatic && member.memberOf != '_global_'">
+								<span class="light">{+member.memberOf+}.</span>
+							</if>
+							<b>{+member.name+}</b> 属性						
+						</div>
+						
+						<div class="description">
+							{+resolveLinks(member.desc)+}
+							<if test="member.srcFile != data.srcFile">
+								<br />
+								<i>Defined in: </i> {+new Link().toSrc(member.srcFile)+}.
+							</if>
+							
+							<if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
+						</div>
+						
+						<if test="member.example.length">
+							<for each="example" in="member.example">
+								<pre class="code">{+example+}</pre>
+							</for>
+						</if>
+							<if test="member.deprecated || member.since || member.see.length || member.defaultValue">
+							<dl class="detailList nomargin">
+							
+								<if test="member.deprecated">
+									<dt class="heading">Deprecated:</dt>
+									<dt>
+										{+ resolveLinks(member.deprecated) +}
+									</dt>
+								</if>
+								<if test="member.since">
+									<dt class="heading">Since:</dt>
+									<dd>{+ member.since +}</dd>
+								</if>
+								<if test="member.see.length">
+									<dt class="heading">See:</dt>
+									<for each="item" in="member.see">
+										<dd>{+ new Link().toSymbol(item) +}</dd>
+									</for>
+								</if>
+								<if test="member.defaultValue">
+									<dt class="heading">Default Value:</dt>
+									<dd>
+										{+resolveLinks(member.defaultValue)+}
+									</dd>
+								</if>
+							</dl>
+						</if>
+						
+						<if test="!$member_last"><div class="hr"></div></if>
+					</for>
+				</div>
+			</div>
+		</section>
+	</if>
+<!--
+#### METHOD DETAILS
+-->		
+	<if test="defined(ownMethods) && ownMethods.length">
+		{+subtemplate("subtemplates/method_details.html", data)+}
+	</if>
+	
+<!--
+#### EVENT DETAILS
+-->		
+	<if test="defined(ownEvents) && ownEvents.length">
+		<section>
+			<div class="details props">
+			    <h2 class="sectionTitle">
+					<span onclick="UI.collapse(this)" style="cursor:pointer">
+						{+ ImageTypes['collapse-'] +}
+						事件详细说明
+					</span>
+				</h2>
+				
+				<div class="innerProps">
+					<for each="member" in="ownEvents">
+						<div class="fixedFont heading" id="{+Link.symbolNameToLinkName(member)+}">
+							<span class='lighter'>
+							{!
+							    
+							    output += ImageTypes['event'];
+								if (member.isPrivate) output += "&lt;private&gt; ";
+								if (member.isInner) output += "&lt;inner&gt; ";
+								if (member.isStatic) 
+								    output += ImageTypes['static'];
+							!}
+							</span>
+							
+							<if test="member.type">
+							    <span class="light">{{+new Link().toSymbol(member.type)+}}</span>
+							</if>
+							<if test="member.isStatic && member.memberOf != '_global_'">
+							    <span class="light">{+member.memberOf+}.</span>
+							</if>
+							<b>{+member.name+}</b>
+							<!--去掉签名
+							{+makeSignature(member.params)+}
+							-->
+							事件
+						</div>
+						
+						<div class="description">
+							{+resolveLinks(member.desc)+}
+							<if test="member.srcFile != data.srcFile">
+								<br />
+								<i>Defined in: </i> {+new Link().toSrc(member.srcFile)+}.
+							</if>
+							
+							<if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
+						</div>
+						
+						<dl class="detailList params">
+							<dt class="heading">语法:</dt>
+							<dd class="syntax">
+								<if test="member.isStatic && member.memberOf != '_global_'">
+									{+member.memberOf+}.
+								</if>
+								{+member.name.replace(/\^\d+$/, '')+}
+								<span class="params">{+makeSignature(member.params)+}</span>
+							</dd>
+							<dd>				
+								<if test="member.params.length">
+									<dl class="detailList params">
+										<dt class="heading">参数:</dt>
+										<for each="item" in="member.params">
+											<dt>
+												<b>{+item.name+}</b>
+												<if test="item.isOptional">
+													<i>Optional
+														<if test="item.defaultValue">
+															, Default: {+item.defaultValue+}
+														</if>
+													</i>
+												</if>
+											</dt>
+											<dd>
+												{+((item.type) ? "<span class=\"light fixedFont\">类型：" + (new Link().toSymbol(item.type)) + "</span> " : "")+}
+											</dd>
+											<dd>{+resolveLinks(item.desc)+}</dd>
+										</for>
+									</dl>
+								</if>
+								<if test="member.returns.length">
+									<dl class="detailList params">
+										<dt class="heading">返回值:</dt>
+										<for each="item" in="member.returns">
+											<dd>
+												{+((item.type)?"<span class=\"light fixedFont\">类型："+(new Link().toSymbol(item.type))+"</span> " : "")+}
+											</dd>
+											<dd>{+resolveLinks(item.desc)+}</dd>
+										</for>
+									</dl>
+								</if>
+							</dd>
+						</dl>
+						
+						<if test="member.example.length">
+							<dl class="detailList params">
+								<dt class="heading">示例:</dt>
+								<for each="example" in="member.example">
+								    
+									<pre class="code">{+example+}</pre>
+								</for>
+							</dl>
+						</if>
+						
+						<if test="member.deprecated || member.since || member.exceptions.length || member.see.length">
+							<dl class="detailList nomargin">
+								<if test="member.deprecated">
+									<dt class="heading">Deprecated:</dt>
+									<dt>{+ resolveLinks(member.deprecated) +}</dt>
+								</if>
+								
+								<if test="member.since">
+									<dt class="heading">Since:</dt>
+									<dd>{+ member.since +}</dd>
+								</if>
+								
+								<if test="member.exceptions.length">
+									<dt class="heading">Throws:</dt>
+									<for each="item" in="member.exceptions">
+										<dt>
+											{+((item.type)?"<span class=\"light fixedFont\">{"+(new Link().toSymbol(item.type))+"}</span> " : "")+} <b>{+item.name+}</b>
+										</dt>
+										<dd>{+ resolveLinks(item.desc) +}</dd>
+									</for>
+								</if>
+								<if test="member.requires.length">
+									<dt class="heading">Requires:</dt>
+									<for each="item" in="member.requires">
+										<dd>{+ resolveLinks(item) +}</dd>
+									</for>
+								</if>
+								<if test="member.see.length">
+									<dt class="heading">See:</dt>
+									<for each="item" in="member.see">
+										<dd>{+ new Link().toSymbol(item) +}</dd>
+									</for>
+								</if>
+							</dl>
+						</if>
+						<if test="!$member_last"><div class="hr"></div></if>
+					</for>
+				</div>
+			</div>
+		</section>
+	</if>
+</article>
+</div>
+</div>
+
+{+subtemplate("subtemplates/foot.html")+}

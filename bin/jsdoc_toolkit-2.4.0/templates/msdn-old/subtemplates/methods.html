@@ -1,0 +1,119 @@
+﻿
+<section>
+	{! 
+        var root = data;
+        data = root.data;
+        
+
+		var ownMethods = data.methods.filter(function($)
+		{
+			return $.memberOf == data.alias  && !$.isNamespace
+					
+		}).sort( makeSortby("name") ); 
+	!}
+			
+	<div class="props">
+		<if test="ownMethods.length">
+			<h2 class="sectionTitle">
+				<span onclick="UI.collapse(this)" style="cursor:pointer">
+					{+ ImageTypes['collapse-'] +}
+					方法列表
+				</span>
+			</h2>
+			<nav>
+				<table class="summaryTable" id="MethodsList" cellpadding="1" cellspacing="2"
+					summary="A summary of the methods documented in the class {+data.alias+}.">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">名称</th>
+							<th scope="col">描述</th>
+						</tr>
+					</thead>
+					<tbody>
+						{!
+                            
+
+							var methodSummaryCount = 0;
+						!}
+						<for each="member" in="ownMethods">
+							<tr {!
+								output += " class='item"+ methodSummaryCount +"'";
+								methodSummaryCount++
+								!}>
+										
+								<td class="attributes methods">
+								{!
+											
+									output += ImageTypes['method'];
+									if (member.isPrivate) 
+										output += '<span class="private"></span>';
+									if (member.isInner) 
+										output += '<span class="inner"></span>';
+									if (member.isStatic) 
+										output += ImageTypes['static'];
+												
+								!}
+								</td>
+								<td class="methodName">
+									<div class="fixedFont">
+										<!--暂时去掉
+										<if test="member.isStatic && member.memberOf != '_global_'">
+											{+member.memberOf+}.
+										</if>
+										-->
+										<b>
+											{+new Link().toSymbol(member.alias).withText(member.name.replace(/\^\d+$/, ''))+}
+													
+													
+										</b>
+										<!--暂时去掉
+										{+makeSignature(member.params)+}
+										-->
+									</div>
+								</td>
+								<td class="nameDescription">
+									<div class="description">
+										{+resolveLinks(summarize(member.desc))+}
+									</div>
+								</td>
+							</tr>
+						</for>
+								
+					</tbody>
+				</table>
+			</nav>
+		</if>
+		<if test="data.inheritsFrom.length">
+			<nav>
+				<dl class="inheritsList" id="MethodsListInherited">
+				{!
+					var borrowedMembers = data.methods.filter(function($) {return $.memberOf != data.alias});
+					var contributers = [];
+					borrowedMembers.map(function($) {if (contributers.indexOf($.memberOf) < 0) contributers.push($.memberOf)});
+					for (var i = 0, l = contributers.length; i < l; i++) {
+						output +=
+							"<dt>Methods borrowed from class <span class='fixedFont'>"+new Link().toSymbol(contributers[i])+"</span>: </dt>"
+							+
+							borrowedMembers
+							.filter(
+								function($) { return $.memberOf == contributers[i] }
+							)
+							.sort(makeSortby("name"))
+							.map(
+								function($) {
+									var link = "";
+									link += "<dd><span class='fixedFont'>";
+									link += new Link().toSymbol($.alias).withText($.name);
+									link += "</span></dd>";
+									return link;
+								}
+							)
+							.join(" ");
+					}
+				!}
+				</dl>
+			</nav>
+		</if>
+	</div>
+</section>

@@ -1,0 +1,128 @@
+﻿
+
+
+.KISP.Dialog {
+        
+    position: absolute;
+    background: rgba(251, 251, 251, 0.94);
+    width: 100%;
+    z-index: 1024;
+    width: 300px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    border-radius: 10px;
+    border: solid 1px #ccc;
+
+    * {
+        font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+    }
+
+    header {
+        display: -webkit-box;
+        font-weight: bold;
+        font-size: 17px;
+        height: 44px;
+        -webkit-box-align: center;
+        -webkit-box-pack: center;
+
+        &.no-header { /**无标题时*/
+            display: none;
+        }
+    }
+
+
+    article {
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        text-align: center;
+        padding: 0px 20px 0px 20px;
+        overflow: hidden;
+        position: absolute;
+        top: 44px;
+        bottom: 44px;
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 16px;
+        word-wrap: break-word;
+
+        &.no-header {
+            top: 10px;
+        }
+
+        &.buttons-0 { /**无按钮时*/
+            bottom: 10px;
+        }
+
+        >div {
+            width: 100%;
+        }
+    }
+
+    footer {
+        display: -webkit-box;
+        border-top: solid 1px #ccc;
+        height: 44px;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        overflow: hidden;
+
+        span {
+            display: -webkit-box;
+            color: #007AFF;
+            font-size: 17px;
+            border-right: solid 1px #ccc;
+            height: 44px;
+            width: 50%;
+            -webkit-box-align: center;
+            -webkit-box-pack: center;
+            overflow: hidden;
+            white-space: nowrap;
+
+            &:last-child {
+                border-right: none;
+            }
+            
+        }
+
+        &.buttons-0 { /**无按钮时*/
+            display: none;
+        }
+        &.buttons-1 span {
+            width: 100%;
+        }
+        &.buttons-2 span {
+            width: 50%;
+        }
+        &.buttons-3 span {
+            width: 33.33%;
+        }
+        &.buttons-4 span {
+            width: 25%;
+        }
+        &.buttons-5 span {
+            width: 20%;
+        }
+        &.buttons-6 span {
+            width: 16.66%;
+        }
+        &.buttons-7 span {
+            width: 14.28%;
+        }
+        &.buttons-8 span {
+            width: 12.5%;
+        }
+        &.buttons-9 span {
+            width: 11.11%;
+        }
+        &.buttons-10 span {
+            width: 10%;
+        }
+    }
+
+}
+

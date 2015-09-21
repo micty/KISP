@@ -1,0 +1,16 @@
+﻿
+{
+    "demos": [
+        {
+            "title": "实例1：操作超时，弹出登录对话框",
+            "description": "用于操作超时的时候，弹出登录对话框",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "content": "KERP.Login.show();" }
+            ]
+        }
+        
+    ]
+}

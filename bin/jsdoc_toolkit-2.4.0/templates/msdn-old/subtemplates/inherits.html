@@ -1,0 +1,66 @@
+﻿
+
+<section>
+    <div class="props">
+        <ul style="margin-bottom: 0">
+            <h2 class="sectionTitle">
+				<span onclick="UI.collapse(this)" style="cursor:pointer">
+                    {+ ImageTypes['collapse-'] +}
+					继承层次结构
+				</span>
+			</h2>
+
+{!//<script>
+
+output += (function () {
+
+    var list = (function () {
+
+        var borrowedMembers = data.methods.filter(function ($) {
+            return $.memberOf != data.alias;
+        });
+
+        var a = [];
+        borrowedMembers.map(function ($) {
+            if (a.indexOf($.memberOf) < 0)
+                a.push($.memberOf)
+        });
+
+        a = a.reverse();
+        a.push(data.alias);
+        return a;
+
+    })();
+
+
+
+    var imgIcon = ImageTypes['class'];
+    var link = new Link();
+    var lastIndex = list.length - 1;
+
+    var htmls = list.map(function (item, index) {
+
+        var marginLeft = 15 * index;
+
+        var s = 
+            '<li style="margin-left: ' + marginLeft + 'px;">' +
+                imgIcon +
+                '<span class="fixedFont">' +
+                    (index == lastIndex ? item : link.toSymbol(item)) +
+                '</span>' +
+            '</li>';
+        return s;
+    });
+
+    return htmls.join('');
+
+})();
+
+//</script>!}
+
+
+
+
+        </ul>
+    </div>
+</section>

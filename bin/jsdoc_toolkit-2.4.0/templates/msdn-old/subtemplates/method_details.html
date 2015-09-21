@@ -1,0 +1,197 @@
+﻿<section>
+    <div class="details props">
+	    <h2 class="sectionTitle">
+		    <span onclick="UI.collapse(this)" style="cursor:pointer">
+			    {+ ImageTypes['collapse-'] +}
+			    方法详细说明
+		    </span>
+	    </h2>
+	    <div class="innerProps">
+		    <ul class="methodDetail" id="MethodDetail">
+			    {!
+
+				    var methodDetailCount = 0;
+                   
+			    !}
+			    <for each="member" in="ownMethods">
+				    <li id="{+Link.symbolNameToLinkName(member)+}" 
+				    {!
+					    output += " class='item"+ methodDetailCount +"'";
+					    methodDetailCount++; 
+				    !} >
+								
+					    <div class="fixedFont heading" >
+								
+					    <!--暂时去掉
+						    <span class='lighter'>
+						    {!
+							    if (member.isPrivate) output += "&lt;private&gt; ";
+							    if (member.isInner) output += "&lt;inner&gt; ";
+							    if (member.isStatic) output += "&lt;static&gt; ";
+						    !}
+						    </span>
+									
+						    <if test="member.type">
+							    <span class="light">
+								    {{+new Link().toSymbol(member.type)+}}
+							    </span>
+						    </if>
+					    -->
+									
+									
+						    {!
+							    output += ImageTypes['method'];
+							    if (member.isPrivate) output += "&lt;private&gt; ";
+							    if (member.isInner) output += '';
+							    if (member.isStatic) 
+								    output += ImageTypes['static'];
+						    !}
+						    <if test="member.isStatic && member.memberOf != '_global_'">
+							    <span class="light">
+								    {+member.memberOf+}.
+							    </span>
+						    </if>
+						    <b>{+member.name.replace(/\^\d+$/, '')+}</b> 方法	
+									
+					    </div>
+								
+								
+								
+					    <div class="description">
+						    {+resolveLinks(member.desc)+}
+									
+						    <if test="member.srcFile != data.srcFile">
+							    <br />
+							    <i>Defined in: </i> {+new Link().toSrc(member.srcFile)+}.
+						    </if>
+									
+						    <if test="member.author"><br /><i>Author: </i>{+member.author+}.</if>
+					    </div>
+								
+								
+					    <dl class="detailList params">
+						    <dt class="heading">语法:</dt>
+						    <dd class="syntax">
+							    <if test="member.isStatic && member.memberOf != '_global_'">
+								    {+member.memberOf+}.
+							    </if>
+							    {+member.name.replace(/\^\d+$/, '')+}
+							    <span class="params">{+makeSignature(member.params)+}</span>
+						    </dd>
+						    <dd>				
+							    <if test="member.params.length">
+								    <dl class="detailList params">
+									    <dt class="heading">参数:</dt>
+									    <for each="item" in="member.params">
+										    <dt>
+											    <b>{+item.name+}</b>
+										    </dt>
+										    <dd>
+											    {+((item.type) ? "类型：<span class=\"light fixedFont argumentType\">" + (new Link().toSymbol(item.type)) + "</span> " : "")+}
+										    </dd>
+										    <if test="item.isOptional">
+											    <i>可选
+												    <if test="item.defaultValue">
+														    ，默认值: {+item.defaultValue+}
+												    </if>
+											    </i>
+										    </if>
+										    <dd>{+resolveLinks(item.desc)+}</dd>
+									    </for>
+								    </dl>
+							    </if>
+										
+										
+							    <if test="member.returns.length">
+								    <dl class="detailList params">
+									    <dt class="heading">返回值:</dt>
+									    <for each="item" in="member.returns">
+										    <dd>
+											    {+((item.type)?"类型：<span class=\"light fixedFont returnType\">"+(new Link().toSymbol(item.type))+"</span> " : "")+}
+										    </dd>
+										    <dd>{+resolveLinks(item.desc)+}</dd>
+									    </for>
+								    </dl>
+							    </if>
+						    </dd>
+					    </dl>
+								
+								
+					    <if test="member.deprecated || member.since || member.exceptions.length || member.requires.length || member.see.length">
+						    <dl class="detailList nomargin">
+									
+							    <if test="member.deprecated">
+								    <dt class="heading">Deprecated:</dt>
+								    <dt>
+									    {+ resolveLinks(member.deprecated) +}
+								    </dt>
+							    </if>
+										
+							    <if test="member.since">
+								    <dt class="heading">Since:</dt>
+								    <dd>{+ member.since +}</dd>
+							    </if>
+										
+							    <if test="member.exceptions.length">
+								    <dt class="heading">Throws:</dt>
+								    <for each="item" in="member.exceptions">
+									    <dt>
+										    {+((item.type)?"<span class=\"light fixedFont returnType\">{"+(new Link().toSymbol(item.type))+"}</span> " : "")+} <b>{+item.name+}</b>
+									    </dt>
+									    <dd>{+resolveLinks(item.desc)+}</dd>
+								    </for>
+							    </if>
+										
+										
+										
+							    <if test="member.requires.length">
+								    <dt class="heading">Requires:</dt>
+								    <for each="item" in="member.requires">
+									    <dd>{+ resolveLinks(item) +}</dd>
+								    </for>
+							    </if>
+										
+							    <if test="member.see.length">
+								    <dt class="heading">See:</dt>
+								    <for each="item" in="member.see">
+									    <dd>{+ new Link().toSymbol(item) +}</dd>
+								    </for>
+							    </if>
+									
+						    </dl>
+					    </if>
+									
+					    <if test="member.example.length">
+						    <dl class="detailList params">
+							    {!
+								    var exampleCodeId = 
+									        member.name.replace(/\^\d+$/, '') + '_' + 
+									        //加个随机数，避免冲突：先称除小数点，再去掉所有前导的 0
+									        Math.random().toString().replace('.', '').replace(/^0*/g, ''); 
+							    !}
+							    <dt class="heading">
+								    示例:
+								    <a href="javascript:UI.ExampleCode.copy('{+exampleCodeId+}')" 
+									    style="float:right;">
+									    复制
+								    </a>
+								    <span style="margin-right: 50px;"></span>
+								    <a href="javascript:UI.ExampleCode.run('{+exampleCodeId+}')" 
+									    style="float:right;margin-right: 20px;">
+									    运行
+								    </a>
+										    
+							    </dt>
+							    <for each="example" in="member.example">
+								    <pre class="code" id="{+exampleCodeId+}">{+example+}</pre>
+							    </for>
+						    </dl>
+					    </if>
+								
+					    <if test="!$member_last"><div class="hr"></div></if>
+				    </li>
+			    </for>
+		    </ul>
+	    </div>
+    </div>
+</section>

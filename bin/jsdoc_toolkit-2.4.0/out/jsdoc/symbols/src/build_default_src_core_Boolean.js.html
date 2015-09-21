@@ -1,0 +1,114 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	span{font-family: Courier;}
+	.KEYW {color: blue;}
+	.COMM {color: green; }
+	.NUMB {color: red;}
+	.STRN {color: #A31515;}
+	.REGX {color: #339;}
+	.PUNC {color: #800080;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="TOKN">﻿</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/**
+<span class='line'>  3</span> * Boolean 工具类
+<span class='line'>  4</span> * @namespace
+<span class='line'>  5</span> */</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="STRN">'Boolean'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">require</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">module</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">/**@lends MiniQuery.Boolean */</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 11</span>         * 解析指定的参数为 bool 值。
+<span class='line'> 12</span>         * null、undefined、0、NaN、false、'' 及其相应的字符串形式会转成 false；
+<span class='line'> 13</span>         * 其它的转成 true
+<span class='line'> 14</span>         * @param {Object} arg 要进行进换的值，可以是任何类型。
+<span class='line'> 15</span>         * @return {boolean} 返回一个 bool 值。
+<span class='line'> 16</span>         * @example
+<span class='line'> 17</span>             $Boolean.parse(null); //false;
+<span class='line'> 18</span>             $Boolean.parse('null'); //false;
+<span class='line'> 19</span>             $Boolean.parse(undefined); //false;
+<span class='line'> 20</span>             $Boolean.parse('undefined'); //false;
+<span class='line'> 21</span>             $Boolean.parse(0); //false;
+<span class='line'> 22</span>             $Boolean.parse('0'); //false;
+<span class='line'> 23</span>             $Boolean.parse(NaN); //false;
+<span class='line'> 24</span>             $Boolean.parse('NaN'); //false;
+<span class='line'> 25</span>             $Boolean.parse(false); //false;
+<span class='line'> 26</span>             $Boolean.parse('false'); //false;
+<span class='line'> 27</span>             $Boolean.parse(''); //false;
+<span class='line'> 28</span>             $Boolean.parse(true); //true;
+<span class='line'> 29</span>             $Boolean.parse({}); //true;
+<span class='line'> 30</span>         */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">        </span><span class="NAME">parse</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="COMM">// null、undefined、0、NaN、false、''</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">arg</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">arg</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">String</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">reg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="REGX">/^(false|null|undefined|0|NaN)$/g</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">reg.test</span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 45</span>         * 解析指定的参数为 int 值：0 或 1。
+<span class='line'> 46</span>         * null、undefined、0、NaN、false、'' 及其相应的字符串形式会转成 0；
+<span class='line'> 47</span>         * 其它的转成 1
+<span class='line'> 48</span>         * @param {Object} 要进行转换的值，可以是任何类型。
+<span class='line'> 49</span>         * @return {int} 返回一个整型值 0 或 1。
+<span class='line'> 50</span>         * @example
+<span class='line'> 51</span>             $Boolean.toInt(null); //0;
+<span class='line'> 52</span>             $Boolean.toInt('null'); //0;
+<span class='line'> 53</span>             $Boolean.toInt(undefined); //0;
+<span class='line'> 54</span>             $Boolean.toInt('undefined'); //0;
+<span class='line'> 55</span>             $Boolean.toInt(0); //0;
+<span class='line'> 56</span>             $Boolean.toInt('0'); //0;
+<span class='line'> 57</span>             $Boolean.toInt(NaN); //0;
+<span class='line'> 58</span>             $Boolean.toInt('NaN'); //0;
+<span class='line'> 59</span>             $Boolean.toInt(false); //0;
+<span class='line'> 60</span>             $Boolean.toInt('false'); //0;
+<span class='line'> 61</span>             $Boolean.toInt(''); //0;
+<span class='line'> 62</span>             $Boolean.toInt(true); //1;
+<span class='line'> 63</span>             $Boolean.toInt({}); //1;
+<span class='line'> 64</span>         */</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="NAME">toInt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">exports.parse</span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 70</span>         * 反转一个 boolean 值，即 true 变成 false；false 变成 true。
+<span class='line'> 71</span>         * @param {Object} 要进行反转的值，可以是任何类型。
+<span class='line'> 72</span>         * @return {int} 返回一个 bool 值。
+<span class='line'> 73</span>         * @example
+<span class='line'> 74</span>             $Boolean.reverse(null); //true;
+<span class='line'> 75</span>             $Boolean.reverse('null'); //true;
+<span class='line'> 76</span>             $Boolean.reverse(undefined); //true;
+<span class='line'> 77</span>             $Boolean.reverse('undefined'); //true;
+<span class='line'> 78</span>             $Boolean.reverse(0); //true;
+<span class='line'> 79</span>             $Boolean.reverse('0'); //true;
+<span class='line'> 80</span>             $Boolean.reverse(NaN); //true;
+<span class='line'> 81</span>             $Boolean.reverse('NaN'); //true;
+<span class='line'> 82</span>             $Boolean.reverse(false); //true;
+<span class='line'> 83</span>             $Boolean.reverse('false'); //true;
+<span class='line'> 84</span>             $Boolean.reverse(''); //true;
+<span class='line'> 85</span>             $Boolean.reverse(true); //false;
+<span class='line'> 86</span>             $Boolean.reverse({}); //false;
+<span class='line'> 87</span>         */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="NAME">reverse</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">exports.parse</span><span class="PUNC">(</span><span class="NAME">arg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 93</span>         * 产生一个随机布尔值。
+<span class='line'> 94</span>         * @return {boolean} 返回一个随机的 true 或 false。
+<span class='line'> 95</span>         * @example
+<span class='line'> 96</span>             $Boolean.random();
+<span class='line'> 97</span>         */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">        </span><span class="NAME">random</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">Math.floor</span><span class="PUNC">(</span><span class="NAME">Math.random</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//产生随机数 0 或 1</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span></pre></body></html>

@@ -1,0 +1,62 @@
+﻿
+
+
+
+{!//<script>
+
+
+        /**
+        * 把一个对象转成 JSON 字符串
+        * @param {Object} obj 要进行转换的对象
+        * @return {String} 返回一个 JSON 字符串
+        */
+        var toJSON = function (obj) {
+            if (obj == null) // null 或 undefined
+            {
+                return String(obj);
+            }
+
+            switch (typeof obj) {
+                case 'string':
+                    return '"' + obj.split('\\').join('\\\\') + '"';
+                case 'number':
+                case 'boolean':
+                    return obj;
+                case 'function':
+                    return obj.toString();
+            }
+
+            //处理包装类和日期
+            if (obj instanceof String || obj instanceof Number || obj instanceof Boolean || obj instanceof Date) {
+                return arguments.callee(obj.valueOf());
+            }
+
+            //处理正则表达式
+            if (obj instanceof RegExp) {
+                return arguments.callee(obj.toString());
+            }
+
+            //处理数组
+            if (obj instanceof Array) {
+                var list = [];
+                for (var i = 0, len = obj.length; i < len; i++) {
+                    list.push(arguments.callee(obj[i]));
+                }
+
+                return '[' + list.join(', ') + ']';
+            }
+
+            var pairs = [];
+            for (var name in obj) {
+                if (typeof obj[name] == 'function') {
+                    continue;
+                }
+                pairs.push('"' + name + '": ' + arguments.callee(obj[name]));
+            }
+            return '{ ' + pairs.join(', ') + ' }';
+        };
+
+        output += toJSON(data);
+
+
+//</script>!}

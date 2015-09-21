@@ -1,0 +1,74 @@
+﻿{! Link.base = ""; /* all generated links will be relative to this */ !}
+{+subtemplate("subtemplates/head.html", {subtitle: "File Index"})+}
+{+subtemplate("subtemplates/menu.html")+}
+<div class="content">
+	<div class="innerContent">
+		<article>
+		    <h1 class="classTitle"><span>文件索引</span></h1>
+		    <section>
+		        <div class="props">
+			        <!--<ul class="fileList" id="FileList">
+				        <for each="item" in="data">
+					        <li>
+						        <h2 class="filename">{+new Link().toSrc(item.alias).withText(item.name)+}</h2>
+        						
+						        <if test="item.desc">{+resolveLinks(item.desc)+}</if>
+        						
+						        <dl class="detailList">
+							        <if test="item.author">
+								        <dt class="heading">Author:</dt>
+								        <dd>{+item.author+}</dd>
+							        </if>
+        							
+							        <if test="item.version">
+								        <dt class="heading">Version:</dt>
+								        <dd>{+item.version+}</dd>
+							        </if>
+        							
+							        {! var locations = item.comment.getTag('location').map(function($){return $.toString().replace(/(^\$ ?| ?\$$)/g, '').replace(/^HeadURL: https:/g, 'http:');}) !}
+							        <if test="locations.length">
+								        <dt class="heading">Location:</dt>
+								        <for each="location" in="locations">
+									        <dd><a href="{+location+}">{+location+}</a></dd>
+								        </for>
+							        </if>
+						        </dl>
+					        </li>
+				        </for>
+			        </ul>-->
+		            <table class="summaryTable" cellpadding="1" cellspacing="2">
+			            <thead>
+				            <tr>
+					            <th scope="col"></th>
+					            <th scope="col">名称</th>
+					            <th scope="col">描述</th>
+				            </tr>
+			            </thead>
+			            <tbody>
+				            <for each="item" in="data">
+					            <tr>
+						            <td class="attributes methods">
+        							    <img src="css/img/js.bmp" alt="" title="JavaScript文件" />
+						            </td>
+						            <td class="methodName">
+							            <div class="fixedFont">
+								            {+new Link().toSrc(item.alias).withText(item.name)+}
+							            </div>
+						            </td>
+						            <td class="nameDescription">
+							            <div class="description">
+								            <if test="item.desc">
+								                {+resolveLinks(item.desc)+}
+								            </if>
+							            </div>
+						            </td>
+					            </tr>
+				            </for>
+			            </tbody>
+		            </table>
+			    </div>
+			</section>
+		</article>
+	</div>
+</div>
+{+subtemplate("subtemplates/foot.html")+}

@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="generator" content="JsDoc Toolkit" />
+	<title></title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="mobileoptimized" content="0" />
+	
+	<link rel="stylesheet" href="../css/all.css" media="all" />
+	<link rel="stylesheet" href="../css/handheld.css" media="only screen and (max-width: 660px)" />
+	<link rel="stylesheet" href="../css/handheld.css" media="handheld" />
+	<link rel="stylesheet" href="../css/screen.css" media="screen and (min-width: 661px)" />
+		
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.observehashchange.js"></script>
+	<script type="text/javascript" src="../js/miniquery.pack.js"></script>
+	
+    <style type="text/css">
+
+        #ulInheritList ul {
+            margin-bottom: 0;
+            
+        }
+
+        #ulInheritList li {
+            border-left: solid 1px #AAAAAB;
+            margin-left: 4px;
+            padding: 1px 0px;
+
+            position: relative;
+            padding-left: 30px;
+        }
+
+
+        #ulInheritList a {
+        
+            text-decoration: none;
+            color: black;
+            
+            
+            
+        }
+
+        #ulInheritList a:hover {
+            text-decoration: underline;
+            color: red;
+        }
+
+        #ulInheritList .desc {
+        
+            color: gray;
+            margin-left: 30px;
+            font-size: 12px;
+            display: none;
+        }
+
+        img.collapse {
+            cursor:pointer;
+            margin-bottom: 2px;
+        
+        }
+
+
+        ul > li:after {
+            position: absolute;
+            content: ' ';
+            top: 11px;
+            left: 0;
+            width: 30px;
+            height: 0;
+            border-top: 1px solid #AAAAAB;
+        }
+        ul > li:last-child {
+            border-left: none !important;
+        }
+
+        ul > li:first-child:before, ul > li:last-child:before,ul > li:only-child:before {
+            position: absolute;
+            content: ' ';
+            top: -7px;
+            left: 0px;
+            height: 19px;
+            width: 1px;
+            border-left: 1px solid #AAAAAB;
+
+        }
+        ul > li:first-child:before {
+            left: -1px;
+        }
+        ul > li:only-child:before {
+            left: 0px;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <div class="content">
+        <div class="innerContent">
+	        <div id="divHeadInfos">
+            <!--
+		        <h1 class="classTitle">
+			        <span>{alias} {typeDesc}</span>
+		        </h1>
+		        <div class="intro">
+			        <p class="description summary">
+				        {desc}
+			        </p>
+			        定义在：<img src="../css/img/jsfile.bmp" alt="JavaScript文件" title="JavaScript文件" />
+                        <a href="../symbols/src/{srcPageName}">{srcFileName}</a>
+			
+		        </div>
+            -->
+	        </div>
+            <div id="divInheritList" class="props">
+                <h2 class="sectionTitle">
+                        
+					继承层次结构
+			    </h2>
+                <ul id="ulInheritList" style="margin-bottom: 0;">
+                <!--
+                    <li >
+                        <span class="line"></span>
+                        <span class="collapse"  style="{display}; " ></span>
+                        <img src="../css/img/class.bmp" alt="公共类" title="公共类" />
+                        <span class="fixedFont">
+                            <a href="class.html#{alias}" title="{desc}">{alias}</a>
+                            <span class="desc">{desc}</span>
+                        </span>
+                        
+                        {childs}
+                    </li>
+                -->
+
+                    
+                </ul>
+            </div>
+
+			
+        </div>
+    </div>
+
+    <script type="text/javascript">
+	    //wbos.CssTools.MediaQueryFallBack.LoadCss('../css/screen.css', '../css/handheld.css', 660)
+	    //codeview.classFilter.Init()
+    </script>
+    <script type="text/javascript" src="../data/classes.js"></script>
+    <script type="text/javascript" src="../js/ClassList.js"></script>
+
+    <script type="text/javascript" src="inherits.html.js"></script>
+
+</body>
+</html>
+

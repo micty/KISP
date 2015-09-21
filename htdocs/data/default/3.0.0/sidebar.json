@@ -1,0 +1,13 @@
+﻿{
+    "title": "KISP",
+    "type": "接口文档",
+    "width": 170,
+    "jsdoc": true,
+    "items": [
+        {
+            "text": "API",
+            "name": "API",
+            "alias": "API"
+        }
+    ]
+}

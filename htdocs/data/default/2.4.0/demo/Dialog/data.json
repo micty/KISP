@@ -1,0 +1,46 @@
+﻿
+{
+    "readme": true,
+    "demos": [
+        {
+            "title": "实例1：模态对话框",
+            "description": "动态加载对话框所需要的 js 和 css 文件，完成后创建一个模态对话框",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/1.js?a" }
+            ]
+        },
+        {
+            "title": "实例2：基本对话框",
+            "description": "动态加载对话框所需要的 js 和 css 文件，完成后创建一个基本的对话框",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/2.js" }
+            ]
+        },
+        {
+            "title": "实例3：不固定位置对话框",
+            "description": "动态加载对话框的 js 和 css 文件，完成后创建并弹出一个不固定位置对话框",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/3.js" }
+            ]
+        },
+        {
+            "title": "实例4：打开带 iframe 的对话框",
+            "description": "动态加载对话框的 js 和 css 文件，完成后创建并弹出一个带 iframe 的对话框",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/4.js" }
+            ]
+        }
+    ]
+}

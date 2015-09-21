@@ -1,0 +1,46 @@
+﻿
+{
+    "readme": true,
+    "demos": [
+        {
+            "title": "实例1：",
+            "description": "",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/1.js" }
+            ]
+        },
+        {
+            "title": "实例2：",
+            "description": "",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/2.js" }
+            ]
+        },
+        {
+            "title": "实例3：",
+            "description": "",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/3.js" }
+            ]
+        },
+        {
+            "title": "实例4：",
+            "description": "",
+            "tabs": [
+                { "text": "JS 代码" }
+            ],
+            "panels": [
+                { "type": "js", "url": "source/4.js" }
+            ]
+        }
+    ]
+}
