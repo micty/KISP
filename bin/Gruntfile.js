@@ -20,6 +20,7 @@ module.exports = function (grunt) {
 
 
     require('./tasks/default.js')(grunt);
+    require('./tasks/house.js')(grunt);
     require('./tasks/old.js')(grunt);
 
 
