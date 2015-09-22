@@ -113,8 +113,11 @@
   background-color: #6c6c6c;
 }
 .KISP.NumberPad .main .key-point {
-  border-bottom-left-radius: 13px;
   background-color: #D5D8DB;
+  border-bottom-left-radius: 13px;
+}
+.KISP.NumberPad .main .key-point span {
+  border-bottom-left-radius: 13px;
 }
 .KISP.NumberPad .main .no-point .key-point {
   border-right: 1px solid #BCBFC1;

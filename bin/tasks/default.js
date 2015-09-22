@@ -469,16 +469,16 @@ module.exports = function (grunt) {
 
         //});
 
-        ////生成到 vStore 目录
-        //Tasks.run('copy', name + '/vStore', {
-        //    files: LinearPath.pair(home, 'E:/Kingdee/vStore/htdocs/f/kisp', [
-        //        'kisp.debug.js',
-        //        'kisp.min.js',
-        //        'kisp.debug.css',
-        //        'kisp.min.css',
-        //    ]),
+        //生成到 vStore 目录
+        Tasks.run('copy', name + '/vStore', {
+            files: LinearPath.pair(home, 'E:/Kingdee/vStore/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.min.js',
+                'kisp.debug.css',
+                'kisp.min.css',
+            ]),
 
-        //});
+        });
 
         //生成到 vGuide 目录
         Tasks.run('copy', name + '/vGuide', {
