@@ -56,6 +56,18 @@ module.exports = function (grunt) {
                 'Proxy.js',
             ]
         },
+
+        {
+            dir: 'third-party',
+            files: [
+                {
+                    dir: 'seajs',
+                    files: [
+                        'Seajs.js',
+                    ],
+                },
+            ],
+        },
         
         {
             dir: 'ui',
@@ -373,6 +385,16 @@ module.exports = function (grunt) {
 
         });
 
+
+        Tasks.run('copy', name + '/house', {
+            files: LinearPath.pair(home, 'E:/Kingdee/house/demo/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.min.js',
+                'kisp.debug.css',
+                'kisp.min.css',
+            ]),
+
+        });
       
 
 
