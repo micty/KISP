@@ -104,11 +104,11 @@ define('NumberPad', function (require, module, exports) {
             }
 
 
-            $(div).animate({
+            $(div).show().animate({
                 'bottom': 0,
 
             }, meta.speed, function () {
-
+               
                 meta.visible = true;
                 meta.emitter.fire('show');
             });
@@ -136,6 +136,8 @@ define('NumberPad', function (require, module, exports) {
                 'bottom': -meta.height,
 
             }, meta.speed, function () {
+
+                $(div).hide(); //隐藏一下，避免在手机端给输入法顶上去。
 
                 meta.visible = false;
                 meta.emitter.fire('hide');
