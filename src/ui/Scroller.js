@@ -31,6 +31,13 @@ define('Scroller', function (require, module,  exports) {
     */
     function Scroller(el, config) {
 
+        //重载 Scroller(config)
+        if ($.Object.isPlain(el)) {
+            config = el;
+            el = config.el;
+        }
+
+
         Mapper.setGuid(this);
 
         config = Config.clone(module.id, config);

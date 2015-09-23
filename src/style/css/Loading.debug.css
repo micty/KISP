@@ -173,7 +173,7 @@
 }
 .KISP.Loading-iOS.same-line .text {
   margin-top: 0px;
-  margin-left: 16px;
+  margin-left: 26px;
 }
 .KISP.Loading-iOS.no-text {
   width: 90px !important;
@@ -293,8 +293,8 @@
   -ms-transform: rotate(120deg);
 }
 .KISP.Loading-iOS .floatingBarsG .rotateG_5 {
-  right: 3.5px;
-  top: 13.2px;
+  right: 3.8px;
+  top: 11.5px;
   -webkit-animation-delay: 0.5s;
   -webkit-transform: rotate(150deg);
   -moz-animation-delay: 0.5s;
@@ -317,7 +317,7 @@
   -ms-transform: rotate(180deg);
 }
 .KISP.Loading-iOS .floatingBarsG .rotateG_7 {
-  left: 3.5px;
+  left: 3.8px;
   top: 11.5px;
   -webkit-animation-delay: 0.6s;
   -webkit-transform: rotate(-150deg);
@@ -365,7 +365,7 @@
   -ms-transform: rotate(-60deg);
 }
 .KISP.Loading-iOS .floatingBarsG .rotateG_11 {
-  left: 3.5px;
+  left: 3.8px;
   top: 1px;
   -webkit-animation-delay: 1s;
   -webkit-transform: rotate(-30deg);
