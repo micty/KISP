@@ -115,8 +115,8 @@ define('NumberPad/Renderer', function (require, module, exports) {
         $(div).touch({
 
             '[data-cmd="done"]': function () {
-                self.hide();
                 emitter.fire('done', [meta.value]);
+                self.hide(); //最后才隐藏比较合理。 因为用户可能在隐藏事件里做些清除操作
             },
 
 
