@@ -296,6 +296,15 @@ define('defaults', /**@lends defaults*/ {
         'z-index': 1024,
     },
 
+    'Alert': {
+        'button': '确定',
+        'volatile': false,
+        'mask': true,
+        'autoClosed': true,
+        'width': '80%',
+        'z-index': 99999,
+    },
+
     /**
     * 遮罩层模块的默认配置。
     */

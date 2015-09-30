@@ -41,6 +41,7 @@ define('Toast/Style', function (require, module, exports) {
             'top',
             'width',
             'z-index',
+            'position',
         ]);
 
 

@@ -93,12 +93,18 @@ define('Dialog', function (require, module, exports) {
             $(meta.div).css(p);
         });
 
+        
     }
 
 
     //实例方法
     Dialog.prototype = /**@lends Dialog#*/ {
         constructor: Dialog,
+
+        /**
+        * $(container) 的快捷方式。
+        */
+        $: null,
 
         /**
         * 显示本组件。
@@ -244,7 +250,7 @@ define('Dialog', function (require, module, exports) {
 
             this.remove();
             emitter.destroy();
-            scroller.destroy();
+            scroller && scroller.destroy(); //在 PC 端为 null
 
             mapper.remove(this);
         },

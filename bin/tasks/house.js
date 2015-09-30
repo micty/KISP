@@ -376,58 +376,46 @@ module.exports = function (grunt) {
 
         //生成到 house 目录
 
-        //try {
-        //    Tasks.run('copy', name + '/house-admin-0', {
-        //        files: LinearPath.pair(home, 'I:/Studio/house/admin/htdocs/f/kisp', [
-        //            'kisp.debug.js',
-        //            'kisp.min.js',
-        //            'kisp.debug.css',
-        //            'kisp.min.css',
-        //        ]),
+        Tasks.run('copy', name + '/house-admin', {
+            files: LinearPath.pair(home, 'I:/Studio/house/admin/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.min.js',
+                'kisp.debug.css',
+                'kisp.min.css',
+            ]),
+        });
 
-        //    });
-
-        //    Tasks.run('copy', name + '/house-demo-0', {
-        //        files: LinearPath.pair(home, 'I:/Studio/house/demo/htdocs/f/kisp', [
-        //            'kisp.debug.js',
-        //            'kisp.min.js',
-        //            'kisp.debug.css',
-        //            'kisp.min.css',
-        //        ]),
-
-        //    });
-
-        //}
-        //catch (ex) {
-        //    console.log(ex.message);
-        //}
+        Tasks.run('copy', name + '/house-demo', {
+            files: LinearPath.pair(home, 'I:/Studio/house/demo/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.min.js',
+                'kisp.debug.css',
+                'kisp.min.css',
+            ]),
+        });
 
 
 
-        try {
-            Tasks.run('copy', name + '/house-admin', {
-                files: LinearPath.pair(home, 'E:/Kingdee/house/admin/htdocs/f/kisp', [
-                    'kisp.debug.js',
-                    'kisp.min.js',
-                    'kisp.debug.css',
-                    'kisp.min.css',
-                ]),
+        //Tasks.run('copy', name + '/house-admin', {
+        //    files: LinearPath.pair(home, 'E:/Kingdee/house/admin/htdocs/f/kisp', [
+        //        'kisp.debug.js',
+        //        'kisp.min.js',
+        //        'kisp.debug.css',
+        //        'kisp.min.css',
+        //    ]),
 
-            });
+        //});
 
-            Tasks.run('copy', name + '/house-demo', {
-                files: LinearPath.pair(home, 'E:/Kingdee/house/demo/htdocs/f/kisp', [
-                    'kisp.debug.js',
-                    'kisp.min.js',
-                    'kisp.debug.css',
-                    'kisp.min.css',
-                ]),
+        //Tasks.run('copy', name + '/house-demo', {
+        //    files: LinearPath.pair(home, 'E:/Kingdee/house/demo/htdocs/f/kisp', [
+        //        'kisp.debug.js',
+        //        'kisp.min.js',
+        //        'kisp.debug.css',
+        //        'kisp.min.css',
+        //    ]),
 
-            });
-        }
-        catch (ex) {
-            console.log(ex.message);
-        }
+        //});
+       
 
         
 

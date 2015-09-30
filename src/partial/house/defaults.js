@@ -114,7 +114,7 @@ define('defaults', /**@lends defaults*/ {
         /**
         * 内容区是否可滚动。
         */
-        scrollable: true,
+        scrollable: false,
 
         autoClosed: true,
 
@@ -130,9 +130,12 @@ define('defaults', /**@lends defaults*/ {
         sample: 'iOS',
         cssClass: '',
         eventName: 'click',
-        width: '80%',
-        height: '50%',
+        width: 400,
+        height: 160,
         buttons: [],
+
+        //PC 端的用 fixed定位
+        'position': 'fixed',
     },
 
     /**
@@ -174,6 +177,19 @@ define('defaults', /**@lends defaults*/ {
         'top': '50%',
         'width': 120,
         'z-index': 1024,
+
+        //PC 端的用 fixed定位
+        'position': 'fixed',
+    },
+
+    'Alert': {
+
+        'button': '确定',
+        'volatile': false,
+        'mask': true,
+        'autoClosed': true,
+        'width': 450,
+        'z-index': 99999,
     },
 
     /**
@@ -203,6 +219,8 @@ define('defaults', /**@lends defaults*/ {
         'opacity': 0.5,
         'background': '#000',
         'z-index': 1024,
+        //PC 端的用 fixed定位
+        'position': 'fixed',
     },
 
     'Tabs': {
@@ -247,6 +265,9 @@ define('defaults', /**@lends defaults*/ {
         icon: 'check',
         duration: 0, // 0 表示一直显示。
         //默认样式
+
+        //PC 端的用 fixed定位
+        'position': 'fixed',
         
     },
 

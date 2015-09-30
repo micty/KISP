@@ -42,6 +42,7 @@ define('Loading/Style', function (require, module, exports) {
             'top',
             'width',
             'z-index',
+            'position',
         ]);
 
         ////优先使用 bottom 而非 top

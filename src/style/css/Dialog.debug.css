@@ -72,6 +72,8 @@
   -webkit-box-pack: center;
   overflow: hidden;
   white-space: nowrap;
+  cursor: pointer;
+  /**针对 PC 端*/
 }
 .KISP.Dialog footer span:last-child {
   border-right: none;
