@@ -12,6 +12,9 @@ Module.expose({
     '$': true,
     'MiniQuery': true,
 
+    //crypto
+    'MD5': true,
+
     //excore
     'DOM': true,
     'Edition': true,
