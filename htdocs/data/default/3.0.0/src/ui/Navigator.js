@@ -44,32 +44,21 @@ define('Navigator', function (require, module,  exports) {
         if (hash) { //指定了使用 hash，则监听 hash 的变化
             var self = this;
             var Url = MiniQuery.require('Url');
+
             Url.hashchange(window, function (hash, oldHash) {
+
                 emitter.fire('hash-change', [hash, oldHash]);
+
                 var quiet = meta.quiet;
-                if (quiet) { //说明是 to() 方法中引起的 hash 变化，忽略。
+                if (quiet) { //说明是 to() 方法中引起的 hash 变化或刻意不想引起，忽略。
                     meta.quiet = false;
                     return;
                 }
+
                 self.back();
             });
         }
 
-        //预绑定事件
-        var events = $.Object.filter(config, [
-            'back',
-            'change',
-            'before-change',
-            'hash-change'
-        ]);
-
-        this.on(events);
-
-        //跳到指定状态
-        var current = config.current;
-        if (current) {
-            this.to(current);
-        }
         
 
     }
@@ -134,34 +123,116 @@ define('Navigator', function (require, module,  exports) {
 
         /**
         * 后退。
+        * @param {Number} count 要后退的步数。 
+            默认为 1，如果要一次性后退 n 步，请指定一个大于 0 的整型。
         */
-        back: function () {
+        back: function (count) {
 
-            var meta = mapper.get(this);
-            var emitter = meta.emitter;
-            var statcks = meta.statcks;
+            count = count || 1;
 
-            var lastIndex = statcks.length - 1;
-            if (lastIndex == 0) {
-                return;
+            if (count < 0) {
+                throw new Error('要后退的步数必须大于 0');
             }
 
-            var current = statcks.pop();
-            var target = statcks[lastIndex - 1];
+            var meta = mapper.get(this);
+            var statcks = meta.statcks;
+           
+            var currentIndex = statcks.length - 1;      //当前视图在最后一项
+            var targetIndex = currentIndex - count;     //目标视图索引
+
+            if (targetIndex < 0 ) {
+                return; //直接忽略，不抛出异常。 因为实际场景中，用户可能会一直后退。
+            }
+
+
+            var current = statcks[currentIndex];
+            var target = statcks[targetIndex];
+
+            statcks.splice(targetIndex + 1); //删除目标视图后面的
+
+            var emitter = meta.emitter;
             emitter.fire('back', [current, target]);
             emitter.fire('change', [current, target]);
 
 
         },
 
+
         /**
-        * 获取当前视图的名称。 
+        * 从左边指定的位置开始移除指定数目的项。
+        * @param {number} beginIndex 要进行移除的开始索引值，必须大于等于 0。
+        * @param {number} [count=1] 要移除的个数。 如果不指定则默认为 1 个。
+            注意: 当前视图 (堆栈最后一项) 是不能给移除的。
         */
-        current: function () {
+        remove: function (beginIndex, count) {
+
+            if (beginIndex < 0) {
+                throw new Error('要移除的开始索引值必须大于或等于 0');
+            }
+
+            count = count || 1;
+
+            if (count < 0) {
+                throw new Error('要移除的个数必须大于 0');
+            }
+
+
             var meta = mapper.get(this);
             var statcks = meta.statcks;
-            return statcks.slice(-1)[0]; //取得最后一个
+
+            var currentIndex = statcks.length - 1;
+            var endIndex = beginIndex + count; 
+
+            //要移除的范围为 [beginIndex, endIndex)，endIndex 不在移除的范围之内。
+            if (endIndex > currentIndex) {
+                throw new Error('要移除的结束索引不能包括当前索引: ' + currentIndex);
+            }
+
+
+            statcks.splice(beginIndex, count);
+
         },
+
+        /**
+        * 从右边指定的位置开始移除指定数目的项。
+        * 已重载 removeLast(count)，此时相当于 removeLast(1, count)。
+        * @param {number} beginIndex 要进行移除的开始索引值，必须大于 0。
+            注意: 当前视图 (堆栈最后一项) 是不能给移除的，所以 beginIndex 必须从 1 开始
+        * @param {number} [count=1] 要移除的个数。 如果不指定则默认为 1 个。
+        */
+        removeLast: function (beginIndex, count) {
+
+            if (arguments.length == 1) { //重载 removeLast(count)
+                count = beginIndex;
+                beginIndex = 1;
+            }
+            else if (beginIndex < 1) {
+                throw new Error('要移除的开始索引值必须大于等于 1');
+            }
+
+            if (count < 0) {
+                throw new Error('要移除的个数必须大于 0');
+            }
+
+
+            var meta = mapper.get(this);
+            var statcks = meta.statcks;
+
+            statcks.reverse(); //先反转
+            statcks.splice(beginIndex, count);
+
+            meta.statcks = statcks.reverse(); //再反转回去
+
+        },
+
+        /**
+        * 获取视图的总个数
+        */
+        count: function () {
+            var meta = mapper.get(this);
+            return meta.statcks.length;
+        },
+
 
 
     };

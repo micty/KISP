@@ -174,12 +174,13 @@
     display: -webkit-box;
     -webkit-box-pack: center;
     -webkit-box-align: center;
+
     /**同一行的*/
     &.same-line {
 
         .floatingBarsG {
-            margin-left: -40px;
-            margin-top: -8px;
+            margin-left: -34px;
+            margin-top: -9px;
         }
 
         .text {
@@ -187,6 +188,7 @@
             margin-left: 26px;
         }
     }
+
     /**无文本时*/
     &.no-text {
         width: 90px !important;
@@ -195,8 +197,7 @@
         margin-top: -40px !important;
 
         .floatingBarsG {
-            margin-left: -13px;
-            margin-top: -15px;
+            margin-top: -12px;
         }
 
         .text {
@@ -206,7 +207,7 @@
 
     .text {
         display: inline-block;
-        margin-top: 48px;
+        margin-top: 45px;
         text-align: center;
         font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
     }
@@ -214,10 +215,9 @@
     .floatingBarsG {
         display: block;
         position: absolute;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         left: 50%;
-        margin-left: -8px;
         top: 50%;
         margin-top: -16px;
 
@@ -225,7 +225,7 @@
             position: absolute;
             background-color: #675e55;
             width: 2px;
-            height: 4px;
+            height: 5px;
             -moz-border-radius: 8px;
             -webkit-border-radius: 8px;
             -webkit-transform: scale(0.4);
@@ -250,88 +250,64 @@
             -ms-animation-direction: linear;
         }
 
-        .rotateG (@delay, @deg) {
+        .rotateG (@delay, @deg,@a,@b) {
             -webkit-animation-delay: @delay;
-            -webkit-transform: rotate(@deg);
+            -webkit-transform: rotate(@deg) translate(@a,@b);
             -moz-animation-delay: @delay;
-            -moz-transform: rotate(@deg);
+            -moz-transform: rotate(@deg) translate(@a,@b);
             -o-animation-delay: @delay;
-            -o-transform: rotate(@deg);
+            -o-transform: rotate(@deg) translate(@a,@b);
             -ms-animation-delay: @delay;
-            -ms-transform: rotate(@deg);
+            -ms-transform: rotate(@deg) translate(@a,@b);
         }
 
         .rotateG_0 {
-            right: 7px;
-            top: 0px;
-            .rotateG (0s, 0deg);
+            .rotateG (0.1s,0deg,0,0);
         }
 
         .rotateG_1 {
-            right: 3.5px;
-            top: 1px;
-            .rotateG (0.1s, 30deg);
+            .rotateG (0.1s, 30deg,3.5px,-1px);
         }
 
         .rotateG_2 {
-            right: 1.5px;
-            top: 3.5px;
-            .rotateG (0.2s, 60deg);
+            .rotateG (0.2s, 60deg,6px,-4px);
         }
 
         .rotateG_3 {
-            right: 0.5px;
-            top: 6.5px;
-            .rotateG (0.3s, 90deg);
+            .rotateG (0.3s, 90deg,7px,-7px);
         }
 
         .rotateG_4 {
-            right: 1.5px;
-            top: 9.5px;
-            .rotateG (0.4s, 120deg);
+            .rotateG (0.4s, 120deg,6px,-11px);
         }
 
         .rotateG_5 {
-            right: 3.8px;
-            top: 11.5px;
-            .rotateG (0.5s, 150deg);
+            .rotateG (0.5s, 150deg,3.5px,-13px);
         }
 
 
         .rotateG_6 {
-            top: 12.5px;
-            right: 7px;
-            .rotateG (0.5s, 180deg);
+            .rotateG (0.5s, 0deg,0px,14px);
         }
 
         .rotateG_7 {
-            left: 3.8px;
-            top: 11.5px;
-            .rotateG (0.6s, -150deg);
+            .rotateG (0.6s, -150deg,-3.5px,-13px);
         }
 
         .rotateG_8 {
-            left: 1.5px;
-            top: 9.5px;
-            .rotateG (0.7s, -120deg);
+            .rotateG (0.7s, -120deg,-6px,-11px);
         }
 
         .rotateG_9 {
-            left: 0.5px;
-            top: 6.5px;
-            .rotateG (0.8s, -90deg);
+            .rotateG (0.8s, -90deg,-7px,-7px);
         }
 
         .rotateG_10 {
-            left: 1.5px;
-            top: 3.5px;
-            .rotateG (0.9s, -60deg);
+            .rotateG (0.9s, -60deg,-6px,-4px);
         }
 
         .rotateG_11 {
-            left: 3.8px;
-            top: 1px;
-            .rotateG (1s, -30deg);
+            .rotateG (1s, -30deg,-3.5px,-1px);
         }
 
         @-webkit-keyframes fadeG {
@@ -375,88 +351,63 @@
         }
 
         &.large {
-            width: 26px;
+            width: 27px;
             height: 27px;
-            margin-left: -12px;
             margin-top: -24px;
 
             .blockG {
+                border-radius: 100%;
                 width: 3px;
                 height: 8px;
-                border-radius: 100%;
             }
 
             .rotateG_0 {
-                right: 12px;
-                top: 0px;
-                .rotateG (0s, 0deg);
+                .rotateG (0s, 0deg,0px,0px);
             }
 
             .rotateG_1 {
-                right: 5.6px;
-                top: 2px;
-                .rotateG (0.1s, 30deg);
+                .rotateG (0.1s, 30deg,4.8px,-1.5px);
             }
 
             .rotateG_2 {
-                right: 1.8px;
-                top: 6.4px;
-                .rotateG (0.2s, 60deg);
+                .rotateG (0.2s, 60deg,8px,-5px);
             }
 
             .rotateG_3 {
-                right: -0.3px;
-                top: 12px;
-                .rotateG (0.3s, 90deg);
+                .rotateG (0.3s, 90deg,9px,-9px);
             }
 
             .rotateG_4 {
-                right: 1px;
-                top: 18.3px;
-                .rotateG (0.4s, 120deg);
+                .rotateG (0.4s, 120deg,8px,-14px);
             }
 
             .rotateG_5 {
-                right: 5.6px;
-                top: 22.4px;
-                .rotateG (0.5s, 150deg);
+                .rotateG (0.5s, 150deg,4.5px,-17px);
             }
 
 
             .rotateG_6 {
-                top: 24px;
-                right: 12px;
-                .rotateG (0.5s, 180deg);
+                .rotateG (0.5s, 0deg,0,18px);
             }
 
             .rotateG_7 {
-                left: 5.9px;
-                top: 22px;
-                .rotateG (0.6s, -150deg);
+                .rotateG (0.6s, -150deg,-4.5px,-17px);
             }
 
             .rotateG_8 {
-                left: 1.5px;
-                top: 18px;
-                .rotateG (0.7s, -120deg);
+                .rotateG (0.7s, -120deg,-8px,-14px);
             }
 
             .rotateG_9 {
-                left: 0px;
-                top: 12px;
-                .rotateG (0.8s, -90deg);
+                .rotateG (0.8s, -90deg,-9px,-9px);
             }
 
             .rotateG_10 {
-                left: 1.5px;
-                top: 6px;
-                .rotateG (0.9s, -60deg);
+                .rotateG (0.9s, -60deg,-8px,-5px);
             }
 
             .rotateG_11 {
-                left: 6px;
-                top: 2px;
-                .rotateG (1s, -30deg);
+                .rotateG (1s, -30deg,-4.8px,-1.5px);
             }
         }
     }

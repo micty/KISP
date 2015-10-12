@@ -152,7 +152,6 @@ define('Panel', function (require, module, exports) {
             $(container).addClass(cssClass);
 
             emitter.fire('render', args);
-
             meta.rendered = true;
 
             if (meta.showAfterRender) {
@@ -170,6 +169,17 @@ define('Panel', function (require, module, exports) {
             var emitter = meta.emitter;
             var args = [].slice.call(arguments);
             emitter.fire('refresh', args);
+
+        },
+
+        /**
+        * 重置，会触发 reset 事件。
+        */
+        reset: function () {
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+            var args = [].slice.call(arguments);
+            emitter.fire('reset', args);
 
         },
 

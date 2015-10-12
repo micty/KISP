@@ -48,6 +48,7 @@ define('Mask', function (require, module, exports) {
             'showTime': 0, //开始显示时的时间点
             'container': config.container,
             'duration': config.duration,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -77,7 +78,17 @@ define('Mask', function (require, module, exports) {
                 'id': id,
             });
 
-            $(meta.container).prepend(html);
+
+            var container = meta.container;
+            if (meta.append) {
+                $(container).append(html);
+            }
+            else {
+                $(container).prepend(html);
+
+            }
+
+
             div = meta.div = document.getElementById(id);
 
             var style = Style.get(meta.style);

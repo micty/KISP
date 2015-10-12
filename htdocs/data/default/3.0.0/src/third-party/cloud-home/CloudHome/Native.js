@@ -64,8 +64,6 @@ define('CloudHome/Native', function (require, module, exports) {
             iframe.parentNode.removeChild(iframe);
             iframe = null;
 
-            //var img = new Image();
-            //img.src = url;
 
         },
     };

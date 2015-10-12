@@ -27,7 +27,7 @@ define('Fn', function (require, module, exports) {
             }
 
 
-            if (delay == null) { //不启用延迟
+            if (delay === false || delay == null) { //不启用延迟
                 fn.apply(null, args);
                 return;
             }

@@ -60,13 +60,13 @@ define('Dialog', function (require, module, exports) {
             'emitter': emitter,
             'mask': config.mask,
             'masker': null,                     // Mask 的实例，重复使用
-            'layer': null,                    //用来防止点透用的透明层，
+            'layer': null,                      //用来防止点透用的透明层，
             'cssClass': cssClass,
             'style': Style.get(config),
             'autoClosed': config.autoClosed,    //点击任何一个按钮后是否自动关闭组件
             'visible': false,                   //记录当前组件是否已显示
             'volatile': config.volatile,
-            'zIndex': config['z-index'],    //生成透明层时要用到
+            'zIndex': config['z-index'],        //生成透明层时要用到
 
         };
 
@@ -93,12 +93,18 @@ define('Dialog', function (require, module, exports) {
             $(meta.div).css(p);
         });
 
+        
     }
 
 
     //实例方法
     Dialog.prototype = /**@lends Dialog#*/ {
         constructor: Dialog,
+
+        /**
+        * $(container) 的快捷方式。
+        */
+        $: null,
 
         /**
         * 显示本组件。
@@ -244,7 +250,7 @@ define('Dialog', function (require, module, exports) {
 
             this.remove();
             emitter.destroy();
-            scroller.destroy();
+            scroller && scroller.destroy(); //在 PC 端为 null
 
             mapper.remove(this);
         },

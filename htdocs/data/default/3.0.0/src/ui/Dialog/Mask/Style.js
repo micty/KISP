@@ -35,6 +35,7 @@ define('Mask/Style', function (require, module, exports) {
             'bottom',
             'background',
             'z-index',
+            'position',
         ]);
 
 

@@ -192,7 +192,8 @@ define('KISP', function (require, module, exports) {
             }
 
             var Module = require('Module');
-            var $ = require('jquery-plugin/touch');
+            var $ = require('jquery-plugin/touch') || require('$'); //
+
             var MiniQuery = require('MiniQuery');
 
             var define = Module.define;

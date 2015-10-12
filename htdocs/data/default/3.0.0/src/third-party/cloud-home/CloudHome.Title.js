@@ -9,11 +9,8 @@ define('CloudHome.Title', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
 
-
-
     var current = document.title;
-    //var iframeHTML = '<iframe src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="></iframe>';
-
+    var isVisible = false;
 
     module.exports = exports = /**@lends CloudHome.Title*/ {
 
@@ -26,31 +23,11 @@ define('CloudHome.Title', function (require, module, exports) {
             current = title;
 
             var CloudHome = require('CloudHome');
-
             CloudHome.invoke('setWebViewTitle', {
                 'title': title
             });
 
-            //// hack 在微信等 webview 中无法修改 document.title 的情况
-            //try {
-            //    document.title = title;
-                
-            //    var body = $('body');
-
-            //    var iframe = $(iframeHTML).on('load', function () {
-
-            //        setTimeout(function () {
-            //            iframe.off('load').remove();
-            //        }, 0);
-
-            //    }).appendTo(body);
-
-            //}
-            //catch (ex) {
-
-            //}
-
-            
+            isVisible = true;
         },
 
         /**
@@ -67,13 +44,14 @@ define('CloudHome.Title', function (require, module, exports) {
             current = document.title;
             var CloudHome = require('CloudHome');
             CloudHome.invoke('hideWebViewTitle');
+            isVisible = false;
         },
 
         /**
         * 切换显示或隐藏页面标题。
         */
-        toggle: function (sw) {
-            if (sw) {
+        toggle: function (needShow) {
+            if (needShow) {
                 exports.show();
             }
             else {

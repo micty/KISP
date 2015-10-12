@@ -62,17 +62,6 @@ define('CloudHome.API', function (require, module, exports) {
 
         mapper.set(this, meta);
 
-
-        //预绑定事件
-        var events = $.Object.filter(config, [
-            'done',
-            'success',
-            'fail',
-            'error',
-            'code',
-        ]);
-
-        this.on(events);
     }
 
 
@@ -102,7 +91,8 @@ define('CloudHome.API', function (require, module, exports) {
             CloudHome.invoke(name, data, function (json) {
 
                 //云之家返回的 success 字段竟然是字符串的 'true' 或 'false'
-                var isSuccess = String(json[field.success]).toLowerCase() == 'true';
+                var isSuccess = json[field.success];
+                isSuccess = String(isSuccess).toLowerCase() == 'true';
 
                 if (isSuccess) {
                     var data = json[field.data] || {};
@@ -121,42 +111,6 @@ define('CloudHome.API', function (require, module, exports) {
             return this;
         },
 
-        /**
-        * 请求完成时触发。
-        * 不管请求完成后是成功、失败、错误，都会触发，会最先触发此类事件。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        done: function (fn) {
-            this.on('done', fn);
-            return this;
-        },
-
-        /**
-        * 请求成功时触发。
-        * 成功是指网络请求成功，且后台业务返回的数据包中的 code == successCode 的情形。
-        * @param {function} fn 回调函数。
-        */
-        success: function (fn) {
-            this.on('success', fn);
-            return this;
-        },
-
-        /**
-        * 请求失败时触发。
-        * 失败是指网络请求成功，但后台业务返回的数据包中的 code != successCode 的情形。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        fail: function (fn) {
-            this.on('fail', fn);
-            return this;
-        },
-
-        code: function (code, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['code'].concat(args));
-        },
 
         /**
         * 绑定事件。

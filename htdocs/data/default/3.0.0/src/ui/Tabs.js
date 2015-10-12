@@ -127,8 +127,12 @@ define('Tabs', function (require, module, exports) {
 
         /**
         * 激活指定的项。
+        * @param {number} index 要激活的项的索引值。
+        * @param {boolean} [quiet=false] 是否使用安静模式。 
+            当指定为 true 时，则不会触发事件，这在某种场景下会用到。
+            否则会触发事件(默认情况)。
         */
-        active: function (index) {
+        active: function (index, quiet) {
 
             var meta = mapper.get(this);
             var list = meta.list;
@@ -177,10 +181,15 @@ define('Tabs', function (require, module, exports) {
             var old = meta.old;
             meta.old = current;
 
+
+            if (quiet) { //显式指定了使用安静模式，则不触发事件。
+                return;
+            }
+
+
             var args = [item, index, current, old];
 
             emitter.fire('before-change', args);
-
             emitter.fire('change', index, args);
 
             //触发指定的事件名

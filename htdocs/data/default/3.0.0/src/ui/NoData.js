@@ -58,7 +58,7 @@ define('NoData', function (require, module, exports) {
             'text': config.text,
             'emitter': new Emitter(this),
             'container': config.container,
-            'prepend': config.prepend,
+            'append': config.append,
 
             'id': RandomId.get(prefix, suffix),
             'textId': RandomId.get(prefix, 'text-', suffix),
@@ -113,6 +113,12 @@ define('NoData', function (require, module, exports) {
         },
 
         toggle: function (needShow) {
+
+            //重载 toggle( [] )，方便直接传入一个数据列表数组
+            if (needShow instanceof Array) {
+                needShow = needShow.length == 0;
+            }
+
             var meta = mapper.get(this);
             var visible = meta.visible;
 

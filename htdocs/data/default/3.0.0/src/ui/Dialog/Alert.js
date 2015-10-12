@@ -7,6 +7,7 @@
 define('Alert', function (require, module, exports) {
 
     var $ = require('$');
+    var Config = require('Config');
 
 
     //根据文本来计算高度，大概值，并不要求很准确
@@ -30,6 +31,8 @@ define('Alert', function (require, module, exports) {
     * 创建一个 alert 对话框。
     */
     function create(text, text1, textN, fn) {
+
+        config = Config.clone(module.id);
 
         //重载 alert(obj); 以方便程序员调试查看 json 对象。
         if (typeof text == 'object') {
@@ -64,15 +67,19 @@ define('Alert', function (require, module, exports) {
         var Dialog = require('Dialog');
 
         var dialog = new Dialog({
-            'text': text,
-            'buttons': [{ text: '确定', fn: fn, }],
-            'volatile': false,
-            'mask': true,
-            'autoClosed': true,
-            'width': '80%',
-            'z-index': 99999,
             'cssClass': 'Alert',
-            'height': getHeight(text),
+            'text': text,
+            'buttons': [{
+                text: config.button,
+                fn: fn,
+            }],
+
+            'volatile': config.volatile,
+            'mask': config.mask,
+            'autoClosed': config.autoClosed,
+            'width': config.width,
+            'z-index': config['z-index'],
+            'height': config.height ? config.height : getHeight(text),
         });
 
         return dialog;

@@ -2,8 +2,8 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.0
-* build: 2015-07-31 16:18:40
-* files: 76(74)
+* build: 2015-10-08 09:25:07
+* files: 83(81)
 *    partial/default/begin.js
 *    core/Module.js
 *    core/$.js
@@ -36,6 +36,8 @@
 *    third-party/cloud-home/CloudHome.API.js
 *    third-party/cloud-home/CloudHome.js
 *    third-party/cloud-home/CloudHome.Title.js
+*    third-party/cloud-home/ImageReader/Renderer.js
+*    third-party/cloud-home/ImageReader.js
 *    third-party/seajs/Seajs.js
 *    third-party/wechat/WeChat/JsApiList.js
 *    third-party/wechat/WeChat/Lib.js
@@ -59,6 +61,7 @@
 *    ui/dialog/Mask/Style.js
 *    ui/dialog/Toast.js
 *    ui/dialog/Toast/Sample/font-awesome.html
+*    ui/dialog/Toast/Renderer.js
 *    ui/dialog/Toast/Sample.js
 *    ui/dialog/Toast/Style.js
 *    ui/Navigator.js
@@ -66,6 +69,10 @@
 *    ui/NoData/Renderer.js
 *    ui/NoData/Sample.html
 *    ui/NoData/Style.js
+*    ui/NumberPad.js
+*    ui/NumberPad/Renderer.js
+*    ui/NumberPad/Sample.html
+*    ui/NumberPad/Style.js
 *    ui/Panel.js
 *    ui/Scroller/pull.js
 *    ui/Scroller.js
@@ -377,7 +384,8 @@ define('KISP', function (require, module, exports) {
             }
 
             var Module = require('Module');
-            var $ = require('jquery-plugin/touch');
+            var $ = require('jquery-plugin/touch') || require('$'); //
+
             var MiniQuery = require('MiniQuery');
 
             var define = Module.define;
@@ -982,7 +990,7 @@ define('Fn', function (require, module, exports) {
             }
 
 
-            if (delay == null) { //不启用延迟
+            if (delay === false || delay == null) { //不启用延迟
                 fn.apply(null, args);
                 return;
             }
@@ -3039,8 +3047,6 @@ define('CloudHome/Native', function (require, module, exports) {
             iframe.parentNode.removeChild(iframe);
             iframe = null;
 
-            //var img = new Image();
-            //img.src = url;
 
         },
     };
@@ -3112,17 +3118,6 @@ define('CloudHome.API', function (require, module, exports) {
 
         mapper.set(this, meta);
 
-
-        //预绑定事件
-        var events = $.Object.filter(config, [
-            'done',
-            'success',
-            'fail',
-            'error',
-            'code',
-        ]);
-
-        this.on(events);
     }
 
 
@@ -3152,7 +3147,8 @@ define('CloudHome.API', function (require, module, exports) {
             CloudHome.invoke(name, data, function (json) {
 
                 //云之家返回的 success 字段竟然是字符串的 'true' 或 'false'
-                var isSuccess = String(json[field.success]).toLowerCase() == 'true';
+                var isSuccess = json[field.success];
+                isSuccess = String(isSuccess).toLowerCase() == 'true';
 
                 if (isSuccess) {
                     var data = json[field.data] || {};
@@ -3171,42 +3167,6 @@ define('CloudHome.API', function (require, module, exports) {
             return this;
         },
 
-        /**
-        * 请求完成时触发。
-        * 不管请求完成后是成功、失败、错误，都会触发，会最先触发此类事件。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        done: function (fn) {
-            this.on('done', fn);
-            return this;
-        },
-
-        /**
-        * 请求成功时触发。
-        * 成功是指网络请求成功，且后台业务返回的数据包中的 code == successCode 的情形。
-        * @param {function} fn 回调函数。
-        */
-        success: function (fn) {
-            this.on('success', fn);
-            return this;
-        },
-
-        /**
-        * 请求失败时触发。
-        * 失败是指网络请求成功，但后台业务返回的数据包中的 code != successCode 的情形。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        fail: function (fn) {
-            this.on('fail', fn);
-            return this;
-        },
-
-        code: function (code, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['code'].concat(args));
-        },
 
         /**
         * 绑定事件。
@@ -3293,7 +3253,6 @@ define('CloudHome', function (require, module, exports) {
     var Native = require(module, 'Native');
 
 
-
     module.exports = exports = /**@lends CloudHome*/ {
 
         invoke: Native.invoke,
@@ -3303,13 +3262,79 @@ define('CloudHome', function (require, module, exports) {
         * 判断是否在云之家打开的。
         */
         check: function () {
-            return Url.hasQueryString(window, 'ticket'); 
+            return !!Url.hasQueryString(window, 'ticket');  //确保返回一个 bool 值。
         },
 
+        /**
+        * 关闭云之家打开的轻应用。
+        */
         close: function () {
             Native.invoke('close');
         },
 
+
+        /**
+        * 分享到微信。
+        * @param {Object} config 参数配置对象。 其中：
+        * @param {string} title 标题。
+        * @param {string} content 内容。
+        * @param {string} icon 图标，base64格式。
+        * @param {string} url 链接地址。
+        * @param {function} success 分享成功后的回调函数。
+        * @param {function} fail 分享失败后的回调函数。
+        */
+        shareWechat: function (config) {
+
+            var API = require('CloudHome.API');
+            var api = new API('socialShare');
+
+            var success = config.success;
+            if (success) {
+                api.on('success', success);
+            }
+
+            var fail = config.fail;
+            if (fail) {
+                api.on('fail', fail);
+            }
+
+
+            api.invoke({
+                'shareWay': 'wechat',
+                'shareType': 3,
+                'shareContent': {
+                    'title': config.title,
+                    'description': config.content,
+                    'thumbData': config.icon,
+                    'webpageUrl': config.url,
+                },
+            });
+        },
+
+        /**
+        * 设置页面标题。
+        * @param {string|boolean} title 要设置的标题或者显示或隐藏的开关。
+            如果不指定或指定为 true，则显示之前的标题。
+            如果指定为 false，则隐藏标题。
+            如果指定为字符串，则设置为指定的内容。
+        */
+        setTitle: function (title) {
+
+            var Title = require('CloudHome.Title');
+
+            if (title === true) {
+                Title.show();
+            }
+            else if (title === false) {
+                Title.hide();
+            }
+            else if (title) {
+                Title.set(title);
+            }
+            else {
+                Title.show(); //显示之前的标题
+            }
+        },
 
 
 
@@ -3330,11 +3355,8 @@ define('CloudHome.Title', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
 
-
-
     var current = document.title;
-    //var iframeHTML = '<iframe src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="></iframe>';
-
+    var isVisible = false;
 
     module.exports = exports = /**@lends CloudHome.Title*/ {
 
@@ -3347,31 +3369,11 @@ define('CloudHome.Title', function (require, module, exports) {
             current = title;
 
             var CloudHome = require('CloudHome');
-
             CloudHome.invoke('setWebViewTitle', {
                 'title': title
             });
 
-            //// hack 在微信等 webview 中无法修改 document.title 的情况
-            //try {
-            //    document.title = title;
-                
-            //    var body = $('body');
-
-            //    var iframe = $(iframeHTML).on('load', function () {
-
-            //        setTimeout(function () {
-            //            iframe.off('load').remove();
-            //        }, 0);
-
-            //    }).appendTo(body);
-
-            //}
-            //catch (ex) {
-
-            //}
-
-            
+            isVisible = true;
         },
 
         /**
@@ -3388,13 +3390,14 @@ define('CloudHome.Title', function (require, module, exports) {
             current = document.title;
             var CloudHome = require('CloudHome');
             CloudHome.invoke('hideWebViewTitle');
+            isVisible = false;
         },
 
         /**
         * 切换显示或隐藏页面标题。
         */
-        toggle: function (sw) {
-            if (sw) {
+        toggle: function (needShow) {
+            if (needShow) {
                 exports.show();
             }
             else {
@@ -3403,6 +3406,218 @@ define('CloudHome.Title', function (require, module, exports) {
         },
 
     };
+
+});
+
+
+
+define('ImageReader/Renderer', function (require, module, exports) {
+
+    var $ = require('$');
+
+
+
+
+    //针对 PC 浏览端的
+    function renderPC(meta) {
+
+        var emitter = meta.emitter;
+        var loading = meta.loading;
+
+        if (loading === true) {
+            loading = KISP.create('Loading', {
+                text: '读取中...',
+            });
+        }
+        else if (typeof loading == 'string') {
+            loading = KISP.create('Loading', {
+                text: loading,
+            });
+        }
+
+
+        $(meta.input).on('change', function (event) {
+
+            var input = this; //这样是安全的，因为外面传进来的可能是一个 jQuery 选择器。
+            var img = input.files[0];
+
+            if (!img) { //第一次选择了，但第二次未选择时，为空
+                emitter.fire('cancel');
+                return;
+            }
+
+
+            var type = img.type;
+            if (type.indexOf('image/') != 0) {
+                emitter.fire('fail', [type]);
+                return;
+            }
+
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                loading && loading.hide();
+
+                var data = e.target.result;
+                emitter.fire('success', [data]);
+            };
+
+            loading && loading.show();
+
+            reader.readAsDataURL(img);
+
+        });
+    }
+
+
+
+
+
+
+    //针对云之家内嵌浏览器端的
+    function renderCH(meta) {
+
+        var emitter = meta.emitter;
+
+        $(meta.input).on('click', function (event) {
+
+            event.preventDefault();
+
+            var API = require('CloudHome.API');
+            var api = new API('selectPic');
+
+            api.on('success', function (data, json) {
+
+                var ext;
+                var base64;
+
+                try {
+                    ext = data.fileExt;
+                    base64 = data.fileData.replace(/[\r\n]/g, '');
+                }
+                catch (ex) {
+                    emitter.fire('fail', ['无法读取图片，云之家接口有问题: ' + ex.message]);
+                    return;
+                }
+
+
+                var image = 'data:image/' + ext + ';base64,' + base64;
+                emitter.fire('success', [image]);
+
+            });
+
+
+            api.on('fail', function (code, msg, json) {
+
+                if (code == 1) { //取消选择照片
+                    emitter.fire('cancel');
+                    return;
+                }
+
+                emitter.fire('fail', [msg]);
+            });
+
+
+            api.invoke();
+
+        });
+      
+    }
+
+
+    //是否为云之家环境，只需要判断一次
+    var isCloudHome;
+
+
+    return {
+
+        render: function (meta) {
+
+            if (isCloudHome === undefined) { //未判断
+                var CloudHome = require('CloudHome');
+                isCloudHome = CloudHome.check();
+            }
+
+            if (isCloudHome) {
+                renderCH(meta);
+            }
+            else {
+                renderPC(meta);
+            }
+        },
+    };
+
+});
+
+/**
+* 本地图片读取器。
+* 兼容浏览器端和云之家端。
+* @class
+* @name ImageReader
+*/
+define('ImageReader', function (require, module, exports) {
+
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+    var Emitter = MiniQuery.require('Emitter');//事件驱动器
+    var Mapper = MiniQuery.require('Mapper');
+
+    var mapper = new Mapper();
+    var Renderer = require(module, 'Renderer');
+
+
+    function ImageReader(input, config) {
+
+        Mapper.setGuid(this);
+
+        var emitter = new Emitter();
+
+        var meta = {
+            'emitter': emitter,
+            'input': input,
+            'loading': config.loading,
+        };
+
+        mapper.set(this, meta);
+
+    }
+
+
+
+    ImageReader.prototype = /**@lends ImageReader*/{
+        constructor: ImageReader,
+
+        /**
+        * 渲染。
+        */
+        render: function () {
+
+            var meta = mapper.get(this);
+            Renderer.render(meta);
+        },
+
+        /**
+        * 绑定事件。
+        * 已重载 on({...}，因此支持批量绑定。
+        * @param {string} name 事件名称。
+        * @param {function} fn 回调函数。
+        */
+        on: function (name, fn) {
+
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+
+            var args = [].slice.call(arguments, 0);
+            emitter.on.apply(emitter, args);
+        },
+
+    };
+
+
+
+    return ImageReader;
 
 });
 
@@ -3843,6 +4058,7 @@ define('WeChat', function (require, module, exports) {
 define('Alert', function (require, module, exports) {
 
     var $ = require('$');
+    var Config = require('Config');
 
 
     //根据文本来计算高度，大概值，并不要求很准确
@@ -3866,6 +4082,8 @@ define('Alert', function (require, module, exports) {
     * 创建一个 alert 对话框。
     */
     function create(text, text1, textN, fn) {
+
+        config = Config.clone(module.id);
 
         //重载 alert(obj); 以方便程序员调试查看 json 对象。
         if (typeof text == 'object') {
@@ -3900,15 +4118,19 @@ define('Alert', function (require, module, exports) {
         var Dialog = require('Dialog');
 
         var dialog = new Dialog({
-            'text': text,
-            'buttons': [{ text: '确定', fn: fn, }],
-            'volatile': false,
-            'mask': true,
-            'autoClosed': true,
-            'width': '80%',
-            'z-index': 99999,
             'cssClass': 'Alert',
-            'height': getHeight(text),
+            'text': text,
+            'buttons': [{
+                text: config.button,
+                fn: fn,
+            }],
+
+            'volatile': config.volatile,
+            'mask': config.mask,
+            'autoClosed': config.autoClosed,
+            'width': config.width,
+            'z-index': config['z-index'],
+            'height': config.height ? config.height : getHeight(text),
         });
 
         return dialog;
@@ -3994,13 +4216,13 @@ define('Dialog', function (require, module, exports) {
             'emitter': emitter,
             'mask': config.mask,
             'masker': null,                     // Mask 的实例，重复使用
-            'layer': null,                    //用来防止点透用的透明层，
+            'layer': null,                      //用来防止点透用的透明层，
             'cssClass': cssClass,
             'style': Style.get(config),
             'autoClosed': config.autoClosed,    //点击任何一个按钮后是否自动关闭组件
             'visible': false,                   //记录当前组件是否已显示
             'volatile': config.volatile,
-            'zIndex': config['z-index'],    //生成透明层时要用到
+            'zIndex': config['z-index'],        //生成透明层时要用到
 
         };
 
@@ -4027,12 +4249,18 @@ define('Dialog', function (require, module, exports) {
             $(meta.div).css(p);
         });
 
+        
     }
 
 
     //实例方法
     Dialog.prototype = /**@lends Dialog#*/ {
         constructor: Dialog,
+
+        /**
+        * $(container) 的快捷方式。
+        */
+        $: null,
 
         /**
         * 显示本组件。
@@ -4178,7 +4406,7 @@ define('Dialog', function (require, module, exports) {
 
             this.remove();
             emitter.destroy();
-            scroller.destroy();
+            scroller && scroller.destroy(); //在 PC 端为 null
 
             mapper.remove(this);
         },
@@ -4359,6 +4587,10 @@ define('Dialog/Renderer', function (require, module, exports) {
         
 
         var div = document.getElementById(id);
+
+        //暴露一个 jQuery 对象给外面使用。 但为了安全起见，内部不使用这个对象。
+        dialog.$ = $(div);
+
         return div;
 
     }
@@ -4439,6 +4671,7 @@ define('Dialog/Style', function (require, module, exports) {
             'height',
             'width',
             'z-index',
+            'position',
         ]);
 
         var width = style.width;
@@ -4537,11 +4770,11 @@ define('Loading', function (require, module, exports) {
         });
 
         var container = meta.container;
-        if (meta.prepend) {
-            $(container).prepend(html);
+        if (meta.append) {
+            $(container).append(html);
         }
         else {
-            $(container).append(html);
+            $(container).prepend(html);
         }
 
         var div = document.getElementById(id);
@@ -4976,6 +5209,7 @@ define('Loading/Style', function (require, module, exports) {
             'top',
             'width',
             'z-index',
+            'position',
         ]);
 
         ////优先使用 bottom 而非 top
@@ -5062,6 +5296,7 @@ define('Mask', function (require, module, exports) {
             'showTime': 0, //开始显示时的时间点
             'container': config.container,
             'duration': config.duration,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -5091,7 +5326,17 @@ define('Mask', function (require, module, exports) {
                 'id': id,
             });
 
-            $(meta.container).prepend(html);
+
+            var container = meta.container;
+            if (meta.append) {
+                $(container).append(html);
+            }
+            else {
+                $(container).prepend(html);
+
+            }
+
+
             div = meta.div = document.getElementById(id);
 
             var style = Style.get(meta.style);
@@ -5353,6 +5598,7 @@ define('Mask/Style', function (require, module, exports) {
             'bottom',
             'background',
             'z-index',
+            'position',
         ]);
 
 
@@ -5386,40 +5632,12 @@ define('Toast', function (require, module, exports) {
     var RandomId = require('RandomId');
 
     //子模块
+    var Renderer = require(module, 'Renderer');
     var Sample = require(module, 'Sample');
     var Style = require(module, 'Style');
 
     var mapper = new Mapper();
 
-
-
-    function render(style) {
-
-        var meta = mapper.get(this);
-
-        var id = meta.id;
-        var sample = meta.sample;
-
-        var Style = require('Style');
-
-        var html = $.String.format(sample, {
-            'id': id,
-            'icon': meta.icon,
-            'icon-id': meta.iconId,
-            'text-id': meta.textId,
-            'text': meta.text,
-            'style': Style.stringify(style),
-            'cssClass': meta.cssClass,
-        });
-
-        $(document.body).prepend(html);
-
-        var div = document.getElementById(id);
-        meta.div = div;
-
-        return div;
-
-    }
 
 
     /**
@@ -5470,6 +5688,8 @@ define('Toast', function (require, module, exports) {
             'showTime': 0, //开始显示时的时间点
             'cssClass': cssClass,
             'duration': config.duration,
+            'container': config.container,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -5502,7 +5722,7 @@ define('Toast', function (require, module, exports) {
             var style = Style.get(meta.style, config);
 
             if (!div) { //首次 render
-                div = render.call(this, style);
+                div = Renderer.render(meta, style);
             }
 
 
@@ -5687,6 +5907,59 @@ define('Toast/Sample/font-awesome', [
 /**
 *
 */
+define('Toast/Renderer', function (require, module, exports) {
+
+    var $ = require('$');
+
+
+    function render(meta, style) {
+
+        var Style = require('Style');
+
+
+        var id = meta.id;
+        var sample = meta.sample;
+
+
+        var html = $.String.format(sample, {
+            'id': id,
+            'icon': meta.icon,
+            'icon-id': meta.iconId,
+            'text-id': meta.textId,
+            'text': meta.text,
+            'style': Style.stringify(style),
+            'cssClass': meta.cssClass,
+        });
+
+
+        var container = meta.container;
+        if (meta.append) {
+            $(container).append(html);
+        }
+        else {
+            $(container).prepend(html);
+        }
+
+
+        var div = document.getElementById(id);
+        meta.div = div;
+
+        return div;
+
+    }
+
+    return {
+
+        render: render,
+    };
+
+});
+
+
+
+/**
+*
+*/
 define('Toast/Sample', function (require, module, exports) {
     
     var name$sample = {};
@@ -5756,10 +6029,11 @@ define('Toast/Style', function (require, module, exports) {
             'top',
             'width',
             'z-index',
+            'position',
         ]);
 
 
-        //���ݿ��ȼ��� margin-left �� margin-top��ʹ�þ���
+        //根据宽度计算 margin-left 和 margin-top，使用居中
 
         var v = getMargin(style.width);
         if (v) {
@@ -5831,32 +6105,21 @@ define('Navigator', function (require, module,  exports) {
         if (hash) { //指定了使用 hash，则监听 hash 的变化
             var self = this;
             var Url = MiniQuery.require('Url');
+
             Url.hashchange(window, function (hash, oldHash) {
+
                 emitter.fire('hash-change', [hash, oldHash]);
+
                 var quiet = meta.quiet;
-                if (quiet) { //说明是 to() 方法中引起的 hash 变化，忽略。
+                if (quiet) { //说明是 to() 方法中引起的 hash 变化或刻意不想引起，忽略。
                     meta.quiet = false;
                     return;
                 }
+
                 self.back();
             });
         }
 
-        //预绑定事件
-        var events = $.Object.filter(config, [
-            'back',
-            'change',
-            'before-change',
-            'hash-change'
-        ]);
-
-        this.on(events);
-
-        //跳到指定状态
-        var current = config.current;
-        if (current) {
-            this.to(current);
-        }
         
 
     }
@@ -5921,34 +6184,116 @@ define('Navigator', function (require, module,  exports) {
 
         /**
         * 后退。
+        * @param {Number} count 要后退的步数。 
+            默认为 1，如果要一次性后退 n 步，请指定一个大于 0 的整型。
         */
-        back: function () {
+        back: function (count) {
 
-            var meta = mapper.get(this);
-            var emitter = meta.emitter;
-            var statcks = meta.statcks;
+            count = count || 1;
 
-            var lastIndex = statcks.length - 1;
-            if (lastIndex == 0) {
-                return;
+            if (count < 0) {
+                throw new Error('要后退的步数必须大于 0');
             }
 
-            var current = statcks.pop();
-            var target = statcks[lastIndex - 1];
+            var meta = mapper.get(this);
+            var statcks = meta.statcks;
+           
+            var currentIndex = statcks.length - 1;      //当前视图在最后一项
+            var targetIndex = currentIndex - count;     //目标视图索引
+
+            if (targetIndex < 0 ) {
+                return; //直接忽略，不抛出异常。 因为实际场景中，用户可能会一直后退。
+            }
+
+
+            var current = statcks[currentIndex];
+            var target = statcks[targetIndex];
+
+            statcks.splice(targetIndex + 1); //删除目标视图后面的
+
+            var emitter = meta.emitter;
             emitter.fire('back', [current, target]);
             emitter.fire('change', [current, target]);
 
 
         },
 
+
         /**
-        * 获取当前视图的名称。 
+        * 从左边指定的位置开始移除指定数目的项。
+        * @param {number} beginIndex 要进行移除的开始索引值，必须大于等于 0。
+        * @param {number} [count=1] 要移除的个数。 如果不指定则默认为 1 个。
+            注意: 当前视图 (堆栈最后一项) 是不能给移除的。
         */
-        current: function () {
+        remove: function (beginIndex, count) {
+
+            if (beginIndex < 0) {
+                throw new Error('要移除的开始索引值必须大于或等于 0');
+            }
+
+            count = count || 1;
+
+            if (count < 0) {
+                throw new Error('要移除的个数必须大于 0');
+            }
+
+
             var meta = mapper.get(this);
             var statcks = meta.statcks;
-            return statcks.slice(-1)[0]; //取得最后一个
+
+            var currentIndex = statcks.length - 1;
+            var endIndex = beginIndex + count; 
+
+            //要移除的范围为 [beginIndex, endIndex)，endIndex 不在移除的范围之内。
+            if (endIndex > currentIndex) {
+                throw new Error('要移除的结束索引不能包括当前索引: ' + currentIndex);
+            }
+
+
+            statcks.splice(beginIndex, count);
+
         },
+
+        /**
+        * 从右边指定的位置开始移除指定数目的项。
+        * 已重载 removeLast(count)，此时相当于 removeLast(1, count)。
+        * @param {number} beginIndex 要进行移除的开始索引值，必须大于 0。
+            注意: 当前视图 (堆栈最后一项) 是不能给移除的，所以 beginIndex 必须从 1 开始
+        * @param {number} [count=1] 要移除的个数。 如果不指定则默认为 1 个。
+        */
+        removeLast: function (beginIndex, count) {
+
+            if (arguments.length == 1) { //重载 removeLast(count)
+                count = beginIndex;
+                beginIndex = 1;
+            }
+            else if (beginIndex < 1) {
+                throw new Error('要移除的开始索引值必须大于等于 1');
+            }
+
+            if (count < 0) {
+                throw new Error('要移除的个数必须大于 0');
+            }
+
+
+            var meta = mapper.get(this);
+            var statcks = meta.statcks;
+
+            statcks.reverse(); //先反转
+            statcks.splice(beginIndex, count);
+
+            meta.statcks = statcks.reverse(); //再反转回去
+
+        },
+
+        /**
+        * 获取视图的总个数
+        */
+        count: function () {
+            var meta = mapper.get(this);
+            return meta.statcks.length;
+        },
+
 
 
     };
@@ -6021,7 +6366,7 @@ define('NoData', function (require, module, exports) {
             'text': config.text,
             'emitter': new Emitter(this),
             'container': config.container,
-            'prepend': config.prepend,
+            'append': config.append,
 
             'id': RandomId.get(prefix, suffix),
             'textId': RandomId.get(prefix, 'text-', suffix),
@@ -6076,6 +6421,12 @@ define('NoData', function (require, module, exports) {
         },
 
         toggle: function (needShow) {
+
+            //重载 toggle( [] )，方便直接传入一个数据列表数组
+            if (needShow instanceof Array) {
+                needShow = needShow.length == 0;
+            }
+
             var meta = mapper.get(this);
             var visible = meta.visible;
 
@@ -6171,12 +6522,15 @@ define('NoData/Renderer', function (require, module, exports) {
         });
 
         var container = meta.container;
-        if (meta.prepend) {
-            $(container).prepend(html);
-        }
-        else {
+
+        if (meta.append) {
             $(container).append(html);
         }
+        else {
+            $(container).prepend(html);
+
+        }
+
 
         var div = document.getElementById(id);
         meta.div = div;
@@ -6228,6 +6582,537 @@ define('NoData/Sample', [
 /**
 */
 define('NoData/Style', function (require, module, exports) {
+    var $ = require('$');
+    var Style = require('Style');
+    
+
+
+
+
+    function get(item0, item1, itemN) {
+
+        var list = [].slice.call(arguments);
+
+        var style = Style.filter(list, [
+            'background',
+            'bottom',
+            'color',
+            'font-size',
+            'top',
+            'z-index',
+        ]);
+
+
+        return style;
+
+    }
+
+
+    return {
+        get: get,
+    };
+
+
+});
+
+
+
+/**
+* 虚拟的数字鱼键盘。
+* @class
+* @name NumberPad
+*/
+define('NumberPad', function (require, module, exports) {
+
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+
+    var Mapper = MiniQuery.require('Mapper');
+    var Emitter = MiniQuery.require('Emitter');
+
+    var Config = require('Config');
+
+    var Renderer = require(module, 'Renderer');
+    var Sample = require(module, 'Sample');
+    var Style = require(module, 'Style');
+
+    var mapper = new Mapper();
+
+
+
+    /**
+    * 构造器。
+    * @constructor
+    */
+    function NumberPad(config) {
+
+
+        Mapper.setGuid(this);
+        config = Config.clone(module.id, config);
+
+
+        var cssClass = config.cssClass;
+        if (cssClass instanceof Array) {
+            cssClass = cssClass.join(' ');
+        }
+
+
+        var meta = {
+
+            'emitter': new Emitter(this),
+            'container': config.container,
+            'append': config.append,
+            
+            'prefix': config.prefix,
+            'suffix': config.suffix,
+
+            'cssClass': cssClass,
+            'sample': Sample,
+            'style': Style.get(config),
+
+            'visible': false,       //组件当前是否可见
+
+            'headerId': '',         //第一个 ul 的 DOM 元素 id
+            'textId': '',           //文字所对应的 DOM 元素 id
+            'valueId': '',          //输入的数字所对应的 DOM 元素 id
+            'footerId': '',         //最后一个 ul 的 DOM 元素 id
+
+            'value': config.value,  //当前输入的值
+            'oldValue': '',         //发生改变后，用来存放之前的值。
+
+            'int': config.int,
+            'decimal': config.decimal,
+            'mask': config.mask,
+            'masker': null,     //Mask实例
+            'volatile': config.volatile,
+
+            'text': config.text,
+            'height': 0, //会动态计算
+            'speed': config.speed,  //动画速度
+        };
+
+        mapper.set(this, meta);
+
+    }
+
+
+    //实例方法
+    NumberPad.prototype = /**@lends NumberPad#*/ {
+        constructor: NumberPad,
+
+        /**
+        * 显示本组件。
+        */
+        show: function () {
+
+            var meta = mapper.get(this);
+            if (meta.visible) {
+                return;
+            }
+
+
+            var div = meta.div;
+            if (!div) { //首次 render
+                div = Renderer.render(meta, this);
+            }
+           
+            var masker = meta.masker;
+            if (masker) {
+                masker.show();
+            }
+
+
+            $(div).show().animate({
+                'bottom': 0,
+
+            }, meta.speed, function () {
+               
+                meta.visible = true;
+                meta.emitter.fire('show');
+            });
+
+        },
+
+        /**
+        * 隐藏本组件。
+        */
+        hide: function () {
+            
+            var meta = mapper.get(this);
+            var div = meta.div;
+
+            if (!div || !meta.visible) {
+                return;
+            }
+          
+            var masker = meta.masker;
+            if (masker) {
+                masker.hide();
+            }
+            
+            $(div).animate({
+                'bottom': -meta.height,
+
+            }, meta.speed, function () {
+
+                $(div).hide(); //隐藏一下，避免在手机端给输入法顶上去。
+
+                meta.visible = false;
+                meta.emitter.fire('hide');
+            });
+
+        },
+
+        /**
+        * 绑定事件。
+        */
+        on: function (name, fn) {
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+
+            var args = [].slice.call(arguments, 0);
+            emitter.on.apply(emitter, args);
+        },
+
+        /**
+        * 销毁本组件
+        */
+        destroy: function () {
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+
+            this.remove();
+            emitter.destroy();
+
+            mapper.remove(this);
+        },
+
+        /**
+        * 获取或设置当前输入的值。
+        * @param {string} [value] 如果指定此参数，则设置当前控件的输入值为指定的值。
+        * @return {string} 如果是获取操作，则返回当前控件的值。
+        */
+        value: function (value) {
+            var meta = mapper.get(this);
+
+            //重载 getValue()
+            if (arguments.length == 0) {
+                return meta.value;
+            }
+
+            //重载 setValue(value)
+            value = String(value);
+            var v = Number(value);
+
+            if (isNaN(v)) {
+                throw new Error('要设置的值必须为合法的数值');
+            }
+
+            var a = value.split('.');
+            var int = a[0];
+            var decimal = a[1] || '';
+
+            //截取长度
+            int = int.slice(0, meta.int);
+            decimal = decimal.slice(0, meta.decimal);
+            
+            value = int;
+
+            if (decimal) {
+                value = value + '.' + decimal;
+            }
+
+            meta.value = value;
+            $('#' + meta.valueId).html(value);
+        },
+
+        /**
+        * 设置指定的属性。
+        * @param {string} key 要设置的属性的名称。 可取的值有:
+            'value': 相当于 this.value(value)。
+            'text': 设置显示的提示文本。
+            'int': 设置整数部分允许的长度，会导致值重新设置。
+            'decimal': 设置小数部分允许的长度，会导致值重新设置。
+        * @param {string|number} 要设置的值。
+        */
+        set: function (key, value) {
+            
+            var meta = mapper.get(this);
+
+            if (value == meta[key]) { //没有发生变化
+                return;
+            }
+
+            switch (key) {
+
+                case 'value':
+                    this.value(value);
+                    return;
+
+                case 'text':
+                    meta.text = value;
+                    $('#' + meta.textId).html(value);
+                    $('#' + meta.headerId).toggleClass('has-text', !!value);
+                    return;
+
+                case 'decimal':
+                    meta.decimal = value;
+                    $('#' + meta.footerId).toggleClass('no-point', value == 0);
+                    this.value(meta.value); //长度发生了变化，需要重新设置值
+                    return;
+
+                case 'int':
+                    meta.int = value;
+                    this.value(meta.value); //长度发生了变化，需要重新设置值
+                    return;
+
+                default:
+                    throw new Error('不支持参数 key: ' + key);
+
+            }
+        },
+
+    };
+
+    return NumberPad;
+
+});
+
+
+
+/**
+*
+*/
+define('NumberPad/Renderer', function (require, module, exports) {
+
+
+    var $ = require('jquery-plugin/touch');
+    var Style = require('Style');
+    var RandomId = require('RandomId');
+
+
+    function render(meta, self) {
+
+        var sample = meta.sample;
+        var prefix = meta.prefix;
+        var suffix = meta.suffix;
+
+        var id = RandomId.get(prefix, suffix);
+        var textId = RandomId.get('text-', suffix);
+        var valueId = RandomId.get('value-', suffix);
+        var headerId = RandomId.get('ul-header-', suffix);
+        var footerId = RandomId.get('ul-footer-', suffix);
+
+        var text = meta.text;
+
+
+        var html = $.String.format(sample, {
+            'id': id,
+
+            'header-id': headerId,
+            'text-id': textId,
+            'value-id': valueId,
+            'footer-id': footerId,
+
+            'style': Style.stringify(meta.style),
+            'cssClass': meta.cssClass,
+
+            'text': text,
+            'has-text': text ? 'has-text' : '',
+            'no-point': meta.decimal > 0 ? '' : 'no-point',
+            'value': meta.value,
+        });
+
+        var container = meta.container;
+
+        if (meta.append) {
+            $(container).append(html);
+        }
+        else {
+            $(container).prepend(html);
+
+        }
+
+        var div = document.getElementById(id);
+
+
+        $.Object.extend(meta, {
+            'div': div,
+            'textId': textId,
+            'valueId': valueId,
+            'headerId': headerId,
+            'footerId': footerId,
+        });
+
+
+        var $div = $(div);
+        var height = $div.height();
+        meta.height = height;
+
+        $div.css('bottom', -height);
+
+
+        var Mask = require('Mask');
+        var mask = Mask.filter(meta.mask);
+        
+        if (mask) { //指定了启用 mask 层
+            meta.masker = new Mask(mask);
+        }
+       
+
+        bindEvents(meta, self);
+        
+
+        return div;
+
+    }
+
+
+
+
+
+    function bindEvents(meta, self) {
+
+        var div = meta.div;
+        var emitter = meta.emitter;
+
+        var txt = document.getElementById(meta.valueId);
+
+
+        if (meta.volatile) {
+            meta.masker.on('click', function () {
+                self.hide();
+            });
+        }
+
+        function set(value) {
+
+            meta.oldValue = meta.value;
+            meta.value = txt.innerHTML = value;
+        }
+
+
+
+        $(div).touch({
+
+            '[data-cmd="done"]': function () {
+                emitter.fire('done', [meta.value]);
+                self.hide(); //最后才隐藏比较合理。 因为用户可能在隐藏事件里做些清除操作
+            },
+
+
+            '[data-cmd="back"]': function () {
+
+                var value = meta.value;
+                value = value.slice(0, -1);
+
+                set(value);
+                emitter.fire('back', [meta.value, meta.oldValue]);
+            },
+
+
+            '[data-key]': function () {
+
+                var span = this;
+                var key = span.getAttribute('data-key');
+                var value = meta.value;
+
+                emitter.fire('key', key, [meta.value]);
+                emitter.fire('key', [key, meta.value]);
+
+
+                var hasPoint = value.indexOf('.') >= 0;
+
+                if (key == '.') {
+                    if (hasPoint) {
+                        return;
+                    }
+
+                    if (!value) {
+                        value = '0';
+                    }
+                }
+
+
+                value = value + key;
+
+                var parts = value.split('.');
+
+                if (parts[0].length > meta.int) { //整数位超过长度限制
+                    emitter.fire('overflow', 'int', [meta.value]);
+                    emitter.fire('overflow', [meta.value]);
+                    return;
+                }
+
+
+                if (hasPoint && parts[1].length > meta.decimal) { //小数位超过长度限制
+                    emitter.fire('overflow', 'decimal', [meta.value]);
+                    emitter.fire('overflow', [meta.value]);
+                    return;
+                }
+
+
+                set(value);
+
+
+            },
+
+        }, 'pressed');
+    }
+
+
+
+    return {
+
+        render: render,
+    };
+
+});
+
+
+/*
+* NumberPad/Sample
+* 由 grunt 生成，来源: ui/NumberPad/Sample.html
+*/
+define('NumberPad/Sample', [
+    '',
+    '<div id="{id}" class="KISP NumberPad {cssClass}" style="{style}">',
+    '    <ul id="{header-id}" class="header {has-text}">',
+    '        <li id="{text-id}" class="text">{text}</li>',
+    '        <li id="{value-id}" class="value">{value}</li>',
+    '        <li class="ok">',
+    '            <span data-cmd="done">完成</span>',
+    '        </li>',
+    '    </ul>',
+    '    <div class="main">',
+    '        <ul>',
+    '            <li><span data-key="1">1</span></li>',
+    '            <li><span data-key="2">2</span></li>',
+    '            <li><span data-key="3">3</span></li>',
+    '        </ul>',
+    '        <ul>',
+    '            <li><span data-key="4">4</span></li>',
+    '            <li><span data-key="5">5</span></li>',
+    '            <li><span data-key="6">6</span></li>',
+    '        </ul>',
+    '        <ul>',
+    '            <li><span data-key="7">7</span></li>',
+    '            <li><span data-key="8">8</span></li>',
+    '            <li><span data-key="9">9</span></li>',
+    '        </ul>',
+    '        <ul id="{footer-id}" class="special {no-point}">',
+    '            <li class="key-point"><span data-key=".">.</span></li>',
+    '            <li><span data-key="0" class="zero">0</span></li>',
+    '            <li><span data-cmd="back" class="icon-back"></span></li>',
+    '        </ul>',
+    '    </div>',
+    '</div>',
+].join('\n'));
+
+
+/**
+*/
+define('NumberPad/Style', function (require, module, exports) {
     var $ = require('$');
     var Style = require('Style');
     
@@ -6416,7 +7301,6 @@ define('Panel', function (require, module, exports) {
             $(container).addClass(cssClass);
 
             emitter.fire('render', args);
-
             meta.rendered = true;
 
             if (meta.showAfterRender) {
@@ -6434,6 +7318,17 @@ define('Panel', function (require, module, exports) {
             var emitter = meta.emitter;
             var args = [].slice.call(arguments);
             emitter.fire('refresh', args);
+
+        },
+
+        /**
+        * 重置，会触发 reset 事件。
+        */
+        reset: function () {
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+            var args = [].slice.call(arguments);
+            emitter.fire('reset', args);
 
         },
 
@@ -6680,6 +7575,13 @@ define('Scroller', function (require, module,  exports) {
     */
     function Scroller(el, config) {
 
+        //重载 Scroller(config)
+        if ($.Object.isPlain(el)) {
+            config = el;
+            el = config.el;
+        }
+
+
         Mapper.setGuid(this);
 
         config = Config.clone(module.id, config);
@@ -6719,12 +7621,13 @@ define('Scroller', function (require, module,  exports) {
         var meta = {
             'emitter': emitter,
             'scroller': scroller,
+            'enabled': config.enabled,
             'indicators': indicators,
             'pulldown': {},
             'pullup': {},
             'hasBindPull': false, //是否已绑定 pull 中要用到的事件
             'el': el,
-            'resize': null, //针对 $(el).on('resize', meta.resize)
+
         };
 
         mapper.set(this, meta);
@@ -6786,24 +7689,11 @@ define('Scroller', function (require, module,  exports) {
             }, 100);
         });
 
-        if (config.autoRefresh) { 
-            var self = this;
-            var resize = meta.resize = function () {
-                var meta = mapper.get(self);
 
-                if (!meta) { //不存在，说明已经调用了 destroy()
-                    return;
-                }
 
-                self.refresh();
-            };
-
-            //需要 jQuery 插件，详情: https://github.com/cowboy/jquery-resize
-            $(el).on('resize', resize);
-            
+        if (!config.enabled) {
+            this.disable();
         }
-
-
     }
 
 
@@ -6952,16 +7842,63 @@ define('Scroller', function (require, module,  exports) {
         },
 
         /**
+        * 启用本组件。
+        */
+        enable: function () {
+            var meta = mapper.get(this);
+            meta.enabled = true;
+
+            var scroller = meta.scroller;
+            scroller.enable();
+        },
+
+        /**
+        * 禁用本组件。
+        */
+        disable: function () {
+            var meta = mapper.get(this);
+            meta.enabled = false;
+
+            var scroller = meta.scroller;
+            scroller.disable();
+        },
+
+        /**
+        * 切换启用或禁用。
+        * @param {boolean} [needEnabled] 显示指定是否启用。 
+            如果不指定则根据组件的当前状态进行切换。
+        */
+        toggleEnable: function (needEnabled) {
+            var meta = mapper.get(this);
+            var enabled = meta.enabled;
+
+            if (arguments.length == 0) { //重载 toggleEnable()
+
+                if (enabled) {
+                    this.disable();
+                }
+                else {
+                    this.enable();
+                }
+
+            }
+            else { //toggleEnable(needEnabled)
+
+                if (enabled && !needEnabled) {
+                    this.disable();
+                }
+                else if (!enabled && needEnabled) {
+                    this.enable();
+                }
+            }
+        },
+
+
+        /**
         * 销毁本实例对象。
         */
         destroy: function () {
             var meta = mapper.get(this);
-
-            //移除之前绑定的 resize 事件
-            var resize = meta.resize;
-            if (resize) {
-                $(meta.el).off('resize', resize);
-            }
 
             var scroller = meta.scroller;
             scroller.destroy();
@@ -6991,27 +7928,14 @@ define('Scroller', function (require, module,  exports) {
         * @param arg0 要传递的第一个参数。
         * @param arg1 要传递的第二个参数。
         */
-        call: function (name, arg0, arg1) {
+        invoke: function (name, arg0, arg1) {
 
             var meta = mapper.get(this);
             var scroller = meta.scroller;
-
             var args = [].slice.call(arguments, 1);
+
             return scroller[name].apply(scroller, args);
         },
-
-        /**
-        * 调用原生 scroller 实例的方法(apply 方式)。
-        * @param {string} name 要调用的方法名称。
-        * @param {Array} args 要传递的参数数组。
-        */
-        apply: function (name, args) {
-            var meta = mapper.get(this);
-            var scroller = meta.scroller;
-            return scroller[name].apply(scroller, args);
-        },
-
-
 
 
     };
@@ -7153,8 +8077,12 @@ define('Tabs', function (require, module, exports) {
 
         /**
         * 激活指定的项。
+        * @param {number} index 要激活的项的索引值。
+        * @param {boolean} [quiet=false] 是否使用安静模式。 
+            当指定为 true 时，则不会触发事件，这在某种场景下会用到。
+            否则会触发事件(默认情况)。
         */
-        active: function (index) {
+        active: function (index, quiet) {
 
             var meta = mapper.get(this);
             var list = meta.list;
@@ -7203,10 +8131,15 @@ define('Tabs', function (require, module, exports) {
             var old = meta.old;
             meta.old = current;
 
+
+            if (quiet) { //显式指定了使用安静模式，则不触发事件。
+                return;
+            }
+
+
             var args = [item, index, current, old];
 
             emitter.fire('before-change', args);
-
             emitter.fire('change', index, args);
 
             //触发指定的事件名
@@ -7812,7 +8745,23 @@ define('jquery-plugin/touch', function (require, module,  exports) {
 
     function touch(selector, fn, cssClass) {
 
-        var isMoving = false;
+        //重载 touch( { }, cssClass) 批量的情况
+        if ($.Object.isPlain(selector)) {
+
+            var self = this;
+            cssClass = fn;
+            fn = null;
+
+            $.Object.each(selector, function (key, fn) {
+                touch.call(self, key, fn, cssClass);
+            });
+
+            return this;
+        }
+
+        var x = 0;
+        var y = 0;
+
 
         //重载 touch(fn, cssClass)，
         //如 $(div).touch(fn, cssClass)
@@ -7823,15 +8772,17 @@ define('jquery-plugin/touch', function (require, module,  exports) {
             selector = null;
 
             return $(this).on({
-              
                 'touchstart': function (event) {
+
+                    var t = event.originalEvent.changedTouches[0];
+                    x = t.pageX;
+                    y = t.pageY;
+
                     if (cssClass) {
                         $(this).addClass(cssClass);
                     }
-                },
 
-                'touchmove': function () {
-                    isMoving = true;
+                    event.preventDefault();
                 },
 
                 'touchend': function (event) {
@@ -7840,8 +8791,15 @@ define('jquery-plugin/touch', function (require, module,  exports) {
                         $(this).removeClass(cssClass);
                     }
 
-                    if (isMoving) {
-                        isMoving = false;
+                    var t = event.originalEvent.changedTouches[0];
+                    var dx = t.pageX - x;
+                    var dy = t.pageY - y;
+                    var dd = Math.sqrt(dx * dx + dy * dy);
+
+                    x = 0;
+                    y = 0;
+
+                    if (dd > 10) {
                         return;
                     }
 
@@ -7851,38 +8809,38 @@ define('jquery-plugin/touch', function (require, module,  exports) {
             });
         }
 
-        //重载 touch( { }, cssClass) 批量的情况
-        if ($.Object.isPlain(selector)) {
-            var self = this;
-
-            $.Object.each(selector, function (key, fn) {
-                touch.call(self, key, fn, cssClass);
-            });
-
-            return this;
-        }
 
 
         //此时为 $(div).touch(selector, fn, cssClass)
         return $(this).delegate(selector, {
 
             'touchstart': function (event) {
+                var t = event.originalEvent.changedTouches[0];
+                x = t.pageX;
+                y = t.pageY;
+
+
                 if (cssClass) {
                     $(this).addClass(cssClass);
                 }
-            },
-
-            'touchmove': function () {
-                isMoving = true;
+                event.preventDefault();
             },
 
             'touchend': function (event) {
+
                 if (cssClass) {
                     $(this).removeClass(cssClass);
                 }
 
-                if (isMoving) {
-                    isMoving = false;
+                var t = event.originalEvent.changedTouches[0];
+                var dx = t.pageX - x;
+                var dy = t.pageY - y;
+                var dd = Math.sqrt(dx * dx + dy * dy);
+
+                x = 0;
+                y = 0;
+
+                if (dd > 10) {
                     return;
                 }
 
@@ -7922,6 +8880,7 @@ Module.expose({
     'CloudHome.API': true,
     'CloudHome': true,
     'CloudHome.Title': true,
+    'ImageReader': true,
 
     //wechat
     'WeChat': true,
@@ -7947,6 +8906,7 @@ Module.expose({
     'Mask': true,
     'Navigator': true,
     'NoData': true,
+    'NumberPad': true,
     'Panel': true,
     'Scroller': true,
     'Tabs': true,
@@ -8068,7 +9028,12 @@ define('defaults', /**@lends defaults*/ {
         //'bottom': 0,
         //'width': '100%',
 
-        autoRefresh: true, //滚动区域内容发生 resize 时，自动刷新
+        /**
+        * 是否启用。 
+        * 如果设置为 false，则在创建实例后会自动调用 scroller.disable(); 
+        * 后续必须手动调用 scroller.enable() 以启用。
+        */
+        enabled: true,      
     },
 
 
@@ -8093,7 +9058,6 @@ define('defaults', /**@lends defaults*/ {
             data: 'Data',
         },
 
-        //cache: 'session', // false|'memory'|'session'|'local'
         /**
         * 是否启用缓存。
         * 可取的值为 false|true|'session'|'local'
@@ -8235,7 +9199,7 @@ define('defaults', /**@lends defaults*/ {
         sample: 'iOS',
         cssClass: '',
         container: document.body,
-        prepend: true,
+        append: false,
 
         //默认样式
         'background': 'rgba(0, 0, 0, 0.7)',
@@ -8249,6 +9213,15 @@ define('defaults', /**@lends defaults*/ {
         'top': '50%',
         'width': 120,
         'z-index': 1024,
+    },
+
+    'Alert': {
+        'button': '确定',
+        'volatile': false,
+        'mask': true,
+        'autoClosed': true,
+        'width': '80%',
+        'z-index': 99999,
     },
 
     /**
@@ -8271,6 +9244,7 @@ define('defaults', /**@lends defaults*/ {
         */
         volatile: false,
         container: document.body,
+        append: false,
 
         'top': 0,
         'bottom': 0,
@@ -8306,6 +9280,9 @@ define('defaults', /**@lends defaults*/ {
         */
         suffix: 4,
         text: '',
+
+        container: document.body,
+        append: false,
 
         /**
         * 是否启用 mask 层。
@@ -8344,7 +9321,9 @@ define('defaults', /**@lends defaults*/ {
 
         cssClass: '',
         container: document.body,
-        prepend: true,
+        append: false,
+
+
         scrollable: true,
         pulldown: null,
 
@@ -8352,6 +9331,39 @@ define('defaults', /**@lends defaults*/ {
         //'bottom': 0,
         //'top': 0,
         //'z-index': 1024,
+    },
+
+
+    'NumberPad': {
+        /**
+        * 生成的 id 的前缀。
+        */
+        prefix: 'KISP-NumberPad-',
+
+        /**
+        * 生成的 id 的随机后缀的长度。
+        */
+        suffix: 4,
+
+        cssClass: '',
+        container: document.body,
+        append: false,
+
+        decimal: 4, //允许的最多小数位数
+        int: 12,    //允许的最多整数位数
+
+        mask: 0.5,
+
+        /**
+        * 指定是否易消失，即点击 mask 层就是否隐藏/移除。
+        * 可取值为: true|false，默认为不易消失。
+        */
+        volatile: true,
+
+        text: '',
+        value: '',
+        speed: 'fast', // jQuery 中的显示/隐藏的动画速度
+
     },
 
     'Seajs': {
@@ -8394,6 +9406,12 @@ define('defaults', /**@lends defaults*/ {
         apis: '*', //表示所有
 
         retryAfterExpired: true, //签名过期时需要重试
+    },
+
+
+    'ImageReader': {
+
+        loading: '读取中...',
     },
 
    

@@ -31,6 +31,13 @@ define('Scroller', function (require, module,  exports) {
     */
     function Scroller(el, config) {
 
+        //重载 Scroller(config)
+        if ($.Object.isPlain(el)) {
+            config = el;
+            el = config.el;
+        }
+
+
         Mapper.setGuid(this);
 
         config = Config.clone(module.id, config);
@@ -70,12 +77,13 @@ define('Scroller', function (require, module,  exports) {
         var meta = {
             'emitter': emitter,
             'scroller': scroller,
+            'enabled': config.enabled,
             'indicators': indicators,
             'pulldown': {},
             'pullup': {},
             'hasBindPull': false, //是否已绑定 pull 中要用到的事件
             'el': el,
-            'resize': null, //针对 $(el).on('resize', meta.resize)
+
         };
 
         mapper.set(this, meta);
@@ -137,24 +145,11 @@ define('Scroller', function (require, module,  exports) {
             }, 100);
         });
 
-        if (config.autoRefresh) { 
-            var self = this;
-            var resize = meta.resize = function () {
-                var meta = mapper.get(self);
 
-                if (!meta) { //不存在，说明已经调用了 destroy()
-                    return;
-                }
 
-                self.refresh();
-            };
-
-            //需要 jQuery 插件，详情: https://github.com/cowboy/jquery-resize
-            $(el).on('resize', resize);
-            
+        if (!config.enabled) {
+            this.disable();
         }
-
-
     }
 
 
@@ -303,16 +298,63 @@ define('Scroller', function (require, module,  exports) {
         },
 
         /**
+        * 启用本组件。
+        */
+        enable: function () {
+            var meta = mapper.get(this);
+            meta.enabled = true;
+
+            var scroller = meta.scroller;
+            scroller.enable();
+        },
+
+        /**
+        * 禁用本组件。
+        */
+        disable: function () {
+            var meta = mapper.get(this);
+            meta.enabled = false;
+
+            var scroller = meta.scroller;
+            scroller.disable();
+        },
+
+        /**
+        * 切换启用或禁用。
+        * @param {boolean} [needEnabled] 显示指定是否启用。 
+            如果不指定则根据组件的当前状态进行切换。
+        */
+        toggleEnable: function (needEnabled) {
+            var meta = mapper.get(this);
+            var enabled = meta.enabled;
+
+            if (arguments.length == 0) { //重载 toggleEnable()
+
+                if (enabled) {
+                    this.disable();
+                }
+                else {
+                    this.enable();
+                }
+
+            }
+            else { //toggleEnable(needEnabled)
+
+                if (enabled && !needEnabled) {
+                    this.disable();
+                }
+                else if (!enabled && needEnabled) {
+                    this.enable();
+                }
+            }
+        },
+
+
+        /**
         * 销毁本实例对象。
         */
         destroy: function () {
             var meta = mapper.get(this);
-
-            //移除之前绑定的 resize 事件
-            var resize = meta.resize;
-            if (resize) {
-                $(meta.el).off('resize', resize);
-            }
 
             var scroller = meta.scroller;
             scroller.destroy();
@@ -342,27 +384,14 @@ define('Scroller', function (require, module,  exports) {
         * @param arg0 要传递的第一个参数。
         * @param arg1 要传递的第二个参数。
         */
-        call: function (name, arg0, arg1) {
+        invoke: function (name, arg0, arg1) {
 
             var meta = mapper.get(this);
             var scroller = meta.scroller;
-
             var args = [].slice.call(arguments, 1);
+
             return scroller[name].apply(scroller, args);
         },
-
-        /**
-        * 调用原生 scroller 实例的方法(apply 方式)。
-        * @param {string} name 要调用的方法名称。
-        * @param {Array} args 要传递的参数数组。
-        */
-        apply: function (name, args) {
-            var meta = mapper.get(this);
-            var scroller = meta.scroller;
-            return scroller[name].apply(scroller, args);
-        },
-
-
 
 
     };

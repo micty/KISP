@@ -15,40 +15,12 @@ define('Toast', function (require, module, exports) {
     var RandomId = require('RandomId');
 
     //子模块
+    var Renderer = require(module, 'Renderer');
     var Sample = require(module, 'Sample');
     var Style = require(module, 'Style');
 
     var mapper = new Mapper();
 
-
-
-    function render(style) {
-
-        var meta = mapper.get(this);
-
-        var id = meta.id;
-        var sample = meta.sample;
-
-        var Style = require('Style');
-
-        var html = $.String.format(sample, {
-            'id': id,
-            'icon': meta.icon,
-            'icon-id': meta.iconId,
-            'text-id': meta.textId,
-            'text': meta.text,
-            'style': Style.stringify(style),
-            'cssClass': meta.cssClass,
-        });
-
-        $(document.body).prepend(html);
-
-        var div = document.getElementById(id);
-        meta.div = div;
-
-        return div;
-
-    }
 
 
     /**
@@ -99,6 +71,8 @@ define('Toast', function (require, module, exports) {
             'showTime': 0, //开始显示时的时间点
             'cssClass': cssClass,
             'duration': config.duration,
+            'container': config.container,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -131,7 +105,7 @@ define('Toast', function (require, module, exports) {
             var style = Style.get(meta.style, config);
 
             if (!div) { //首次 render
-                div = render.call(this, style);
+                div = Renderer.render(meta, style);
             }
 
 

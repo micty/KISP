@@ -35,6 +35,7 @@ define('Dialog/Style', function (require, module, exports) {
             'height',
             'width',
             'z-index',
+            'position',
         ]);
 
         var width = style.width;

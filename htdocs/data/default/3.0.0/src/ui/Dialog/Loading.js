@@ -41,11 +41,11 @@ define('Loading', function (require, module, exports) {
         });
 
         var container = meta.container;
-        if (meta.prepend) {
-            $(container).prepend(html);
+        if (meta.append) {
+            $(container).append(html);
         }
         else {
-            $(container).append(html);
+            $(container).prepend(html);
         }
 
         var div = document.getElementById(id);

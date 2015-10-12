@@ -27,12 +27,15 @@ define('NoData/Renderer', function (require, module, exports) {
         });
 
         var container = meta.container;
-        if (meta.prepend) {
-            $(container).prepend(html);
-        }
-        else {
+
+        if (meta.append) {
             $(container).append(html);
         }
+        else {
+            $(container).prepend(html);
+
+        }
+
 
         var div = document.getElementById(id);
         meta.div = div;

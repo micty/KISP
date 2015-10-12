@@ -41,10 +41,11 @@ define('Toast/Style', function (require, module, exports) {
             'top',
             'width',
             'z-index',
+            'position',
         ]);
 
 
-        //���ݿ��ȼ��� margin-left �� margin-top��ʹ�þ���
+        //根据宽度计算 margin-left 和 margin-top，使用居中
 
         var v = getMargin(style.width);
         if (v) {

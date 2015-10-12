@@ -13,6 +13,7 @@ Module.expose({
     'CloudHome.API': true,
     'CloudHome': true,
     'CloudHome.Title': true,
+    'ImageReader': true,
 
     //wechat
     'WeChat': true,
@@ -38,6 +39,7 @@ Module.expose({
     'Mask': true,
     'Navigator': true,
     'NoData': true,
+    'NumberPad': true,
     'Panel': true,
     'Scroller': true,
     'Tabs': true,

@@ -145,6 +145,10 @@ define('Dialog/Renderer', function (require, module, exports) {
         
 
         var div = document.getElementById(id);
+
+        //暴露一个 jQuery 对象给外面使用。 但为了安全起见，内部不使用这个对象。
+        dialog.$ = $(div);
+
         return div;
 
     }
