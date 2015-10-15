@@ -42,8 +42,6 @@ define('SSH/Ajax', function (require, module, exports) {
             'CustData': config['data'],
         };
 
-        //为了便于调试
-        console.log('CustData: ', config['data']);
 
         var query = {
             'eid': eid,

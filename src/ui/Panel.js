@@ -21,6 +21,14 @@ define('Panel', function (require, module, exports) {
     function Panel(container, config) {
 
         Mapper.setGuid(this);
+
+        //重载 { el: container, ... }
+        if ($.Object.isPlain(container)) {
+            config = container;
+            container = config['el'];
+            delete config['el'];
+        }
+
         config = Config.clone(module.id, config);
 
 

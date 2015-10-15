@@ -84,6 +84,7 @@ define('SSH', function (require, module, exports) {
 
         var meta = {
             'ajax': ajax,
+            'console': config.console,
 
             'status': '',
             'args': [],
@@ -163,6 +164,11 @@ define('SSH', function (require, module, exports) {
                     'url': server['url'],
                 });
 
+
+                //为了便于查看调用的 API 名称和 CustData 而打印到控制台。
+                if (meta.console) {
+                    console.log(ajax.fullname, obj.data);
+                }
 
                 var Ajax = require(module, 'Ajax');
                 Ajax.post(obj);

@@ -47,7 +47,8 @@ define('Dialog', function (require, module, exports) {
 
         var meta = {
             'id': RandomId.get(prefix, suffix),
-            'textId': RandomId.get(prefix, 'text-', suffix),
+            'articleId': RandomId.get(prefix, 'article-', suffix),
+            'contentId': RandomId.get(prefix, 'content-', suffix),
             'footerId': RandomId.get(prefix, 'footer-', suffix),
             'div': null,
             'scrollable': config.scrollable,
@@ -56,7 +57,7 @@ define('Dialog', function (require, module, exports) {
             'title': config.title,
             'text': config.text,
             'buttons': buttons,
-            'sample': Sample.get(config.sample),//加载相应的 HTML 模板
+            'samples': Sample.get(config.sample),//加载相应的 HTML 模板
             'emitter': emitter,
             'mask': config.mask,
             'masker': null,                     // Mask 的实例，重复使用
@@ -82,7 +83,11 @@ define('Dialog', function (require, module, exports) {
                 }
 
                 var name = item.name || String(index);
+                //这两个已废弃，建议使用 #2
                 emitter.on(eventName, 'button', name, fn);
+
+                //#2 建议使用
+                emitter.on('button', name, fn);
             });
         }
 
@@ -255,6 +260,25 @@ define('Dialog', function (require, module, exports) {
             mapper.remove(this);
         },
 
+        /**
+        * 设置指定的属性。
+        * 目前支持 'text' 字段。
+        */
+        set: function (name, value) {
+
+            var meta = mapper.get(this);
+            var scroller = meta.scroller;
+
+            if (name == 'text') {
+                $('#' + meta.contentId).html(value);
+                
+                if (scroller) {
+                    scroller.refresh();
+                }
+
+                return;
+            }
+        },
     };
 
     return Dialog;
