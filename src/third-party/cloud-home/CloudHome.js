@@ -12,6 +12,7 @@ define('CloudHome', function (require, module, exports) {
 
     var Native = require(module, 'Native');
 
+    var isInCloudHome = false;
 
     module.exports = exports = /**@lends CloudHome*/ {
 
@@ -22,7 +23,14 @@ define('CloudHome', function (require, module, exports) {
         * 判断是否在云之家打开的。
         */
         check: function () {
-            return !!Url.hasQueryString(window, 'ticket');  //确保返回一个 bool 值。
+            
+            //如 ?ticket=967cada703a6ca821790f048d55f1d32
+            isInCloudHome = !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
+
+            //运行结果已确定，重写可提高下次计算速度
+            exports.check = function () {
+                return isInCloudHome;
+            };
         },
 
         /**
@@ -38,7 +46,7 @@ define('CloudHome', function (require, module, exports) {
         * @param {Object} config 参数配置对象。 其中：
         * @param {string} title 标题。
         * @param {string} content 内容。
-        * @param {string} icon 图标，base64格式。
+        * @param {string} icon 图标，base64 格式。
         * @param {string} url 链接地址。
         * @param {function} success 分享成功后的回调函数。
         * @param {function} fail 分享失败后的回调函数。
