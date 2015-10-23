@@ -154,7 +154,7 @@ define('Navigator', function (require, module,  exports) {
             emitter.fire('back', [current, target]);
             emitter.fire('change', [current, target]);
 
-
+            return target; //把当前视图返回去，业务层可能会用到。
         },
 
 

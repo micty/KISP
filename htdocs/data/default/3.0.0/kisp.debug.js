@@ -2,7 +2,7 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.0
-* build: 2015-10-08 09:25:07
+* build: 2015-10-23 11:08:46
 * files: 83(81)
 *    partial/default/begin.js
 *    core/Module.js
@@ -2050,6 +2050,7 @@ define('SSH', function (require, module, exports) {
 
         var meta = {
             'ajax': ajax,
+            'console': config.console,
 
             'status': '',
             'args': [],
@@ -2130,6 +2131,11 @@ define('SSH', function (require, module, exports) {
                 });
 
 
+                //为了便于查看调用的 API 名称和 CustData 而打印到控制台。
+                if (meta.console) {
+                    console.log(ajax.fullname, obj.data);
+                }
+
                 var Ajax = require(module, 'Ajax');
                 Ajax.post(obj);
 
@@ -2195,8 +2201,6 @@ define('SSH/Ajax', function (require, module, exports) {
             'CustData': config['data'],
         };
 
-        //为了便于调试
-        console.log('CustData: ', config['data']);
 
         var query = {
             'eid': eid,
@@ -3252,6 +3256,7 @@ define('CloudHome', function (require, module, exports) {
 
     var Native = require(module, 'Native');
 
+    var isInCloudHome = false;
 
     module.exports = exports = /**@lends CloudHome*/ {
 
@@ -3262,7 +3267,9 @@ define('CloudHome', function (require, module, exports) {
         * 判断是否在云之家打开的。
         */
         check: function () {
-            return !!Url.hasQueryString(window, 'ticket');  //确保返回一个 bool 值。
+            
+            //如 ?ticket=967cada703a6ca821790f048d55f1d32
+            return !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
         },
 
         /**
@@ -3278,7 +3285,7 @@ define('CloudHome', function (require, module, exports) {
         * @param {Object} config 参数配置对象。 其中：
         * @param {string} title 标题。
         * @param {string} content 内容。
-        * @param {string} icon 图标，base64格式。
+        * @param {string} icon 图标，base64 格式。
         * @param {string} url 链接地址。
         * @param {function} success 分享成功后的回调函数。
         * @param {function} fail 分享失败后的回调函数。
@@ -4203,7 +4210,8 @@ define('Dialog', function (require, module, exports) {
 
         var meta = {
             'id': RandomId.get(prefix, suffix),
-            'textId': RandomId.get(prefix, 'text-', suffix),
+            'articleId': RandomId.get(prefix, 'article-', suffix),
+            'contentId': RandomId.get(prefix, 'content-', suffix),
             'footerId': RandomId.get(prefix, 'footer-', suffix),
             'div': null,
             'scrollable': config.scrollable,
@@ -4212,7 +4220,7 @@ define('Dialog', function (require, module, exports) {
             'title': config.title,
             'text': config.text,
             'buttons': buttons,
-            'sample': Sample.get(config.sample),//加载相应的 HTML 模板
+            'samples': Sample.get(config.sample),//加载相应的 HTML 模板
             'emitter': emitter,
             'mask': config.mask,
             'masker': null,                     // Mask 的实例，重复使用
@@ -4223,7 +4231,7 @@ define('Dialog', function (require, module, exports) {
             'visible': false,                   //记录当前组件是否已显示
             'volatile': config.volatile,
             'zIndex': config['z-index'],        //生成透明层时要用到
-
+            'data': {},                         //供 this.data() 方法使用
         };
 
         mapper.set(this, meta);
@@ -4238,7 +4246,11 @@ define('Dialog', function (require, module, exports) {
                 }
 
                 var name = item.name || String(index);
+                //这两个已废弃，建议使用 #2
                 emitter.on(eventName, 'button', name, fn);
+
+                //#2 建议使用
+                emitter.on('button', name, fn);
             });
         }
 
@@ -4411,6 +4423,63 @@ define('Dialog', function (require, module, exports) {
             mapper.remove(this);
         },
 
+        /**
+        * 设置指定的属性。
+        * 目前支持 'text' 字段。
+        */
+        set: function (name, value) {
+
+            var meta = mapper.get(this);
+            var scroller = meta.scroller;
+
+            if (name == 'text') {
+                $('#' + meta.contentId).html(value);
+                
+                if (scroller) {
+                    scroller.refresh();
+                }
+
+                return;
+            }
+        },
+
+        /**
+        * 获取或设置自定义数据。 
+        * 已重载 data()、 data(key)、data(obj)、data(key, value)。
+        * 在跨函数中传递数据时会比较方便。
+        * @param {string|Object} key 要获取或设置的数据的名称(键)。
+            当指定为一个纯对象 {} 时，则表示批量设置。
+            当指定为字符串或可以转为字符串的类型时，则表示获取指定名称的数据。
+        * @param value 要设置的数据的值。 只有显式提供该参数，才表示设置。
+        * @return 返回获取到的或设置进来的值。
+        */
+        data: function (key, value) {
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            var len = arguments.length;
+            if (len == 0) { //获取全部
+                return data;
+            }
+
+            //重载 data(obj); 批量设置
+            if ($.Object.isPlain(key)) {
+                $.Object.extend(data, key);
+                return key;
+            }
+
+            //get(key)
+            if (len == 1) {
+                return data[key];
+            }
+
+            //set(key, value)
+            data[key] = value;
+            return value;
+
+        },
+
+
     };
 
     return Dialog;
@@ -4428,8 +4497,8 @@ define('Dialog/Sample/iOS', [
     '    <header class="{no-header}" style="{header-style}">',
     '        {title}',
     '    </header>',
-    '    <article id="{text-id}" class="buttons-{buttons-count} {no-header}">',
-    '        <div>{text}</div>',
+    '    <article id="{article-id}" class="buttons-{buttons-count} {no-header}">',
+    '        <div id="{content-id}">{text}</div>',
     '    </article>',
     '    <footer id="{footer-id}" class="buttons-{buttons-count}">',
     '        #--button.begin--#',
@@ -4468,32 +4537,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         return style;
     }
 
-    //去掉多余的换行和空格
-    function trim(s) {
-        return s.replace(/\n|\r|\r\n/g, ' ')
-        .replace(/\s+/g, ' ');
-    }
-
-    function getSamples(sample) {
-
-        var samples = $.String.getTemplates(sample, [
-            {
-                name: 'div',
-                begin: '#--div.begin--#',
-                end: '#--div.end--#',
-                fn: trim,
-            },
-            {
-                name: 'button',
-                begin: '#--button.begin--#',
-                end: '#--button.end--#',
-                outer: '{buttons}',
-                fn: trim,
-            },
-        ]);
-
-        return samples;
-    }
+    
 
 
     function render(meta, dialog) {
@@ -4501,11 +4545,11 @@ define('Dialog/Renderer', function (require, module, exports) {
         var buttons = meta.buttons || [];
         var emitter = meta.emitter;
         var id = meta.id;
-        var textId = meta.textId;
+        var articleId = meta.articleId;
         var footerId = meta.footerId;
         var style = meta.style;
 
-        var samples = getSamples(meta.sample);
+        var samples = meta.samples;
 
 
         var height = parseInt(style.height);
@@ -4519,7 +4563,8 @@ define('Dialog/Renderer', function (require, module, exports) {
 
         var html = $.String.format(samples['div'], {
             'id': id,
-            'text-id': textId,
+            'article-id': articleId,
+            'content-id': meta.contentId,
             'footer-id': footerId,
 
             'cssClass': meta.cssClass,
@@ -4555,7 +4600,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         //指定了可滚动
         if (meta.scrollable) {
             var Scroller = require('Scroller');
-            var scroller = meta.scroller = new Scroller('#' + textId);
+            var scroller = meta.scroller = new Scroller('#' + articleId);
         }
 
         //底部按钮组
@@ -4569,8 +4614,13 @@ define('Dialog/Renderer', function (require, module, exports) {
                 var name = item.name || String(index);
                 var eventName = meta.eventName;
 
+                //这两个已废弃，建议使用 #2
                 emitter.fire(eventName, 'button', name, [item, index]);
                 emitter.fire(eventName, 'button', [item, index]);
+
+                //#2 建议使用
+                emitter.fire('button', name, [item, index]);
+                emitter.fire('button', [item, index]);
 
                 // item.autoClosed 优先级高于 meta.autoClosed
                 var autoClosed = item.autoClosed;
@@ -4605,24 +4655,40 @@ define('Dialog/Renderer', function (require, module, exports) {
 
 
 
-/**
-*
-*/
 define('Dialog/Sample', function (require, module, exports) {
     
-    var name$sample = {};
+    var $ = require('$');
+
+    //去掉多余的换行和空格
+    function trim(s) {
+        return s.replace(/\n|\r|\r\n/g, ' ')
+                .replace(/\s+/g, ' ');
+    }
 
 
     function get(name) {
-        var sample = name$sample[name];
-        if (sample) {
-            return sample;
-        }
 
-        sample = require(module, name);
-        name$sample[name] = sample;
-        return sample;
+        var sample = require(module, name);
+        var samples = $.String.getTemplates(sample, [
+            {
+                name: 'div',
+                begin: '#--div.begin--#',
+                end: '#--div.end--#',
+                fn: trim,
+            },
+            {
+                name: 'button',
+                begin: '#--button.begin--#',
+                end: '#--button.end--#',
+                outer: '{buttons}',
+                fn: trim,
+            },
+        ]);
+
+        return samples;
     }
+
+
 
 
 
@@ -6215,7 +6281,7 @@ define('Navigator', function (require, module,  exports) {
             emitter.fire('back', [current, target]);
             emitter.fire('change', [current, target]);
 
-
+            return target; //把当前视图返回去，业务层可能会用到。
         },
 
 
@@ -7170,6 +7236,14 @@ define('Panel', function (require, module, exports) {
     function Panel(container, config) {
 
         Mapper.setGuid(this);
+
+        //重载 { el: container, ... }
+        if ($.Object.isPlain(container)) {
+            config = container;
+            container = config['el'];
+            delete config['el'];
+        }
+
         config = Config.clone(module.id, config);
 
 
@@ -8888,6 +8962,7 @@ Module.expose({
     //core
     '$': true,
     'MiniQuery': true,
+    'IScroll': true, //test
 
     //excore
     'DOM': true,
@@ -9088,6 +9163,8 @@ define('defaults', /**@lends defaults*/ {
         pubaccid: '',
 
         data: null,
+
+        console: true, //为了便于查看 CustData 而打印到控制台。
 
     },
 

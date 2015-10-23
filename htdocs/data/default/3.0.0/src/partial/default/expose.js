@@ -21,6 +21,7 @@ Module.expose({
     //core
     '$': true,
     'MiniQuery': true,
+    'IScroll': true, //test
 
     //excore
     'DOM': true,

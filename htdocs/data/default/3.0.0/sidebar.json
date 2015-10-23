@@ -1,13 +1,9 @@
 ﻿{
-    "title": "KISP",
+    "title": "3.0.0",
     "type": "接口文档",
-    "width": 170,
-    "jsdoc": true,
+    "width": 200,
+    "jsdoc": "jsdoc/classes.min.json",
     "items": [
-        {
-            "text": "API",
-            "name": "API",
-            "alias": "API"
-        }
+
     ]
 }

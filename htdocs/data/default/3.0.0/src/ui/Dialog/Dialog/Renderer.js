@@ -26,32 +26,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         return style;
     }
 
-    //去掉多余的换行和空格
-    function trim(s) {
-        return s.replace(/\n|\r|\r\n/g, ' ')
-        .replace(/\s+/g, ' ');
-    }
-
-    function getSamples(sample) {
-
-        var samples = $.String.getTemplates(sample, [
-            {
-                name: 'div',
-                begin: '#--div.begin--#',
-                end: '#--div.end--#',
-                fn: trim,
-            },
-            {
-                name: 'button',
-                begin: '#--button.begin--#',
-                end: '#--button.end--#',
-                outer: '{buttons}',
-                fn: trim,
-            },
-        ]);
-
-        return samples;
-    }
+    
 
 
     function render(meta, dialog) {
@@ -59,11 +34,11 @@ define('Dialog/Renderer', function (require, module, exports) {
         var buttons = meta.buttons || [];
         var emitter = meta.emitter;
         var id = meta.id;
-        var textId = meta.textId;
+        var articleId = meta.articleId;
         var footerId = meta.footerId;
         var style = meta.style;
 
-        var samples = getSamples(meta.sample);
+        var samples = meta.samples;
 
 
         var height = parseInt(style.height);
@@ -77,7 +52,8 @@ define('Dialog/Renderer', function (require, module, exports) {
 
         var html = $.String.format(samples['div'], {
             'id': id,
-            'text-id': textId,
+            'article-id': articleId,
+            'content-id': meta.contentId,
             'footer-id': footerId,
 
             'cssClass': meta.cssClass,
@@ -113,7 +89,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         //指定了可滚动
         if (meta.scrollable) {
             var Scroller = require('Scroller');
-            var scroller = meta.scroller = new Scroller('#' + textId);
+            var scroller = meta.scroller = new Scroller('#' + articleId);
         }
 
         //底部按钮组
@@ -127,8 +103,13 @@ define('Dialog/Renderer', function (require, module, exports) {
                 var name = item.name || String(index);
                 var eventName = meta.eventName;
 
+                //这两个已废弃，建议使用 #2
                 emitter.fire(eventName, 'button', name, [item, index]);
                 emitter.fire(eventName, 'button', [item, index]);
+
+                //#2 建议使用
+                emitter.fire('button', name, [item, index]);
+                emitter.fire('button', [item, index]);
 
                 // item.autoClosed 优先级高于 meta.autoClosed
                 var autoClosed = item.autoClosed;

@@ -170,6 +170,8 @@ define('defaults', /**@lends defaults*/ {
 
         data: null,
 
+        console: true, //为了便于查看 CustData 而打印到控制台。
+
     },
 
     'SSH.API': {

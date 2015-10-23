@@ -25,12 +25,7 @@ define('CloudHome', function (require, module, exports) {
         check: function () {
             
             //如 ?ticket=967cada703a6ca821790f048d55f1d32
-            isInCloudHome = !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
-
-            //运行结果已确定，重写可提高下次计算速度
-            exports.check = function () {
-                return isInCloudHome;
-            };
+            return !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
         },
 
         /**
