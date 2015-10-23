@@ -9,8 +9,13 @@
     global.KISP = KISP;
 
 
-    delete global['$'];
-    delete global['MiniQuery'];
+    //delete global['$'];
+    //delete global['MiniQuery'];
+
+    //IE8 下好像不能 delete
+    global.$ = undefined;
+    global.MiniQuery = undefined;
+
 
 })(Module.require);
 

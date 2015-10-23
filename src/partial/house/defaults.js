@@ -12,7 +12,12 @@ define('defaults', /**@lends defaults*/ {
     */
     'Url': {
         //注意：这里取当前页的路径作为根地址，只适用于页面在根目录的情况。
-        root: location.origin + location.pathname.split('/').slice(0, -1).join('/') + '/',
+        //root: location.origin + location.pathname.split('/').slice(0, -1).join('/') + '/',
+
+        //IE10 及以下 location.origin 不存在
+        root: location.protocol + '//' +  location.host + 
+                location.pathname.split('/').slice(0, -1).join('/') + '/',
+
         replacer: {
             root: '~',
             edition: '@'
