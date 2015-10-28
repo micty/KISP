@@ -121,6 +121,7 @@ define('WeChat', function (require, module, exports) {
 
         /**
         * 获取跳转到登录授权页面的 url。
+        * 已重载 getLoginUrl(url); 
         */
         getLoginUrl: function (eid, url) {
 
