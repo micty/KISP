@@ -1,12 +1,30 @@
-
 /**
 * confirm 对话框
 * @namespace
 * @name Confirm
+* @private
 */
 define('Confirm', function (require, module, exports) {
+
     var $ = require('$');
-    var MiniQuery = require('MiniQuery');
+    var Config = require('Config');
+
+
+    //根据文本来计算高度，大概值，并不要求很准确
+    function getHeight(text) {
+
+        var len = $.String.getByteLength(text);
+        var h = Math.max(len, 125);
+        var max = document.documentElement.clientHeight;
+
+        if (h >= max * 0.8) {
+            h = '80%';
+        }
+
+        return h;
+    }
+
+
 
 
     /**
@@ -14,16 +32,13 @@ define('Confirm', function (require, module, exports) {
     */
     function create(text, text1, textN, fn) {
 
+        config = Config.clone(module.id);
 
         //重载 alert(obj); 以方便程序员调试查看 json 对象。
         if (typeof text == 'object') {
-            var Style = require('Style');
+            var Sample = require(module, 'Sample');
 
-            text = $.String.format('<pre style="{style}">{text}</pre>', {
-                'style': Style.stringify({
-                    'text-align': 'start',
-                    'font-family': '\'Fixedsys Excelsior 3.01\'',
-                }),
+            text = $.String.format(Sample, {
                 'text': JSON.stringify(text, null, 4),
             });
         }
@@ -48,28 +63,26 @@ define('Confirm', function (require, module, exports) {
         text = $.String.format.apply(null, args);
 
 
-        //根据文本来计算高度，大概值，并不要求很准确
-        var len = $.String.getByteLength(text);
-        var h = Math.max(len, 125);
-        var max = document.documentElement.clientHeight;
-
-        if (h >= max * 0.8) {
-            h = '80%';
-        }
 
         var Dialog = require('Dialog');
 
-        var dlg = new Dialog({
+        var dialog = new Dialog({
+
             'text': text,
-            'buttons': [{ text: '确定', fn: fn, }],
-            'volatile': false,
-            'mask': true,
-            'autoClosed': true,
-            'width': '80%',
-            'height': h,
+            'buttons': [{
+                text: config.button,
+                fn: fn,
+            }],
+
+            'volatile': config.volatile,
+            'mask': config.mask,
+            'autoClosed': config.autoClosed,
+            'width': config.width,
+            'z-index': config['z-index'],
+            'height': config.height ? config.height : getHeight(text),
         });
 
-        return dlg;
+        return dialog;
 
     }
 

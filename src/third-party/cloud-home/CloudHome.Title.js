@@ -21,6 +21,7 @@ define('CloudHome.Title', function (require, module, exports) {
         set: function (title) {
 
             current = title;
+            document.title = title;
 
             var CloudHome = require('CloudHome');
             CloudHome.invoke('setWebViewTitle', {
