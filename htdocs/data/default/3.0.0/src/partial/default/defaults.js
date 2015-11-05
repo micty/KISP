@@ -439,7 +439,7 @@ define('defaults', /**@lends defaults*/ {
 
         /**
         * 指定是否易消失，即点击 mask 层就是否隐藏/移除。
-        * 可取值为: true|false，默认为不易消失。
+        * 可取值为: true|false，默认为易消失。
         */
         volatile: true,
 
@@ -497,7 +497,12 @@ define('defaults', /**@lends defaults*/ {
         loading: '读取中...',
     },
 
-   
+    'LocalStorage': {
+        name: '',
+    },
+    'SessionStorage': {
+        name: '',
+    },
 
 });
 

@@ -113,10 +113,10 @@ define('Mask', function (require, module, exports) {
                         var opacity = $(div).css('opacity');
 
                         //显示一个完全透明的层 200ms，防止点透
-                        self.show({ opacity: 0, duration: 200 });
+                        self.show({ opacity: 0});
 
                         setTimeout(function () {
-                            $(div).css('opacity', opacity);
+                            $(div).css('opacity', opacity).hide();
                         }, 200);
                     });
                 }

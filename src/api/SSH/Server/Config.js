@@ -8,28 +8,41 @@ define('SSH/Server/Config', function (require, module, exports) {
     var MiniQuery = require('MiniQuery');
 
     var Emitter = MiniQuery.require('Emitter');
-
     var Config = require('Config');
 
-    var key = '__' + module.id + '__';
     var json = null;
+    var storage = null;
 
 
     function getStorage() {
 
+        if (storage !== null) { //说明已经创建过了
+            return storage;
+        }
+
+        //首次创建
         var defaults = Config.get(module.id);
         var cache = defaults.cache;
 
-        if (!cache) {
-            return null;
-        }
 
         if (cache == 'session' || cache == 'local') {
-            cache = cache[0].toUpperCase() + cache.slice(1); //把首字母变大写
-            return MiniQuery.require(cache + 'Storage');
+
+            //把首字母变大写
+            cache = cache[0].toUpperCase() + cache.slice(1);
+
+            var Storage = require(cache + 'Storage');
+            storage = new Storage(module.id, {
+                name: 'KISP',
+            });
+
+            return storage;
         }
 
-        return null;
+
+        storage = false; //这里不能用 null，以表示创建过了。
+        return storage;
+
+        
     }
 
 
@@ -56,9 +69,9 @@ define('SSH/Server/Config', function (require, module, exports) {
                     'url': host + path,
                 };
 
-                var Storage = getStorage();
-                if (Storage) {
-                    Storage.set(key, json);
+                var storage = getStorage();
+                if (storage) {
+                    storage.set(json);
                 }
             }
             catch (ex) {
@@ -86,9 +99,9 @@ define('SSH/Server/Config', function (require, module, exports) {
             return;
         }
 
-        var Storage = getStorage();
-        if (Storage) {
-            json = Storage.get(key);
+        var storage = getStorage();
+        if (storage) {
+            json = storage.get();
             if (json) {
                 fn(json);
                 return;

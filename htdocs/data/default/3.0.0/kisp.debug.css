@@ -21,12 +21,11 @@
   font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
 }
 .KISP.Dialog header {
-  display: -webkit-box;
   font-weight: bold;
   font-size: 17px;
   height: 44px;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
+  text-align: center;
+  line-height: 44px;
 }
 .KISP.Dialog header.no-header {
   /**无标题时*/
@@ -58,7 +57,13 @@
   width: 100%;
 }
 .KISP.Dialog footer {
-  display: -webkit-box;
+  /*display: -webkit-box;
+        border-top: solid 1px #ccc;
+        height: 44px;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        overflow: hidden;*/
   border-top: solid 1px #ccc;
   height: 44px;
   bottom: 0;
@@ -67,16 +72,17 @@
   overflow: hidden;
 }
 .KISP.Dialog footer span {
-  display: -webkit-box;
   color: #007AFF;
   font-size: 17px;
   border-right: solid 1px #ccc;
   height: 44px;
+  line-height: 44px;
   width: 50%;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
   overflow: hidden;
-  white-space: nowrap;
+  display: inline-block;
+  float: left;
+  box-sizing: border-box;
+  text-align: center;
   cursor: pointer;
   /**针对 PC 端*/
 }

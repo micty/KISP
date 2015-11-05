@@ -29,6 +29,13 @@ KISP 框架
 - [kisp.min.js](?file=default/3.0.0/kisp.min.js)
 - [kisp.min.css](?file=default/3.0.0/kisp.min.css)
 
+### 更新历史
+#####2015.11.05 
+- 增加了模块 LocalStorage
+- 增加了模块 SessionStorage
+
+
+
 
 
 

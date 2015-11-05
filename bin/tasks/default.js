@@ -52,9 +52,11 @@ module.exports = function (grunt) {
                 'File.js',
                 'Fn.js',
                 'JSON.js',
+                'LocalStorage.js',
                 'Mapper.js',
                 'Module.js',
                 'RandomId.js',
+                'SessionStorage.js',
                 'Style.js',
                 'Url.js',
             ]

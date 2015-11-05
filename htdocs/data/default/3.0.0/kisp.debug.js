@@ -2,8 +2,8 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.0
-* build: 2015-10-23 11:08:46
-* files: 83(81)
+* build: 2015-11-05 15:57:21
+* files: 85(83)
 *    partial/default/begin.js
 *    core/Module.js
 *    core/$.js
@@ -18,9 +18,11 @@
 *    excore/File.js
 *    excore/Fn.js
 *    excore/JSON.js
+*    excore/LocalStorage.js
 *    excore/Mapper.js
 *    excore/Module.js
 *    excore/RandomId.js
+*    excore/SessionStorage.js
 *    excore/Style.js
 *    excore/Url.js
 *    api/API.js
@@ -1058,6 +1060,224 @@ define('JSON', function (require, module,  exports) {
 
 
 
+/**
+* 本地存储工具类
+* @class
+* @name LocalStorage
+*/
+define('LocalStorage', function (require, module, exports) {
+
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+    var Storage = MiniQuery.require('LocalStorage');
+    var Mapper = MiniQuery.require('Mapper');
+
+    var Config = require('Config');
+
+    var mapper = new Mapper();
+    var skey = 'KISP.LocalStorage.B81138B047FC';
+    var all = Storage.get(skey) || {}; //针对全部应用的
+
+
+
+    function LocalStorage(id, config) {
+
+        Mapper.setGuid(this);
+
+        config = Config.clone(module.id, config);
+
+        var name = config.name;
+        if (!name) {
+            throw new Error('请先配置 name 字段');
+        }
+
+        var app = all[name];
+
+        if (!app) { //针对该应用的首次分配
+            app = all[name] = {};
+        }
+
+        var meta = {
+            'id': id,
+            'data': app[id],
+            'app': app,
+        };
+
+        mapper.set(this, meta);
+
+    }
+
+
+
+    LocalStorage.prototype = {
+        constructor: LocalStorage,
+
+        /**
+        * 设置一对键值。
+        * 已重载 set(obj) 批量设置的情况。
+        * @param {string} key 要进行设置的键名称。
+        * @param value 要进行设置的值，可以是任何类型。
+        */
+        set: function (key, value) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+            var app = meta.app;
+            var id = meta.id;
+
+            //针对该实例的首次分配，或者因为调用了 clear() 而给清空了
+            if (!data) {
+                data = app[id] = meta.data = {};
+            }
+
+            if (typeof key == 'object') { //重载 set({...}); 批量设置的情况
+                $.Object.extend(data, key);
+            }
+            else { //单个设置
+                data[key] = value;
+            }
+
+            Storage.set(skey, all); //保存全部
+
+        },
+
+        /**
+        * 根据给定的键获取关联的值。
+        * 已重载 get() 获取全部的情况。
+        * @param {string} [key] 要进行获取的键名称。
+        * @return 返回该键所关联的值。
+        */
+        get: function (key) {
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return;
+            }
+
+            //重载 get(); 获取全部的情况
+            if (arguments.length == 0) {
+                return data;
+            }
+
+            return data[key];
+        },
+
+        /**
+        * 移除给定的键所关联的项。
+        * @param {string} key 要进行移除的键名称。
+        */
+        remove: function (key) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return;
+            }
+
+            delete data[key];
+
+            Storage.set(skey, all); //保存全部
+
+        },
+
+        /**
+        * 清空所有项。
+        */
+        clear: function () {
+            var meta = mapper.get(this);
+            var id = meta.id;
+            var app = meta.app;
+
+            delete app[id];
+            meta.data = null;
+
+            Storage.set(skey, all); //保存全部
+        },
+
+        /**
+        * 对每一项进行迭代，并调用传入的回调函数。
+        * @param {function} fn 迭代调用的回调函数。
+            该函数会接收到两个参数: 
+            key: 当前键的名称。
+            value: 当前键所关联的值。
+        */
+        each: function (fn) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data || !fn) {
+                return;
+            }
+
+            for (var key in data) {
+                fn(key, data[key]);
+            }
+        },
+
+        /**
+        * 获取所有的项的总个数。
+        */
+        length: function () {
+            return this.keys().length;
+        },
+
+        /**
+        * 获取所有的项的键数组。
+        */
+        keys: function () {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return [];
+            }
+
+            if (typeof Object.keys == 'function') {
+                return Object.keys(data);
+            }
+
+            var a = [];
+            for (var key in data) {
+                a.push(key);
+            }
+
+            return a;
+        },
+
+        /**
+        * 获取所有的项的键数组指定中的项。
+        * @param {number} index 键所对应的索引值。
+        */
+        key: function key(index) {
+            return this.keys()[index];
+        },
+
+        /**
+        * 获取所有的项的总个数。
+        */
+        length: function () {
+            return this.keys().length;
+        },
+
+    };
+
+
+    return LocalStorage;
+
+
+
+
+});
+
+
+
+
+
+
 
 /**
 * 针对有继承关系的类提供同一个的 mapper 实例容器。
@@ -1190,6 +1410,224 @@ define('RandomId', function (require, module, exports) {
     };
 
 });
+
+
+
+/**
+* 会话存储工具类
+* @class
+* @name SessionStorage
+*/
+define('SessionStorage', function (require, module, exports) {
+
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+    var Storage = MiniQuery.require('SessionStorage');
+    var Mapper = MiniQuery.require('Mapper');
+
+    var Config = require('Config');
+
+    var mapper = new Mapper();
+    var skey = 'KISP.SessionStorage.B81138B047FC';
+    var all = Storage.get(skey) || {}; //针对全部应用的
+
+
+
+    function SessionStorage(id, config) {
+
+        Mapper.setGuid(this);
+
+        config = Config.clone(module.id, config);
+
+        var name = config.name;
+        if (!name) {
+            throw new Error('请先配置 name 字段');
+        }
+
+        var app = all[name];
+
+        if (!app) { //针对该应用的首次分配
+            app = all[name] = {};
+        }
+
+        var meta = {
+            'id': id,
+            'data': app[id],
+            'app': app,
+        };
+
+        mapper.set(this, meta);
+
+    }
+
+
+
+    SessionStorage.prototype = {
+        constructor: SessionStorage,
+
+        /**
+        * 设置一对键值。
+        * 已重载 set(obj) 批量设置的情况。
+        * @param {string} key 要进行设置的键名称。
+        * @param value 要进行设置的值，可以是任何类型。
+        */
+        set: function (key, value) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+            var app = meta.app;
+            var id = meta.id;
+
+            //针对该实例的首次分配，或者因为调用了 clear() 而给清空了
+            if (!data) {
+                data = app[id] = meta.data = {};
+            }
+
+            if (typeof key == 'object') { //重载 set({...}); 批量设置的情况
+                $.Object.extend(data, key);
+            }
+            else { //单个设置
+                data[key] = value;
+            }
+
+            Storage.set(skey, all); //保存全部
+
+        },
+
+        /**
+        * 根据给定的键获取关联的值。
+        * 已重载 get() 获取全部的情况。
+        * @param {string} [key] 要进行获取的键名称。
+        * @return 返回该键所关联的值。
+        */
+        get: function (key) {
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return;
+            }
+
+            //重载 get(); 获取全部的情况
+            if (arguments.length == 0) {
+                return data;
+            }
+
+            return data[key];
+        },
+
+        /**
+        * 移除给定的键所关联的项。
+        * @param {string} key 要进行移除的键名称。
+        */
+        remove: function (key) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return;
+            }
+
+            delete data[key];
+
+            Storage.set(skey, all); //保存全部
+
+        },
+
+        /**
+        * 清空所有项。
+        */
+        clear: function () {
+            var meta = mapper.get(this);
+            var id = meta.id;
+            var app = meta.app;
+
+            delete app[id];
+            meta.data = null;
+
+            Storage.set(skey, all); //保存全部
+        },
+
+        /**
+        * 对每一项进行迭代，并调用传入的回调函数。
+        * @param {function} fn 迭代调用的回调函数。
+            该函数会接收到两个参数: 
+            key: 当前键的名称。
+            value: 当前键所关联的值。
+        */
+        each: function (fn) {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data || !fn) {
+                return;
+            }
+
+            for (var key in data) {
+                fn(key, data[key]);
+            }
+        },
+
+        /**
+        * 获取所有的项的总个数。
+        */
+        length: function () {
+            return this.keys().length;
+        },
+
+        /**
+        * 获取所有的项的键数组。
+        */
+        keys: function () {
+
+            var meta = mapper.get(this);
+            var data = meta.data;
+
+            if (!data) {
+                return [];
+            }
+
+            if (typeof Object.keys == 'function') {
+                return Object.keys(data);
+            }
+
+            var a = [];
+            for (var key in data) {
+                a.push(key);
+            }
+
+            return a;
+        },
+
+        /**
+        * 获取所有的项的键数组指定中的项。
+        * @param {number} index 键所对应的索引值。
+        */
+        key: function key(index) {
+            return this.keys()[index];
+        },
+
+        /**
+        * 获取所有的项的总个数。
+        */
+        length: function () {
+            return this.keys().length;
+        },
+
+    };
+
+
+    return SessionStorage;
+
+
+
+
+});
+
+
+
 
 
 
@@ -2266,24 +2704,40 @@ define('SSH/Server', function (require, module, exports) {
 
     var Config = require('Config');
 
-    var key = '__' + module.id + '__';
+    var storage = null;
+
 
     function getStorage() {
 
+        if (storage !== null) { //说明已经创建过了
+            return storage;
+        }
+
+        //首次创建
         var defaults = Config.get(module.id);
         var cache = defaults.cache;
 
-        if (!cache) {
-            return null;
-        }
 
         if (cache == 'session' || cache == 'local') {
-            cache = cache[0].toUpperCase() + cache.slice(1); //把首字母变大写
-            return MiniQuery.require(cache + 'Storage');
+
+            //把首字母变大写
+            cache = cache[0].toUpperCase() + cache.slice(1);
+
+            var Storage = require(cache + 'Storage');
+            storage = new Storage(module.id, {
+                name: 'KISP',
+            });
+
+            return storage;
         }
 
-        return null;
+
+        storage = false; //这里不能用 null，以表示创建过了。
+        return storage;
+
+
     }
+
 
     function ajax(config, server, fnSuccess, fnFail, fnError) {
 
@@ -2344,9 +2798,9 @@ define('SSH/Server', function (require, module, exports) {
 
             args = [data, json];
 
-            var Storage = getStorage();
-            if (Storage) {
-                Storage.set(key, args);
+            var storage = getStorage();
+            if (storage) {
+                storage.set('args', args);
             }
 
             fnSuccess.apply(null, args);
@@ -2387,9 +2841,9 @@ define('SSH/Server', function (require, module, exports) {
             return;
         }
 
-        var Storage = getStorage();
-        if (Storage) {
-            args = Storage.get(key);
+        var storage = getStorage();
+        if (storage) {
+            args = storage.get('args');
             if (args) {
                 fnSuccess.apply(null, args);
                 return;
@@ -2433,28 +2887,41 @@ define('SSH/Server/Config', function (require, module, exports) {
     var MiniQuery = require('MiniQuery');
 
     var Emitter = MiniQuery.require('Emitter');
-
     var Config = require('Config');
 
-    var key = '__' + module.id + '__';
     var json = null;
+    var storage = null;
 
 
     function getStorage() {
 
+        if (storage !== null) { //说明已经创建过了
+            return storage;
+        }
+
+        //首次创建
         var defaults = Config.get(module.id);
         var cache = defaults.cache;
 
-        if (!cache) {
-            return null;
-        }
 
         if (cache == 'session' || cache == 'local') {
-            cache = cache[0].toUpperCase() + cache.slice(1); //把首字母变大写
-            return MiniQuery.require(cache + 'Storage');
+
+            //把首字母变大写
+            cache = cache[0].toUpperCase() + cache.slice(1);
+
+            var Storage = require(cache + 'Storage');
+            storage = new Storage(module.id, {
+                name: 'KISP',
+            });
+
+            return storage;
         }
 
-        return null;
+
+        storage = false; //这里不能用 null，以表示创建过了。
+        return storage;
+
+        
     }
 
 
@@ -2481,9 +2948,9 @@ define('SSH/Server/Config', function (require, module, exports) {
                     'url': host + path,
                 };
 
-                var Storage = getStorage();
-                if (Storage) {
-                    Storage.set(key, json);
+                var storage = getStorage();
+                if (storage) {
+                    storage.set(json);
                 }
             }
             catch (ex) {
@@ -2511,9 +2978,9 @@ define('SSH/Server/Config', function (require, module, exports) {
             return;
         }
 
-        var Storage = getStorage();
-        if (Storage) {
-            json = Storage.get(key);
+        var storage = getStorage();
+        if (storage) {
+            json = storage.get();
             if (json) {
                 fn(json);
                 return;
@@ -3335,7 +3802,7 @@ define('CloudHome', function (require, module, exports) {
             else if (title === false) {
                 Title.hide();
             }
-            else if (title) {
+            else if (title  || title === '') {
                 Title.set(title);
             }
             else {
@@ -3374,6 +3841,7 @@ define('CloudHome.Title', function (require, module, exports) {
         set: function (title) {
 
             current = title;
+            document.title = title;
 
             var CloudHome = require('CloudHome');
             CloudHome.invoke('setWebViewTitle', {
@@ -3962,18 +4430,56 @@ define('WeChat', function (require, module, exports) {
         },
 
         /**
-        * 获取跳转到登录授权页面的 url。
+        * 获取跳转到登录授权页面的 url，常用于在云之家分享到微信时需要打开的链接。
+        * 已重载：
+        *   getLoginUrl(eid, url, query);
+        *   getLoginUrl(eid, url);
+        *   getLoginUrl(url, query);
+        *   getLoginUrl(url);
+        * @param {string} [eid] 企业号。 
+            如果不指定，则从参数 query 中取得，否则需要先调用 init() 方法以传入 eid。
+        * @param {string} url 需要跳转到的目标 url。 
+        * @param {Object} [query] 需要附加到目标 url 中的查询参数。 
+        * @return {string} 返回一个完整的可用于在微信端打开并跳到目标页页的链接地址。
         */
-        getLoginUrl: function (eid, url) {
+        getLoginUrl: function (eid, url, query) {
 
-            //重载 getLoginUrl(url)
-            if (arguments.length == 1) {
-                if (!current) {
-                    throw new Error('当不指定参数 eid 时，请先调用 init() 方法以传入 eid 字段。');
-                }
-                url = eid;
-                eid = current.eid;
+            //重载其它三种情况，参数修正从后面开始
+            switch (arguments.length) {
+                case 1: //重载 getLoginUrl(url)
+                    if (!current) {
+                        throw new Error('当调用方式为 getLoginUrl(url) 时，请先调用 init() 方法以传入 eid 字段。');
+                    }
+
+                    query = null;
+                    url = eid;
+                    eid = current.eid;
+                    break;
+
+                case 2:
+                    if (typeof url == 'object') {    //重载 getLoginUrl(url, query);
+                        query = url;
+                        url = eid;
+                        eid = query.eid || current.eid;
+
+                        if (!eid) {
+                            throw new Error('当调用方式为 getLoginUrl(url, query) 时，请在参数 query 中指定 eid 字段，或先调用 init() 方法以传入 eid 字段。');
+                        }
+                    }
+                    else { //重载 getLoginUrl(eid, url);
+                        query = null;
+                    }
+                    break;
+
             }
+
+            var Url = MiniQuery.require('Url');
+
+            if (query) {
+                url = Url.addQueryString(url, query);
+            }
+
+
 
             var defaults = Config.get(module.id);
             var login = defaults.login;
@@ -3983,7 +4489,7 @@ define('WeChat', function (require, module, exports) {
                 'from_url': url,
             });
 
-            var Url = MiniQuery.require('Url');
+            
             url = Url.addQueryString(login.url, data);
             return url;
 
@@ -5427,10 +5933,10 @@ define('Mask', function (require, module, exports) {
                         var opacity = $(div).css('opacity');
 
                         //显示一个完全透明的层 200ms，防止点透
-                        self.show({ opacity: 0, duration: 200 });
+                        self.show({ opacity: 0});
 
                         setTimeout(function () {
-                            $(div).css('opacity', opacity);
+                            $(div).css('opacity', opacity).hide();
                         }, 200);
                     });
                 }
@@ -8967,8 +9473,10 @@ Module.expose({
     //excore
     'DOM': true,
     'Edition': true,
+    'LocalStorage': true,
     'Mapper': true,
     'Module': true,
+    'SessionStorage': true,
     'Style': true,
     'Url': true,
 
@@ -9433,7 +9941,7 @@ define('defaults', /**@lends defaults*/ {
 
         /**
         * 指定是否易消失，即点击 mask 层就是否隐藏/移除。
-        * 可取值为: true|false，默认为不易消失。
+        * 可取值为: true|false，默认为易消失。
         */
         volatile: true,
 
@@ -9491,7 +9999,12 @@ define('defaults', /**@lends defaults*/ {
         loading: '读取中...',
     },
 
-   
+    'LocalStorage': {
+        name: '',
+    },
+    'SessionStorage': {
+        name: '',
+    },
 
 });
 

@@ -91,7 +91,7 @@ define('CloudHome', function (require, module, exports) {
             else if (title === false) {
                 Title.hide();
             }
-            else if (title) {
+            else if (title  || title === '') {
                 Title.set(title);
             }
             else {

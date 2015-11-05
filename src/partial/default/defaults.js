@@ -497,7 +497,12 @@ define('defaults', /**@lends defaults*/ {
         loading: '读取中...',
     },
 
-   
+    'LocalStorage': {
+        name: '',
+    },
+    'SessionStorage': {
+        name: '',
+    },
 
 });
 

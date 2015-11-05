@@ -26,8 +26,10 @@ Module.expose({
     //excore
     'DOM': true,
     'Edition': true,
+    'LocalStorage': true,
     'Mapper': true,
     'Module': true,
+    'SessionStorage': true,
     'Style': true,
     'Url': true,
 
