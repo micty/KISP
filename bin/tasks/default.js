@@ -134,9 +134,17 @@ module.exports = function (grunt) {
         {
             dir: 'ui',
             files: [
+                'App.js',
+                {
+                    dir: 'App',
+                    files: [
+                        'Nav.js',
+                    ],
+                },
                 {
                     dir: 'dialog',
                     files: [
+                        
                         'Alert.js',
                         {
                             dir: 'Alert',

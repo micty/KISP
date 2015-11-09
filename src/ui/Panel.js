@@ -41,6 +41,7 @@ define('Panel', function (require, module, exports) {
             'showAfterRender': config.showAfterRender,
             'cssClass': config.cssClass,
             'visible': false,
+            'byRender': false, //记录 show 事件是否由 render() 触发的。
         };
 
         mapper.set(this, meta);
@@ -74,7 +75,11 @@ define('Panel', function (require, module, exports) {
             container.show.apply(container, args);
 
             meta.visible = true;
-            emitter.fire('show');
+
+            var byRender = meta.byRender;
+            meta.byRender = false; //重置
+
+            emitter.fire('show', [byRender]);
 
         },
 
@@ -163,6 +168,7 @@ define('Panel', function (require, module, exports) {
             meta.rendered = true;
 
             if (meta.showAfterRender) {
+                meta.byRender = true;
                 this.show();
             }
 

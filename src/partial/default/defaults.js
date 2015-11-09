@@ -504,5 +504,16 @@ define('defaults', /**@lends defaults*/ {
         name: '',
     },
 
+    'App': {
+        mask: {
+            opacity: 0,
+            duration: 500,
+            'z-index': 99999,
+        },
+
+        type: 'simple', //只做最基础的初始化，向后兼容
+     
+    },
+
 });
 

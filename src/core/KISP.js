@@ -66,7 +66,6 @@ define('KISP', function (require, module, exports) {
 
         /**
         * 加载 KISP 框架内公开的模块，并创建它的一个实例。
-        * @function
         * @param {string} id 模块的名称(id)
         * @param {Object} config 要创建实例时的配置参数。
         * @return {Object} 返回该模块所创建的实例。
@@ -179,39 +178,26 @@ define('KISP', function (require, module, exports) {
 
         /**
         * 初始化执行环境，并启动应用程序。
-        * 该方法会预先定义一些公共模块，然后定义一个指定的(或匿名)模块并启动它。
-        * 已重载 launch(factory);
-        * @param {string} name 启动模块的名称。 若不指定，则默认为空字符串。
+        * 该方法会预先定义一些公共模块，然后定义一个匿名模块并启动它。
         * @param {function} factory 工厂函数，即启动函数。
         */
-        launch: function (name, factory) {
+        launch: function (factory) {
 
-            if (typeof name == 'function') { //重载 launch(factory)
-                factory = name;
-                name = '';
+            var App = require('App');
+            var app = new App('');
+
+            var Config = require('Config');
+            var config = Config.clone('App');
+
+            var type = config.type;
+            if (type == 'standard') {
+                app.render(factory);
+            }
+            else {
+                app.launch(factory);
             }
 
-            var Module = require('Module');
-            var $ = require('jquery-plugin/touch') || require('$'); //
 
-            var MiniQuery = require('MiniQuery');
-
-            var define = Module.define;
-
-            define('$', function () {
-                return $;
-            });
-
-            define('MiniQuery', function () {
-                return MiniQuery;
-            });
-
-            define('KISP', function () {
-                return exports;
-            });
-
-            define(name, factory);
-            Module.require(name); //启动
         },
 
 
