@@ -177,6 +177,16 @@ define('KISP', function (require, module, exports) {
         },
 
         /**
+        * 弹出简单的 confirm 虚拟窗口。
+        * @param {string} text 要显示的消息文本。
+        * @param {function} fn 点击“确定”按钮后执行的回调函数。
+        */
+        confirm: function (text, fn) {
+            var Confirm = require('Confirm');
+            Confirm.show(text, fn);
+        },
+
+        /**
         * 初始化执行环境，并启动应用程序。
         * 该方法会预先定义一些公共模块，然后定义一个匿名模块并启动它。
         * @param {function} factory 工厂函数，即启动函数。

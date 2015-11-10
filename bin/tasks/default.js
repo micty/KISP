@@ -152,6 +152,7 @@ module.exports = function (grunt) {
                                 'Sample.html',
                             ],
                         },
+                        'Confirm.js',
                         'Dialog.js',
                         {
                             dir: 'Dialog',
