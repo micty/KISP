@@ -28,6 +28,8 @@ define('Confirm', function (require, module, exports) {
             var fn = dialog.data('fn');
             fn && fn();
         });
+
+        return dialog;
     }
 
 
