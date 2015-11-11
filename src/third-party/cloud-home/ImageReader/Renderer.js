@@ -38,7 +38,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
 
             var type = img.type;
             if (type.indexOf('image/') != 0) {
-                emitter.fire('fail', [type]);
+                emitter.fire('fail', [201, '所选择的文件类型不是图片', { img: img }]);
                 return;
             }
 
@@ -87,7 +87,8 @@ define('ImageReader/Renderer', function (require, module, exports) {
                     base64 = data.fileData.replace(/[\r\n]/g, '');
                 }
                 catch (ex) {
-                    emitter.fire('fail', ['无法读取图片，云之家接口有问题: ' + ex.message]);
+                    var msg = '无法读取图片，云之家接口有问题: ' + ex.message;
+                    emitter.fire('fail', [500, msg, json]);
                     return;
                 }
 
@@ -105,7 +106,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
                     return;
                 }
 
-                emitter.fire('fail', [msg]);
+                emitter.fire('fail', [code, msg, json]);
             });
 
 

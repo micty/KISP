@@ -11,18 +11,28 @@ define('ImageReader', function (require, module, exports) {
     var Emitter = MiniQuery.require('Emitter');//事件驱动器
     var Mapper = MiniQuery.require('Mapper');
 
-    var mapper = new Mapper();
+    var Config = require('Config');
     var Renderer = require(module, 'Renderer');
+
+    var mapper = new Mapper();
 
 
     function ImageReader(input, config) {
 
         Mapper.setGuid(this);
 
-        var emitter = new Emitter();
+        //重载 ImageReader(config)
+        if ($.Object.isPlain(input)) {
+            config = input;
+            input = config['el'];
+            delete config['el'];
+        }
+
+        config = Config.clone(module.id, config);
+
 
         var meta = {
-            'emitter': emitter,
+            'emitter': new Emitter(this),
             'input': input,
             'loading': config.loading,
         };

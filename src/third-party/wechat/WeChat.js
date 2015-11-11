@@ -10,6 +10,7 @@ define('WeChat', function (require, module, exports) {
     var Config = require('Config');
 
     var Emitter = MiniQuery.require('Emitter');
+    var Url = MiniQuery.require('Url');
 
     var emitter = new Emitter();
     var status = '';    // wx 的状态: ready 或 error
@@ -25,9 +26,10 @@ define('WeChat', function (require, module, exports) {
         */
         init: function (config) {
 
-            var JsApiList = require(module, 'JsApiList');
-            var Lib = require(module, 'Lib');
-            var Signature = require(module, 'Signature');
+            var JsApiList = module.require('JsApiList');
+            var Lib = module.require('Lib');
+            var Signature = module.require('Signature');
+
 
             config = current = Config.clone(module.id, config);
 
@@ -163,12 +165,10 @@ define('WeChat', function (require, module, exports) {
 
             }
 
-            var Url = MiniQuery.require('Url');
 
             if (query) {
                 url = Url.addQueryString(url, query);
             }
-
 
 
             var defaults = Config.get(module.id);
@@ -194,12 +194,17 @@ define('WeChat', function (require, module, exports) {
         *   'QZone': 分享到 QQ 空间;
         *   'Timeline': 分享到朋友圈;
         *   'Weibo': 分享到微博;
-        * @param {Object} data 配置数据对象。
+        * @param {Object} data 配置数据对象。 其中：
+        * @param {string} data.title 要显示的标题。
+        * @param {string} data.desc 要显示的描述内容。
+        * @param {string} data.url (或 data.link)需要跳转到的目标页面 url。
+        * @param {string} data.icon (或 data.imgUrl)要显示的图标。 支持 base64 格式。
         */
         share: function (type, data) {
             exports.on('ready', function (wx) {
 
-                var url = exports.getLoginUrl(data.link || data.url); //多名称方式
+                var url = data.link || data.url; //多名称方式
+                url = exports.getLoginUrl(url); 
 
                 data = $.Object.extend({}, data, {
                     'link': url,
