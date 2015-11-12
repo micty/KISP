@@ -55,8 +55,18 @@
             bottom: 10px;
         }
 
+
         >div {
             width: 100%;
+        }
+    }
+
+
+    &.main-fullscreen {
+        article {
+            bottom: 0;
+            top: 0;
+            padding: 0;
         }
     }
 
@@ -90,9 +100,19 @@
             text-align: center;
             cursor: pointer; /**针对 PC 端*/
 
+            /**按下去时*/
+            &.pressed {
+                background: #E3E3E5;
+            }
+
+
+            &:first-child {
+                border-bottom-left-radius: 10px;
+            }
 
             &:last-child {
                 border-right: none;
+                border-bottom-right-radius: 10px;
             }
         }
 

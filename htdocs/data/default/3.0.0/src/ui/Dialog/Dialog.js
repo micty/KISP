@@ -8,7 +8,7 @@ define('Dialog', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
 
-    var Mapper = MiniQuery.require('Mapper');
+
     var Emitter = MiniQuery.require('Emitter');
 
     var Config = require('Config');
@@ -19,7 +19,7 @@ define('Dialog', function (require, module, exports) {
     var Style = require(module, 'Style');
     var Renderer = require(module, 'Renderer');
 
-    var mapper = new Mapper();
+    var mapper = require('Mapper');
 
 
     /**
@@ -28,7 +28,8 @@ define('Dialog', function (require, module, exports) {
     */
     function Dialog(config) {
 
-        Mapper.setGuid(this);
+
+        mapper.setGuid(this, module); //设置 guid, 提高 mapper 查找效率。
 
         config = Config.clone(module.id, config);
 
@@ -53,6 +54,7 @@ define('Dialog', function (require, module, exports) {
             'div': null,
             'scrollable': config.scrollable,
             'scroller': null,
+            'scrollerConfig': config['scroller'],
             'eventName': eventName,
             'title': config.title,
             'text': config.text,
@@ -69,6 +71,7 @@ define('Dialog', function (require, module, exports) {
             'volatile': config.volatile,
             'zIndex': config['z-index'],        //生成透明层时要用到
             'data': {},                         //供 this.data() 方法使用
+            
         };
 
         mapper.set(this, meta);

@@ -2,8 +2,8 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.0
-* build: 2015-11-05 15:57:21
-* files: 85(83)
+* build: 2015-11-12 17:04:08
+* files: 89(87)
 *    partial/default/begin.js
 *    core/Module.js
 *    core/$.js
@@ -45,13 +45,17 @@
 *    third-party/wechat/WeChat/Lib.js
 *    third-party/wechat/WeChat/Signature.js
 *    third-party/wechat/WeChat.js
+*    ui/App.js
+*    ui/App/Nav.js
 *    ui/dialog/Alert.js
 *    ui/dialog/Alert/Sample.html
+*    ui/dialog/Confirm.js
 *    ui/dialog/Dialog.js
 *    ui/dialog/Dialog/Sample/iOS.html
 *    ui/dialog/Dialog/Renderer.js
 *    ui/dialog/Dialog/Sample.js
 *    ui/dialog/Dialog/Style.js
+*    ui/dialog/ImageViewer.js
 *    ui/dialog/Loading.js
 *    ui/dialog/Loading/Sample/iOS.html
 *    ui/dialog/Loading/Sample/spinner.html
@@ -260,7 +264,6 @@ define('KISP', function (require, module, exports) {
 
         /**
         * 加载 KISP 框架内公开的模块，并创建它的一个实例。
-        * @function
         * @param {string} id 模块的名称(id)
         * @param {Object} config 要创建实例时的配置参数。
         * @return {Object} 返回该模块所创建的实例。
@@ -372,40 +375,37 @@ define('KISP', function (require, module, exports) {
         },
 
         /**
+        * 弹出简单的 confirm 虚拟窗口。
+        * @param {string} text 要显示的消息文本。
+        * @param {function} fn 点击“确定”按钮后执行的回调函数。
+        */
+        confirm: function (text, fn) {
+            var Confirm = require('Confirm');
+            Confirm.show(text, fn);
+        },
+
+        /**
         * 初始化执行环境，并启动应用程序。
-        * 该方法会预先定义一些公共模块，然后定义一个指定的(或匿名)模块并启动它。
-        * 已重载 launch(factory);
-        * @param {string} name 启动模块的名称。 若不指定，则默认为空字符串。
+        * 该方法会预先定义一些公共模块，然后定义一个匿名模块并启动它。
         * @param {function} factory 工厂函数，即启动函数。
         */
-        launch: function (name, factory) {
+        launch: function (factory) {
 
-            if (typeof name == 'function') { //重载 launch(factory)
-                factory = name;
-                name = '';
+            var App = require('App');
+            var app = new App('');
+
+            var Config = require('Config');
+            var config = Config.clone('App');
+
+            var type = config.type;
+            if (type == 'standard') {
+                app.render(factory);
+            }
+            else {
+                app.launch(factory);
             }
 
-            var Module = require('Module');
-            var $ = require('jquery-plugin/touch') || require('$'); //
 
-            var MiniQuery = require('MiniQuery');
-
-            var define = Module.define;
-
-            define('$', function () {
-                return $;
-            });
-
-            define('MiniQuery', function () {
-                return MiniQuery;
-            });
-
-            define('KISP', function () {
-                return exports;
-            });
-
-            define(name, factory);
-            Module.require(name); //启动
         },
 
 
@@ -3924,7 +3924,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
 
             var type = img.type;
             if (type.indexOf('image/') != 0) {
-                emitter.fire('fail', [type]);
+                emitter.fire('fail', [201, '所选择的文件类型不是图片', { img: img }]);
                 return;
             }
 
@@ -3973,7 +3973,8 @@ define('ImageReader/Renderer', function (require, module, exports) {
                     base64 = data.fileData.replace(/[\r\n]/g, '');
                 }
                 catch (ex) {
-                    emitter.fire('fail', ['无法读取图片，云之家接口有问题: ' + ex.message]);
+                    var msg = '无法读取图片，云之家接口有问题: ' + ex.message;
+                    emitter.fire('fail', [500, msg, json]);
                     return;
                 }
 
@@ -3991,7 +3992,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
                     return;
                 }
 
-                emitter.fire('fail', [msg]);
+                emitter.fire('fail', [code, msg, json]);
             });
 
 
@@ -4039,18 +4040,28 @@ define('ImageReader', function (require, module, exports) {
     var Emitter = MiniQuery.require('Emitter');//事件驱动器
     var Mapper = MiniQuery.require('Mapper');
 
-    var mapper = new Mapper();
+    var Config = require('Config');
     var Renderer = require(module, 'Renderer');
+
+    var mapper = new Mapper();
 
 
     function ImageReader(input, config) {
 
         Mapper.setGuid(this);
 
-        var emitter = new Emitter();
+        //重载 ImageReader(config)
+        if ($.Object.isPlain(input)) {
+            config = input;
+            input = config['el'];
+            delete config['el'];
+        }
+
+        config = Config.clone(module.id, config);
+
 
         var meta = {
-            'emitter': emitter,
+            'emitter': new Emitter(this),
             'input': input,
             'loading': config.loading,
         };
@@ -4320,6 +4331,7 @@ define('WeChat', function (require, module, exports) {
     var Config = require('Config');
 
     var Emitter = MiniQuery.require('Emitter');
+    var Url = MiniQuery.require('Url');
 
     var emitter = new Emitter();
     var status = '';    // wx 的状态: ready 或 error
@@ -4335,9 +4347,10 @@ define('WeChat', function (require, module, exports) {
         */
         init: function (config) {
 
-            var JsApiList = require(module, 'JsApiList');
-            var Lib = require(module, 'Lib');
-            var Signature = require(module, 'Signature');
+            var JsApiList = module.require('JsApiList');
+            var Lib = module.require('Lib');
+            var Signature = module.require('Signature');
+
 
             config = current = Config.clone(module.id, config);
 
@@ -4473,12 +4486,10 @@ define('WeChat', function (require, module, exports) {
 
             }
 
-            var Url = MiniQuery.require('Url');
 
             if (query) {
                 url = Url.addQueryString(url, query);
             }
-
 
 
             var defaults = Config.get(module.id);
@@ -4504,12 +4515,17 @@ define('WeChat', function (require, module, exports) {
         *   'QZone': 分享到 QQ 空间;
         *   'Timeline': 分享到朋友圈;
         *   'Weibo': 分享到微博;
-        * @param {Object} data 配置数据对象。
+        * @param {Object} data 配置数据对象。 其中：
+        * @param {string} data.title 要显示的标题。
+        * @param {string} data.desc 要显示的描述内容。
+        * @param {string} data.url (或 data.link)需要跳转到的目标页面 url。
+        * @param {string} data.icon (或 data.imgUrl)要显示的图标。 支持 base64 格式。
         */
         share: function (type, data) {
             exports.on('ready', function (wx) {
 
-                var url = exports.getLoginUrl(data.link || data.url); //多名称方式
+                var url = data.link || data.url; //多名称方式
+                url = exports.getLoginUrl(url); 
 
                 data = $.Object.extend({}, data, {
                     'link': url,
@@ -4560,6 +4576,227 @@ define('WeChat', function (require, module, exports) {
 
 });
 
+
+
+
+/**
+* App 启动类
+* @class
+* @name App
+*/
+define('App', function (require, module, exports) {
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+
+    var Mapper = MiniQuery.require('Mapper');
+    var Config = require('Config');
+
+
+    var mapper = new Mapper();
+
+
+    /**
+    * 构造器。
+    * @constructor
+    */
+    function App(name, config) {
+
+        Mapper.setGuid(this);
+
+        config = Config.clone(module.id, config);
+
+        var meta = {
+            'name': name,
+            'mask': config.mask,
+            //'predefined': [],
+        };
+
+        mapper.set(this, meta);
+
+
+    }
+
+
+
+    App.prototype = /**@lends App#*/ {
+        constructor: App,
+
+        /**
+        * 初始化执行环境，并启动应用程序。
+        * 该方法会预先定义一些公共模块，然后定义一个指定的(或匿名)模块并启动它。
+        * @param {function} factory 工厂函数，即启动函数。
+        */
+        launch: function (factory) {
+
+            var $ = require('jquery-plugin/touch') || require('$'); //
+            var MiniQuery = require('MiniQuery');
+            var KISP = require('KISP');
+            var Module = require('Module');
+
+            var define = Module.define;
+
+            define('$', function () {
+                return $;
+            });
+
+            define('MiniQuery', function () {
+                return MiniQuery;
+            });
+
+            define('KISP', function () {
+                return KISP;
+            });
+
+            var meta = mapper.get(this);
+            var name = meta.name;
+
+            define(name, factory);
+            Module.require(name); //启动
+        },
+       
+        /**
+        * 初始化执行环境，创建导航管理器和相应的 UI 组件，并启动应用程序。
+        * @param {function} factory 工厂函数，即启动函数。
+        */
+        render: function (fn) {
+
+            var meta = mapper.get(this);
+
+            var Nav = module.require('Nav');
+            var nav = Nav.create(meta.mask);
+
+
+            this.launch(function (require, module) {
+
+                //后退时触发
+                nav.on('back', function (current, target) {
+
+                    document.activeElement.blur(); // 关闭输入法
+
+                    current = module.require(current);
+                    target = module.require(target);
+
+                    current.hide();
+                    target.show();
+
+                });
+
+
+                //跳转到目标视图之前触发，先隐藏当前视图
+                nav.on('before-to', function (current, target) {
+
+                    current = module.require(current);
+                    current.hide();
+
+                });
+
+
+                //统一绑定视图跳转动作，在调用 nav.to(...) 时会给触发
+                nav.on('to', function (name, arg0, arg1, argN) {
+
+                    var args = [].slice.call(arguments, 1);
+
+                    var M = module.require(name);
+                    M.render.apply(M, args);
+
+                });
+
+
+                fn && fn(require, module, nav);
+
+            });
+
+        },
+
+     
+
+    };
+
+
+    return App;
+
+});
+
+
+
+define('App/Nav', function (require, module, exports) {
+    var $ = require('$');
+
+
+    var Navigator = require('Navigator');
+    var Mask = require('Mask');
+
+   
+    function create(config) {
+
+        var mask = new Mask({
+            opacity: config.opacity,
+            duration: config.duration,
+            'z-index': config['z-index'],
+        });
+
+        mask.render(); //提前渲染但不显示，避免在视图切换时来不及创建 DOM 节点。
+
+
+        var nav = new Navigator({
+            hash: function (current) {
+
+                //为了让 url 中的 hash 可读性更好，有助于快速定位到相应的模块。
+                return [current, $.String.random(8)].join('-');
+            },
+        });
+
+        function showMask() {
+            mask.show();
+        }
+
+        //避免上一个视图的点透
+        nav.on({
+            'before-to': showMask,
+            'back': showMask,
+        });
+
+
+        //重写 nav.to 方法
+        var to = nav.to;
+
+        /**
+        * 跳转(或延迟跳转)到指定的视图，并传递一些参数。
+        */
+        nav.to = function (delay, name, arg0, argN) {
+
+            var args = [].slice.call(arguments);
+
+            //重载 to(name, arg0, argN)
+            if (typeof delay == 'string') {
+                name = delay;
+                delay = false;
+            }
+            else {
+                args = args.slice(1);
+            }
+
+            if (delay) {
+                setTimeout(function () {
+                    to.apply(nav, args);
+                }, delay);
+            }
+            else {
+                to.apply(nav, args);
+            }
+        };
+
+        return nav;
+    }
+
+
+    return {
+        create: create,
+    };
+
+
+
+});
 
 
 /**
@@ -4667,6 +4904,60 @@ define('Alert/Sample', [
     '<pre class="json">{text}</pre>',
 ].join('\n'));
 
+/**
+* 简单的 confirm 虚拟对话框。
+* @namespace
+* @name Confirm
+*/
+define('Confirm', function (require, module, exports) {
+
+    var dialog = null;
+
+    function create() {
+
+        if (dialog) {
+            return dialog;
+        }
+
+        var Dialog = require('Dialog');
+
+        dialog = new Dialog({
+            autoClose: true,
+            height: 140,
+            buttons: [
+                { text: '取消', },
+                { text: '确定', name: 'ok', color: 'red', },
+            ],
+        });
+
+        dialog.on('button', 'ok', function () {
+            var fn = dialog.data('fn');
+            fn && fn();
+        });
+
+        return dialog;
+    }
+
+
+    function show(text, fn) {
+
+        dialog = create();
+
+        //有闭包的作用影响，这里要把回调函数 fn 保存起来
+        dialog.data('fn', fn);
+        dialog.show();
+        dialog.set('text', text);
+
+    }
+
+
+    return {
+        show: show,
+    };
+
+
+
+});
 
 /**
 * 对话框组件
@@ -4677,7 +4968,7 @@ define('Dialog', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
 
-    var Mapper = MiniQuery.require('Mapper');
+
     var Emitter = MiniQuery.require('Emitter');
 
     var Config = require('Config');
@@ -4688,7 +4979,7 @@ define('Dialog', function (require, module, exports) {
     var Style = require(module, 'Style');
     var Renderer = require(module, 'Renderer');
 
-    var mapper = new Mapper();
+    var mapper = require('Mapper');
 
 
     /**
@@ -4697,7 +4988,8 @@ define('Dialog', function (require, module, exports) {
     */
     function Dialog(config) {
 
-        Mapper.setGuid(this);
+
+        mapper.setGuid(this, module); //设置 guid, 提高 mapper 查找效率。
 
         config = Config.clone(module.id, config);
 
@@ -4722,6 +5014,7 @@ define('Dialog', function (require, module, exports) {
             'div': null,
             'scrollable': config.scrollable,
             'scroller': null,
+            'scrollerConfig': config['scroller'],
             'eventName': eventName,
             'title': config.title,
             'text': config.text,
@@ -4738,6 +5031,7 @@ define('Dialog', function (require, module, exports) {
             'volatile': config.volatile,
             'zIndex': config['z-index'],        //生成透明层时要用到
             'data': {},                         //供 this.data() 方法使用
+            
         };
 
         mapper.set(this, meta);
@@ -5058,8 +5352,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         var samples = meta.samples;
 
 
-        var height = parseInt(style.height);
-        var textHeight = height - 44 * 2 - 2;
+
         var title = meta.title;
 
         //标准化成一个 object
@@ -5082,7 +5375,7 @@ define('Dialog/Renderer', function (require, module, exports) {
             'header-style': getStyle(title),
 
             'buttons-count': buttons.length,
-            'text-height': textHeight,
+            'text-height': parseInt(style.height) - 44 * 2 - 2,
 
             'buttons': $.Array.keep(buttons, function (item, index) {
 
@@ -5103,26 +5396,61 @@ define('Dialog/Renderer', function (require, module, exports) {
 
         $(document.body).prepend(html);
 
+        var eventName = meta.eventName;
+
+        var article = $('#' + articleId);
+
+        if (eventName == 'touch') {
+            article.touch(function () {
+                emitter.fire('touch-main');
+            });
+        }
+        else {
+            article.on(eventName, function () {
+                emitter.fire(eventName + '-main');
+            });
+        }
+
         //指定了可滚动
         if (meta.scrollable) {
             var Scroller = require('Scroller');
-            var scroller = meta.scroller = new Scroller('#' + articleId);
+            var scroller = new Scroller(article.get(0), meta.scrollerConfig);
+            meta.scroller = scroller;
         }
+
+
 
         //底部按钮组
         var footer = $('#' + footerId);
-        if (!footer.hasClass('buttons-0')) { //有按钮时才绑定
+        if (buttons.length > 0) { //有按钮时才绑定
 
-            footer.on('click', '[data-index]', function (event) {
+            if (eventName == 'touch') { //移动端的，特殊处理
+                footer.touch('[data-index]', fn, 'pressed');
+            }
+            else { // PC 端
+                footer.on(eventName, '[data-index]', fn);
+
+                footer.on('mousedown', '[data-index]', function (event) {
+                    var button = this;
+                    $(button).addClass('pressed');
+                });
+
+                footer.on('mouseup', '[data-index]', function (event) {
+                    var button = this;
+                    $(button).removeClass('pressed');
+                });
+            }
+
+            function fn(event) {
                 var button = this;
                 var index = +button.getAttribute('data-index');
                 var item = buttons[index];
                 var name = item.name || String(index);
-                var eventName = meta.eventName;
+
 
                 //这两个已废弃，建议使用 #2
-                emitter.fire(eventName, 'button', name, [item, index]);
-                emitter.fire(eventName, 'button', [item, index]);
+                emitter.fire('click', 'button', name, [item, index]);
+                emitter.fire('click', 'button', [item, index]);
 
                 //#2 建议使用
                 emitter.fire('button', name, [item, index]);
@@ -5138,7 +5466,7 @@ define('Dialog/Renderer', function (require, module, exports) {
                     dialog.hide();
                 }
 
-            });
+            }
         }
         
 
@@ -5180,6 +5508,20 @@ define('Dialog/Sample', function (require, module, exports) {
                 name: 'div',
                 begin: '#--div.begin--#',
                 end: '#--div.end--#',
+                fn: trim,
+            },
+            {
+                name: 'header',
+                begin: '#--header.begin--#',
+                end: '#--header.end--#',
+                outer: '{header}',
+                fn: trim,
+            },
+            {
+                name: 'footer',
+                begin: '#--footer.begin--#',
+                end: '#--footer.end--#',
+                outer: '{footer}',
                 fn: trim,
             },
             {
@@ -5295,6 +5637,162 @@ define('Dialog/Style', function (require, module, exports) {
         get: get,
     };
 
+
+});
+
+
+
+/**
+* 图片查看器。
+* @class
+* @name ImageViewer
+*/
+define('ImageViewer', function (require, module, exports) {
+    var $ = require('$');
+    var MiniQuery = require('MiniQuery');
+    var Emitter = MiniQuery.require('Emitter');
+    var Config = require('Config');
+    var RandomId = require('RandomId');
+
+    var mapper = require('Mapper');
+
+
+    /**
+    * 构造器。
+    * @constructor
+    */
+    function ImageViewer(img, config) {
+
+        //重载 ImageViewer(config)
+        if ($.Object.isPlain(img)) {
+            config = img;
+            img = config.img;
+        }
+
+
+        mapper.setGuid(this, module);
+        config = Config.clone(module.id, config);
+
+        var emitter = new Emitter(this);
+
+
+        //以下字段不属于 Dialog 构造器所需要的，移掉为安全起见。
+        var cfg = $.Object.remove(config, [
+            'sample',
+        ]);
+
+        var Dialog = require('Dialog');
+        var dialog = new Dialog(cfg);
+        var eventName = config.eventName;
+
+        dialog.on(eventName + '-main', function () {
+            dialog.hide();
+        });
+
+        dialog.on('hide', function () {
+            emitter.fire('hide');
+        });
+
+        dialog.on('show', function () {
+            emitter.fire('show');
+        });
+
+
+        var prefix = config.prefix;
+        var suffix = config.suffix;
+       
+        var meta = {
+            'imgId': RandomId.get(prefix, 'img-', suffix),
+            'img': img,
+            'sample': config.sample,
+            'dialog': dialog,
+            'emitter': emitter,
+        };
+
+        mapper.set(this, meta);
+    }
+
+
+    //实例方法
+    ImageViewer.prototype =  /**@lends ImageViewer#*/ {
+        constructor: ImageViewer,
+        
+        /**
+        * 显示本组件。
+        * @param {string|jQuery|Elemenet} [img] 要显示的图片。
+            可以直接传入一个图片 src 地址；或者传入要关联显示的 img 元素节点。
+        */
+        show: function (src) {
+
+            var meta = mapper.get(this);
+            var imgId = meta.imgId;
+            var dialog = meta.dialog;
+
+            var img = document.getElementById(imgId);
+
+            if (img) { //之前已经创建
+                if (src) {
+                    //传入的是 DOM 元素或 jQuery 对象
+                    if (typeof src == 'object') {
+                        src = $(src).attr('src');
+                    }
+                    img.src = src;
+                }
+
+                dialog.show();
+
+                return;
+            }
+
+
+            //首次创建
+
+            src = src || meta.img;
+
+            //传入的是 DOM 元素或 jQuery 对象
+            if (typeof src == 'object') {
+                src = $(src).attr('src');
+            }
+
+            var sample = meta.sample;
+
+            var html = $.String.format(sample, {
+                'id': imgId,
+                'src': src,
+
+            });
+
+            //一定要先 show，再 set
+            dialog.show();
+            dialog.set('text', html);
+
+          
+        },
+
+        /**
+        * 隐藏本组件。
+        */
+        hide: function () {
+            var meta = mapper.get(this);
+            var dialog = meta.dialog;
+            dialog.hide();
+        },
+
+        /**
+        * 绑定事件。
+        */
+        on: function (name, fn) {
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+
+            var args = [].slice.call(arguments, 0);
+            emitter.on.apply(emitter, args);
+        },
+
+
+    };
+
+    return ImageViewer;
 
 });
 
@@ -7762,6 +8260,7 @@ define('Panel', function (require, module, exports) {
             'showAfterRender': config.showAfterRender,
             'cssClass': config.cssClass,
             'visible': false,
+            'byRender': false, //记录 show 事件是否由 render() 触发的。
         };
 
         mapper.set(this, meta);
@@ -7795,7 +8294,11 @@ define('Panel', function (require, module, exports) {
             container.show.apply(container, args);
 
             meta.visible = true;
-            emitter.fire('show');
+
+            var byRender = meta.byRender;
+            meta.byRender = false; //重置
+
+            emitter.fire('show', [byRender]);
 
         },
 
@@ -7884,6 +8387,7 @@ define('Panel', function (require, module, exports) {
             meta.rendered = true;
 
             if (meta.showAfterRender) {
+                meta.byRender = true;
                 this.show();
             }
 
@@ -8191,7 +8695,9 @@ define('Scroller', function (require, module,  exports) {
         var emitter = new Emitter(this);
 
         //jQuery 包装后的滚动条的数组。
-        var indicators = $.Array.keep(scroller.indicators, function (item, index) {
+        var indicators = scroller.indicators || [];
+
+        indicators = $.Array.keep(indicators, function (item, index) {
             item = $(item.indicator);
             item.hide();
             return item;
@@ -9485,6 +9991,7 @@ Module.expose({
 
     //ui
     'Dialog': true,
+    'ImageViewer': true,
     'Loading': true,
     'Mask': true,
     'Navigator': true,
@@ -9740,6 +10247,13 @@ define('defaults', /**@lends defaults*/ {
         */
         scrollable: true,
 
+        /**
+        * 针对滚动器的配置。
+        */
+        scroller: {
+            probeType: 1,   //禁用 scoll 事件，提高性能
+        },
+
         autoClosed: true,
 
         /**
@@ -9753,10 +10267,13 @@ define('defaults', /**@lends defaults*/ {
 
         sample: 'iOS',
         cssClass: '',
-        eventName: 'click',
+        eventName: 'touch',
         width: '80%',
         height: '50%',
         buttons: [],
+        
+
+        
     },
 
     /**
@@ -10004,6 +10521,43 @@ define('defaults', /**@lends defaults*/ {
     },
     'SessionStorage': {
         name: '',
+    },
+
+    'App': {
+        mask: {
+            opacity: 0,
+            duration: 500,
+            'z-index': 99999,
+        },
+
+        type: 'simple', //只做最基础的初始化，向后兼容
+     
+    },
+
+    'ImageViewer': {
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.4)',
+        border: 'none',
+        'border-radius': 0,
+        cssClass: 'main-fullscreen',
+        eventName: 'touch',
+
+        /**
+        * 生成的 id 的前缀。
+        */
+        prefix: 'KISP-ImageViewer-',
+
+        /**
+        * 给 img 元素生成的 id 的随机后缀的长度。
+        */
+        suffix: 4,
+        sample: '<img id="{id}" style="max-width: 100%; max-height: 100%;" src="{src}" />',
+
+        scroller: {
+            scrollbars: false,  //隐藏滚动条
+            probeType: 1,       //禁用 scoll 事件，提高性能
+        },
     },
 
 });

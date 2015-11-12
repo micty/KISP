@@ -51,6 +51,11 @@
 .KISP.Dialog article > div {
   width: 100%;
 }
+.KISP.Dialog.main-fullscreen article {
+  bottom: 0;
+  top: 0;
+  padding: 0;
+}
 .KISP.Dialog footer {
   /*display: -webkit-box;
         border-top: solid 1px #ccc;
@@ -80,9 +85,17 @@
   text-align: center;
   cursor: pointer;
   /**针对 PC 端*/
+  /**按下去时*/
+}
+.KISP.Dialog footer span.pressed {
+  background: #E3E3E5;
+}
+.KISP.Dialog footer span:first-child {
+  border-bottom-left-radius: 10px;
 }
 .KISP.Dialog footer span:last-child {
   border-right: none;
+  border-bottom-right-radius: 10px;
 }
 .KISP.Dialog footer.buttons-0 {
   /**无按钮时*/

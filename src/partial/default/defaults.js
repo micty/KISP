@@ -238,6 +238,13 @@ define('defaults', /**@lends defaults*/ {
         */
         scrollable: true,
 
+        /**
+        * 针对滚动器的配置。
+        */
+        scroller: {
+            
+        },
+
         autoClosed: true,
 
         /**
@@ -251,10 +258,13 @@ define('defaults', /**@lends defaults*/ {
 
         sample: 'iOS',
         cssClass: '',
-        eventName: 'click',
+        eventName: 'touch',
         width: '80%',
         height: '50%',
         buttons: [],
+        
+
+        
     },
 
     /**
@@ -513,6 +523,31 @@ define('defaults', /**@lends defaults*/ {
 
         type: 'simple', //只做最基础的初始化，向后兼容
      
+    },
+
+    'ImageViewer': {
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0, 0, 0, 0.4)',
+        border: 'none',
+        'border-radius': 0,
+        cssClass: 'main-fullscreen',
+        eventName: 'touch',
+
+        /**
+        * 生成的 id 的前缀。
+        */
+        prefix: 'KISP-ImageViewer-',
+
+        /**
+        * 给 img 元素生成的 id 的随机后缀的长度。
+        */
+        suffix: 4,
+        sample: '<img id="{id}" style="max-width: 100%; max-height: 100%;" src="{src}" />',
+
+        scroller: {
+            scrollbars: false,  //隐藏滚动条
+        },
     },
 
 });

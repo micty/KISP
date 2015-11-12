@@ -41,8 +41,7 @@ define('Dialog/Renderer', function (require, module, exports) {
         var samples = meta.samples;
 
 
-        var height = parseInt(style.height);
-        var textHeight = height - 44 * 2 - 2;
+
         var title = meta.title;
 
         //标准化成一个 object
@@ -65,7 +64,7 @@ define('Dialog/Renderer', function (require, module, exports) {
             'header-style': getStyle(title),
 
             'buttons-count': buttons.length,
-            'text-height': textHeight,
+            'text-height': parseInt(style.height) - 44 * 2 - 2,
 
             'buttons': $.Array.keep(buttons, function (item, index) {
 
@@ -86,26 +85,61 @@ define('Dialog/Renderer', function (require, module, exports) {
 
         $(document.body).prepend(html);
 
+        var eventName = meta.eventName;
+
+        var article = $('#' + articleId);
+
+        if (eventName == 'touch') {
+            article.touch(function () {
+                emitter.fire('touch-main');
+            });
+        }
+        else {
+            article.on(eventName, function () {
+                emitter.fire(eventName + '-main');
+            });
+        }
+
         //指定了可滚动
         if (meta.scrollable) {
             var Scroller = require('Scroller');
-            var scroller = meta.scroller = new Scroller('#' + articleId);
+            var scroller = new Scroller(article.get(0), meta.scrollerConfig);
+            meta.scroller = scroller;
         }
+
+
 
         //底部按钮组
         var footer = $('#' + footerId);
-        if (!footer.hasClass('buttons-0')) { //有按钮时才绑定
+        if (buttons.length > 0) { //有按钮时才绑定
 
-            footer.on('click', '[data-index]', function (event) {
+            if (eventName == 'touch') { //移动端的，特殊处理
+                footer.touch('[data-index]', fn, 'pressed');
+            }
+            else { // PC 端
+                footer.on(eventName, '[data-index]', fn);
+
+                footer.on('mousedown', '[data-index]', function (event) {
+                    var button = this;
+                    $(button).addClass('pressed');
+                });
+
+                footer.on('mouseup', '[data-index]', function (event) {
+                    var button = this;
+                    $(button).removeClass('pressed');
+                });
+            }
+
+            function fn(event) {
                 var button = this;
                 var index = +button.getAttribute('data-index');
                 var item = buttons[index];
                 var name = item.name || String(index);
-                var eventName = meta.eventName;
+
 
                 //这两个已废弃，建议使用 #2
-                emitter.fire(eventName, 'button', name, [item, index]);
-                emitter.fire(eventName, 'button', [item, index]);
+                emitter.fire('click', 'button', name, [item, index]);
+                emitter.fire('click', 'button', [item, index]);
 
                 //#2 建议使用
                 emitter.fire('button', name, [item, index]);
@@ -121,7 +155,7 @@ define('Dialog/Renderer', function (require, module, exports) {
                     dialog.hide();
                 }
 
-            });
+            }
         }
         
 

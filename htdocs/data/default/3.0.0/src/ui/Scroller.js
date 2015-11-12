@@ -67,7 +67,9 @@ define('Scroller', function (require, module,  exports) {
         var emitter = new Emitter(this);
 
         //jQuery 包装后的滚动条的数组。
-        var indicators = $.Array.keep(scroller.indicators, function (item, index) {
+        var indicators = scroller.indicators || [];
+
+        indicators = $.Array.keep(indicators, function (item, index) {
             item = $(item.indicator);
             item.hide();
             return item;

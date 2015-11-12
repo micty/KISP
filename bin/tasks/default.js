@@ -168,6 +168,7 @@ module.exports = function (grunt) {
                                 'Style.js',
                             ],
                         },
+                        'ImageViewer.js',
                         'Loading.js',
                         {
                             dir: 'Loading',

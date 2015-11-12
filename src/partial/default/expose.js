@@ -38,6 +38,7 @@ Module.expose({
 
     //ui
     'Dialog': true,
+    'ImageViewer': true,
     'Loading': true,
     'Mask': true,
     'Navigator': true,
