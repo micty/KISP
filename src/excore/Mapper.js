@@ -48,6 +48,15 @@ define('Mapper', function (require, module, exports) {
             Mapper.setGuid(obj, id);
         },
 
+        /**
+        * 根据给定的键移除一对映射关系。
+        * 注意：根据映射关系的键查找所关联的值时，对键使用的是全等比较，即区分数据类型。
+        * @param key 映射关系的键，可以是任何类型。
+        */
+        remove: function (key) {
+            mapper.remove(key);
+        },
+
     };
 
 
