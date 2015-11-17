@@ -1,11 +1,48 @@
 ﻿
-
-
-
 .KISP.View {
     position: absolute;
     width: 100%;
     top: 0;
     bottom: 0;
+    background: white;
 
+    .shadow() {
+        box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+        -ms-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .transform(@n) {
+        transform: translateX(@n);
+        -ms-transform: translateX(@n);
+        -moz-transform: translateX(@n);
+        -webkit-transform: translateX(@n);
+        -o-transform: translateX(@n);
+    }
+
+    .transition(@n) {
+        transition: transform @n;
+        -ms-transition: -ms-transform @n;
+        -moz-transition: -moz-transform @n;
+        -webkit-transition: -webkit-transform @n;
+        -o-transition: -o-transform @n;
+    }
+
+    &.animation {
+        .transform(100%);
+    }
+
+    &.to-left {
+        .transition(0.7s);
+        .transform(0);
+        .shadow();
+    }
+
+
+    &.to-right {
+        .transition(0.5s);
+        .shadow();
+    }
 }

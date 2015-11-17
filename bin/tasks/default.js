@@ -139,6 +139,7 @@ module.exports = function (grunt) {
                     dir: 'App',
                     files: [
                         'Nav.js',
+                        'Transition.js',
                     ],
                 },
                 {

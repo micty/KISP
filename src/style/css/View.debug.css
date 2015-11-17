@@ -3,4 +3,41 @@
   width: 100%;
   top: 0;
   bottom: 0;
+  background: white;
+}
+.KISP.View.animation {
+  transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  -o-transform: translateX(100%);
+}
+.KISP.View.to-left {
+  transition: transform 0.7s;
+  -ms-transition: -ms-transform 0.7s;
+  -moz-transition: -moz-transform 0.7s;
+  -webkit-transition: -webkit-transform 0.7s;
+  -o-transition: -o-transform 0.7s;
+  transform: translateX(0);
+  -ms-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -o-transform: translateX(0);
+  box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+}
+.KISP.View.to-right {
+  transition: transform 0.5s;
+  -ms-transition: -ms-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
 }
