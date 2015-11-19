@@ -138,11 +138,11 @@ define('App', function (require, module, exports) {
                 nav.on('back', function (current, target) {
                     document.activeElement.blur(); // 关闭输入法
 
-                    current = module.require(current).$;
-                    target = module.require(target).$;
+                    target = module.require(target);
+                    target.show(); //这里要触发 show 事件
 
-                    target.show();
-                    current.removeClass(left).addClass(right);
+                    current = module.require(current);
+                    current.$.removeClass(left).addClass(right);
                 });
 
 
@@ -150,25 +150,32 @@ define('App', function (require, module, exports) {
                 nav.on('before-to', function (current, target) {
                     var name = target;
 
-                    current = module.require(current).$;
-                    target = module.require(target).$;
+                    current = module.require(current);
+                    target = module.require(target);
 
-                    current.css({ 'z-index': 1, });
-                    target.css({ 'z-index': 2, });
+                    current.$.css({ 'z-index': 1, });
+                    target.$.css({ 'z-index': 2, });
+                    
+                    target.$.addClass('animation');
+                    target.$.removeClass(right);
+                    target.$.show();
 
-                    target.show();
-                    target.addClass('animation');
+
+                    //防止时间竞争
+                    setTimeout(function () {
+                        target.$.addClass(left);
+                    }, 50);
 
                     // css 动画结束后执行
                     var bound = name$bound[name];
                     if (!bound) { //首次绑定
 
-                        target.on(eventName, function () {
-                            if (target.hasClass(left)) { //前进
-                                current.hide();
+                        target.$.on(eventName, function () {
+                            if (target.$.hasClass(left)) { //前进
+                                current.hide(); //要触发 hide 事件
                             }
-                            else if (target.hasClass(right)) { //后退
-                                target.hide();
+                            else if (target.$.hasClass(right)) { //后退
+                                target.hide(); //要触发 hide 事件
                             }
                         });
 
@@ -182,7 +189,6 @@ define('App', function (require, module, exports) {
                     var args = [].slice.call(arguments, 1);
                     var target = module.require(name);
                     target.render.apply(target, args);
-                    target.$.removeClass(right).addClass(left);
                 });
 
                 fn && fn(require, module, nav);
