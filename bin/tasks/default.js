@@ -150,6 +150,7 @@ module.exports = function (grunt) {
                         {
                             dir: 'Alert',
                             files: [
+                                'Dialog.js',
                                 'Sample.html',
                             ],
                         },

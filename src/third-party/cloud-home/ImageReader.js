@@ -12,7 +12,7 @@ define('ImageReader', function (require, module, exports) {
     var Mapper = MiniQuery.require('Mapper');
 
     var Config = require('Config');
-    var Renderer = require(module, 'Renderer');
+    var Renderer = module.require('Renderer');
 
     var mapper = new Mapper();
 

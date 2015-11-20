@@ -201,6 +201,8 @@ define('defaults', /**@lends defaults*/ {
 
         data: null,
 
+        msg: '网络繁忙，请稍候再试',
+
 
     },
 
@@ -396,6 +398,10 @@ define('defaults', /**@lends defaults*/ {
         cssClass: '',
     },
 
+    'View': {
+        background: false, //禁用背景色。
+    },
+
 
     
     'NoData': {
@@ -472,7 +478,6 @@ define('defaults', /**@lends defaults*/ {
     * 微信相关配置
     */
     'WeChat': {
-
         debug: false,
         appid: '',
         eid: '',

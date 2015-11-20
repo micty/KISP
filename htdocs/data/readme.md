@@ -21,18 +21,29 @@ KISP 框架
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
 - [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
 
-### v3.0.2
+### v3.0.3
 
-- [KISP 接口文档 3.0.2](?type=default&version=3.0.2)
-- [kisp.debug.js](?file=default/3.0.2/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.2/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.2/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.2/kisp.min.css)
+- [KISP 接口文档 3.0.3](?type=default&version=3.0.3)
+- [kisp.debug.js](?file=default/3.0.3/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.3/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.3/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.3/kisp.min.css)
 
 ### 更新历史
 
-####v3.0.2
+####v3.0.3
+######2015-11-20
+- 优化模块方法 Mask.remove()。
+- 优化模块方法 Dialog.remove()。
+- 优化模块方法 Dialog/Style.get()。
+- 增加模块方法 Dialog.render()。
+- 优化模块 Alert 的实现，支持多次调用并依次显示出 alert 对话框（之前的只能显示最后一次的 alert 调用）。
+- 把子模块的调用方式由 require(module, 'ABC') 改成 module.require('ABC');
+- 给模块 `SSH.API` 增加了默认错误消息: `网络繁忙，请稍候再试`，当 http 协议请求错误时将使用该消息。
+- 模块 `View` 的背景色需要在配置中指定，否则不会生成背景色。 
 
+
+####v3.0.2
 ######2015-11-19
 
 - 修复了视图动画后退时没有触发 show 事件的 bug。

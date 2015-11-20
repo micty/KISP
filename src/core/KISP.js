@@ -7,7 +7,6 @@
 define('KISP', function (require, module, exports) {
 
     var cfg = null; //for data
-    var dlg = null; //for alert
 
     module.exports = exports = /**@lends KISP*/ {
 
@@ -163,16 +162,10 @@ define('KISP', function (require, module, exports) {
         */
         alert: function (text, text1, textN, fn) {
 
-            if (dlg) {
-                dlg.destroy();
-            }
+            var args = [].slice.call(arguments, 0);
 
             var Alert = require('Alert');
-
-            var args = [].slice.call(arguments, 0);
-            dlg = Alert.create.apply(null, args);
-
-            dlg.show();
+            Alert.show.apply(null, args);
            
         },
 
