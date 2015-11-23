@@ -28,6 +28,7 @@
         "src": "../src/",
         "css": "../src/style/css/",
         "less": "../src/style/less/",
+        "less2": "../src/style/less2/",
         "build": "../build/"
     }
 }

@@ -179,7 +179,6 @@ module.exports = function (grunt) {
                                     dir: 'Sample',
                                     files: [
                                         'iOS.html',
-                                        'spinner.html',
                                     ],
                                 },
                                 'Presettings.js',
@@ -334,6 +333,19 @@ module.exports = function (grunt) {
 
             var type = compressed ? 'min' : 'debug';
 
+            ////预处理，插入 grunt 标记相关的信息
+            //Tasks.run('copy', 'less2', {
+            //    cwd: '<%=dir.less%>',
+            //    src: '**',
+            //    dest: '<%=dir.less2%>',
+            //    expand: true, 
+            //    options: {
+            //        process: function (content, file) {
+            //            return '@KISP: KISP-; \r\n' + content;
+            //        },
+            //    },
+            //});
+
             Tasks.run('less', type, {
                 options: {
                     compress: compressed,
@@ -341,7 +353,8 @@ module.exports = function (grunt) {
                 expand: true,
                 ext: '.' + type + '.css',
                 src: '<%=dir.less%>**/*.less',
-
+                //src: '<%=dir.less2%>**/*.less',
+                
                 //生成 .css 到 /css/ 目录
                 rename: function (src, dest) {
                     var basename = Path.basename(dest);

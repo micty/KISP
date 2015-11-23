@@ -1,158 +1,8 @@
-.KISP.Loading-spinner {
-  margin: 10px auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -64px;
-  margin-top: -54px;
-  background: rgba(0, 0, 0, 0.7);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  width: 128px;
-  z-index: 9999;
-  height: 128px;
-  display: -webkit-box;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
-}
-.KISP.Loading-spinner .text {
-  color: #fff;
-}
-.KISP.Loading-spinner .rotater {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  margin-right: 10px;
-}
-.KISP.Loading-spinner .rotater .group {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.KISP.Loading-spinner .group-1 > div,
-.KISP.Loading-spinner .group-2 > div,
-.KISP.Loading-spinner .group-3 > div {
-  width: 6px;
-  height: 6px;
-  background-color: #fff;
-  -moz-border-radius: 100%;
-  -webkit-border-radius: 100%;
-  border-radius: 100%;
-  position: absolute;
-  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
-  -moz-animation: bouncedelay 1.2s infinite ease-in-out;
-  -o-animation: bouncedelay 1.2s infinite ease-in-out;
-  animation: bouncedelay 1.2s infinite ease-in-out;
-  /* Prevent first frame from flickering when animation starts */
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.KISP.Loading-spinner .group-2 {
-  -webkit-transform: rotateZ(45deg);
-  -moz-transform: rotateZ(45deg);
-  -ms-transform: rotateZ(45deg);
-  -o-transform: rotateZ(45deg);
-  transform: rotateZ(45deg);
-}
-.KISP.Loading-spinner .group-3 {
-  -webkit-transform: rotateZ(90deg);
-  -moz-transform: rotateZ(90deg);
-  -ms-transform: rotateZ(90deg);
-  -o-transform: rotateZ(90deg);
-  transform: rotateZ(90deg);
-}
-.KISP.Loading-spinner .item-1 {
-  top: 0;
-  left: 0;
-}
-.KISP.Loading-spinner .item-2 {
-  top: 0;
-  right: 0;
-}
-.KISP.Loading-spinner .item-3 {
-  right: 0;
-  bottom: 0;
-}
-.KISP.Loading-spinner .item-4 {
-  left: 0;
-  bottom: 0;
-}
-.KISP.Loading-spinner .group-1 .item-2 {
-  -webkit-animation-delay: -0.9s;
-  -moz-animation-delay: -0.9s;
-  -o-animation-delay: -0.9s;
-  animation-delay: -0.9s;
-}
-.KISP.Loading-spinner .group-1 .item-3 {
-  -webkit-animation-delay: -0.6s;
-  -moz-animation-delay: -0.6s;
-  -o-animation-delay: -0.6s;
-  animation-delay: -0.6s;
-}
-.KISP.Loading-spinner .group-1 .item-4 {
-  -webkit-animation-delay: -0.3s;
-  -moz-animation-delay: -0.3s;
-  -o-animation-delay: -0.3s;
-  animation-delay: -0.3s;
-}
-.KISP.Loading-spinner .group-2 .item-1 {
-  -webkit-animation-delay: -1.1s;
-  -moz-animation-delay: -1.1s;
-  -o-animation-delay: -1.1s;
-  animation-delay: -1.1s;
-}
-.KISP.Loading-spinner .group-2 .item-2 {
-  -webkit-animation-delay: -0.8s;
-  -moz-animation-delay: -0.8s;
-  -o-animation-delay: -0.8s;
-  animation-delay: -0.8s;
-}
-.KISP.Loading-spinner .group-2 .item-3 {
-  -webkit-animation-delay: -0.5s;
-  -moz-animation-delay: -0.5s;
-  -o-animation-delay: -0.5s;
-  animation-delay: -0.5s;
-}
-.KISP.Loading-spinner .group-2 .item-4 {
-  -webkit-animation-delay: -0.2s;
-  -moz-animation-delay: -0.2s;
-  -o-animation-delay: -0.2s;
-  animation-delay: -0.2s;
-}
-.KISP.Loading-spinner .group-3 .item-1 {
-  -webkit-animation-delay: -1s;
-  -moz-animation-delay: -1s;
-  -o-animation-delay: -1s;
-  animation-delay: -1s;
-}
-.KISP.Loading-spinner .group-3 .item-2 {
-  -webkit-animation-delay: -0.7s;
-  -moz-animation-delay: -0.7s;
-  -o-animation-delay: -0.7s;
-  animation-delay: -0.7s;
-}
-.KISP.Loading-spinner .group-3 .item-3 {
-  -webkit-animation-delay: -0.4s;
-  -moz-animation-delay: -0.4s;
-  -o-animation-delay: -0.4s;
-  animation-delay: -0.4s;
-}
-.KISP.Loading-spinner .group-3 .item-4 {
-  -webkit-animation-delay: -0.1s;
-  -moz-animation-delay: -0.1s;
-  -o-animation-delay: -0.1s;
-  animation-delay: -0.1s;
-}
 .KISP.Loading-iOS {
   position: absolute;
   color: #fff;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.7);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
   top: 50%;
   left: 50%;
@@ -167,33 +17,30 @@
   /**同一行的*/
   /**无文本时*/
 }
-.KISP.Loading-iOS.same-line .floatingBarsG {
-  margin-left: -34px;
-  margin-top: -9px;
+.KISP.Loading-iOS.SameLine .Main {
+  margin: -9px 0 0 -34px;
 }
-.KISP.Loading-iOS.same-line .text {
-  margin-top: 0px;
-  margin-left: 26px;
+.KISP.Loading-iOS.SameLine .Text {
+  margin: 0 0 0 26px;
 }
-.KISP.Loading-iOS.no-text {
+.KISP.Loading-iOS.NoText {
   width: 90px !important;
   height: 80px !important;
-  margin-left: -45px !important;
-  margin-top: -40px !important;
+  margin: -40px 0 0 -45px !important;
 }
-.KISP.Loading-iOS.no-text .floatingBarsG {
+.KISP.Loading-iOS.NoText .Main {
   margin-top: -12px;
 }
-.KISP.Loading-iOS.no-text .text {
+.KISP.Loading-iOS.NoText .Text {
   display: none;
 }
-.KISP.Loading-iOS .text {
+.KISP.Loading-iOS .Text {
   display: inline-block;
   margin-top: 45px;
   text-align: center;
   font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
 }
-.KISP.Loading-iOS .floatingBarsG {
+.KISP.Loading-iOS .Main {
   display: block;
   position: absolute;
   width: 18px;
@@ -202,35 +49,23 @@
   top: 50%;
   margin-top: -16px;
 }
-.KISP.Loading-iOS .floatingBarsG .blockG {
+.KISP.Loading-iOS .Main > div {
   position: absolute;
   background-color: #675e55;
   width: 2px;
   height: 5px;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
+  border-radius: 8px;
   -webkit-transform: scale(0.4);
-  -webkit-animation-name: fadeG;
-  -webkit-animation-duration: 1.1s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-direction: linear;
+  transform: scale(0.4);
+  -webkit-animation: fadeG 1.1s linear infinite;
   -moz-transform: scale(0.4);
-  -moz-animation-name: fadeG;
-  -moz-animation-duration: 1.1s;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-direction: linear;
+  -moz-animation: fadeG 1.1s linear infinite;
   -o-transform: scale(0.4);
-  -o-animation-name: fadeG;
-  -o-animation-duration: 1.1s;
-  -o-animation-iteration-count: infinite;
-  -o-animation-direction: linear;
+  -o-animation: fadeG 1.1s linear infinite;
   -ms-transform: scale(0.4);
-  -ms-animation-name: fadeG;
-  -ms-animation-duration: 1.1s;
-  -ms-animation-iteration-count: infinite;
-  -ms-animation-direction: linear;
+  -ms-animation: fadeG 1.1s linear infinite;
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_0 {
+.KISP.Loading-iOS .Main .Item-0 {
   -webkit-animation-delay: 0.1s;
   -webkit-transform: rotate(0deg) translate(0, 0);
   -moz-animation-delay: 0.1s;
@@ -240,7 +75,7 @@
   -ms-animation-delay: 0.1s;
   -ms-transform: rotate(0deg) translate(0, 0);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_1 {
+.KISP.Loading-iOS .Main .Item-1 {
   -webkit-animation-delay: 0.1s;
   -webkit-transform: rotate(30deg) translate(3.5px, -1px);
   -moz-animation-delay: 0.1s;
@@ -250,7 +85,7 @@
   -ms-animation-delay: 0.1s;
   -ms-transform: rotate(30deg) translate(3.5px, -1px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_2 {
+.KISP.Loading-iOS .Main .Item-2 {
   -webkit-animation-delay: 0.2s;
   -webkit-transform: rotate(60deg) translate(6px, -4px);
   -moz-animation-delay: 0.2s;
@@ -260,7 +95,7 @@
   -ms-animation-delay: 0.2s;
   -ms-transform: rotate(60deg) translate(6px, -4px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_3 {
+.KISP.Loading-iOS .Main .Item-3 {
   -webkit-animation-delay: 0.3s;
   -webkit-transform: rotate(90deg) translate(7px, -7px);
   -moz-animation-delay: 0.3s;
@@ -270,7 +105,7 @@
   -ms-animation-delay: 0.3s;
   -ms-transform: rotate(90deg) translate(7px, -7px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_4 {
+.KISP.Loading-iOS .Main .Item-4 {
   -webkit-animation-delay: 0.4s;
   -webkit-transform: rotate(120deg) translate(6px, -11px);
   -moz-animation-delay: 0.4s;
@@ -280,7 +115,7 @@
   -ms-animation-delay: 0.4s;
   -ms-transform: rotate(120deg) translate(6px, -11px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_5 {
+.KISP.Loading-iOS .Main .Item-5 {
   -webkit-animation-delay: 0.5s;
   -webkit-transform: rotate(150deg) translate(3.5px, -13px);
   -moz-animation-delay: 0.5s;
@@ -290,7 +125,7 @@
   -ms-animation-delay: 0.5s;
   -ms-transform: rotate(150deg) translate(3.5px, -13px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_6 {
+.KISP.Loading-iOS .Main .Item-6 {
   -webkit-animation-delay: 0.5s;
   -webkit-transform: rotate(0deg) translate(0px, 14px);
   -moz-animation-delay: 0.5s;
@@ -300,7 +135,7 @@
   -ms-animation-delay: 0.5s;
   -ms-transform: rotate(0deg) translate(0px, 14px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_7 {
+.KISP.Loading-iOS .Main .Item-7 {
   -webkit-animation-delay: 0.6s;
   -webkit-transform: rotate(-150deg) translate(-3.5px, -13px);
   -moz-animation-delay: 0.6s;
@@ -310,7 +145,7 @@
   -ms-animation-delay: 0.6s;
   -ms-transform: rotate(-150deg) translate(-3.5px, -13px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_8 {
+.KISP.Loading-iOS .Main .Item-8 {
   -webkit-animation-delay: 0.7s;
   -webkit-transform: rotate(-120deg) translate(-6px, -11px);
   -moz-animation-delay: 0.7s;
@@ -320,7 +155,7 @@
   -ms-animation-delay: 0.7s;
   -ms-transform: rotate(-120deg) translate(-6px, -11px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_9 {
+.KISP.Loading-iOS .Main .Item-9 {
   -webkit-animation-delay: 0.8s;
   -webkit-transform: rotate(-90deg) translate(-7px, -7px);
   -moz-animation-delay: 0.8s;
@@ -330,7 +165,7 @@
   -ms-animation-delay: 0.8s;
   -ms-transform: rotate(-90deg) translate(-7px, -7px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_10 {
+.KISP.Loading-iOS .Main .Item-10 {
   -webkit-animation-delay: 0.9s;
   -webkit-transform: rotate(-60deg) translate(-6px, -4px);
   -moz-animation-delay: 0.9s;
@@ -340,7 +175,7 @@
   -ms-animation-delay: 0.9s;
   -ms-transform: rotate(-60deg) translate(-6px, -4px);
 }
-.KISP.Loading-iOS .floatingBarsG .rotateG_11 {
+.KISP.Loading-iOS .Main .Item-11 {
   -webkit-animation-delay: 1s;
   -webkit-transform: rotate(-30deg) translate(-3.5px, -1px);
   -moz-animation-delay: 1s;
@@ -382,17 +217,17 @@
     background-color: #675e55;
   }
 }
-.KISP.Loading-iOS .floatingBarsG.large {
+.KISP.Loading-iOS .Main.Large {
   width: 27px;
   height: 27px;
   margin-top: -24px;
 }
-.KISP.Loading-iOS .floatingBarsG.large .blockG {
+.KISP.Loading-iOS .Main.Large > div {
   border-radius: 100%;
   width: 3px;
   height: 8px;
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_0 {
+.KISP.Loading-iOS .Main.Large .Item-0 {
   -webkit-animation-delay: 0s;
   -webkit-transform: rotate(0deg) translate(0px, 0px);
   -moz-animation-delay: 0s;
@@ -402,7 +237,7 @@
   -ms-animation-delay: 0s;
   -ms-transform: rotate(0deg) translate(0px, 0px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_1 {
+.KISP.Loading-iOS .Main.Large .Item-1 {
   -webkit-animation-delay: 0.1s;
   -webkit-transform: rotate(30deg) translate(4.8px, -1.5px);
   -moz-animation-delay: 0.1s;
@@ -412,7 +247,7 @@
   -ms-animation-delay: 0.1s;
   -ms-transform: rotate(30deg) translate(4.8px, -1.5px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_2 {
+.KISP.Loading-iOS .Main.Large .Item-2 {
   -webkit-animation-delay: 0.2s;
   -webkit-transform: rotate(60deg) translate(8px, -5px);
   -moz-animation-delay: 0.2s;
@@ -422,7 +257,7 @@
   -ms-animation-delay: 0.2s;
   -ms-transform: rotate(60deg) translate(8px, -5px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_3 {
+.KISP.Loading-iOS .Main.Large .Item-3 {
   -webkit-animation-delay: 0.3s;
   -webkit-transform: rotate(90deg) translate(9px, -9px);
   -moz-animation-delay: 0.3s;
@@ -432,7 +267,7 @@
   -ms-animation-delay: 0.3s;
   -ms-transform: rotate(90deg) translate(9px, -9px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_4 {
+.KISP.Loading-iOS .Main.Large .Item-4 {
   -webkit-animation-delay: 0.4s;
   -webkit-transform: rotate(120deg) translate(8px, -14px);
   -moz-animation-delay: 0.4s;
@@ -442,7 +277,7 @@
   -ms-animation-delay: 0.4s;
   -ms-transform: rotate(120deg) translate(8px, -14px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_5 {
+.KISP.Loading-iOS .Main.Large .Item-5 {
   -webkit-animation-delay: 0.5s;
   -webkit-transform: rotate(150deg) translate(4.5px, -17px);
   -moz-animation-delay: 0.5s;
@@ -452,7 +287,7 @@
   -ms-animation-delay: 0.5s;
   -ms-transform: rotate(150deg) translate(4.5px, -17px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_6 {
+.KISP.Loading-iOS .Main.Large .Item-6 {
   -webkit-animation-delay: 0.5s;
   -webkit-transform: rotate(0deg) translate(0, 18px);
   -moz-animation-delay: 0.5s;
@@ -462,7 +297,7 @@
   -ms-animation-delay: 0.5s;
   -ms-transform: rotate(0deg) translate(0, 18px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_7 {
+.KISP.Loading-iOS .Main.Large .Item-7 {
   -webkit-animation-delay: 0.6s;
   -webkit-transform: rotate(-150deg) translate(-4.5px, -17px);
   -moz-animation-delay: 0.6s;
@@ -472,7 +307,7 @@
   -ms-animation-delay: 0.6s;
   -ms-transform: rotate(-150deg) translate(-4.5px, -17px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_8 {
+.KISP.Loading-iOS .Main.Large .Item-8 {
   -webkit-animation-delay: 0.7s;
   -webkit-transform: rotate(-120deg) translate(-8px, -14px);
   -moz-animation-delay: 0.7s;
@@ -482,7 +317,7 @@
   -ms-animation-delay: 0.7s;
   -ms-transform: rotate(-120deg) translate(-8px, -14px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_9 {
+.KISP.Loading-iOS .Main.Large .Item-9 {
   -webkit-animation-delay: 0.8s;
   -webkit-transform: rotate(-90deg) translate(-9px, -9px);
   -moz-animation-delay: 0.8s;
@@ -492,7 +327,7 @@
   -ms-animation-delay: 0.8s;
   -ms-transform: rotate(-90deg) translate(-9px, -9px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_10 {
+.KISP.Loading-iOS .Main.Large .Item-10 {
   -webkit-animation-delay: 0.9s;
   -webkit-transform: rotate(-60deg) translate(-8px, -5px);
   -moz-animation-delay: 0.9s;
@@ -502,7 +337,7 @@
   -ms-animation-delay: 0.9s;
   -ms-transform: rotate(-60deg) translate(-8px, -5px);
 }
-.KISP.Loading-iOS .floatingBarsG.large .rotateG_11 {
+.KISP.Loading-iOS .Main.Large .Item-11 {
   -webkit-animation-delay: 1s;
   -webkit-transform: rotate(-30deg) translate(-4.8px, -1.5px);
   -moz-animation-delay: 1s;

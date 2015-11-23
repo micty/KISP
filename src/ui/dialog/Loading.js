@@ -80,17 +80,26 @@ define('Loading', function (require, module, exports) {
 
         var text = config.text;
         if (!text && text !== 0) { // 0 除外
-            cssClass += ' no-text'; //注意，前面要有个空格
+            cssClass += ' NoText'; //注意，前面要有个空格
         }
+
+        //向后兼容。
+        cssClass = $.Array.keep(cssClass.split(' '), function (item, index) {
+            if (item == 'same-line') {
+                console.warn('类名 "same-line" 已过时，请使用 "SameLine"');
+                return 'SameLine';
+            }
+
+            return item;
+        }).join(' ');
+
 
         var prefix = config.prefix;
         var suffix = config.suffix;
 
         var meta = {
-
             'id': RandomId.get(prefix, suffix),
             'textId': RandomId.get(prefix, 'text-', suffix),
-
             'container': config.container,
             'prepend': config.prepend,
             'div': null,
@@ -102,6 +111,7 @@ define('Loading', function (require, module, exports) {
             'style': Style.get(config),
             'showTime': 0, //开始显示时的时间点
             'cssClass': cssClass,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -114,8 +124,16 @@ define('Loading', function (require, module, exports) {
         constructor: Loading,
 
         /**
-       * 显示本组件。
+       * 渲染本组件。
+       * 该方法会创建 DOM 节点，并且绑定事件，但没有调用 show()。
        */
+        render: function () {
+            
+        },
+
+        /**
+        * 显示本组件。
+        */
         show: function (text, config) {
 
 
@@ -153,7 +171,9 @@ define('Loading', function (require, module, exports) {
             //指定了启用 mask 层
             if (mask) {
                 if (!masker) {
-                    masker = meta.masker = new Mask();
+                    masker = meta.masker = new Mask({
+                        'container': meta.container,
+                    });
                 }
 
                 masker.show(mask);

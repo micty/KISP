@@ -32,6 +32,13 @@ KISP 框架
 ### 更新历史
 
 ####v3.0.3
+######2015-11-23
+- 修复 Loading 配置中的 append 字段无效。
+- 删除了 Loading 中的 spinner 模板。
+- 把 Loading 模块的 css 类名改成大写开头，避免跟业务层冲突，同时兼容旧的名称 `same-line`，建议使用新的 `SameLine`。
+- 优化 Loading 模块的 css 类名，改写成更简短的方式。
+- 修复 Loading 中的 Mask 层的 container 指向问题，让它与 Loading 的一致。
+
 ######2015-11-20
 - 优化模块方法 Mask.remove()。
 - 优化模块方法 Dialog.remove()。

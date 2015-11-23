@@ -119,9 +119,8 @@ define('ImageViewer', function (require, module, exports) {
 
             });
 
-            //一定要先 show，再 set
-            dialog.show();
             dialog.set('text', html);
+            dialog.show();
 
           
         },

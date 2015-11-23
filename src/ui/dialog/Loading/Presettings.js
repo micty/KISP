@@ -21,7 +21,7 @@ define('Loading/Presettings', {
 
     'scroller.pulldown': {
         sample: 'iOS',
-        cssClass: 'same-line',
+        cssClass: 'SameLine',
         text: '加载中...',
         background: 'none',
         color: '#000',
@@ -38,7 +38,7 @@ define('Loading/Presettings', {
 
     'scroller.pullup': {
         sample: 'iOS',
-        cssClass: 'same-line',
+        cssClass: 'SameLine',
         text: '加载中...',
         background: 'none',
         color: '#000',
