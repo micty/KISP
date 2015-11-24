@@ -42,14 +42,14 @@ define('Toast', function (require, module, exports) {
 
         var text = config.text;
         if (!text && text !== 0) { // 0 除外
-            cssClass += ' no-text'; //注意，前面要有个空格
+            cssClass += ' NoText'; //注意，前面要有个空格
         }
         else {
-            cssClass += ' has-text';
+            cssClass += ' HasText';
         }
 
         var icon = config.icon;
-        cssClass += icon ? ' has-icon' : ' no-icon';
+        cssClass += icon ? ' HasIcon' : ' NoIcon';
 
         var prefix = config.prefix;
         var suffix = config.suffix;
@@ -133,14 +133,14 @@ define('Toast', function (require, module, exports) {
             if (text !== undefined && text != meta.text) {
                 $('#' + meta.textId).html(text);
                 meta.text = text;
-                $(div).removeClass('no-text').addClass('has-text');
+                $(div).removeClass('NoText').addClass('HasText');
             }
 
 
             if ('icon' in config) {
                 var icon = config.icon;
                 if (icon) {
-                    $(div).removeClass('no-icon').addClass('has-icon');
+                    $(div).removeClass('NoIcon').addClass('HasIcon');
 
                     if (icon != meta.icon) {
                         $('#' + meta.iconId).removeClass('fa-' + meta.icon).addClass('fa-' + icon);
@@ -148,7 +148,7 @@ define('Toast', function (require, module, exports) {
                     }
                 }
                 else {
-                    $(div).removeClass('has-icon').addClass('no-icon');
+                    $(div).removeClass('HasIcon').addClass('NoIcon');
                 }
             }
 

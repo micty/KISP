@@ -8,6 +8,37 @@
     background: #000;
     width: 100%;
     z-index: 1024;
+
+    .transition(@n) {
+        transition: opacity @n;
+        -ms-transition: opacity @n;
+        -moz-transition: opacity @n;
+        -webkit-transition: opacity @n;
+        -o-transition: opacity @n;
+    }
+
+    &.BeforeForward {
+        z-index: 2 !important;
+        opacity: 0 !important;
+    }
+
+    &.Forward {
+        .transition(0.7s);
+        opacity: 0.4 !important;
+    }
+
+
+    &.BeforeBack {
+        z-index: 2 !important;
+        opacity: 0.4 !important;
+    }
+
+    &.Back {
+        .transition(0.5s);
+        opacity: 0 !important;
+    }
+
+   
 }
 
 

@@ -4,7 +4,6 @@
     width: 100%;
     top: 0;
     bottom: 0;
-    
 
     .shadow() {
         box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
@@ -14,7 +13,7 @@
         -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .transform(@n) {
+    .translateX(@n) {
         transform: translateX(@n);
         -ms-transform: translateX(@n);
         -moz-transform: translateX(@n);
@@ -30,19 +29,22 @@
         -o-transition: -o-transform @n;
     }
 
-    &.animation {
-        .transform(100%);
+    &.BeforeForward {
+        .translateX(100%);
     }
 
-    &.to-left {
+    &.Forward {
         .transition(0.7s);
-        .transform(0);
+        .translateX(0px);
         .shadow();
     }
 
 
-    &.to-right {
+    &.Back {
         .transition(0.5s);
         .shadow();
     }
+
+
+
 }

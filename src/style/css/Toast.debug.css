@@ -26,13 +26,13 @@
 .KISP.Toast-font-awesome div i {
   font-size: 35px;
 }
-.KISP.Toast-font-awesome .text {
+.KISP.Toast-font-awesome .Text {
   display: block;
   font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
   padding: 0 10px;
   text-align: center;
 }
-.KISP.Toast-font-awesome.has-text div {
+.KISP.Toast-font-awesome.HasText div {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -41,15 +41,15 @@
   width: 36px;
   height: 36px;
 }
-.KISP.Toast-font-awesome.has-icon .text {
+.KISP.Toast-font-awesome.HasIcon .text {
   margin-top: 42px;
 }
-.KISP.Toast-font-awesome.no-text div i {
+.KISP.Toast-font-awesome.NoText div i {
   font-size: 60px;
 }
-.KISP.Toast-font-awesome.no-text .text {
+.KISP.Toast-font-awesome.NoText .Text {
   display: none;
 }
-.KISP.Toast-font-awesome.no-icon div {
+.KISP.Toast-font-awesome.NoIcon div {
   display: none;
 }

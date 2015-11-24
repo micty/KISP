@@ -80,27 +80,22 @@ define('App', function (require, module, exports) {
         * @param {function} factory 工厂函数，即启动函数。
         */
         render: function (fn) {
-
             var meta = mapper.get(this);
-
             var Nav = module.require('Nav');
-            var nav = Nav.create(meta.mask);
+            
 
-            if (!meta.animation) { //不使用动画
-
+            //不使用动画
+            if (!meta.animation) { 
                 this.launch(function (require, module) {
+                    var nav = Nav.create(meta.mask);
 
                     //后退时触发
                     nav.on('back', function (current, target) {
-
                         document.activeElement.blur(); // 关闭输入法
-
                         current = module.require(current);
                         target = module.require(target);
-
                         current.hide();
                         target.show();
-
                     });
 
                     //跳转到目标视图之前触发，先隐藏当前视图
@@ -125,14 +120,18 @@ define('App', function (require, module, exports) {
 
 
             //使用动画
-            var name$bound = {}; //记录目标视图是否已绑定了 transitionend 事件。
-            var left = 'to-left';
-            var right = 'to-right';
-
+            var Mask = require('Mask');
             var Transition = module.require('Transition');
-            var eventName = Transition.getEventName();
 
             this.launch(function (require, module) {
+
+                var name$bound = {}; //记录目标视图是否已绑定了 transitionend 事件。
+                var eventName = Transition.getEventName();
+                var nav = Nav.create();
+
+                var mask = new Mask();
+                mask.render();
+
 
                 //后退时触发
                 nav.on('back', function (current, target) {
@@ -142,7 +141,21 @@ define('App', function (require, module, exports) {
                     target.show(); //这里要触发 show 事件
 
                     current = module.require(current);
-                    current.$.removeClass(left).addClass(right);
+                    current.$.removeClass('Forward').addClass('Back');
+
+                    target.$.css({ 'z-index': 1, });
+                    current.$.css({ 'z-index': 3, });
+
+                    mask.$.removeClass('BeforeForward Forward Back');
+                    mask.$.addClass('BeforeBack');
+                    mask.$.show();
+
+
+                    //防止时间竞争
+                    setTimeout(function () {
+                        mask.$.addClass('Back');
+                    }, 50);
+
                 });
 
 
@@ -154,16 +167,22 @@ define('App', function (require, module, exports) {
                     target = module.require(target);
 
                     current.$.css({ 'z-index': 1, });
-                    target.$.css({ 'z-index': 2, });
+                    target.$.css({ 'z-index': 3, });
+
+
                     
-                    target.$.addClass('animation');
-                    target.$.removeClass(right);
+                    target.$.addClass('BeforeForward');
+                    target.$.removeClass('Back');
                     target.$.show();
 
+                    mask.$.removeClass('Back BeforeBack Forward')
+                    mask.$.addClass('BeforeForward');
+                    mask.$.show();
 
                     //防止时间竞争
                     setTimeout(function () {
-                        target.$.addClass(left);
+                        mask.$.addClass('Forward');
+                        target.$.addClass('Forward');
                     }, 50);
 
                     // css 动画结束后执行
@@ -171,12 +190,13 @@ define('App', function (require, module, exports) {
                     if (!bound) { //首次绑定
 
                         target.$.on(eventName, function () {
-                            if (target.$.hasClass(left)) { //前进
+                            if (target.$.hasClass('Forward')) { //前进
                                 current.hide(); //要触发 hide 事件
                             }
-                            else if (target.$.hasClass(right)) { //后退
+                            else if (target.$.hasClass('Back')) { //后退
                                 target.hide(); //要触发 hide 事件
                             }
+                            mask.$.hide();
                         });
 
                         name$bound[name] = true;

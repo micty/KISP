@@ -55,7 +55,7 @@ define('SSH/Server/Config', function (require, module, exports) {
         $.getJSON(url, function (data) {
 
             try {
-                var host = data['kisplusServerS'];
+                var host = defaults.host || data['kisplusServerS'];
                 var path = data['kisplusAppsecret'];
 
                 json = {

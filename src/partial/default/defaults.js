@@ -128,6 +128,10 @@ define('defaults', /**@lends defaults*/ {
         */
         cache: 'session',
 
+        //默认使用服务器返回的(为 'http://kd.cmcloud.cn')。
+        //如果指定了，则忽略服务器的。
+        host: '', 
+
     },
 
     'SSH/Server': {

@@ -49,7 +49,6 @@ define('NumberPad/Renderer', function (require, module, exports) {
         }
         else {
             $(container).prepend(html);
-
         }
 
         var div = document.getElementById(id);

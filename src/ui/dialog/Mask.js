@@ -60,6 +60,11 @@ define('Mask', function (require, module, exports) {
         constructor: Mask,
 
         /**
+        * $(container) 的快捷方式。
+        */
+        $: null,
+
+        /**
         * 渲染本组件。
         * 该方法会创建 DOM 节点，并且绑定事件，但没有调用 show()。
         */
@@ -88,8 +93,10 @@ define('Mask', function (require, module, exports) {
 
             }
 
-
             div = meta.div = document.getElementById(id);
+
+            //暴露一个 jQuery 对象给外面使用。 但为了安全起见，内部不使用这个对象。
+            this.$ = $(div);
 
             var style = Style.get(meta.style);
             $(div).css(style);

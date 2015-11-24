@@ -2,8 +2,8 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.3
-* build: 2015-11-20 17:27:12
-* files: 91(89)
+* build: 2015-11-24 14:04:24
+* files: 90(88)
 *    partial/default/begin.js
 *    core/Module.js
 *    core/$.js
@@ -60,7 +60,6 @@
 *    ui/dialog/ImageViewer.js
 *    ui/dialog/Loading.js
 *    ui/dialog/Loading/Sample/iOS.html
-*    ui/dialog/Loading/Sample/spinner.html
 *    ui/dialog/Loading/Presettings.js
 *    ui/dialog/Loading/Sample.js
 *    ui/dialog/Loading/Style.js
@@ -2938,7 +2937,7 @@ define('SSH/Server/Config', function (require, module, exports) {
         $.getJSON(url, function (data) {
 
             try {
-                var host = data['kisplusServerS'];
+                var host = defaults.host || data['kisplusServerS'];
                 var path = data['kisplusAppsecret'];
 
                 json = {
@@ -4712,8 +4711,8 @@ define('App', function (require, module, exports) {
 
             //使用动画
             var name$bound = {}; //记录目标视图是否已绑定了 transitionend 事件。
-            var left = 'to-left';
-            var right = 'to-right';
+            var left = 'ToLeft';
+            var right = 'ToRight';
 
             var Transition = module.require('Transition');
             var eventName = Transition.getEventName();
@@ -4742,7 +4741,7 @@ define('App', function (require, module, exports) {
                     current.$.css({ 'z-index': 1, });
                     target.$.css({ 'z-index': 2, });
                     
-                    target.$.addClass('animation');
+                    target.$.addClass('Animation');
                     target.$.removeClass(right);
                     target.$.show();
 
@@ -5108,7 +5107,7 @@ define('Alert/Dialog', function (require, module, exports) {
 * 由 grunt 生成，来源: ui/dialog/Alert/Sample.html
 */
 define('Alert/Sample', [
-    '<pre class="json">{text}</pre>',
+    '<pre class="JSON">{text}</pre>',
 ].join('\n'));
 
 /**
@@ -5999,9 +5998,8 @@ define('ImageViewer', function (require, module, exports) {
 
             });
 
-            //一定要先 show，再 set
-            dialog.show();
             dialog.set('text', html);
+            dialog.show();
 
           
         },
@@ -6116,17 +6114,26 @@ define('Loading', function (require, module, exports) {
 
         var text = config.text;
         if (!text && text !== 0) { // 0 除外
-            cssClass += ' no-text'; //注意，前面要有个空格
+            cssClass += ' NoText'; //注意，前面要有个空格
         }
+
+        //向后兼容。
+        cssClass = $.Array.keep(cssClass.split(' '), function (item, index) {
+            if (item == 'same-line') {
+                console.warn('类名 "same-line" 已过时，请使用 "SameLine"');
+                return 'SameLine';
+            }
+
+            return item;
+        }).join(' ');
+
 
         var prefix = config.prefix;
         var suffix = config.suffix;
 
         var meta = {
-
             'id': RandomId.get(prefix, suffix),
             'textId': RandomId.get(prefix, 'text-', suffix),
-
             'container': config.container,
             'prepend': config.prepend,
             'div': null,
@@ -6138,6 +6145,7 @@ define('Loading', function (require, module, exports) {
             'style': Style.get(config),
             'showTime': 0, //开始显示时的时间点
             'cssClass': cssClass,
+            'append': config.append,
         };
 
         mapper.set(this, meta);
@@ -6150,8 +6158,16 @@ define('Loading', function (require, module, exports) {
         constructor: Loading,
 
         /**
-       * 显示本组件。
+       * 渲染本组件。
+       * 该方法会创建 DOM 节点，并且绑定事件，但没有调用 show()。
        */
+        render: function () {
+            
+        },
+
+        /**
+        * 显示本组件。
+        */
         show: function (text, config) {
 
 
@@ -6189,7 +6205,9 @@ define('Loading', function (require, module, exports) {
             //指定了启用 mask 层
             if (mask) {
                 if (!masker) {
-                    masker = meta.masker = new Mask();
+                    masker = meta.masker = new Mask({
+                        'container': meta.container,
+                    });
                 }
 
                 masker.show(mask);
@@ -6332,53 +6350,21 @@ define('Loading', function (require, module, exports) {
 */
 define('Loading/Sample/iOS', [
     '<div id="{id}" class="KISP Loading-iOS {cssClass}" style="{style}">',
-    '    <div class="floatingBarsG">',
-    '        <div class="blockG rotateG_0"></div>',
-    '        <div class="blockG rotateG_1"></div>',
-    '        <div class="blockG rotateG_2"></div>',
-    '        <div class="blockG rotateG_3"></div>',
-    '        <div class="blockG rotateG_4"></div>',
-    '        <div class="blockG rotateG_5"></div>',
-    '        <div class="blockG rotateG_6"></div>',
-    '        <div class="blockG rotateG_7"></div>',
-    '        <div class="blockG rotateG_8"></div>',
-    '        <div class="blockG rotateG_9"></div>',
-    '        <div class="blockG rotateG_10"></div>',
-    '        <div class="blockG rotateG_11"></div>',
+    '    <div class="Main">',
+    '        <div class="Item-0"></div>',
+    '        <div class="Item-1"></div>',
+    '        <div class="Item-2"></div>',
+    '        <div class="Item-3"></div>',
+    '        <div class="Item-4"></div>',
+    '        <div class="Item-5"></div>',
+    '        <div class="Item-6"></div>',
+    '        <div class="Item-7"></div>',
+    '        <div class="Item-8"></div>',
+    '        <div class="Item-9"></div>',
+    '        <div class="Item-10"></div>',
+    '        <div class="Item-11"></div>',
     '    </div>',
-    '    <span id="{text-id}" class="text">{text}</span>',
-    '</div>',
-].join('\n'));
-
-/*
-* Loading/Sample/spinner
-* 由 grunt 生成，来源: ui/dialog/Loading/Sample/spinner.html
-*/
-define('Loading/Sample/spinner', [
-    '<div id="{id}" class="KISP Loading-spinner {cssClass}" style="{style}">',
-    '    <div class="rotater">',
-    '        <div class="group group-1">',
-    '            <div class="item-1"></div>',
-    '            <div class="item-2"></div>',
-    '            <div class="item-3"></div>',
-    '            <div class="item-4"></div>',
-    '        </div>',
-    '        <div class="group group-2">',
-    '            <div class="item-1"></div>',
-    '            <div class="item-2"></div>',
-    '            <div class="item-3"></div>',
-    '            <div class="item-4"></div>',
-    '        </div>',
-    '        <div class="group group-3">',
-    '            <div class="item-1"></div>',
-    '            <div class="item-2"></div>',
-    '            <div class="item-3"></div>',
-    '            <div class="item-4"></div>',
-    '        </div>',
-    '    </div>',
-    '    <div id="{text-id}" class="text">',
-    '        {text}',
-    '    </div>',
+    '    <span id="{text-id}" class="Text">{text}</span>',
     '</div>',
 ].join('\n'));
 
@@ -6405,7 +6391,7 @@ define('Loading/Presettings', {
 
     'scroller.pulldown': {
         sample: 'iOS',
-        cssClass: 'same-line',
+        cssClass: 'SameLine',
         text: '加载中...',
         background: 'none',
         color: '#000',
@@ -6422,7 +6408,7 @@ define('Loading/Presettings', {
 
     'scroller.pullup': {
         sample: 'iOS',
-        cssClass: 'same-line',
+        cssClass: 'SameLine',
         text: '加载中...',
         background: 'none',
         color: '#000',
@@ -6966,14 +6952,14 @@ define('Toast', function (require, module, exports) {
 
         var text = config.text;
         if (!text && text !== 0) { // 0 除外
-            cssClass += ' no-text'; //注意，前面要有个空格
+            cssClass += ' NoText'; //注意，前面要有个空格
         }
         else {
-            cssClass += ' has-text';
+            cssClass += ' HasText';
         }
 
         var icon = config.icon;
-        cssClass += icon ? ' has-icon' : ' no-icon';
+        cssClass += icon ? ' HasIcon' : ' NoIcon';
 
         var prefix = config.prefix;
         var suffix = config.suffix;
@@ -7057,14 +7043,14 @@ define('Toast', function (require, module, exports) {
             if (text !== undefined && text != meta.text) {
                 $('#' + meta.textId).html(text);
                 meta.text = text;
-                $(div).removeClass('no-text').addClass('has-text');
+                $(div).removeClass('NoText').addClass('HasText');
             }
 
 
             if ('icon' in config) {
                 var icon = config.icon;
                 if (icon) {
-                    $(div).removeClass('no-icon').addClass('has-icon');
+                    $(div).removeClass('NoIcon').addClass('HasIcon');
 
                     if (icon != meta.icon) {
                         $('#' + meta.iconId).removeClass('fa-' + meta.icon).addClass('fa-' + icon);
@@ -7072,7 +7058,7 @@ define('Toast', function (require, module, exports) {
                     }
                 }
                 else {
-                    $(div).removeClass('has-icon').addClass('no-icon');
+                    $(div).removeClass('HasIcon').addClass('NoIcon');
                 }
             }
 
@@ -7206,7 +7192,7 @@ define('Toast/Sample/font-awesome', [
     '    <div>',
     '        <i id="{icon-id}" class="fa fa-{icon}"></i>',
     '    </div>',
-    '    <span id="{text-id}" class="text">{text}</span>',
+    '    <span id="{text-id}" class="Text">{text}</span>',
     '</div>',
 ].join('\n'));
 
@@ -7877,8 +7863,8 @@ define('NoData/Renderer', function (require, module, exports) {
 define('NoData/Sample', [
     '<div id="{id}" class="KISP NoData {cssClass}" style="{style}">',
     '    <ul>',
-    '        <li class="icon"></li>',
-    '        <li id="{text-id}" class="text">{text}</li>',
+    '        <li class="Icon"></li>',
+    '        <li id="{text-id}" class="Text">{text}</li>',
     '    </ul>',
     '</div>',
     '',
@@ -8237,7 +8223,6 @@ define('NumberPad/Renderer', function (require, module, exports) {
         }
         else {
             $(container).prepend(html);
-
         }
 
         var div = document.getElementById(id);
@@ -10362,6 +10347,10 @@ define('defaults', /**@lends defaults*/ {
         * 可取的值为 false|true|'session'|'local'
         */
         cache: 'session',
+
+        //默认使用服务器返回的(为 'http://kd.cmcloud.cn')。
+        //如果指定了，则忽略服务器的。
+        host: '', 
 
     },
 
