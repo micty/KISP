@@ -450,7 +450,7 @@ module.exports = function (grunt) {
 
 
 
-        //生成 jsdoc.bat 到 build/{home} 目录
+        //生成 jsdoc.bat 到 {home} 目录
         Tasks.run('copy', name + '/jsdoc', {
             src: './jsdoc.bat',
             dest: home + '/jsdoc.bat',
@@ -469,6 +469,44 @@ module.exports = function (grunt) {
                     });
                 },
             }
+        });
+
+        //生成 sidebar.json 到 {home} 目录
+        Tasks.run('copy', name + '/sidebar', {
+            src: './sidebar.json',
+            dest: home + '/sidebar.json',
+            options: {
+                process: function (s) {
+                    var pkg = grunt.file.readJSON('package.json');
+
+                    return $.String.format(s, {
+                        'title': pkg.name,
+                        'version': pkg.version,
+                    });
+                },
+            }
+        });
+
+        //生成 readme.md 到 htdocs/data/ 目录
+        Tasks.run('copy', name + '/readme', {
+            src: './readme.md',
+            dest: '<%=dir.htdocs%>data/readme.md',
+            options: {
+                process: function (s) {
+                    var pkg = grunt.file.readJSON('package.json');
+
+                    return $.String.format(s, {
+                        'type':name,
+                        'version': pkg.version,
+                    });
+                },
+            }
+        });
+
+        //拷贝 readme.md 到 / 根目录
+        Tasks.run('copy', name + '/readme', {
+            src: '<%=dir.htdocs%>data/readme.md',
+            dest: '<%=dir.root%>readme.md',
         });
 
 

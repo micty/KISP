@@ -15,7 +15,7 @@ define('User', function (require, module, exports) {
     
     //相当于 require('User/Login');
     //加载当前模块的直接子模块，只能用短名称方式
-    var Login = require(module, 'Login'); 
+    var Login = module.require('Login'); 
 
 });
 
@@ -32,7 +32,7 @@ define('User/Login', function (require, module, exports) {
 });
 ```
 
-####模块的层级关系
+####模块树
 
 我们推荐使用具有树形层级关系的模块系统，这样带来的好处是，模块与模块之间的依赖不再是一个复杂的网状结构，而是一个具有上下级关系的树形结构，从而使模块之间的关系更简单，依赖和管理也更可控。
 
@@ -85,11 +85,15 @@ define('User/Login', function (require, module, exports) {
 - 子模块仅对直接父模块可见，从而 **有且仅有** 直接父模块可以加载它们。换言之，一个模块只能加载自己的直接子模块，连孙子模块也不能加载。
 - 当一个模块开始变得复杂时，可采用递归和分而治之的方式进一步划分成父模块和直接子模块。
 
-对于上面的例子：在 `User` 模块里，要加载其子模块 `Login`，只能用短名称的方式，并且把当前模块对象传进去：
+对于上面的例子：在 `User` 模块里，它的直接子模块为 `Login` 和 `List`。 要加载它们，只能在 `User` 模块的工厂函数里：
 
 ``` javascript
 
-require(module, 'Login'); //短名称方式：正确的方式
+define('User', function (require, module, exports) {
+    //短名称方式：正确的方式
+    var Login = module.require('Login'); 
+    var List = module.require('List');
+});
 
 ``` 
 
@@ -97,7 +101,32 @@ require(module, 'Login'); //短名称方式：正确的方式
 
 ``` javascript
 
-require('User/Login'); //长名称方式：会抛出异常
+define('User', function (require, module, exports) {
+    //长名称方式：会抛出异常
+    var Login = require('User/Login');
+    var List = require('User/List');
+});
+
+``` 
+一个模块只能加载它的直接子模块，而不能跨级加载，例如，如果 `User` 模块加载孙子模块则会报错：
+``` javascript
+
+define('User', function (require, module, exports) {
+    //加载不属于自己的直接子模块：会抛出异常
+    var API = require('Login/API');
+    var Scoller = require('List/Scoller');
+});
+
+``` 
+反过来也一样，子模块不能加载父模块：
+
+``` javascript
+
+define('User/Login/API', function (require, module, exports) {
+    //子模块加载父模块：会抛出异常
+    var Login = require('User/Login');
+   
+});
 
 ``` 
 

@@ -1,4 +1,4 @@
-﻿
+
 KISP 框架
 ==============================================================
 --------------------------------------------------------------
@@ -21,15 +21,15 @@ KISP 框架
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
 - [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
 
-### v3.0.5
+### default - 3.0.5
 
 - [KISP 接口文档 3.0.5](?type=default&version=3.0.5)
-- [kisp.debug.js](?file=default/3.0.5/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.5/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.5/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.5/kisp.min.css)
+- [kisp.debug.js](?file=default/3.0.5/kisp.debug.js) [源文件](data/default/3.0.5/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.5/kisp.debug.css) [源文件](data/default/3.0.5/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.5/kisp.min.js) [源文件](data/default/3.0.5/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.5/kisp.min.css) [源文件](data/default/3.0.5/kisp.min.css)
 
-### 更新历史
+### 更新记录
 
 
 ####v3.0.5

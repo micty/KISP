@@ -3,10 +3,10 @@
 
 set name={name}
 set version={version}
-
-set tmpl=plain-data
+set template=plain-data
 
 cd ..
+
 set root=..\..
 set build=%root%\build
 set bin=%root%\bin
@@ -17,7 +17,7 @@ set src=%home%\src
 
 cd %bin%/jsdoc_toolkit-2.4.0
 
-java -jar jsrun.jar app\run.js -a -D="noGlobal:true" -t=templates\%tmpl% -d=%doc% ^
+java -jar jsrun.jar app\run.js -a -D="noGlobal:true" -t=templates\%template% -d=%doc% ^
 {list}
 
 

@@ -28,6 +28,7 @@
         "src": "../src/",
         "css": "../src/style/css/",
         "less": "../src/style/less/",
-        "build": "../build/"
+        "build": "../build/",
+        "htdocs": "../htdocs/"
     }
 }
