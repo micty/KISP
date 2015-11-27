@@ -209,26 +209,15 @@ define('Scroller', function (require, module,  exports) {
 
         /**
         * 监控下拉动作。
-        * 已重载 pulldown(min, max)。
-        * @param {Object} config 配置对象。
-        * @param {number} config.min 开始时的 y 值。
-        * @param {number} config.max 结束时的 y 值。
-        * @param {function} config.start 开始下拉时的回调。
-        * @param {function} config.enter 进入下拉区间时的回调。
-        * @param {function} config.reach 到达最大值时的回调。
-        * @param {function} config.release 释放时的回调。
+        * @param {number} min 开始时的 y 值。
+        * @param {number} max 结束时的 y 值。
         */
-        pulldown: function (config) {
+        pulldown: function (min, max) {
             var meta = mapper.get(this);
-
-            if (typeof config == 'number') { //重载 pulldown(min, max)
-                config = {
-                    min: config,
-                    max: arguments[1]
-                };
-            }
-
-            meta.pulldown = config;
+            meta.pulldown = {
+                'min': min,
+                'max': max,
+            };
 
             if (!meta.hasBindPull) {
                 var pull = module.require('pull');
@@ -241,27 +230,17 @@ define('Scroller', function (require, module,  exports) {
 
         /**
         * 监控上拉动作。
-        已重载 pullup(min, max)。
-        * @param {Object} config 配置对象。
-        * @param {number} config.min 开始时的 y 值。
-        * @param {number} config.max 结束时的 y 值。
-        * @param {function} config.start 开始上拉时的回调。
-        * @param {function} config.enter 进入上拉区间时的回调。
-        * @param {function} config.reach 到达最大值时的回调。
-        * @param {function} config.release 释放时的回调。
+        * @param {number} min 开始时的 y 值。
+        * @param {number} max 结束时的 y 值。
         */
-        pullup: function (config) {
+        pullup: function (min, max) {
 
             var meta = mapper.get(this);
 
-            if (typeof config == 'number') { //重载 pullup(min, max)
-                config = {
-                    min: config,
-                    max: arguments[1]
-                };
-            }
-
-            meta.pullup = config;
+            meta.pullup = {
+                'min': min,
+                'max': max,
+            };
 
             if (!meta.hasBindPull) {
                 var pull = module.require('pull');
