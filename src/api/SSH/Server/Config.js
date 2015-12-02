@@ -90,10 +90,6 @@ define('SSH/Server/Config', function (require, module, exports) {
 
     function get(fn) {
 
-        if (!fn) {
-            return;
-        }
-
         if (json) {
             fn(json);
             return;

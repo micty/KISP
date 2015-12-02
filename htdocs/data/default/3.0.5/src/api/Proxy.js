@@ -92,6 +92,7 @@ define('Proxy', function (require, module,  exports) {
     }
 
 
+    //加载完成后，根据状态分发事件。
     function done(json, config) {
         if (!json) {
             delay(config.error);
@@ -100,7 +101,6 @@ define('Proxy', function (require, module,  exports) {
 
         var successCode = config.successCode;
         var field = config.field;
-
         var code = json[field.code];
 
         if (code == successCode) { // 成功
@@ -120,7 +120,6 @@ define('Proxy', function (require, module,  exports) {
         * 发起代理请求。
         * @param {string} file 代理响应的文件地址。
         * @param {Object} config 配置对象。
-        * @return {boolean} 返回一个布尔值，指示该后台接口是否启用了代理映射。
         */
         request: function (file, config) {
 
@@ -144,32 +143,34 @@ define('Proxy', function (require, module,  exports) {
         * 响应代理请求。
         * 可以生成很复杂的动态数据，并根据提交的参数进行处理，具有真正模拟后台逻辑的能力。
         * 该方法仅用在代理响应文件中。
-        * 已重载 response({})、response(fn)、和 response('', {}) 的情况。
-        * @param {string} action 响应的分支名称。
-        * @param {Object} fns 响应的分支逻辑。
+        * 已重载 response(json)的情况。
+        * @param {function|Object} factory 响应的处理函数或 json 对象。
+        *   当传进来的 factory 为处理函数时，该函数会接收到两个参数：factory(data, config)。 其中：
+        *   data 为发起 get 或 post 请求时最终的 data 字段；
+        *   config 为发起 get 或 post 请求时全部的配置字段。
         */
-        response: function (action, fns) {
+        response: function (factory) {
 
             var Seajs = require('Seajs');
 
-            //这里注意，CMD 规范的参数顺序是 (require, exports, module)，而我的设计搞错了。
+            //这里注意，CMD 规范的参数顺序是 (require, exports, module)，
+            //而我的设计为 (require, module, exports)。
             Seajs.define(function (require, exports, module) {
 
-                if ($.Object.isPlain(action)) { // response({})
-                    return action;
+                //重载 response({...})
+                if ($.Object.isPlain(factory)) {
+                    return factory;
                 }
 
-                var config = getConfig(module);
-                var data = config.data;
-
-                var fn = typeof action == 'function' ? action   // response(fn)
-                    : fns[data[action]];                        // response('', {})
-
-                if (!fn) {
+                if (typeof factory != 'function') {
                     return {};
                 }
 
-                return fn(data, config) || {};
+                var config = getConfig(module); //取得对应的 request 中的 config 参数
+                var data = config.data;
+
+                return factory(data, config) || {};
+
             });
         },
 

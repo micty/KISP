@@ -32,8 +32,8 @@ define('API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
-            proxy = proxy[name];
+        if (typeof proxy == 'object') { // proxy: { ... }，批量的情况
+            proxy = proxy[name];        //找到属于当前 API 的这个
         }
 
 
@@ -180,58 +180,7 @@ define('API', function (require, module, exports) {
 
         },
 
-        /**
-        * 请求完成时触发。
-        * 不管请求完成后是成功、失败、错误，都会触发，会最先触发此类事件。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        done: function (fn) {
-            this.on('done', fn);
-            return this;
-        },
-
-        /**
-        * 请求成功时触发。
-        * 成功是指网络请求成功，且后台业务返回的数据包中的 code == successCode 的情形。
-        * @param {function} fn 回调函数。
-        */
-        success: function (fn) {
-            this.on('success', fn);
-            return this;
-        },
-
-        /**
-        * 请求失败时触发。
-        * 失败是指网络请求成功，但后台业务返回的数据包中的 code != successCode 的情形。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        fail: function (fn) {
-            this.on('fail', fn);
-            return this;
-        },
-
-        /**
-        * 请求错误时触发。
-        * 错误是指网络请求不成功，如网络无法连接、404错误等。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        error: function (fn) {
-            this.on('error', fn);
-            return this;
-        },
-
-        status: function (status, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['status'].concat(args));
-        },
-
-        code: function (code, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['code'].concat(args));
-        },
+        
 
         /**
         * 绑定事件。

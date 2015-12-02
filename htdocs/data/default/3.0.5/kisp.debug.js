@@ -2,7 +2,7 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.5
-* build: 2015-11-26 17:45:27
+* build: 2015-11-30 13:44:49
 * files: 90(88)
 *    partial/default/begin.js
 *    core/Module.js
@@ -1956,8 +1956,8 @@ define('API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
-            proxy = proxy[name];
+        if (typeof proxy == 'object') { // proxy: { ... }，批量的情况
+            proxy = proxy[name];        //找到属于当前 API 的这个
         }
 
 
@@ -2104,58 +2104,7 @@ define('API', function (require, module, exports) {
 
         },
 
-        /**
-        * 请求完成时触发。
-        * 不管请求完成后是成功、失败、错误，都会触发，会最先触发此类事件。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        done: function (fn) {
-            this.on('done', fn);
-            return this;
-        },
-
-        /**
-        * 请求成功时触发。
-        * 成功是指网络请求成功，且后台业务返回的数据包中的 code == successCode 的情形。
-        * @param {function} fn 回调函数。
-        */
-        success: function (fn) {
-            this.on('success', fn);
-            return this;
-        },
-
-        /**
-        * 请求失败时触发。
-        * 失败是指网络请求成功，但后台业务返回的数据包中的 code != successCode 的情形。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        fail: function (fn) {
-            this.on('fail', fn);
-            return this;
-        },
-
-        /**
-        * 请求错误时触发。
-        * 错误是指网络请求不成功，如网络无法连接、404错误等。
-        * @param {function} fn 回调函数。
-        * @return {API} 返回当前 API 的实例 this，因此进一步可用于链式调用。
-        */
-        error: function (fn) {
-            this.on('error', fn);
-            return this;
-        },
-
-        status: function (status, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['status'].concat(args));
-        },
-
-        code: function (code, fn) {
-            var args = [].slice.call(arguments, 0);
-            this.on.apply(this, ['code'].concat(args));
-        },
+        
 
         /**
         * 绑定事件。
@@ -2235,33 +2184,10 @@ define('API/Ajax', function (require, module, exports) {
 
 
 
-    ////不用到
-    //var config = {
-
-    //    name: '',
-    //    url: '',
-    //    ext: '',
-
-    //    data: {},
-    //    query: {},
-    //    successCode: 200,
-    //    field: {
-    //        code: 'code',
-    //        msg: 'msg',
-    //        data: 'data',
-    //    },
-
-    //    success: function (data, json, xhr) { },
-    //    fail: function (code, msg, json, xhr) { },
-    //    error: function (xhr) { },
-    //};
-
-
-
     /**
     * 发起 ajax 网络请求(核心方法)。
     * @param {string} method 网络请求的方式：'get' 或 'post'。
-    * @param {Object} config 配置对象。
+    * @param {Object} config 配置对象。 其中：
     * @param {string} config.name 后台接口的名称，会用在 url 中。
     * @param {Object} [config.url] 请求的 url 地址。
     * @param {Object} [config.ext] 要用在 url 中的后缀。
@@ -3373,6 +3299,7 @@ define('Proxy', function (require, module,  exports) {
     }
 
 
+    //加载完成后，根据状态分发事件。
     function done(json, config) {
         if (!json) {
             delay(config.error);
@@ -3381,7 +3308,6 @@ define('Proxy', function (require, module,  exports) {
 
         var successCode = config.successCode;
         var field = config.field;
-
         var code = json[field.code];
 
         if (code == successCode) { // 成功
@@ -3401,7 +3327,6 @@ define('Proxy', function (require, module,  exports) {
         * 发起代理请求。
         * @param {string} file 代理响应的文件地址。
         * @param {Object} config 配置对象。
-        * @return {boolean} 返回一个布尔值，指示该后台接口是否启用了代理映射。
         */
         request: function (file, config) {
 
@@ -3425,32 +3350,34 @@ define('Proxy', function (require, module,  exports) {
         * 响应代理请求。
         * 可以生成很复杂的动态数据，并根据提交的参数进行处理，具有真正模拟后台逻辑的能力。
         * 该方法仅用在代理响应文件中。
-        * 已重载 response({})、response(fn)、和 response('', {}) 的情况。
-        * @param {string} action 响应的分支名称。
-        * @param {Object} fns 响应的分支逻辑。
+        * 已重载 response(json)的情况。
+        * @param {function|Object} factory 响应的处理函数或 json 对象。
+        *   当传进来的 factory 为处理函数时，该函数会接收到两个参数：factory(data, config)。 其中：
+        *   data 为发起 get 或 post 请求时最终的 data 字段；
+        *   config 为发起 get 或 post 请求时全部的配置字段。
         */
-        response: function (action, fns) {
+        response: function (factory) {
 
             var Seajs = require('Seajs');
 
-            //这里注意，CMD 规范的参数顺序是 (require, exports, module)，而我的设计搞错了。
+            //这里注意，CMD 规范的参数顺序是 (require, exports, module)，
+            //而我的设计为 (require, module, exports)。
             Seajs.define(function (require, exports, module) {
 
-                if ($.Object.isPlain(action)) { // response({})
-                    return action;
+                //重载 response({...})
+                if ($.Object.isPlain(factory)) {
+                    return factory;
                 }
 
-                var config = getConfig(module);
-                var data = config.data;
-
-                var fn = typeof action == 'function' ? action   // response(fn)
-                    : fns[data[action]];                        // response('', {})
-
-                if (!fn) {
+                if (typeof factory != 'function') {
                     return {};
                 }
 
-                return fn(data, config) || {};
+                var config = getConfig(module); //取得对应的 request 中的 config 参数
+                var data = config.data;
+
+                return factory(data, config) || {};
+
             });
         },
 
@@ -4130,6 +4057,7 @@ define('Seajs', function (require, module, exports) {
     var seajs = window['seajs'];
 
 
+    //在第三方库 seajs 加载并配置就绪后执行一个回函数。
     function ready(fn) {
 
         if (seajs) {
@@ -4160,7 +4088,10 @@ define('Seajs', function (require, module, exports) {
 
     module.exports = exports = /**@lends Seajs*/ {
 
-        use: function () {
+        /**
+        * 加载指定 url 的模块文件。
+        */
+        use: function (url, fn) {
 
             var args = [].slice.call(arguments, 0);
 
@@ -9088,26 +9019,15 @@ define('Scroller', function (require, module,  exports) {
 
         /**
         * 监控下拉动作。
-        * 已重载 pulldown(min, max)。
-        * @param {Object} config 配置对象。
-        * @param {number} config.min 开始时的 y 值。
-        * @param {number} config.max 结束时的 y 值。
-        * @param {function} config.start 开始下拉时的回调。
-        * @param {function} config.enter 进入下拉区间时的回调。
-        * @param {function} config.reach 到达最大值时的回调。
-        * @param {function} config.release 释放时的回调。
+        * @param {number} min 开始时的 y 值。
+        * @param {number} max 结束时的 y 值。
         */
-        pulldown: function (config) {
+        pulldown: function (min, max) {
             var meta = mapper.get(this);
-
-            if (typeof config == 'number') { //重载 pulldown(min, max)
-                config = {
-                    min: config,
-                    max: arguments[1]
-                };
-            }
-
-            meta.pulldown = config;
+            meta.pulldown = {
+                'min': min,
+                'max': max,
+            };
 
             if (!meta.hasBindPull) {
                 var pull = module.require('pull');
@@ -9120,27 +9040,17 @@ define('Scroller', function (require, module,  exports) {
 
         /**
         * 监控上拉动作。
-        已重载 pullup(min, max)。
-        * @param {Object} config 配置对象。
-        * @param {number} config.min 开始时的 y 值。
-        * @param {number} config.max 结束时的 y 值。
-        * @param {function} config.start 开始上拉时的回调。
-        * @param {function} config.enter 进入上拉区间时的回调。
-        * @param {function} config.reach 到达最大值时的回调。
-        * @param {function} config.release 释放时的回调。
+        * @param {number} min 开始时的 y 值。
+        * @param {number} max 结束时的 y 值。
         */
-        pullup: function (config) {
+        pullup: function (min, max) {
 
             var meta = mapper.get(this);
 
-            if (typeof config == 'number') { //重载 pullup(min, max)
-                config = {
-                    min: config,
-                    max: arguments[1]
-                };
-            }
-
-            meta.pullup = config;
+            meta.pullup = {
+                'min': min,
+                'max': max,
+            };
 
             if (!meta.hasBindPull) {
                 var pull = module.require('pull');
@@ -10198,7 +10108,7 @@ Module.expose({
 
     //api
     'API': true,
-    'Proxy': true,
+    //'Proxy': true,
     'SSH.API': true,
     'SSH': true,
 

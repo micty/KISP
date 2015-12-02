@@ -5,7 +5,7 @@ Module.expose({
 
     //api
     'API': true,
-    'Proxy': true,
+    //'Proxy': true,
     'SSH.API': true,
     'SSH': true,
 

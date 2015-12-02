@@ -1,6 +1,6 @@
 
 /**
-* SSH 的 Config 配置类
+* SSH 的 Cache 缓存类
 * @class
 * @name API
 */

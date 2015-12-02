@@ -83,6 +83,12 @@ module.exports = function (grunt) {
                 'SSH.API.js',
                 'SSH.API/Ajax.js',
                 'Proxy.js',
+                {
+                    dir: 'Proxy',
+                    files: [
+                        'Url.js',
+                    ],
+                },
             ]
         },
         {
@@ -109,12 +115,12 @@ module.exports = function (grunt) {
                         'ImageReader.js',
                     ],
                 },
-                {
-                    dir: 'seajs',
-                    files: [
-                        'Seajs.js',
-                    ],
-                },
+                //{
+                //    dir: 'seajs',
+                //    files: [
+                //        'Seajs.js',
+                //    ],
+                //},
                 {
                     dir: 'wechat',
                     files: [
@@ -333,19 +339,6 @@ module.exports = function (grunt) {
 
             var type = compressed ? 'min' : 'debug';
 
-            ////预处理，插入 grunt 标记相关的信息
-            //Tasks.run('copy', 'less2', {
-            //    cwd: '<%=dir.less%>',
-            //    src: '**',
-            //    dest: '<%=dir.less2%>',
-            //    expand: true, 
-            //    options: {
-            //        process: function (content, file) {
-            //            return '@KISP: KISP-; \r\n' + content;
-            //        },
-            //    },
-            //});
-
             Tasks.run('less', type, {
                 options: {
                     compress: compressed,
@@ -395,7 +388,6 @@ module.exports = function (grunt) {
 
 
                         'files': (function (list) {
-
                             return '[]'; //暂时置空吧，为了减小文件大小。
 
 
@@ -417,10 +409,6 @@ module.exports = function (grunt) {
 
                         })(srcFiles),
                     });
-
-                    
-
-                    
                 },
             },
         });
@@ -488,7 +476,7 @@ module.exports = function (grunt) {
         });
 
         //生成 readme.md 到 htdocs/data/ 目录
-        Tasks.run('copy', name + '/readme', {
+        Tasks.run('copy', name + '/data/readme', {
             src: './readme.md',
             dest: '<%=dir.htdocs%>data/readme.md',
             options: {
@@ -503,7 +491,7 @@ module.exports = function (grunt) {
             }
         });
 
-        //拷贝 readme.md 到 / 根目录
+        //拷贝 htdocs/data/readme.md 到 / 根目录
         Tasks.run('copy', name + '/readme', {
             src: '<%=dir.htdocs%>data/readme.md',
             dest: '<%=dir.root%>readme.md',

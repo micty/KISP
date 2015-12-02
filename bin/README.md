@@ -8,6 +8,10 @@ KISP 框架
 > KISP 是一个轻量级的 JavaScript 框架，采用 CMD 模式进行模块化的封装，
 提供了一些模块和接口，*可以用于 Web 和轻应用的开发*。
 
+###杂记 Todo
+
+- 能否通过自动化工具分析模块代码，公共模块给哪些私有模块引用了？
+
 
 
 ###专题介绍
@@ -31,8 +35,32 @@ KISP 框架
 
 ### 更新记录
 
+####v3.0.6
+
+2015-12-01
+- 优化模块 `SSH/Server/Config` 的 `get` 方法，当不传入回调函数时也可以发起调用。
+- 把模块 `Proxy` 对 Url 的解析单独成一个子模块 `Proxy/Url`。
+- 给模块 `Proxy` 增加配置字段 `base`，以指定起始的代理目录。当 `API` 中的 `proxy` 以 `/` 开头，则不使用 `base` 所指定的目录。 
+- 给模块 `API` 和 `SSH.API` 的 `proxy` 字段增加 `proxy: true` 的支持。此时等价于 `proxy: '{ApiName}.js'`。 
+- 修复了模块 `SSH.API` 中 `proxy` 字段失效的问题。
+- 修复模块 `Dialog` 设置了 `text` 和 `height` 后无法向下滚动的问题。
+
+
+2015-11-30
+- 把模块 `Proxy` 对 `Seajs` 的依赖去掉，用回自己实现的来动态加载 js 文件。
+- 把模块 `Seajs` 从 KISP 中移除掉，因为它之前一直都是私有模块。
+- 优化模块 `SSH/Server/Config` 的 `get` 方法，当不传入回调函数时也可以发起调用。
 
 ####v3.0.5
+
+2015-11-30
+- 去掉了模块 `API` 中不常用的几种事件绑定方法：`done`、`success`、`fail`、`error`、`status`、`code`，可以改为 on() 实现。
+- 把模块 `Proxy` 设置为私有模块，因为外部不需要直接用到它。
+- 优化模块 `Proxy` 中的 `request` 的 JsDoc 注释。
+- 去掉了模块 `Proxy` 中的 `response` 对 action 的响应模块。只保留更通用的 response(json) 和 response(fn) 两种。
+- 补充完整模块 `Seajs` 中的 `use` 方法的参数，对实际使用无影响，仅为了代码更可读。
+
+
 2015-11-27
 - 优化 `Scroller` 模块的 pulldown 和 pullup 方法。
 

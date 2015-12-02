@@ -9,33 +9,10 @@ define('API/Ajax', function (require, module, exports) {
 
 
 
-    ////不用到
-    //var config = {
-
-    //    name: '',
-    //    url: '',
-    //    ext: '',
-
-    //    data: {},
-    //    query: {},
-    //    successCode: 200,
-    //    field: {
-    //        code: 'code',
-    //        msg: 'msg',
-    //        data: 'data',
-    //    },
-
-    //    success: function (data, json, xhr) { },
-    //    fail: function (code, msg, json, xhr) { },
-    //    error: function (xhr) { },
-    //};
-
-
-
     /**
     * 发起 ajax 网络请求(核心方法)。
     * @param {string} method 网络请求的方式：'get' 或 'post'。
-    * @param {Object} config 配置对象。
+    * @param {Object} config 配置对象。 其中：
     * @param {string} config.name 后台接口的名称，会用在 url 中。
     * @param {Object} [config.url] 请求的 url 地址。
     * @param {Object} [config.ext] 要用在 url 中的后缀。

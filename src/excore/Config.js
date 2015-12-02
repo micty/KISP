@@ -21,8 +21,8 @@ define('Config', function (require, module,  exports) {
         Mapper.setGuid(this);
 
         var meta = {
-            name$config: {},
-            name$formatted: {},
+            'name$config': {},
+            'name$formatted': {},
         };
 
         mapper.set(this, meta);
@@ -105,7 +105,8 @@ define('Config', function (require, module,  exports) {
                 return config;
             }
 
-            if (name == 'Url') { //这个模块特殊，不用也不能转换，不然会构成 require 死循环。
+            //这个模块特殊，不用也不能转换，否则会构成 require 死循环。
+            if (name == 'Url') { 
                 return config;
             }
 
@@ -147,9 +148,9 @@ define('Config', function (require, module,  exports) {
     //静态方法
     return $.Object.extend(Config, /**@lends Config*/{
 
-        get: cfg.get.bind(cfg),
-        set: cfg.set.bind(cfg),
-        clone: cfg.clone.bind(cfg),
+        'get': cfg.get.bind(cfg),
+        'set': cfg.set.bind(cfg),
+        'clone': cfg.clone.bind(cfg),
 
     });
 

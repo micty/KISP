@@ -63,6 +63,7 @@ define('defaults', /**@lends defaults*/ {
     * Proxy 模块的默认配置
     */
     'Proxy': {
+        base: '', //起始目录
         delay: {
             min: 500,
             max: 3000
@@ -469,9 +470,9 @@ define('defaults', /**@lends defaults*/ {
 
     },
 
-    'Seajs': {
-        url: '', // seajs.js 文件所在的 url，具体应用时请指定。
-    },
+    //'Seajs': {
+    //    url: '', // seajs.js 文件所在的 url，具体应用时请指定。
+    //},
 
     'WeChat/Signature': {
         name: 'Jsapi_Signature',

@@ -16,6 +16,7 @@ define('Seajs', function (require, module, exports) {
     var seajs = window['seajs'];
 
 
+    //在第三方库 seajs 加载并配置就绪后执行一个回函数。
     function ready(fn) {
 
         if (seajs) {
@@ -46,7 +47,10 @@ define('Seajs', function (require, module, exports) {
 
     module.exports = exports = /**@lends Seajs*/ {
 
-        use: function () {
+        /**
+        * 加载指定 url 的模块文件。
+        */
+        use: function (url, fn) {
 
             var args = [].slice.call(arguments, 0);
 
