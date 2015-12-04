@@ -7,7 +7,7 @@ Module.expose({
     'API': true,
     //'Proxy': true, //私有模块
     'SSH.API': true,
-    'SSH': true,
+    //'SSH': true,
 
     //cloud-home
     'CloudHome.API': true,

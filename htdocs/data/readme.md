@@ -25,15 +25,28 @@ KISP 框架
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
 - [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
 
-### default - 3.0.6
+### default - 3.0.7
 
-- [KISP 接口文档 3.0.6](?type=default&version=3.0.6)
-- [kisp.debug.js](?file=default/3.0.6/kisp.debug.js) [源文件](data/default/3.0.6/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.6/kisp.debug.css) [源文件](data/default/3.0.6/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.6/kisp.min.js) [源文件](data/default/3.0.6/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.6/kisp.min.css) [源文件](data/default/3.0.6/kisp.min.css)
+- [KISP 接口文档 3.0.7](?type=default&version=3.0.7)
+- [kisp.debug.js](?file=default/3.0.7/kisp.debug.js) [源文件](data/default/3.0.7/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.7/kisp.debug.css) [源文件](data/default/3.0.7/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.7/kisp.min.js) [源文件](data/default/3.0.7/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.7/kisp.min.css) [源文件](data/default/3.0.7/kisp.min.css)
 
 ### 更新记录
+
+####v3.0.7
+
+2015-12-04
+- 把默认配置的定义由 `defaults.ABC` 修改成 `ABC.defaults` 的形式，让它在 jsdoc 文档中直接成为 `ABC` 的一个属性。
+- 修改模块 `Defaults` 的加载，由 `defaults.ABC` 修改成 `ABC.defaults` 的形式。
+- 完善默认配置的字段注释。
+
+2015-12-03
+- 把 KISP 内部模块用到的默认配置 `defaults` 拆分成单个独立的子配置，方便维护和管理。
+- 把模块 `SSH` 设置成私有模块，因为外部不会直接用到它，而是使用模块 `SSH.API` 比较常见。
+- 修改了模块 `Config` 的静态方法。
+- 增加了模块 `Defaults`，针对 KISP 内部模块使用的默认配置管理器。
 
 ####v3.0.6
 

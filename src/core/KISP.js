@@ -107,21 +107,21 @@ define('KISP', function (require, module, exports) {
 
         /**
         * 获取或 设置 KISP 内部模块的默认配置。
-        * 相当于 Config.get(name) 或　Config.set(name, value)  的别名。
         * @function
         * @example
         *   KISP.config({});    
         */
         config: function (name, value) {
 
-            var Config = require('Config');
+            var Defaults = require('Defaults');
 
-            if (typeof name == 'string' && arguments.length == 1) { //get(name)
-                return Config.get(name);
+            //get(name)
+            if (typeof name == 'string' && arguments.length == 1) { 
+                return Defaults.get(name);
             }
 
             //set
-            Config.set(name, value);
+            Defaults.set(name, value);
 
         },
 

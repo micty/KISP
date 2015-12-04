@@ -46,6 +46,7 @@ module.exports = function (grunt) {
             dir: 'excore',
             files: [
                 'Config.js',
+                'Defaults.js',
                 'Config/Url.js',
                 'DOM.js',
                 'Edition.js',
@@ -151,7 +152,6 @@ module.exports = function (grunt) {
                 {
                     dir: 'dialog',
                     files: [
-                        
                         'Alert.js',
                         {
                             dir: 'Alert',
@@ -269,8 +269,62 @@ module.exports = function (grunt) {
         {
             dir: 'partial/' + name,
             files: [
+                {
+                    dir: 'defaults',
+                    files: [
+                        {
+                            dir: 'api',
+                            files: [
+                                'API.js',
+                                'Proxy.js',
+                                'SSH.API.js',
+                                'SSH.js',
+                                'SSH/Server.js',
+                                'SSH/Server/Config.js',
+                            ],
+                        },
+                        {
+                            dir: 'excore',
+                            files: [
+                                'DOM.js',
+                                'LocalStorage.js',
+                                'Module.js',
+                                'SessionStorage.js',
+                                'Url.js',
+                            ],
+                        },
+                        {
+                            dir: 'third-party',
+                            files: [
+                                'CloudHome.API.js',
+                                'ImageReader.js',
+                                'WeChat.js',
+                                'WeChat/Signature.js',
+                            ],
+                        },
+                        {
+                            dir: 'ui',
+                            files: [
+                                'Alert.js',
+                                'App.js',
+                                'Dialog.js',
+                                'ImageViewer.js',
+                                'Loading.js',
+                                'Mask.js',
+                                'NoData.js',
+                                'NumberPad.js',
+                                'Panel.js',
+                                'Scroller.js',
+                                'Tabs.js',
+                                'Template.js',
+                                'Toast.js',
+                                'View.js',
+                            ],
+                        },
+                    ],
+                },
+
                 'expose.js',
-                'defaults.js',
                 'end.js',
             ]
         },
