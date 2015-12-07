@@ -36,15 +36,14 @@ define('SSH.API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }
             proxy = proxy[name];
         }
 
-        //支持简写，代理的文件名跟 API 的名称一致，扩展名则需要根据配置来确定。
+        //支持简写，代理的文件名跟 API 的名称一致。
         if (proxy === true) { 
             proxy = name + '.js';
         }
-
 
         //过滤出属于 SSH 的配置成员
         //这里使用过滤 + 复制的方式进行成员选取。
@@ -56,6 +55,7 @@ define('SSH.API', function (require, module, exports) {
 
             //可选的
             'appid',
+            'netid',
             'pubacckey',
             'timestamp',
             'nonce',
@@ -69,8 +69,8 @@ define('SSH.API', function (require, module, exports) {
         var ajax = {
             'name': name,
             'successCode': successCode,
-            'field': config['field'],
-            'data': config['data'] || {},
+            'field': config.field,
+            'data': config.data,
 
             'ssh': $.Object.extend(ssh, config.ssh), //再合并针对 ssh 的
 
@@ -144,11 +144,9 @@ define('SSH.API', function (require, module, exports) {
         },
 
         /**
-        * 发起网络 POST 请求。
+        * 发起网络 post 请求。
         * 请求完成后会最先触发相应的事件。
         * @param {Object} [data] POST 请求的数据对象。
-        * @param {Object} [query] 查询字符串的数据对象。
-        *   该数据会给序列化成查询字符串，并且通过 form-data 发送出去。
         * @return {SSHAPI} 返回当前 SSHAPI 的实例 this，因此进一步可用于链式调用。
         */
         post: function (data) {
@@ -158,7 +156,7 @@ define('SSH.API', function (require, module, exports) {
             var ajax = meta.ajax;
 
             var obj = $.Object.extend({}, ajax, {
-                'data': data || ajax.data,
+                'data': data || ajax.data || {},
             });
 
             emitter.fire('request', ['post', obj.data]);

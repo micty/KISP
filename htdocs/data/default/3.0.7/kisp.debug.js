@@ -2,7 +2,7 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 3.0.7
-* build: 2015-12-04 17:32:57
+* build: 2015-12-07 13:51:57
 * files: 119(117)
 *    partial/default/begin.js
 *    core/Module.js
@@ -2080,7 +2080,7 @@ define('API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }，批量的情况
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }，批量的情况
             proxy = proxy[name];        //找到属于当前 API 的这个
         }
 
@@ -2096,8 +2096,8 @@ define('API', function (require, module, exports) {
             'data': config.data,
             'query': config.query,
 
-            'url': config.url || '',
-            'ext': config.ext || '',
+            'url': config.url,
+            'ext': config.ext,
             'random': config.random,
 
             'successCode': successCode,
@@ -2498,7 +2498,7 @@ define('SSH', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }
             proxy = proxy[name];
         }
 
@@ -2516,6 +2516,7 @@ define('SSH', function (require, module, exports) {
 
             //可选的
             'appid',
+            'netid',
             'pubacckey',
             'timestamp',
             'nonce',
@@ -2611,6 +2612,7 @@ define('SSH', function (require, module, exports) {
             Server.get({
                 'eid': ajax.eid,
                 'appid': ajax.appid,
+                'netid': ajax.netid,
 
             }, function (server, json, xhr) { //成功
 
@@ -2685,6 +2687,7 @@ define('SSH/Ajax', function (require, module, exports) {
             'Ver': config['version'],
             'FromTag': config['fromTag'],
             'AppID': config['appid'],
+            'NetID': config['netid'],
 
             'IsNewJson': 'Y',
             'IsEncrypt': 'N',
@@ -2798,11 +2801,6 @@ define('SSH/Server', function (require, module, exports) {
 
     function ajax(config, server, fnSuccess, fnFail, fnError) {
 
-        config = config || {
-            eid: '',
-            appid: '',
-        };
-
         server = server || {
             url: '',
             secret: '',
@@ -2829,8 +2827,9 @@ define('SSH/Server', function (require, module, exports) {
 
         api.get({
             'EID': eid,
-            'AppID': config['appid'] || '',
-            'AccKey': server['key'] || '',
+            'AppID': config['appid'],
+            'NetID': config['netid'],
+            'AccKey': server['key'],
             'Timestamp': timestamp,
             'State': random,
             'Sign': sign,
@@ -2884,10 +2883,6 @@ define('SSH/Server', function (require, module, exports) {
 
     function get(config, fnSuccess, fnFail, fnError) {
 
-        config = config || {
-            eid: '',
-            appid: '',
-        };
 
         if (!fnSuccess) {
             return;
@@ -3094,7 +3089,7 @@ define('SSH.API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }
             proxy = proxy[name];
         }
 
@@ -3102,7 +3097,6 @@ define('SSH.API', function (require, module, exports) {
         if (proxy === true) { 
             proxy = name + '.js';
         }
-
 
         //过滤出属于 SSH 的配置成员
         //这里使用过滤 + 复制的方式进行成员选取。
@@ -3114,6 +3108,7 @@ define('SSH.API', function (require, module, exports) {
 
             //可选的
             'appid',
+            'netid',
             'pubacckey',
             'timestamp',
             'nonce',
@@ -3127,8 +3122,8 @@ define('SSH.API', function (require, module, exports) {
         var ajax = {
             'name': name,
             'successCode': successCode,
-            'field': config['field'],
-            'data': config['data'] || {},
+            'field': config.field,
+            'data': config.data,
 
             'ssh': $.Object.extend(ssh, config.ssh), //再合并针对 ssh 的
 
@@ -3202,11 +3197,9 @@ define('SSH.API', function (require, module, exports) {
         },
 
         /**
-        * 发起网络 POST 请求。
+        * 发起网络 post 请求。
         * 请求完成后会最先触发相应的事件。
         * @param {Object} [data] POST 请求的数据对象。
-        * @param {Object} [query] 查询字符串的数据对象。
-        *   该数据会给序列化成查询字符串，并且通过 form-data 发送出去。
         * @return {SSHAPI} 返回当前 SSHAPI 的实例 this，因此进一步可用于链式调用。
         */
         post: function (data) {
@@ -3216,7 +3209,7 @@ define('SSH.API', function (require, module, exports) {
             var ajax = meta.ajax;
 
             var obj = $.Object.extend({}, ajax, {
-                'data': data || ajax.data,
+                'data': data || ajax.data || {},
             });
 
             emitter.fire('request', ['post', obj.data]);
@@ -10219,6 +10212,11 @@ define('API.defaults', /**@lends API.defaults*/ {
     },
 
     /**
+    * 代理配置。
+    */
+    proxy: null,
+
+    /**
     * 随机延迟时间，更真实模块实际网络。
     * 可指定为 false，或如 { min: 500, max: 2000 } 的格式。
     */
@@ -10229,6 +10227,31 @@ define('API.defaults', /**@lends API.defaults*/ {
     * 当指定为 false 时，则禁用。
     */
     random: true,
+
+    /**
+    * API 接口 Url 的主体部分，即 url 的 prefix 部分。
+    */
+    url: '',
+
+    /**
+    * API 接口 Url 的后缀部分。
+    * 针对那些如 '.do'、'.aspx' 等有后缀名的接口比较实用。
+    */
+    ext: '',
+
+    /**
+    * 要发送的数据。 可选的。
+    * 当发送方式为 get 时，该数据将会给序列化成查询字符串并附加到 url 查询参数中。
+    * 当发送方式为 post 时，会用在表单中。
+    */
+    data: null,
+
+    /**
+    * 要发送的查询参数，仅当发送方式为 post 时有效 (可选的)。
+    * 当发送方式为 post 时，该数据将会给序列化成查询字符串并附加到 url 查询参数中。
+    */
+    query: null,
+
 
     /**
     * 把请求时的 data 中的第一级子对象进行序列化的方法。
@@ -10311,7 +10334,13 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
     /**
     * 代理配置。
     */
-    proxy: {},
+    proxy: null,
+
+    /**
+    * 接口名称中的前缀部分。
+    * 主要针对一个轻应用中有公共前缀部分的批量接口，设置了公共前缀部分，后续的调用只用后部分简短名称即可。
+    */
+    prefix: '',
 
     //必选的
 
@@ -10331,6 +10360,11 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
     * appid。 可选的。
     */
     appid: '',
+
+    /**
+    * netid。 可选的。
+    */
+    netid: '',
 
     /**
     * pubacckey。 可选的。
@@ -10369,30 +10403,103 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
 * @name SSH.defaults
 */
 define('SSH.defaults', /**@lends SSH.defaults*/ {
+
+    /**
+    * API 接口 Url 的后缀部分。
+    * 针对那些如 '.do'、'.aspx' 等有后缀名的接口比较实用。
+    * 这里固定为空字符串，业务层不需要关注该字段。
+    */
     ext: '',
+
+    /**
+    * 成功的状态码。 
+    * 只有状态码为该值是才表示成功，其它的均表示失败。
+    */
     successCode: 200,
+
+    /**
+    * 字段映射。
+    */
     field: {
+        /**
+        * 状态码。
+        */
         code: 'Result',
+        /**
+        * 消息。
+        */
         msg: 'ErrMsg',
+        /**
+        * 主体数据。
+        */
         data: 'DataJson',
     },
 
-    proxy: {},
+    /**
+    * 代理配置。
+    */
+    proxy: null,
+
+    /**
+    * 接口名称中的前缀部分。
+    * 主要针对一个轻应用中有公共前缀部分的批量接口，设置了公共前缀部分，后续的调用只用后部分简短名称即可。
+    */
+    prefix: '',
 
     //必选的
+
+    /**
+    * 企业号。 必选。
+    */
     eid: '',
+
+    /**
+    * openid。 必选。
+    */
     openid: '',
 
     //可选的
+
+    /**
+    * appid。 可选的。
+    */
     appid: '',
+
+    /**
+    * netid。 可选的。
+    */
+    netid: '',
+
+    /**
+    * pubacckey。 可选的。
+    */
     pubacckey: '',
+
+    /**
+    * timestamp。 可选的。
+    */
     timestamp: '',
+
+    /**
+    * nonce。 可选的。
+    */
     nonce: '',
+
+    /**
+    * pubaccid。 可选的。
+    */
     pubaccid: '',
 
+    /**
+    * 要发送的数据。 可选的。
+    */
     data: null,
 
-    console: true, //为了便于查看 CustData 而打印到控制台。
+    /**
+    * 是否用 console 把 CustData 打印出来。
+    * 由于 CustData 给编码了成字符串，为了便于查看原始对象结构而打印到控制台。
+    */
+    console: true,
 
 });
 

@@ -31,6 +31,7 @@ define('SSH/Ajax', function (require, module, exports) {
             'Ver': config['version'],
             'FromTag': config['fromTag'],
             'AppID': config['appid'],
+            'NetID': config['netid'],
 
             'IsNewJson': 'Y',
             'IsEncrypt': 'N',

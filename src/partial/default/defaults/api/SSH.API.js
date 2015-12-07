@@ -36,7 +36,13 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
     /**
     * 代理配置。
     */
-    proxy: {},
+    proxy: null,
+
+    /**
+    * 接口名称中的前缀部分。
+    * 主要针对一个轻应用中有公共前缀部分的批量接口，设置了公共前缀部分，后续的调用只用后部分简短名称即可。
+    */
+    prefix: '',
 
     //必选的
 
@@ -56,6 +62,11 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
     * appid。 可选的。
     */
     appid: '',
+
+    /**
+    * netid。 可选的。
+    */
+    netid: '',
 
     /**
     * pubacckey。 可选的。

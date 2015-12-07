@@ -28,6 +28,11 @@ define('API.defaults', /**@lends API.defaults*/ {
     },
 
     /**
+    * 代理配置。
+    */
+    proxy: null,
+
+    /**
     * 随机延迟时间，更真实模块实际网络。
     * 可指定为 false，或如 { min: 500, max: 2000 } 的格式。
     */
@@ -38,6 +43,31 @@ define('API.defaults', /**@lends API.defaults*/ {
     * 当指定为 false 时，则禁用。
     */
     random: true,
+
+    /**
+    * API 接口 Url 的主体部分，即 url 的 prefix 部分。
+    */
+    url: '',
+
+    /**
+    * API 接口 Url 的后缀部分。
+    * 针对那些如 '.do'、'.aspx' 等有后缀名的接口比较实用。
+    */
+    ext: '',
+
+    /**
+    * 要发送的数据。 可选的。
+    * 当发送方式为 get 时，该数据将会给序列化成查询字符串并附加到 url 查询参数中。
+    * 当发送方式为 post 时，会用在表单中。
+    */
+    data: null,
+
+    /**
+    * 要发送的查询参数，仅当发送方式为 post 时有效 (可选的)。
+    * 当发送方式为 post 时，该数据将会给序列化成查询字符串并附加到 url 查询参数中。
+    */
+    query: null,
+
 
     /**
     * 把请求时的 data 中的第一级子对象进行序列化的方法。

@@ -33,11 +33,11 @@ define('API', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }，批量的情况
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }，批量的情况
             proxy = proxy[name];        //找到属于当前 API 的这个
         }
 
-        //支持简写，代理的文件名跟 API 的名称一致，扩展名则需要根据配置来确定。
+        //支持简写，代理的文件名跟 API 的名称一致。
         if (proxy === true) {
             proxy = name + '.js';
         }
@@ -49,8 +49,8 @@ define('API', function (require, module, exports) {
             'data': config.data,
             'query': config.query,
 
-            'url': config.url || '',
-            'ext': config.ext || '',
+            'url': config.url,
+            'ext': config.ext,
             'random': config.random,
 
             'successCode': successCode,

@@ -37,7 +37,7 @@ define('SSH', function (require, module, exports) {
         var successCode = config.successCode;
 
         var proxy = config.proxy;
-        if (typeof proxy == 'object') { // proxy: { ... }
+        if (proxy && typeof proxy == 'object') { // proxy: { ... }
             proxy = proxy[name];
         }
 
@@ -55,6 +55,7 @@ define('SSH', function (require, module, exports) {
 
             //可选的
             'appid',
+            'netid',
             'pubacckey',
             'timestamp',
             'nonce',
@@ -150,6 +151,7 @@ define('SSH', function (require, module, exports) {
             Server.get({
                 'eid': ajax.eid,
                 'appid': ajax.appid,
+                'netid': ajax.netid,
 
             }, function (server, json, xhr) { //成功
 

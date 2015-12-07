@@ -37,6 +37,13 @@ KISP 框架
 
 ####v3.0.7
 
+
+2015-12-07
+- 给模块 `SSH.API`、`SSH`、`SSH/Server`、`SSH/Ajax` 加上可选配置字段 `netid`。
+- 去掉模块 `SSH/Server` 的默认 `config` 对象，因为它不可能为空。
+- 完善模块 `SSH.API`、`SSH`、`API` 的默认配置的注释和增加相应的字段。
+- 优化模块　`SSH.API` 的 `post` 方法。
+
 2015-12-04
 - 把默认配置的定义由 `defaults.ABC` 修改成 `ABC.defaults` 的形式，让它在 jsdoc 文档中直接成为 `ABC` 的一个属性。
 - 修改模块 `Defaults` 的加载，由 `defaults.ABC` 修改成 `ABC.defaults` 的形式。

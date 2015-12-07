@@ -47,11 +47,6 @@ define('SSH/Server', function (require, module, exports) {
 
     function ajax(config, server, fnSuccess, fnFail, fnError) {
 
-        config = config || {
-            eid: '',
-            appid: '',
-        };
-
         server = server || {
             url: '',
             secret: '',
@@ -78,8 +73,9 @@ define('SSH/Server', function (require, module, exports) {
 
         api.get({
             'EID': eid,
-            'AppID': config['appid'] || '',
-            'AccKey': server['key'] || '',
+            'AppID': config['appid'],
+            'NetID': config['netid'],
+            'AccKey': server['key'],
             'Timestamp': timestamp,
             'State': random,
             'Sign': sign,
@@ -133,10 +129,6 @@ define('SSH/Server', function (require, module, exports) {
 
     function get(config, fnSuccess, fnFail, fnError) {
 
-        config = config || {
-            eid: '',
-            appid: '',
-        };
 
         if (!fnSuccess) {
             return;
