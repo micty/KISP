@@ -2,7 +2,7 @@
 #JavaScript开发规范
 ---------------------------------------------------------------
 
-[全文](?file=./all.md)
+[阅读全文](?file=./chapters/1.md,./chapters/2.md,./chapters/3.md,./chapters/4.md)
 
 
 ###1.绪论
