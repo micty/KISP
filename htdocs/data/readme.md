@@ -16,6 +16,7 @@ KISP 框架
 
 ###专题介绍
 - [JavaScript 开发规范](?file=specification/js/index.md)
+- [HTML 页面开发规范](?file=specification/refactor/index.md)
 - [通用模块定义与加载](?file=docs/CMD.md)
 - [后台数据请求](?file=docs/API.md)
 - [通道数据请求](?file=docs/SSH.API.md)
