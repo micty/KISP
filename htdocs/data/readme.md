@@ -24,7 +24,10 @@ KISP 框架
 - [使用微信接口](?file=docs/WeChat.md)
 - [使用云之家接口](?file=docs/CloudHome.md)
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
-- [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
+- [将 HTML 模板从代码中分离出来](?file=docs/HTML-and-Code.md)
+- [Web 客户端存储](?file=docs/Storage.md)
+- [同源策略](?file=article/Same-origin-policy.md)
+
 
 ### default - 3.0.7
 
