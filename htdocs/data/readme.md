@@ -16,7 +16,6 @@ KISP 框架
 
 ###专题介绍
 - [JavaScript 开发规范](?file=specification/js/index.md)
-- [HTML 页面开发规范](?file=specification/refactor/index.md)
 - [通用模块定义与加载](?file=docs/CMD.md)
 - [后台数据请求](?file=docs/API.md)
 - [通道数据请求](?file=docs/SSH.API.md)
@@ -24,20 +23,31 @@ KISP 框架
 - [使用微信接口](?file=docs/WeChat.md)
 - [使用云之家接口](?file=docs/CloudHome.md)
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
-- [将 HTML 模板从代码中分离出来](?file=docs/HTML-and-Code.md)
-- [Web 客户端存储](?file=docs/Storage.md)
-- [同源策略](?file=article/Same-origin-policy.md)
+- [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
 
+### default - 3.0.8
 
-### default - 3.0.7
-
-- [KISP 接口文档 3.0.7](?type=default&version=3.0.7)
-- [kisp.debug.js](?file=default/3.0.7/kisp.debug.js) [源文件](data/default/3.0.7/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.7/kisp.debug.css) [源文件](data/default/3.0.7/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.7/kisp.min.js) [源文件](data/default/3.0.7/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.7/kisp.min.css) [源文件](data/default/3.0.7/kisp.min.css)
+- [KISP 接口文档 3.0.8](?type=default&version=3.0.8)
+- [kisp.debug.js](?file=default/3.0.8/kisp.debug.js) [源文件](data/default/3.0.8/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.8/kisp.debug.css) [源文件](data/default/3.0.8/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.8/kisp.min.js) [源文件](data/default/3.0.8/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.8/kisp.min.css) [源文件](data/default/3.0.8/kisp.min.css)
 
 ### 更新记录
+
+####v3.0.8
+
+2015-12-15
+- 去掉模块 `KISP` 的 `files` 属性，因为该属性不会用到。
+- 完善注释：`IScroll`、`$`、`MiniQuery`。
+- 
+
+
+2015-12-07
+- 优化模块 `SSH`，去掉重复的 `proxy` 字段读取。
+- 完善默认配置字段的注释：`LocalStorage`、`SessionStorage`。
+- 给模块 `API` 的　`request` 事件增加二级事件 `get` 和 `post`。
+- 优化模块 `API` 的 `get` 和 `post` 方法。
 
 ####v3.0.7
 
@@ -143,6 +153,7 @@ KISP 框架
 2015-11-05 
 - 增加了模块 `LocalStorage`。
 - 增加了模块 `SessionStorage`。
+
 -------------------------------------------------------------------
 
 

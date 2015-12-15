@@ -22,6 +22,7 @@ define('KISP', function (require, module, exports) {
 
         /**
         * 文件列表。 (由 grunt 自动插入)
+        * 
         */
         files: /**grunt-files-begin*/[]/**grunt-files-end*/, //由 grunt 自动插入
 

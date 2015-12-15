@@ -3,7 +3,6 @@
 * 请求后台接口类
 * @class
 * @name API
-* @see defaults.API
 */
 define('API', function (require, module, exports) {
 
@@ -149,7 +148,10 @@ define('API', function (require, module, exports) {
                 obj.data = data;
             }
 
-            emitter.fire('request', ['get', obj.data]); //这里用 obj.data
+            data = obj.data;  //这里用 obj.data
+           
+            emitter.fire('request', 'get', [data]);
+            emitter.fire('request', ['get', data]); 
 
             var Ajax = module.require('Ajax');
             Ajax.get(obj);
@@ -176,7 +178,11 @@ define('API', function (require, module, exports) {
                 'query': query || ajax.query,
             });
 
-            emitter.fire('request', ['post', obj.data, obj.query]);
+            data = obj.data;    //这里用 obj.data
+            query = obj.query;  //这里用 obj.query
+
+            emitter.fire('request', 'post', [data, query]);
+            emitter.fire('request', ['post', data, query]);
 
             var Ajax = module.require('Ajax');
             Ajax.post(obj);

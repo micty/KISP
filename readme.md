@@ -25,18 +25,31 @@ KISP 框架
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
 - [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
 
-### default - 3.0.7
+### default - 3.0.8
 
-- [KISP 接口文档 3.0.7](?type=default&version=3.0.7)
-- [kisp.debug.js](?file=default/3.0.7/kisp.debug.js) [源文件](data/default/3.0.7/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.7/kisp.debug.css) [源文件](data/default/3.0.7/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.7/kisp.min.js) [源文件](data/default/3.0.7/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.7/kisp.min.css) [源文件](data/default/3.0.7/kisp.min.css)
+- [KISP 接口文档 3.0.8](?type=default&version=3.0.8)
+- [kisp.debug.js](?file=default/3.0.8/kisp.debug.js) [源文件](data/default/3.0.8/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.8/kisp.debug.css) [源文件](data/default/3.0.8/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.8/kisp.min.js) [源文件](data/default/3.0.8/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.8/kisp.min.css) [源文件](data/default/3.0.8/kisp.min.css)
 
 ### 更新记录
 
-####v3.0.7
+####v3.0.8
 
+2015-12-15
+- 去掉模块 `KISP` 的 `files` 属性，因为该属性不会用到。
+- 完善注释：`IScroll`、`$`、`MiniQuery`。
+- 
+
+
+2015-12-07
+- 优化模块 `SSH`，去掉重复的 `proxy` 字段读取。
+- 完善默认配置字段的注释：`LocalStorage`、`SessionStorage`。
+- 给模块 `API` 的　`request` 事件增加二级事件 `get` 和 `post`。
+- 优化模块 `API` 的 `get` 和 `post` 方法。
+
+####v3.0.7
 
 2015-12-07
 - 给模块 `SSH.API`、`SSH`、`SSH/Server`、`SSH/Ajax` 加上可选配置字段 `netid`。
@@ -77,12 +90,12 @@ KISP 框架
 - 去掉了模块 `API` 中不常用的几种事件绑定方法：`done`、`success`、`fail`、`error`、`status`、`code`，可以改为 on() 实现。
 - 把模块 `Proxy` 设置为私有模块，因为外部不需要直接用到它。
 - 优化模块 `Proxy` 中的 `request` 的 JsDoc 注释。
-- 去掉了模块 `Proxy` 中的 `response` 对 action 的响应模块。只保留更通用的 response(json) 和 response(fn) 两种。
+- 去掉了模块 `Proxy` 中的 `response` 对 action 的响应模块。只保留更通用的 `response(json)` 和 `response(fn)` 两种。
 - 补充完整模块 `Seajs` 中的 `use` 方法的参数，对实际使用无影响，仅为了代码更可读。
 
 
 2015-11-27
-- 优化 `Scroller` 模块的 pulldown 和 pullup 方法。
+- 优化 `Scroller` 模块的 `pulldown` 和 `pullup` 方法。
 
 2015-11-24
 - 给 `Mask` 增加了 `$` 快捷字段，以访问对应的工DOM 节点的 jQuery 包装对象。
@@ -97,19 +110,19 @@ KISP 框架
 
 ####v3.0.3
 2015-11-23
-- 修复 Loading 配置中的 append 字段无效。
-- 删除了 Loading 中的 spinner 模板。
-- 把 Loading 模块的 css 类名改成大写开头，避免跟业务层冲突，同时兼容旧的名称 `same-line`，建议使用新的 `SameLine`。
-- 优化 Loading 模块的 css 类名，改写成更简短的方式。
-- 修复 Loading 中的 Mask 层的 container 指向问题，让它与 Loading 的一致。
+- 修复模块 `Loading` 配置中的 `append` 字段无效的问题。
+- 删除了模块 `Loading` 中的 `spinner` 模板，该模板目前没有用到。
+- 把模块 `Loading` 的 css 类名改成大写开头，避免跟业务层冲突，同时兼容旧的名称 `same-line`，建议使用新的 `SameLine`。
+- 优化模块 `Loading` 的 css 类名，改写成更简短的方式。
+- 修复模块 `Loading` 中的 Mask 层的 `container` 指向问题，让它与 `Loading` 的一致。
 
 2015-11-20
-- 优化模块方法 Mask.remove()。
-- 优化模块方法 Dialog.remove()。
-- 优化模块方法 Dialog/Style.get()。
-- 增加模块方法 Dialog.render()。
-- 优化模块 Alert 的实现，支持多次调用并依次显示出 alert 对话框（之前的只能显示最后一次的 alert 调用）。
-- 把子模块的调用方式由 require(module, 'ABC') 改成 module.require('ABC');
+- 优化模块方法 `Mask.remove()`。
+- 优化模块方法 `Dialog.remove()`。
+- 优化模块方法 `Dialog/Style.get()`。
+- 增加模块方法 `Dialog.render()`。
+- 优化模块 `Alert` 的实现，支持多次调用并依次显示出 alert 对话框（之前的只能显示最后一次的 alert 调用）。
+- 把子模块的调用方式由 `require(module, 'ABC')` 改成 `module.require('ABC')`;
 - 给模块 `SSH.API` 增加了默认错误消息: `网络繁忙，请稍候再试`，当 http 协议请求错误时将使用该消息。
 - 模块 `View` 的背景色需要在配置中指定，否则不会生成背景色。 
 
@@ -117,7 +130,7 @@ KISP 框架
 ####v3.0.2
 2015-11-19
 
-- 修复了视图动画后退时没有触发 show 事件的 bug。
+- 修复了视图动画后退时没有触发 `show` 事件的 bug。
 - 修复了视图前进时动画有时不起作用的 bug（通过增加延迟的方式）。
 
 2015-11-17 
@@ -129,7 +142,7 @@ KISP 框架
 
 2015-11-12 
 - 增加了 UI 组件：图片查看器 `ImageViewer`。
-- 修复了 `Scroller` 组件中当禁用滚动条时的 bug，scroller.indicators 为 undefined。
+- 修复了 `Scroller` 组件中当禁用滚动条时的 bug，此时　`scroller.indicators` 为 `undefined`。
 
 
 
