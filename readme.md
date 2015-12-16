@@ -16,6 +16,7 @@ KISP 框架
 
 ###专题介绍
 - [JavaScript 开发规范](?file=specification/js/index.md)
+- [HTML 页面开发规范](?file=specification/refactor/index.md)
 - [通用模块定义与加载](?file=docs/CMD.md)
 - [后台数据请求](?file=docs/API.md)
 - [通道数据请求](?file=docs/SSH.API.md)
@@ -24,6 +25,8 @@ KISP 框架
 - [使用云之家接口](?file=docs/CloudHome.md)
 - [将配置数据从代码中分离出来](?file=docs/Config-and-Code.md)
 - [将HTML模板从代码中分离出来](?file=docs/HTML-and-Code.md)
+- [Web 客户端存储](?file=docs/Storage.md)
+- [同源策略](?file=article/Same-origin-policy.md)
 
 ### default - 3.0.8
 
@@ -36,6 +39,9 @@ KISP 框架
 ### 更新记录
 
 ####v3.0.8
+
+2015-12-16
+- 优化模块 `CloudHome` 的 `check` 方法，改成云之家官方文档上的实现。
 
 2015-12-15
 - 去掉模块 `KISP` 的 `files` 属性，因为该属性不会用到。

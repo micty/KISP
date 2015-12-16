@@ -12,7 +12,6 @@ define('CloudHome', function (require, module, exports) {
 
     var Native = module.require('Native');
 
-    var isInCloudHome = false;
 
     module.exports = exports = /**@lends CloudHome*/ {
 
@@ -21,12 +20,21 @@ define('CloudHome', function (require, module, exports) {
 
         /**
         * 判断是否在云之家打开的。
+        * 即判断当前环境是否支持云之家的 JSBridge。
         */
         check: function () {
             
-            //如 ?ticket=967cada703a6ca821790f048d55f1d32
-            return !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
+            //详见：http://open.kdweibo.com/wiki/doku.php?id=jsbridge:%E4%BA%91%E4%B9%8B%E5%AE%B6jsbridge%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3
+            //iOS：Qing/0.9.0;iPhone OS 9.1;Apple;iPhone7,1
+            //Android：Qing/0.9.0;Android4.1.1;Xiaomi;MI 2 
+
+            var reg = /Qing\/.*;(iPhone|Android).*/;
+            return navigator.userAgent.match(reg) ? true : false;
+
+            ////如 ?ticket=967cada703a6ca821790f048d55f1d32
+            //return !!Url.hasQueryString(window, 'ticket'); //确保返回一个 bool 值。
         },
+
 
         /**
         * 关闭云之家打开的轻应用。
@@ -98,8 +106,6 @@ define('CloudHome', function (require, module, exports) {
                 Title.show(); //显示之前的标题
             }
         },
-
-
 
 
 
