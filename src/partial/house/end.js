@@ -2,10 +2,8 @@
 
 (function(require){
 
+   
     var KISP = require('KISP');
-    var defaults = require('defaults');
-
-    KISP.config(defaults);
     global.KISP = KISP;
 
 

@@ -23,8 +23,11 @@ Module.expose({
     'MiniQuery': true,
     'IScroll': true, //test
 
+    //crypto
+    'MD5': true,
+
     //excore
-    'DOM': true,
+    //'DOM': true,
     'Edition': true,
     'LocalStorage': true,
     'Mapper': true,

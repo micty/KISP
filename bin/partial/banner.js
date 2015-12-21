@@ -1,4 +1,4 @@
-﻿/*
+/*
 * {name} - {description}
 * name: {type} 
 * version: {version}

@@ -24,7 +24,6 @@ module.exports = function (grunt) {
                 'KISP.js',
             ]
         },
-
         {
             dir: 'crypto',
             files: [
@@ -35,15 +34,17 @@ module.exports = function (grunt) {
             dir: 'excore',
             files: [
                 'Config.js',
+                'Defaults.js',
                 'Config/Url.js',
-                'DOM.js',
                 'Edition.js',
                 'File.js',
                 'Fn.js',
                 'JSON.js',
+                'LocalStorage.js',
                 'Mapper.js',
                 'Module.js',
                 'RandomId.js',
+                'SessionStorage.js',
                 'Style.js',
                 'Url.js',
             ]
@@ -54,21 +55,14 @@ module.exports = function (grunt) {
                 'API.js',
                 'API/Ajax.js',
                 'Proxy.js',
-            ]
-        },
-
-        {
-            dir: 'third-party',
-            files: [
                 {
-                    dir: 'seajs',
+                    dir: 'Proxy',
                     files: [
-                        'Seajs.js',
+                        'Url.js',
                     ],
                 },
-            ],
+            ]
         },
-        
         {
             dir: 'ui',
             files: [
@@ -79,9 +73,11 @@ module.exports = function (grunt) {
                         {
                             dir: 'Alert',
                             files: [
+                                'Dialog.js',
                                 'Sample.html',
                             ],
                         },
+                        'Confirm.js',
                         'Dialog.js',
                         {
                             dir: 'Dialog',
@@ -105,7 +101,6 @@ module.exports = function (grunt) {
                                     dir: 'Sample',
                                     files: [
                                         'iOS.html',
-                                        'spinner.html',
                                     ],
                                 },
                                 'Presettings.js',
@@ -140,19 +135,7 @@ module.exports = function (grunt) {
                 },
 
                 'Navigator.js',
-                'NoData.js',
-                {
-                    dir: 'NoData',
-                    files: [
-                        'Renderer.js',
-                        'Sample.html',
-                        'Style.js',
-                    ],
-                },
-                
                 'Panel.js',
-                'Scroller/pull.js',
-                'Scroller.js',
                 'Tabs.js',
                 {
                     dir: 'Tabs',
@@ -169,15 +152,51 @@ module.exports = function (grunt) {
                         'Static.js',
                     ],
                 },
-                
+
                 'View.js',
             ]
         },
         {
             dir: 'partial/' + name,
             files: [
+                {
+                    dir: 'defaults',
+                    files: [
+                        {
+                            dir: 'api',
+                            files: [
+                                'API.js',
+                                'Proxy.js',
+                            ],
+                        },
+                        {
+                            dir: 'excore',
+                            files: [
+                                'LocalStorage.js',
+                                'Module.js',
+                                'SessionStorage.js',
+                                'Url.js',
+                            ],
+                        },
+                        {
+                            dir: 'ui',
+                            files: [
+                                'Alert.js',
+                                'App.js',
+                                'Dialog.js',
+                                'Loading.js',
+                                'Mask.js',
+                                'Panel.js',
+                                'Tabs.js',
+                                'Template.js',
+                                'Toast.js',
+                                'View.js',
+                            ],
+                        },
+                    ],
+                },
+
                 'expose.js',
-                'defaults.js',
                 'end.js',
             ]
         },

@@ -48,7 +48,7 @@ module.exports = function (grunt) {
                 'Config.js',
                 'Defaults.js',
                 'Config/Url.js',
-                'DOM.js',
+                //'DOM.js',
                 'Edition.js',
                 'File.js',
                 'Fn.js',
@@ -286,7 +286,7 @@ module.exports = function (grunt) {
                         {
                             dir: 'excore',
                             files: [
-                                'DOM.js',
+                                //'DOM.js',
                                 'LocalStorage.js',
                                 'Module.js',
                                 'SessionStorage.js',

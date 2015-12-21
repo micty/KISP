@@ -7,7 +7,6 @@ Module.expose({
     'API': true,
     'Proxy': true,
 
-
     //core
     '$': true,
     'MiniQuery': true,
@@ -16,10 +15,11 @@ Module.expose({
     'MD5': true,
 
     //excore
-    'DOM': true,
     'Edition': true,
+    'LocalStorage': true,
     'Mapper': true,
     'Module': true,
+    'SessionStorage': true,
     'Style': true,
     'Url': true,
 
@@ -28,7 +28,6 @@ Module.expose({
     'Loading': true,
     'Mask': true,
     'Navigator': true,
-    'NoData': true,
     'Panel': true,
     'Tabs': true,
     'Template': true,
