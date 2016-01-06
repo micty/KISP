@@ -28,15 +28,21 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.0.8
+### default - 3.0.9
 
-- [KISP 接口文档 3.0.8](?type=default&version=3.0.8)
-- [kisp.debug.js](?file=default/3.0.8/kisp.debug.js) [源文件](data/default/3.0.8/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.8/kisp.debug.css) [源文件](data/default/3.0.8/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.8/kisp.min.js) [源文件](data/default/3.0.8/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.8/kisp.min.css) [源文件](data/default/3.0.8/kisp.min.css)
+- [KISP 接口文档 3.0.9](?type=default&version=3.0.9)
+- [kisp.debug.js](?file=default/3.0.9/kisp.debug.js) [源文件](data/default/3.0.9/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.0.9/kisp.debug.css) [源文件](data/default/3.0.9/kisp.debug.css)
+- [kisp.min.js](?file=default/3.0.9/kisp.min.js) [源文件](data/default/3.0.9/kisp.min.js)
+- [kisp.min.css](?file=default/3.0.9/kisp.min.css) [源文件](data/default/3.0.9/kisp.min.css)
 
 ### 更新记录
+
+####v3.0.9
+
+2016-01-06
+- 修复模块 `Toast` 的样式问题。 把 class 名 `.text` 换成 `.Text`，之前的优化类名为大写时修改不完全导致的。
+
 
 ####v3.0.8
 
