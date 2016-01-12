@@ -28,15 +28,21 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.0.9
+### default - 3.1.0
 
-- [KISP 接口文档 3.0.9](?type=default&version=3.0.9)
-- [kisp.debug.js](?file=default/3.0.9/kisp.debug.js) [源文件](data/default/3.0.9/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.0.9/kisp.debug.css) [源文件](data/default/3.0.9/kisp.debug.css)
-- [kisp.min.js](?file=default/3.0.9/kisp.min.js) [源文件](data/default/3.0.9/kisp.min.js)
-- [kisp.min.css](?file=default/3.0.9/kisp.min.css) [源文件](data/default/3.0.9/kisp.min.css)
+- [KISP 接口文档 3.1.0](?type=default&version=3.1.0)
+- [kisp.debug.js](?file=default/3.1.0/kisp.debug.js) [源文件](data/default/3.1.0/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.1.0/kisp.debug.css) [源文件](data/default/3.1.0/kisp.debug.css)
+- [kisp.min.js](?file=default/3.1.0/kisp.min.js) [源文件](data/default/3.1.0/kisp.min.js)
+- [kisp.min.css](?file=default/3.1.0/kisp.min.css) [源文件](data/default/3.1.0/kisp.min.css)
 
 ### 更新记录
+
+####v3.1.0
+
+2016-01-12
+- 修复模块 `Dialog` 中的文本框无法获得输入焦点的问题。 主要由于 touch() 方法把默认动作禁用了。
+
 
 ####v3.0.9
 
