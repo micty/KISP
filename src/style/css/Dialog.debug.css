@@ -42,9 +42,10 @@
   word-wrap: break-word;
 }
 .KISP.Dialog article.no-header {
+  /**无标题时*/
   top: 10px;
 }
-.KISP.Dialog article.buttons-0 {
+.KISP.Dialog article.no-footer {
   /**无按钮时*/
   bottom: 10px;
 }
@@ -89,10 +90,6 @@
 .KISP.Dialog footer span:last-child {
   border-right: none;
   border-bottom-right-radius: 10px;
-}
-.KISP.Dialog footer.buttons-0 {
-  /**无按钮时*/
-  display: none;
 }
 .KISP.Dialog footer.buttons-1 span {
   width: 100%;

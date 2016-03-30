@@ -45,9 +45,14 @@ define('API.defaults', /**@lends API.defaults*/ {
     random: true,
 
     /**
-    * API 接口 Url 的主体部分，即 url 的 prefix 部分。
+    * API 接口 Url 的主体部分。
     */
     url: '',
+
+    /**
+    * API 接口 Url 的前缀部分。
+    */
+    prefix: '',
 
     /**
     * API 接口 Url 的后缀部分。
@@ -67,6 +72,12 @@ define('API.defaults', /**@lends API.defaults*/ {
     * 当发送方式为 post 时，该数据将会给序列化成查询字符串并附加到 url 查询参数中。
     */
     query: null,
+
+    /**
+    * 请求超时的最大值(毫秒)。
+    * 0 表示由浏览器控制，代码层面不控制。
+    */
+    timeout: 0,
 
 
     /**

@@ -19,9 +19,11 @@ module.exports = function (grunt) {
     Tasks.register();
 
 
+    require('./tasks/cloud.js')(grunt);
     require('./tasks/default.js')(grunt);
     require('./tasks/house.js')(grunt);
     require('./tasks/old.js')(grunt);
+
 
 
 

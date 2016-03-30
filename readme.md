@@ -28,15 +28,90 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.1.0
+### default - 3.1.6
 
-- [KISP 接口文档 3.1.0](?type=default&version=3.1.0)
-- [kisp.debug.js](?file=default/3.1.0/kisp.debug.js) [源文件](data/default/3.1.0/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.1.0/kisp.debug.css) [源文件](data/default/3.1.0/kisp.debug.css)
-- [kisp.min.js](?file=default/3.1.0/kisp.min.js) [源文件](data/default/3.1.0/kisp.min.js)
-- [kisp.min.css](?file=default/3.1.0/kisp.min.css) [源文件](data/default/3.1.0/kisp.min.css)
+- [KISP 接口文档 3.1.6](?type=default&version=3.1.6)
+- [kisp.debug.js](?file=default/3.1.6/kisp.debug.js) [源文件](data/default/3.1.6/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.1.6/kisp.debug.css) [源文件](data/default/3.1.6/kisp.debug.css)
+- [kisp.min.js](?file=default/3.1.6/kisp.min.js) [源文件](data/default/3.1.6/kisp.min.js)
+- [kisp.min.css](?file=default/3.1.6/kisp.min.css) [源文件](data/default/3.1.6/kisp.min.css)
 
 ### 更新记录
+
+
+
+####v3.1.6
+
+2016-03-30
+- 修改模块 `SSH`，当返回多个产品实例时，产品实例列表的字段名，由原来的 `Data` 改为 `NetIDList`，并在 `servers` 事件中增加了 `json` 和 `xhr` 输出参数。
+
+2016-03-21
+- 修改模块 `Url`，使其接受配置字段 `root` 为一个函数的情况。 当传一个函数进来时，则会首次调用该函数以其返回值作为网站的根地址，后续则会缓存并使用该值。
+
+####v3.1.5
+
+2016-03-15
+- 修改配置模块 `CloudAPI.defaults` 字段 `url` 值为 `http://183.2.171.10/basecloud/common/BusinessAction`。
+
+2016-03-14
+- 给模块 `CloudAPI` 打印 `post` 中的数据到 `console` 的功能，由于 data 给编码了成字符串，为了便于查看原始对象结构而打印到控制台。
+- 给配置模块 `CloudAPI.defaults` 增加字段 `console: true`， 即默认会打印 `post` 中的 `method`和 `data` 到控制台中。
+-
+
+####v3.1.4
+
+2016-03-14
+- 给模块 `API` 增加配置字段 `prefix`，用于更加细分 API 接口的 url 地址部分。即接口的完整地址为 `url = url + prefix + name + ext`。默认为空字符串。
+- 增加模块 `CloudAPI`，用于云基础平台请求后台。
+- 增加配置模块 `CloudAPI.defaults`，用于针对模块 `CloudAPI` 的默认配置。
+
+2016-03-08
+- 修改模块`SSH/Server`，让其支持多个产品实例(`netid`)。
+- 修改模块 `SSH.API`，当请求时发现后台返回多个 `netid`，则触发类级别的事件 `servers`，并把 `netid` 列表作为参数传递过去。
+- 修改模块 `SSH.API` 的默认配置，让字段 `netid` 支持 `-1` 的情况，表示让后台自己去获取 `netid`，此情况仅适用于只有一个产品实例的情况。当存在多个 时，会触发类事件 `servers`，此时应该业务层弹出对话框让用户手动去选择产品实例(`netid`)。
+
+2016-03-07
+- 模块`SSH/Server` 的字段 `Timestamp` 由 `yyyy-MM-ddhh:mm:ss` 改为 `yyyy-MM-dd HH:mm:ss`。
+- 优化模块`SSH/Server` 的 `ajax` 方法和 `get` 方法。
+- 优化模块 `SSH` 的 `post` 方法。
+
+
+2016-03-04
+- 针对 `SSH/Server/Config` 和 `SSH/Server` 模块的配置字段 `cache` 作增强，当 `cache` 字段指定为 `fasle` 时，则禁用缓存。 这意味着内存中的缓存也不使用，每次请求都会重新拉取最新的值。完全禁用缓存，在开发调试时可能会用到。
+
+2016-03-01
+- 去掉 `Scroller` 的 `reset` 方法中的 `resetPosition()` 调用，以解决列表滚动器 reset 后跳一下。
+- 给 `Dialog` 的 `set` 方法的滚动器刷新加入 200ms 的延迟，以解决设置 `text` 引起的高度变化导致的刷新失效问题。
+
+####v3.1.3
+
+2016-02-18
+- 优化组件 `Dialog` 的渲染逻辑，当没有标题或按钮时，不创建对应的 header 和 footer 节点。
+- 把组件 `Confirm` 的 `z-index` 由默认的 `1024` 提升到 `99999`，避免给其它覆盖。
+- 优化组件 `Mask`: 增加 `touch` 虚拟事件支持；优化渲染逻辑，去掉了对外触发的 `click` 事件；
+- 组件 `ImageSlider` 改用 `Mask` 实现，更轻量(之前用的是 `Dialog`)。
+- 给组件 `ImageReader` 的 `render` 方法增加数据传递，针对云之家选取图片时需要用到的参数。 
+- 优化模块 `CloudHome` 的 `check` 方法，增加一个 `strict` 参数，以控制是否使用云之家官方文档上的严格模式进行判断。默认只从 url 中判断是否包含有 ticket 字段。主要用于用云之家打开PC端的开发版页面方便调试。
+
+2016-02-17
+- 修复模块 `SSH` 的打印完整 API 名称显示为 `undefined` 的问题。
+- 新增模块 `ImageSlider`，用于滚动查看图片列表。
+
+
+####v3.1.2
+
+2016-01-29
+- 给模块 `API`、`SSH` 和 `SSH.API` 增加了 `abort` 方法，用于取消当前已发起但未完成的请求，会触发 `abort` 事件。
+- 优化模块 `API`、 `SSH` 和 `SSH/Ajax` 的逻辑，把内部的 `timeoutFn` 改成 `ontimeout`。
+
+
+
+####v3.1.1
+
+2016-01-25
+- 为简化设计，把模块 `API` 中的构造函数预绑定事件去掉。 需要绑定事件请单独调用 `on()` 方法。
+- 给模块 `API`、`SSH` 和 `SSH.API` 增加了请求超时控制，当在 `config` 中传入了 `timeout` 字段(单位为毫秒)，则当请求超时时，会触发 `timeout` 事件。
+- 优化模块 `SSH` 和 `SSH/Ajax` 的逻辑。
 
 ####v3.1.0
 

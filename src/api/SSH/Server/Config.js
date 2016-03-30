@@ -55,7 +55,7 @@ define('SSH/Server/Config', function (require, module, exports) {
         $.getJSON(url, function (data) {
 
             try {
-                var host = defaults.host || data['kisplusServerS'];
+                var host = defaults.host || data['kisplusServerS']; //优先使用用户指定的 host。
                 var path = data['kisplusAppsecret'];
 
                 json = {
@@ -90,7 +90,11 @@ define('SSH/Server/Config', function (require, module, exports) {
 
     function get(fn) {
 
-        if (json) {
+        var defaults = Config.get(module.id);
+        var cache = defaults.cache;
+
+
+        if (cache && json) { //只有启用缓存时才从内存中读。
             fn(json);
             return;
         }

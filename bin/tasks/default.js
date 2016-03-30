@@ -22,6 +22,7 @@ module.exports = function (grunt) {
                 '$.js',
                 'MiniQuery.js',
                 'IScroll.js',
+                'iSlider.js',
                 'KISP.js',
             ]
         },
@@ -67,6 +68,9 @@ module.exports = function (grunt) {
             files: [
                 'API.js',
                 'API/Ajax.js',
+
+                'CloudAPI.js',
+
                 'SSH.js',
                 {
                     dir: 'SSH',
@@ -176,6 +180,7 @@ module.exports = function (grunt) {
                                 'Style.js',
                             ],
                         },
+                        'ImageSlider.js',
                         'ImageViewer.js',
                         'Loading.js',
                         {
@@ -240,6 +245,7 @@ module.exports = function (grunt) {
                 'Panel.js',
                 'Scroller/pull.js',
                 'Scroller.js',
+                'Slider.js',
                 'Tabs.js',
                 {
                     dir: 'Tabs',
@@ -276,6 +282,7 @@ module.exports = function (grunt) {
                             dir: 'api',
                             files: [
                                 'API.js',
+                                'CloudAPI.js',
                                 'Proxy.js',
                                 'SSH.API.js',
                                 'SSH.js',
@@ -308,6 +315,7 @@ module.exports = function (grunt) {
                                 'Alert.js',
                                 'App.js',
                                 'Dialog.js',
+                                'ImageSlider.js',
                                 'ImageViewer.js',
                                 'Loading.js',
                                 'Mask.js',

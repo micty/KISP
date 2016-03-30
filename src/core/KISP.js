@@ -115,9 +115,10 @@ define('KISP', function (require, module, exports) {
         config: function (name, value) {
 
             var Defaults = require('Defaults');
+            var len = arguments.length;
 
             //get(name)
-            if (typeof name == 'string' && arguments.length == 1) { 
+            if (typeof name == 'string' && len == 1) { 
                 return Defaults.get(name);
             }
 

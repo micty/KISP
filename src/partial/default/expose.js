@@ -5,6 +5,7 @@ Module.expose({
 
     //api
     'API': true,
+    'CloudAPI': true,
     //'Proxy': true, //私有模块
     'SSH.API': true,
     //'SSH': true,
@@ -41,6 +42,7 @@ Module.expose({
 
     //ui
     'Dialog': true,
+    'ImageSlider': true,
     'ImageViewer': true,
     'Loading': true,
     'Mask': true,

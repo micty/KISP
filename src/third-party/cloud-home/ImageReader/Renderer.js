@@ -66,7 +66,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
 
 
     //针对云之家内嵌浏览器端的
-    function renderCH(meta) {
+    function renderCH(meta, data) {
 
         var emitter = meta.emitter;
 
@@ -109,8 +109,8 @@ define('ImageReader/Renderer', function (require, module, exports) {
                 emitter.fire('fail', [code, msg, json]);
             });
 
-
-            api.invoke();
+            //data = { type: 'camera'|'photo' }; 如果不传，则表示两者都选。
+            api.invoke(data);
 
         });
       
@@ -123,7 +123,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
 
     return {
 
-        render: function (meta) {
+        render: function (meta, data) {
 
             if (isCloudHome === undefined) { //未判断
                 var CloudHome = require('CloudHome');
@@ -131,7 +131,7 @@ define('ImageReader/Renderer', function (require, module, exports) {
             }
 
             if (isCloudHome) {
-                renderCH(meta);
+                renderCH(meta, data);
             }
             else {
                 renderPC(meta);

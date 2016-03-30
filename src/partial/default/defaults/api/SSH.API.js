@@ -44,6 +44,12 @@ define('SSH.API.defaults', /**@lends SSH.API.defaults*/ {
     */
     prefix: '',
 
+    /**
+    * 请求超时的最大值(毫秒)。
+    * 0 表示由浏览器控制，代码层面不控制。
+    */
+    timeout: 0,
+
     //必选的
 
     /**

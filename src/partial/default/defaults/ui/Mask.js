@@ -33,6 +33,12 @@ define('Mask.defaults', /**@lends Mask.defaults*/ {
     append: false,
 
     /**
+    * 点击时需要用到的事件名。
+    * 针对移动端的是虚拟事件 'touch'。
+    */
+    eventName: 'touch',
+
+    /**
     * 组件的 css 样式 z-index 值。
     */
     'top': 0,

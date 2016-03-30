@@ -49,10 +49,10 @@ define('ImageReader', function (require, module, exports) {
         /**
         * 渲染。
         */
-        render: function () {
+        render: function (data) {
 
             var meta = mapper.get(this);
-            Renderer.render(meta);
+            Renderer.render(meta, data);
         },
 
         /**
