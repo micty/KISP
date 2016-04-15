@@ -8,9 +8,6 @@ KISP 框架
 > KISP 是一个轻量级的 JavaScript 框架，采用 CMD 模式进行模块化的封装，
 提供了一些模块和接口，*可以用于 Web 和轻应用的开发*。
 
-###杂记 Todo
-
-- 能否通过自动化工具分析模块代码，公共模块给哪些私有模块引用了？
 
 
 
@@ -36,8 +33,30 @@ KISP 框架
 - [kisp.min.js](?file={type}/{version}/kisp.min.js) [源文件](data/{type}/{version}/kisp.min.js)
 - [kisp.min.css](?file={type}/{version}/kisp.min.css) [源文件](data/{type}/{version}/kisp.min.css)
 
+
 ### 更新记录
 
+####v3.3.0
+
+2016-04-15
+- 优化 `Template` 模块。 增加支持重载 template.fill({}) 的情况，以适应传入的数据不是一个数组的情况。
+- 给配置模块 `Mask.defaults` 增加 `duration: 0` 的默认值，以在 jsdoc 文档里能显示出来该字段。
+- 组件 `Tabs` 新增方法 `previous()` 和 `next()`，以支持快速激活前一项和后一项。 并支持在构造器 `Tabs({ looped:true|false })` 里传入 `looped` 字段来启用或禁用循环模式。
+- 给配置模块 `Tabs.defaults` 增加 `looped: false` 的默认值，禁用循环模式。
+
+2016-04-14
+- 优化 `省市区选择器` `CityPicker` 控件。 
+
+
+2016-04-13
+- 增加`省市区选择器` `CityPicker`，引入第三方框架并使用潜入的 iframe 页面来调用。
+
+
+
+
+####v3.2.0
+2016-04-06
+- 把通用默认配置提升到 `defaults` 公共目录，差异化的配置则保留在原来的 `partial` 目录。 通用默认配置采用 `{Name}.defaults` 的命名方式，差异化的配置采用 `{Name}.config` 的命名。 以适用多移动端和 PC 端等环境下的合并和应用。
 
 
 ####v3.1.6

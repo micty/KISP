@@ -97,8 +97,8 @@ var LinearPath = (function ($Array) {
         };
 
         var a = combine(dir, files, state);
-        var b = $Array.reduceDimension(a, state.depth); //降维
-
+        //var b = $Array.reduceDimension(a, state.depth); //降维
+        var b = $Array.reduceDimension(a, 10); //降维
         return b;
     }
 

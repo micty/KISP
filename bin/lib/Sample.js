@@ -31,6 +31,7 @@ module.exports = (function (grunt) {
     */
     function get(html, file) {
 
+        file = file.split('\\').join('/');
 
         var names = file.split('/');
 

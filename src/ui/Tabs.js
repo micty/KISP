@@ -45,6 +45,7 @@ define('Tabs', function (require, module, exports) {
             'activedClass': config.activedClass,
             'pressedClass': config.pressedClass,
             'repeated': config.repeated,
+            'looped': config.looped,
 
             'eventName': config.eventName,
             'list': [],
@@ -201,6 +202,52 @@ define('Tabs', function (require, module, exports) {
             emitter.fire('change', args);
 
 
+        },
+
+        /**
+        * 激活前一项。
+        * @param {boolean} [quiet=false] 是否使用安静模式。 
+            当指定为 true 时，则不会触发事件，这在某种场景下会用到。
+            否则会触发事件(默认情况)。
+        */
+        previous: function (qiuet) {
+            var meta = mapper.get(this);
+            var list = meta.list;
+            var looped = meta.looped;
+            var index = meta.activedIndex;
+
+            if (index == 0) {
+                if (!looped) {
+                    return;
+                }
+
+                index = list.length;
+            }
+          
+            this.active(index - 1, qiuet);
+        },
+
+        /**
+        * 激活后一项。
+        * @param {boolean} [quiet=false] 是否使用安静模式。 
+            当指定为 true 时，则不会触发事件，这在某种场景下会用到。
+            否则会触发事件(默认情况)。
+        */
+        next: function (qiuet) {
+            var meta = mapper.get(this);
+            var list = meta.list;
+            var looped = meta.looped;
+            var index = meta.activedIndex;
+
+            if (index == list.length - 1) {
+                if (!looped) {
+                    return;
+                }
+
+                index = -1;
+            }
+
+            this.active(index + 1, qiuet);
         },
 
         /**

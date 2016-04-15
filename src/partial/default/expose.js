@@ -42,6 +42,7 @@ Module.expose({
 
     //ui
     'Dialog': true,
+    'CityPicker': true,
     'ImageSlider': true,
     'ImageViewer': true,
     'Loading': true,

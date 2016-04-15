@@ -272,66 +272,66 @@ module.exports = function (grunt) {
                 'touch.js',
             ]
         },
+
+        {
+            dir: 'defaults',
+            files: [
+                {
+                    dir: 'api',
+                    files: [
+                        'API.js',
+                        'CloudAPI.js',
+                        'Proxy.js',
+                        //'SSH.API.js',
+                        //'SSH.js',
+                        //'SSH/Server.js',
+                        //'SSH/Server/Config.js',
+                    ],
+                },
+                {
+                    dir: 'excore',
+                    files: [
+                        //'DOM.js',
+                        'LocalStorage.js',
+                        'Module.js',
+                        'SessionStorage.js',
+                        'Url.js',
+                    ],
+                },
+                {
+                    dir: 'third-party',
+                    files: [
+                        'CloudHome.API.js',
+                        'ImageReader.js',
+                        'WeChat.js',
+                        'WeChat/Signature.js',
+                    ],
+                },
+                {
+                    dir: 'ui',
+                    files: [
+                        'Alert.js',
+                        'App.js',
+                        'Dialog.js',
+                        'ImageSlider.js',
+                        'ImageViewer.js',
+                        'Loading.js',
+                        'Mask.js',
+                        'NoData.js',
+                        'NumberPad.js',
+                        'Panel.js',
+                        'Scroller.js',
+                        'Tabs.js',
+                        'Template.js',
+                        'Toast.js',
+                        'View.js',
+                    ],
+                },
+            ],
+        },
         {
             dir: 'partial/' + name,
             files: [
-                {
-                    dir: 'defaults',
-                    files: [
-                        {
-                            dir: 'api',
-                            files: [
-                                'API.js',
-                                'CloudAPI.js',
-                                'Proxy.js',
-                                //'SSH.API.js',
-                                //'SSH.js',
-                                //'SSH/Server.js',
-                                //'SSH/Server/Config.js',
-                            ],
-                        },
-                        {
-                            dir: 'excore',
-                            files: [
-                                //'DOM.js',
-                                'LocalStorage.js',
-                                'Module.js',
-                                'SessionStorage.js',
-                                'Url.js',
-                            ],
-                        },
-                        {
-                            dir: 'third-party',
-                            files: [
-                                'CloudHome.API.js',
-                                'ImageReader.js',
-                                'WeChat.js',
-                                'WeChat/Signature.js',
-                            ],
-                        },
-                        {
-                            dir: 'ui',
-                            files: [
-                                'Alert.js',
-                                'App.js',
-                                'Dialog.js',
-                                'ImageSlider.js',
-                                'ImageViewer.js',
-                                'Loading.js',
-                                'Mask.js',
-                                'NoData.js',
-                                'NumberPad.js',
-                                'Panel.js',
-                                'Scroller.js',
-                                'Tabs.js',
-                                'Template.js',
-                                'Toast.js',
-                                'View.js',
-                            ],
-                        },
-                    ],
-                },
-
                 'expose.js',
                 'end.js',
             ]

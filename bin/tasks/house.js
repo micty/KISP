@@ -66,6 +66,14 @@ module.exports = function (grunt) {
         {
             dir: 'ui',
             files: [
+                'App.js',
+                {
+                    dir: 'App',
+                    files: [
+                        'Nav.js',
+                        'Transition.js',
+                    ],
+                },
                 {
                     dir: 'dialog',
                     files: [
@@ -156,46 +164,61 @@ module.exports = function (grunt) {
                 'View.js',
             ]
         },
+        {   //通用配置
+            dir: 'defaults',
+            files: [
+                {
+                    dir: 'api',
+                    files: [
+                        'API.js',
+                        'Proxy.js',
+                    ],
+                },
+                {
+                    dir: 'excore',
+                    files: [
+                        'LocalStorage.js',
+                        'Module.js',
+                        'SessionStorage.js',
+                        'Url.js',
+                    ],
+                },
+                {
+                    dir: 'ui',
+                    files: [
+                        'Alert.js',
+                        'App.js',
+                        'Dialog.js',
+                        'Loading.js',
+                        'Mask.js',
+                        'Panel.js',
+                        'Tabs.js',
+                        'Template.js',
+                        'Toast.js',
+                        'View.js',
+                    ],
+                },
+            ],
+        },
         {
             dir: 'partial/' + name,
             files: [
-                {
-                    dir: 'defaults',
+                {   //差异化的配置
+                    dir: 'config',
                     files: [
-                        {
-                            dir: 'api',
-                            files: [
-                                'API.js',
-                                'Proxy.js',
-                            ],
-                        },
-                        {
-                            dir: 'excore',
-                            files: [
-                                'LocalStorage.js',
-                                'Module.js',
-                                'SessionStorage.js',
-                                'Url.js',
-                            ],
-                        },
                         {
                             dir: 'ui',
                             files: [
                                 'Alert.js',
-                                'App.js',
                                 'Dialog.js',
                                 'Loading.js',
                                 'Mask.js',
-                                'Panel.js',
                                 'Tabs.js',
-                                'Template.js',
                                 'Toast.js',
-                                'View.js',
                             ],
                         },
                     ],
                 },
-
                 'expose.js',
                 'end.js',
             ]
@@ -223,12 +246,12 @@ module.exports = function (grunt) {
         var pkg = grunt.file.readJSON('package.json');
         var home = '<%=dir.build%>' + name + '/<%=pkg.version%>';
         var destSrc = home + '/src/';
-
+  
         var destList = LinearPath.linearize({
             dir: destSrc,
             files: srcFiles,
         });
-
+     
         var files = LinearPath.linearize({
             dir: home,
             files: [
@@ -237,14 +260,14 @@ module.exports = function (grunt) {
                 'kisp.min.js.map'
             ]
         });
-
+     
         Tasks.run('clean', name, {
             src: home,
             options: {
                 force: true //允许删除当前工作目录外的其他文件
             }
         });
-
+      
         function replace(content, name, value) {
 
             if (typeof name == 'object') { // 重载 replace(content, {...})
@@ -289,7 +312,7 @@ module.exports = function (grunt) {
 
 
         var sample = grunt.file.read('partial/sample.js');
-
+     
         //预处理，插入 grunt 标记相关的信息
         Tasks.run('copy', name, {
             dest: destSrc,
@@ -342,7 +365,7 @@ module.exports = function (grunt) {
                 },
             },
         });
-
+       
         Tasks.run('concat', name, {
             dest: files[0],
             src: destList,
@@ -351,6 +374,7 @@ module.exports = function (grunt) {
             },
         });
 
+
         Tasks.run('uglify', name, {
             src: files[0],
             dest: files[1],
@@ -358,7 +382,6 @@ module.exports = function (grunt) {
                 sourceMap: level > 0
             }
         });
-
 
 
         //css
@@ -395,50 +418,46 @@ module.exports = function (grunt) {
 
         //生成到 house 目录
 
-        Tasks.run('copy', name + '/house-admin', {
-            files: LinearPath.pair(home, 'I:/Studio/house/admin/htdocs/f/kisp', [
-                'kisp.debug.js',
-                'kisp.min.js',
-                'kisp.debug.css',
-                'kisp.min.css',
-            ]),
-        });
-
-        Tasks.run('copy', name + '/house-demo', {
-            files: LinearPath.pair(home, 'I:/Studio/house/demo/htdocs/f/kisp', [
-                'kisp.debug.js',
-                'kisp.min.js',
-                'kisp.debug.css',
-                'kisp.min.css',
-            ]),
-        });
-
-
-
         //Tasks.run('copy', name + '/house-admin', {
-        //    files: LinearPath.pair(home, 'E:/Kingdee/house/admin/htdocs/f/kisp', [
+        //    files: LinearPath.pair(home, 'I:/Studio/house/admin/htdocs/f/kisp', [
         //        'kisp.debug.js',
         //        'kisp.min.js',
         //        'kisp.debug.css',
         //        'kisp.min.css',
         //    ]),
-
         //});
 
         //Tasks.run('copy', name + '/house-demo', {
-        //    files: LinearPath.pair(home, 'E:/Kingdee/house/demo/htdocs/f/kisp', [
+        //    files: LinearPath.pair(home, 'I:/Studio/house/demo/htdocs/f/kisp', [
         //        'kisp.debug.js',
         //        'kisp.min.js',
         //        'kisp.debug.css',
         //        'kisp.min.css',
         //    ]),
-
         //});
+
+
+
+        Tasks.run('copy', name + '/house-admin', {
+            files: LinearPath.pair(home, 'E:/Kingdee/house/admin/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.debug.css',
+                'kisp.min.js',
+                'kisp.min.css',
+            ]),
+
+        });
+
+        Tasks.run('copy', name + '/house-demo', {
+            files: LinearPath.pair(home, 'E:/Kingdee/house/demo/htdocs/f/kisp', [
+                'kisp.debug.js',
+                'kisp.debug.css',
+                'kisp.min.js',
+                'kisp.min.css',
+            ]),
+
+        });
        
-
-        
-
-        
       
 
 

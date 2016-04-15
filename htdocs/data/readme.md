@@ -8,9 +8,6 @@ KISP 框架
 > KISP 是一个轻量级的 JavaScript 框架，采用 CMD 模式进行模块化的封装，
 提供了一些模块和接口，*可以用于 Web 和轻应用的开发*。
 
-###杂记 Todo
-
-- 能否通过自动化工具分析模块代码，公共模块给哪些私有模块引用了？
 
 
 
@@ -28,16 +25,25 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.1.6
+### {type} - {version}
 
-- [KISP 接口文档 3.1.6](?type=default&version=3.1.6)
-- [kisp.debug.js](?file=default/3.1.6/kisp.debug.js) [源文件](data/default/3.1.6/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.1.6/kisp.debug.css) [源文件](data/default/3.1.6/kisp.debug.css)
-- [kisp.min.js](?file=default/3.1.6/kisp.min.js) [源文件](data/default/3.1.6/kisp.min.js)
-- [kisp.min.css](?file=default/3.1.6/kisp.min.css) [源文件](data/default/3.1.6/kisp.min.css)
+- [KISP 接口文档 {version}](?type={type}&version={version})
+- [kisp.debug.js](?file={type}/{version}/kisp.debug.js) [源文件](data/{type}/{version}/kisp.debug.js)
+- [kisp.debug.css](?file={type}/{version}/kisp.debug.css) [源文件](data/{type}/{version}/kisp.debug.css)
+- [kisp.min.js](?file={type}/{version}/kisp.min.js) [源文件](data/{type}/{version}/kisp.min.js)
+- [kisp.min.css](?file={type}/{version}/kisp.min.css) [源文件](data/{type}/{version}/kisp.min.css)
+
 
 ### 更新记录
 
+####v3.3.0
+2016-04-13
+- 增加`省市区选择器` `CityPicker`，引入第三方框架并使用潜入的 iframe 页面来调用。
+
+
+####v3.2.0
+2016-04-06
+- 把通用默认配置提升到 `defaults` 公共目录，差异化的配置则保留在原来的 `partial` 目录。 通用默认配置采用 `{Name}.defaults` 的命名方式，差异化的配置采用 `{Name}.config` 的命名。 以适用多移动端和 PC 端等环境下的合并和应用。
 
 
 ####v3.1.6

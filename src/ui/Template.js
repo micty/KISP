@@ -56,6 +56,11 @@ define('Template', function (require, module, exports) {
                 fn = list;
                 list = null;
             }
+            else if (!(list instanceof Array)) { //重载 fill({})
+                list = [list];
+            }
+
+
 
             var meta = mapper.get(this);
 

@@ -17,10 +17,14 @@ module.exports = (function (grunt) {
     */
     function getRelaivePath(path) {
         
-        path = Pather.format(path);
+       
 
-        return Path.relative(pkg.dir.src, path)
-            .replace(/\\/ig, '/') ;
+        path = Pather.format(path);
+      
+        path = Path.relative(pkg.dir.src, path)
+        path = path.replace(/\\/ig, '/');
+
+        return path;
     }
 
 
@@ -30,6 +34,7 @@ module.exports = (function (grunt) {
     function get(type, list) {
 
         var total = list.length;
+        
 
         return $.String.format(banner, {
             'name': pkg.name,
@@ -41,6 +46,7 @@ module.exports = (function (grunt) {
             'total': total,
             'list': $.Array.keep(list, function (item, index) {
                 return '*    ' + getRelaivePath(item);
+
             }).join('\n')
         });
     }

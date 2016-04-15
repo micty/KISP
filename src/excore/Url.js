@@ -9,7 +9,8 @@ define('Url', function (require, module, exports) {
 
     var $ = require('$');
     var root = '';  //网站的根地址。
-    
+    var url = '';   //kisp.debug.js 或 kisp.min.js 文件所在的地址。
+    var dir = '';   //kisp.debug.js 或 kisp.min.js 文件所在的目录。
 
 
     function getBasic() {
@@ -96,6 +97,51 @@ define('Url', function (require, module, exports) {
 
 
             return $.String.format(url, data);
+        },
+
+
+        /**
+        * 获取 kisp 框架文件所对应的 url 地址。
+        */
+        get: function () {
+
+            if (url) {
+                return url;
+            }
+
+
+            var Config = require('Config');
+            var defaults = Config.get(module.id); //默认配置
+            var id = defaults.id;
+            var script = null;
+
+            if (id) {
+                script = document.getElementById(id);
+            }
+
+            if (!script) {
+                var Edition = require('Edition');
+                var type = Edition.get();
+                var file = $.String.format('script[src*="kisp.{0}.js"]', type);
+                script = $(file).get(0);
+            }
+
+            url = script.src;
+            return url;
+
+        },
+
+        /**
+        * 获取 kisp 框架文件所对应的 url 地址目录。
+        */
+        dir: function () {
+            if (dir) {
+                return dir;
+            }
+
+            var url = exports.get();
+            dir = url.split('/').slice(0, -1).join('/') + '/';
+            return dir;
         },
 
         
