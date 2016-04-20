@@ -25,20 +25,33 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### {type} - {version}
+### default - 3.3.0
 
-- [KISP 接口文档 {version}](?type={type}&version={version})
-- [kisp.debug.js](?file={type}/{version}/kisp.debug.js) [源文件](data/{type}/{version}/kisp.debug.js)
-- [kisp.debug.css](?file={type}/{version}/kisp.debug.css) [源文件](data/{type}/{version}/kisp.debug.css)
-- [kisp.min.js](?file={type}/{version}/kisp.min.js) [源文件](data/{type}/{version}/kisp.min.js)
-- [kisp.min.css](?file={type}/{version}/kisp.min.css) [源文件](data/{type}/{version}/kisp.min.css)
+- [KISP 接口文档 3.3.0](?type=default&version=3.3.0)
+- [kisp.debug.js](?file=default/3.3.0/kisp.debug.js) [源文件](data/default/3.3.0/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.3.0/kisp.debug.css) [源文件](data/default/3.3.0/kisp.debug.css)
+- [kisp.min.js](?file=default/3.3.0/kisp.min.js) [源文件](data/default/3.3.0/kisp.min.js)
+- [kisp.min.css](?file=default/3.3.0/kisp.min.css) [源文件](data/default/3.3.0/kisp.min.css)
 
 
 ### 更新记录
 
 ####v3.3.0
+
+2016-04-15
+- 优化 `Template` 模块。 增加支持重载 template.fill({}) 的情况，以适应传入的数据不是一个数组的情况。
+- 给配置模块 `Mask.defaults` 增加 `duration: 0` 的默认值，以在 jsdoc 文档里能显示出来该字段。
+- 组件 `Tabs` 新增方法 `previous()` 和 `next()`，以支持快速激活前一项和后一项。 并支持在构造器 `Tabs({ looped:true|false })` 里传入 `looped` 字段来启用或禁用循环模式。
+- 给配置模块 `Tabs.defaults` 增加 `looped: false` 的默认值，禁用循环模式。
+
+2016-04-14
+- 优化 `省市区选择器` `CityPicker` 控件。 
+
+
 2016-04-13
-- 增加`省市区选择器` `CityPicker`，引入第三方框架并使用潜入的 iframe 页面来调用。
+- 增加`省市区选择器` `CityPicker`，引入第三方框架并使用嵌入的 iframe 页面来调用。
+
+
 
 
 ####v3.2.0

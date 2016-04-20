@@ -124,7 +124,7 @@ module.exports = function (grunt) {
             dest: home + 'jsdoc.bat',
           
             process: function (s) {
-
+                
                 return $.String.format(s, {
                     'name': name,
                     'version': pkg.version,
@@ -246,29 +246,16 @@ module.exports = function (grunt) {
         //----------------------------------------------
 
    
-        function copy(src, dest, files, process) {
+        function copy(config) {
 
-            //重载 copy({});
-            if (typeof src == 'object') {
-                var obj = src;
-                src = obj.src;
-                dest = obj.dest;
-                files = obj.files;
-                process = obj.process;
-            }
+            var src = config.src;
+            var dest = config.dest;
+            var files = config.files;
+            var process = config.process;
 
-
-            //重载:
-            //  copy(src, dest, process);
-            //  copy(src, dest);
-            if (!Array.isArray(files)) {
-                process = files;
-                files = null;
-            }
 
             var target = $.String.random();
             var options = process ? { 'process': process } : null;
-
 
             if (files) {
                 files = LinearPath.pair(src, dest, files);
