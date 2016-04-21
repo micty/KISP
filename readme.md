@@ -25,16 +25,22 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.3.0
+### default - 3.3.1
 
-- [KISP 接口文档 3.3.0](?type=default&version=3.3.0)
-- [kisp.debug.js](?file=default/3.3.0/kisp.debug.js) [源文件](data/default/3.3.0/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.3.0/kisp.debug.css) [源文件](data/default/3.3.0/kisp.debug.css)
-- [kisp.min.js](?file=default/3.3.0/kisp.min.js) [源文件](data/default/3.3.0/kisp.min.js)
-- [kisp.min.css](?file=default/3.3.0/kisp.min.css) [源文件](data/default/3.3.0/kisp.min.css)
+- [KISP 接口文档 3.3.1](?type=default&version=3.3.1)
+- [kisp.debug.js](?file=default/3.3.1/kisp.debug.js) [源文件](data/default/3.3.1/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.3.1/kisp.debug.css) [源文件](data/default/3.3.1/kisp.debug.css)
+- [kisp.min.js](?file=default/3.3.1/kisp.min.js) [源文件](data/default/3.3.1/kisp.min.js)
+- [kisp.min.css](?file=default/3.3.1/kisp.min.css) [源文件](data/default/3.3.1/kisp.min.css)
 
 
 ### 更新记录
+
+####v3.3.1
+
+2016-04-20
+- 解决 `CityPicker` 在 `iPhone 6 Plus` 下高度不足而给遮挡住的问题。 主要是内嵌的 iframe 的 html 节点使用了媒体查询，从而在 KISP 层面也需要使用相应的媒体查询来设置对话 iframe 标签的高度。
+
 
 ####v3.3.0
 
