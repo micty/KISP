@@ -325,6 +325,23 @@ module.exports = {
         {
             dir: 'partial/pc',
             files: [
+                {   //差异化的配置
+                    dir: 'config',
+                    files: [
+                        {
+                            dir: 'ui',
+                            files: [
+                                'Alert.js',
+                                'Dialog.js',
+                                'Loading.js',
+                                'Mask.js',
+                                'Tabs.js',
+                                'Toast.js',
+                            ],
+                        },
+                    ],
+                },
+
                 'expose.js',
                 'end.js',
             ],
