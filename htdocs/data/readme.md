@@ -25,16 +25,28 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 3.3.1
+### default - 3.4.0
 
-- [KISP 接口文档 3.3.1](?type=default&version=3.3.1)
-- [kisp.debug.js](?file=default/3.3.1/kisp.debug.js) [源文件](data/default/3.3.1/kisp.debug.js)
-- [kisp.debug.css](?file=default/3.3.1/kisp.debug.css) [源文件](data/default/3.3.1/kisp.debug.css)
-- [kisp.min.js](?file=default/3.3.1/kisp.min.js) [源文件](data/default/3.3.1/kisp.min.js)
-- [kisp.min.css](?file=default/3.3.1/kisp.min.css) [源文件](data/default/3.3.1/kisp.min.css)
+- [KISP 接口文档 3.4.0](?type=default&version=3.4.0)
+- [kisp.debug.js](?file=default/3.4.0/kisp.debug.js) [源文件](data/default/3.4.0/kisp.debug.js)
+- [kisp.debug.css](?file=default/3.4.0/kisp.debug.css) [源文件](data/default/3.4.0/kisp.debug.css)
+- [kisp.min.js](?file=default/3.4.0/kisp.min.js) [源文件](data/default/3.4.0/kisp.min.js)
+- [kisp.min.css](?file=default/3.4.0/kisp.min.css) [源文件](data/default/3.4.0/kisp.min.css)
 
 
 ### 更新记录
+
+####v3.4.0
+
+2016-04-26
+- 给模块 `Panel` 增加实例方法 `template`，以设定针对复杂模板填充的规则。 
+- 修改模块 `Panel` 实例方法  `fill`，以支持复杂模板填充的情况。 如果需要使用复杂模板填充，则在调用 `panel.fill(data, fn)` 之前，需要先调用 `panel.template(config)` 进行规则设定。 否则只会当成简单模板填充。
+
+####v3.3.2
+
+2016-04-22
+- 合并时补上针对 PC 端的配置文件，主要是 UI 组件。
+
 
 ####v3.3.1
 

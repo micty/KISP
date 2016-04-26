@@ -101,7 +101,7 @@ define('Template/Multiple', function (require, module, exports) {
     }
 
     return {
-        getHTML: getHTML,
+        'getHTML': getHTML,
     };
 
 

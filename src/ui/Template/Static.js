@@ -49,11 +49,15 @@ define('Template/Static', function (require, module, exports) {
         var sample = get(node);
 
         if (data instanceof Array) {
+
             node.innerHTML = $.Array.keep(data, function (item, index) {
+
                 if (fn) {
                     item = fn(item, index);
                 }
+
                 return format(sample, item);
+
             }).join('');
         }
         else {

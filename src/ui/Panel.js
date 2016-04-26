@@ -41,7 +41,8 @@ define('Panel', function (require, module, exports) {
             'showAfterRender': config.showAfterRender,
             'cssClass': config.cssClass,
             'visible': false,
-            'byRender': false, //记录 show 事件是否由 render() 触发的。
+            'byRender': false,  //记录 show 事件是否由 render() 触发的。
+            'template': null,   //复杂模板填充的 Template 实例。
         };
 
         mapper.set(this, meta);
@@ -125,20 +126,53 @@ define('Panel', function (require, module, exports) {
             }
         },
 
-
-
         /**
-        * 对本组件进行简单的模板填充。
+        * 设置复杂模板填充的规则，为模板填充进行预处理。
+        * 已重载 template(config);
+        * @param {Array} names 子级模板的标记的名称数组。 
+        *   如在 #--item.begin--# 和 #--item.end--# 构成一个子级模板，则标记名称为 item。 
+        * @param {function} 模板填充时的处理函数。
         */
-        fill: function (data, fn) {
+        template: function (names, fn) {
 
+            //重载 template({});
+            var config = $.Object.isPlain(names) ? names : {
+                'names': names,
+                'fn': fn,
+            };
+            
             var Template = require('Template');
 
             var meta = mapper.get(this);
             var container = meta.container;
-            var emitter = meta.emitter;
 
-            Template.fill(container, data, fn);
+            meta.template = new Template(container, config);
+
+        },
+
+
+        /**
+        * 对本组件进行简单或复杂的模板填充。
+        * 在进行复杂模板填充之前，需要至少先调用一次 this.template() 方法以设置填充规则。
+        * 否则当成是简单模板填充。
+        * @param {Object|Array} 要填充的数据，可以是对象或数组。
+        * @param {function} [fn] 当要填充的数据是一个数组时，需要进行迭代转换的处理函数。
+        *   调用该函数，可以把一个数组转换成一个新的数组。
+        */
+        fill: function (data, fn) {
+
+            var meta = mapper.get(this);
+            var emitter = meta.emitter;
+            var template = meta.template;
+
+            if (template) { //复杂模板
+                template.fill(data, fn);
+            }
+            else { //简单模板
+                var Template = require('Template');
+                Template.fill(meta.container, data, fn);
+            }
+
 
             emitter.fire('fill', [data]);
         },
