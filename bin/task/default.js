@@ -4,6 +4,9 @@ module.exports = {
     copyTo: [
         'E:/Kingdee/vGuide/htdocs/f/kisp',
         'E:/Kingdee/vStore/htdocs/f/kisp',
+
+        'E:/Kingdee/house/mobile/htdocs/f/kisp',
+
     ],
 
 
@@ -321,6 +324,7 @@ module.exports = {
                         'Alert.js',
                         'App.js',
                         'CityPicker.js',
+                        'Confirm.js',
                         'Dialog.js',
                         'ImageSlider.js',
                         'ImageViewer.js',

@@ -38,6 +38,10 @@ KISP 框架
 
 ####v3.4.0
 
+2016-04-27
+- 修改针对 PC 版的配置模块 `Dialog.defaults`，增加 `width: 600`，以解决在 PC 端对话框默认宽度过大的问题。
+- 增加通用配置模块 `Confirm.defaults` 和针对 PC 端的配置模块 `Confirm.config`，并把模块 `Confirm` 中的配置分离出去。
+
 2016-04-26
 - 给模块 `Panel` 增加实例方法 `template`，以设定针对复杂模板填充的规则。 
 - 修改模块 `Panel` 实例方法  `fill`，以支持复杂模板填充的情况。 如果需要使用复杂模板填充，则在调用 `panel.fill(data, fn)` 之前，需要先调用 `panel.template(config)` 进行规则设定。 否则只会当成简单模板填充。

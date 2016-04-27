@@ -1,5 +1,5 @@
 /**
-* 简单的 confirm 虚拟对话框。
+* 简单的 confirm 弹出层对话框。
 * @namespace
 * @name Confirm
 */
@@ -13,17 +13,12 @@ define('Confirm', function (require, module, exports) {
             return dialog;
         }
 
+        var Config = require('Config');
         var Dialog = require('Dialog');
 
-        dialog = new Dialog({
-            autoClose: true,
-            height: 140,
-            'z-index': 99999,
-            buttons: [
-                { text: '取消', },
-                { text: '确定', name: 'ok', color: 'red', },
-            ],
-        });
+        var config = Config.clone(module.id);
+
+        dialog = new Dialog(config);
 
         dialog.on('button', 'ok', function () {
             var fn = dialog.data('fn');

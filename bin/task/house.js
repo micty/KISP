@@ -2,6 +2,7 @@
 module.exports = {
 
     copyTo: [
+        //针对 pc 端
         'E:/Kingdee/house/admin/htdocs/f/kisp',
         'E:/Kingdee/house/demo/htdocs/f/kisp',
         'E:/Kingdee/house/permit/htdocs/f/kisp',
@@ -184,6 +185,7 @@ module.exports = {
                     files: [
                         'Alert.js',
                         'App.js',
+                        'Confirm.js',
                         'Dialog.js',
                         'Loading.js',
                         'Mask.js',
@@ -206,6 +208,7 @@ module.exports = {
                             dir: 'ui',
                             files: [
                                 'Alert.js',
+                                'Confirm.js',
                                 'Dialog.js',
                                 'Loading.js',
                                 'Mask.js',

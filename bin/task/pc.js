@@ -305,6 +305,7 @@ module.exports = {
                     files: [
                         'Alert.js',
                         'App.js',
+                        'Confirm.js',
                         'Dialog.js',
                         //'ImageSlider.js',
                         //'ImageViewer.js',
@@ -332,6 +333,7 @@ module.exports = {
                             dir: 'ui',
                             files: [
                                 'Alert.js',
+                                'Confirm.js',
                                 'Dialog.js',
                                 'Loading.js',
                                 'Mask.js',

@@ -29,7 +29,7 @@ define('Config/Url', function (require, module,  exports) {
                     }
 
                     if (typeof item == 'object') {
-                        return formatUrl(item); //递归
+                        return format(item); //递归
                     }
 
                     return item;

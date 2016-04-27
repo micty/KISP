@@ -23,5 +23,7 @@ define('Dialog.config', /**@lends Dialog.config*/ {
 
     //PC 端的用 fixed定位。
     position: 'fixed',
+
+    width: 600,
 });
 
