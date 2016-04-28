@@ -9,7 +9,12 @@ define('App.defaults', /**@lends App.defaults*/ {
         'z-index': 99999,
     },
 
-    type: 'simple', //只做最基础的初始化，向后兼容
+    animated: true,
 
+    slide: {
+        //enabled: true,
+        width: 0.25,
+        k: 0.6, //斜率
+    },
 });
 

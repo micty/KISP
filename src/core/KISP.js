@@ -191,17 +191,7 @@ define('KISP', function (require, module, exports) {
             var App = require('App');
             var app = new App('');
 
-            var Config = require('Config');
-            var config = Config.clone('App');
-
-            var type = config.type;
-            if (type == 'standard') {
-                app.render(factory);
-            }
-            else {
-                app.launch(factory);
-            }
-
+            app.launch(factory);
 
         },
 
