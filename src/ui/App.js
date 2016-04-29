@@ -145,7 +145,6 @@ define('App', function (require, module, exports) {
                     }
 
                     slide.view$bind[target] = true;
-                    current = module.require(current);
                     target = module.require(target);
 
                     var maxK = meta.slide.k; //允许的最大斜率。
@@ -188,11 +187,16 @@ define('App', function (require, module, exports) {
                             var deltaY = Math.abs(touch.pageY - startY);
                             k = deltaY / deltaX; //斜率
 
+                            var current = null;
 
                             if (!hasTranslated) {
                                 if (k > maxK) {
                                     return;
                                 }
+
+                                // -1 的为 target 即当前视图， -2 的才为当前视图的上一个视图。
+                                current = nav.get(-2); 
+                                current = module.require(current);
 
                                 current.$.css({ 'z-index': 1, });   //当前视图为 1
                                 //mask.$.css({ 'z-index': 2, });    //遮罩层的为 2，已在 css 里固定写死。
@@ -255,6 +259,9 @@ define('App', function (require, module, exports) {
                                 'transform': 'translateX(' + translateX + ')',
                             });
 
+                            var current = nav.get(-2);
+                            current = module.require(current);
+
                             current.$.data('animated', false);      //暂时关闭动画。
                             current.$.css({
                                 'transition': 'transform 0.5s',     //恢复动画。
@@ -301,7 +308,6 @@ define('App', function (require, module, exports) {
 
                     //首次绑定
                     view$bind[target] = true;
-                    current = module.require(current);
                     target = module.require(target);
 
                     // css 动画结束后执行
@@ -314,7 +320,8 @@ define('App', function (require, module, exports) {
                             return;
                         }
 
-
+                        var current = nav.get(-2);
+                        current = module.require(current);
 
                         if (slide.enabled) { //说明是滑动后退触发的
                             if (slide.aborted) {

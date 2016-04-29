@@ -233,6 +233,24 @@ define('Navigator', function (require, module,  exports) {
             return meta.statcks.length;
         },
 
+        /**
+        * 获取堆栈历史中指定索引值的视图。
+        * @param {Number} index 要获取的视图的索引值。
+        *   从 0 开始，如果指定为0或正数，则从左边开始获取。
+        *   如果指定为负数，则从右边开始获取。
+        *   因为当此视图为 -1，倒数第二个为 -2，依次类推。
+        */
+        get: function (index) {
+            var meta = mapper.get(this);
+            var statcks = meta.statcks;
+            var len = statcks.length;
+
+            if (index < 0) {
+                index = index + len;
+            }
+
+            return statcks[index];
+        },
 
 
     };
