@@ -134,12 +134,12 @@ define('App', function (require, module, exports) {
                     view$bind: {},
                     enabled: false,     //记录是否触发了滑动后退。
                     aborted: false,     //记录是否取消了滑动后退。
-
                 };
 
 
                 //绑定滑动返回。 跳转到目标视图之前触发。
                 nav.on('before-to', function (current, target) {
+
                     if (slide.view$bind[target]) {
                         return;
                     }
@@ -199,18 +199,13 @@ define('App', function (require, module, exports) {
                                 target.$.css({ 'z-index': 3, });    //目标视图为 3
 
                                 target.$.css('transition', 'none'); //先关闭动画。
-
                                 current.show(); //这里要触发 show 事件。
                                 mask.$.show();
 
                                 mask.$.css({
                                     'z-index': 2,
+                                    'opacity': 0.4,
                                     'transition': 'none',   //关闭动画。
-                                });
-
-                                current.$.css({
-                                    'transition': 'none',               //先关闭动画。
-                                    'transform': 'translateX(-75%)',    //先隐藏到左边 75% 的位置。
                                 });
 
                                 mask.$.removeClass('BeforeForward Forward BeforeBack Back');
@@ -221,9 +216,6 @@ define('App', function (require, module, exports) {
                             var opacity = 0.4 * (1 - deltaX / clientWidth);
                             mask.$.css('opacity', opacity);
                             target.$.css('transform', 'translateX(' + deltaX + 'px)');
-
-                            var x = clientWidth * (-0.75) + deltaX * 0.8;
-                            current.$.css('transform', 'translateX(' + x + 'px)');
 
                         },
                         'touchend': function (event) {
@@ -246,19 +238,12 @@ define('App', function (require, module, exports) {
                                     'opacity': 0,
                                     'transition': 'opacity 0.5s',   //恢复动画。
                                 });
-
                             }
 
                             target.$.removeClass('Forward');
                             target.$.css({
-                                'transition': 'transform 0.5s',     //恢复动画。
                                 'transform': 'translateX(' + translateX + ')',
-                            });
-
-                            current.$.data('animated', false);      //暂时关闭动画。
-                            current.$.css({
-                                'transition': 'transform 0.5s',     //恢复动画。
-                                'transform': 'translateX(' + (aborted ? '-75%' : 0) + ')',
+                                'transition': 'transform 0.5s',   //恢复动画。
                             });
 
                         },
@@ -307,20 +292,10 @@ define('App', function (require, module, exports) {
                     // css 动画结束后执行
                     target.$.on(eventName, function () {
 
-                        var animated = target.$.data('animated');
-                        target.$.data('animated', true);    //恢复使用动画。
-
-                        if (animated === false) {           //明确指定了不使用动画。
-                            return;
-                        }
-
-
-
                         if (slide.enabled) { //说明是滑动后退触发的
                             if (slide.aborted) {
                                 target.$.addClass('Forward');
                                 current.hide(); //在滑动过程中已给显示出来了，这里要重新隐藏。
-                                current.$.css('transform', 'translateX(0)'); //为下次常规后退作准备。
                             }
                             else {
                                 target.hide();  //要触发 hide 事件
