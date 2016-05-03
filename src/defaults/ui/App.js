@@ -12,9 +12,9 @@ define('App.defaults', /**@lends App.defaults*/ {
     animated: true,
 
     slide: {
-        //enabled: true,
-        width: 0.25,
-        k: 0.6, //斜率
+        width: 0.20,    //向右滑动的距离超过该值并松开滑动后才会触发滑动后退。
+        k: 0.6,         //斜率
+        time: 300,      //过渡时间，单位ms
     },
 });
 

@@ -113,6 +113,7 @@ define('App', function (require, module, exports) {
 
         },
 
+
         /**
         * 使用动画版来启动应用。
         */
@@ -129,6 +130,7 @@ define('App', function (require, module, exports) {
                 var eventName = Transition.getEventName();
                 var mask = new Mask();
                 var nav = Nav.create();
+                var animatedKey = 'animated-' + $.String.random(); //增加个随机数，防止无意中冲突。
 
                 var slide = {
                     view$bind: {},
@@ -163,7 +165,6 @@ define('App', function (require, module, exports) {
 
                     target.$.on({
                         'touchstart': function (event) {
-                            var touch = event.originalEvent.touches[0];
 
                             //复位。
                             k = 0;
@@ -172,6 +173,7 @@ define('App', function (require, module, exports) {
                             slide.enabled = false;
                             slide.aborted = false;
 
+                            var touch = event.originalEvent.touches[0];
                             startX = touch.pageX;
                             startY = touch.pageY;
                         },
@@ -187,15 +189,13 @@ define('App', function (require, module, exports) {
                             var deltaY = Math.abs(touch.pageY - startY);
                             k = deltaY / deltaX; //斜率
 
-                            var current = null;
-
                             if (!hasTranslated) {
                                 if (k > maxK) {
                                     return;
                                 }
 
                                 // -1 的为 target 即当前视图， -2 的才为当前视图的上一个视图。
-                                current = nav.get(-2); 
+                                current = nav.get(-2);
                                 current = module.require(current);
 
                                 current.$.css({ 'z-index': 1, });   //当前视图为 1
@@ -226,12 +226,14 @@ define('App', function (require, module, exports) {
                             mask.$.css('opacity', opacity);
                             target.$.css('transform', 'translateX(' + deltaX + 'px)');
 
+                            //让下面的那层视图 current 跟着左右移动，但移动的速度要比 target 慢。
                             var x = clientWidth * (-0.75) + deltaX * 0.8;
+                            x = Math.min(x, 0); //不能大于 0，否则左边就会给移过头而出现空白。
+
                             current.$.css('transform', 'translateX(' + x + 'px)');
 
                         },
                         'touchend': function (event) {
-
                             if (!hasTranslated) {
                                 return;
                             }
@@ -242,29 +244,23 @@ define('App', function (require, module, exports) {
                             //水平滑动距离小于指定值，或滑动斜率大于指定值，都中止。
                             var aborted = slide.aborted = deltaX < slideWidth || k > maxK;
                             var translateX = aborted ? 0 : '100%';
+                            var time = meta.slide.time / 1000 + 's';
 
-                            if (!aborted) { //滑动后退生效。
-                                nav.back();
-
-                                mask.$.css({
-                                    'opacity': 0,
-                                    'transition': 'opacity 0.5s',   //恢复动画。
-                                });
-
-                            }
+                            mask.$.css({
+                                'opacity': aborted ? 0.4 : 0,   //如果滑动生效，则渐变到 0；否则恢复到滑动之前的0.4
+                                'transition': 'opacity ' + time,//恢复动画。
+                            });
 
                             target.$.removeClass('Forward');
+                            target.$.addClass('Shadow');
                             target.$.css({
-                                'transition': 'transform 0.5s',     //恢复动画。
+                                'transition': 'transform ' + time,  //恢复动画。
                                 'transform': 'translateX(' + translateX + ')',
                             });
 
-                            var current = nav.get(-2);
-                            current = module.require(current);
-
-                            current.$.data('animated', false);      //暂时关闭动画。
+                            current.$.data(animatedKey, false); //暂时关闭动画回调。
                             current.$.css({
-                                'transition': 'transform 0.5s',     //恢复动画。
+                                'transition': 'transform ' + time,  //恢复动画。
                                 'transform': 'translateX(' + (aborted ? '-75%' : 0) + ')',
                             });
 
@@ -310,36 +306,46 @@ define('App', function (require, module, exports) {
                     view$bind[target] = true;
                     target = module.require(target);
 
-                    // css 动画结束后执行
+                    // css 动画结束后执行。 
+                    //注意在上面的 current 和 target 都会触发相应的动画结束事件。
                     target.$.on(eventName, function () {
+                        var animated = target.$.data(animatedKey);
+                        target.$.data(animatedKey, true); //恢复使用动画。
 
-                        var animated = target.$.data('animated');
-                        target.$.data('animated', true);    //恢复使用动画。
-
-                        if (animated === false) {           //明确指定了不使用动画。
+                        if (animated === false) { //明确指定了不使用动画。 此时的 target 为上面的 current。
                             return;
                         }
 
-                        var current = nav.get(-2);
-                        current = module.require(current);
-
                         if (slide.enabled) { //说明是滑动后退触发的
-                            if (slide.aborted) {
+                            current = nav.get(-2);
+                            current = module.require(current);
+
+                            //避免对下一次的常规后退产生影响。
+                            //因为这两个样式是在滑动后退时加进去的，在滑动后退动画结束后必须移除掉。
+                            var resets = {
+                                'transition': '',
+                                'transform': '',
+                            };
+                            current.$.css(resets);
+                            target.$.css(resets);
+
+                            target.$.removeClass('Shadow');
+                            slide.enabled = false;              //复位。
+
+                            if (slide.aborted) { //滑动后退给取消。
                                 target.$.addClass('Forward');
                                 current.hide(); //在滑动过程中已给显示出来了，这里要重新隐藏。
-                                current.$.css('transform', 'translateX(0)'); //为下次常规后退作准备。
                             }
-                            else {
-                                target.hide();  //要触发 hide 事件
+                            else { //滑动后退生效了
+                                nav.back(false);    //不触发 back 事件，只更新视图堆栈。
+                                target.hide();      //要触发 hide 事件
                             }
 
-                            //不管是否中断了滑动后退，都要重置。 否则会影响到常规的后退。
-                            target.$.css('transition', '');
-                            target.$.css('transform', '');
-                            slide.enabled = false;              //复位。
                         }
                         else { //常规后退触发的。
                             if (target.$.hasClass('Forward')) {     //前进
+                                current = nav.get(-2);
+                                current = module.require(current);
                                 current.hide();                     //要触发 hide 事件
                             }
                             else if (target.$.hasClass('Back')) {   //后退
@@ -353,12 +359,8 @@ define('App', function (require, module, exports) {
                 });
 
 
-                //后退时触发
+                //常规后退时触发，滑动后退不会触发。
                 nav.on('back', function (current, target) {
-
-                    if (slide.enabled) { //是由滑动导致的返回，忽略掉。
-                        return;
-                    }
 
                     document.activeElement.blur(); // 关闭输入法
 

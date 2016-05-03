@@ -123,10 +123,17 @@ define('Navigator', function (require, module,  exports) {
 
         /**
         * 后退。
+        * 已重载 back(false)，即只后退一步，并且不触发事件。 默认是触发事件的。
+        * 采用不触发事件模式，是为了适应某些场景。
         * @param {Number} count 要后退的步数。 
             默认为 1，如果要一次性后退 n 步，请指定一个大于 0 的整型。
         */
         back: function (count) {
+
+            var fireEvent = true;
+            if (count === false) { //重载 back(false)，不触发事件。
+                fireEvent = false;
+            }
 
             count = count || 1;
 
@@ -150,9 +157,11 @@ define('Navigator', function (require, module,  exports) {
 
             statcks.splice(targetIndex + 1); //删除目标视图后面的
 
-            var emitter = meta.emitter;
-            emitter.fire('back', [current, target]);
-            emitter.fire('change', [current, target]);
+            if (fireEvent) {
+                var emitter = meta.emitter;
+                emitter.fire('back', [current, target]);
+                emitter.fire('change', [current, target]);
+            }
 
             return target; //把当前视图返回去，业务层可能会用到。
         },
