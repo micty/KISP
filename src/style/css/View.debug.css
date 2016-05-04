@@ -12,11 +12,11 @@
   -o-transform: translateX(100%);
 }
 .KISP.View.Forward {
-  transition: transform 0.7s;
-  -ms-transition: -ms-transform 0.7s;
-  -moz-transition: -moz-transform 0.7s;
-  -webkit-transition: -webkit-transform 0.7s;
-  -o-transition: -o-transform 0.7s;
+  transition: transform 0.5s;
+  -ms-transition: -ms-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
   transform: translateX(0px);
   -ms-transform: translateX(0px);
   -moz-transform: translateX(0px);
@@ -29,11 +29,11 @@
   -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
 }
 .KISP.View.Back {
-  transition: transform 0.5s;
-  -ms-transition: -ms-transform 0.5s;
-  -moz-transition: -moz-transform 0.5s;
-  -webkit-transition: -webkit-transform 0.5s;
-  -o-transition: -o-transform 0.5s;
+  transition: transform 0.4s;
+  -ms-transition: -ms-transform 0.4s;
+  -moz-transition: -moz-transform 0.4s;
+  -webkit-transition: -webkit-transform 0.4s;
+  -o-transition: -o-transform 0.4s;
   box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
   -ms-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
