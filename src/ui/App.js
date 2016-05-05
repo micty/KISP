@@ -148,9 +148,7 @@ define('App', function (require, module, exports) {
                     slide.view$bind[target] = true;
                     target = module.require(target);
 
-                    var maxK = meta.slide.k; //允许的最大斜率。
                     var clientWidth = document.body.clientWidth;
-                    var k = 0;          //滑动的斜率。
                     var startX = 0;     //开始滑动时的 x 坐标。
                     var startY = 0;     //开始滑动时的 y 坐标。
                     var deltaX = 0;     //当前的 x 坐标与开始时的 x 坐标的差值。
@@ -164,7 +162,6 @@ define('App', function (require, module, exports) {
                     target.$.on({
                         'touchstart': function (event) {
                             //复位。
-                            k = 0;
                             deltaX = 0;
                             hasTranslated = false;
                             slide.enabled = false;
@@ -173,6 +170,7 @@ define('App', function (require, module, exports) {
                             var touch = event.originalEvent.touches[0];
                             startX = touch.pageX;
                             startY = touch.pageY;
+
                         },
                         'touchmove': function (event) {
                             var touch = event.originalEvent.touches[0];
@@ -181,12 +179,11 @@ define('App', function (require, module, exports) {
                                 return;
                             }
 
-                            //不管向上滑还是向下滑，都取正值，以确保斜率为正。
-                            var deltaY = Math.abs(touch.pageY - startY);
-                            k = deltaY / deltaX; //斜率
-
                             if (!hasTranslated) {
-                                if (k > maxK) {
+                                //不管向上滑还是向下滑，都取正值，以确保斜率为正。
+                                var deltaY = Math.abs(touch.pageY - startY);
+                                var k = deltaY / deltaX; //斜率
+                                if (k > meta.slide.k) { //允许的最大斜率
                                     return;
                                 }
 
@@ -238,8 +235,8 @@ define('App', function (require, module, exports) {
                             hasTranslated = false;  //复位。
                             slide.enabled = true;   //指示滑动已生效，用于通知 css 动画结束函数。
 
-                            //水平滑动距离小于指定值，或滑动斜率大于指定值，都中止。
-                            var aborted = slide.aborted = deltaX < slideWidth || k > maxK;
+                            //水平滑动距离小于指定值，中止。
+                            var aborted = slide.aborted = deltaX < slideWidth;
                             var translateX = aborted ? 0 : '100%';
                             var time = meta.slide.time / 1000 + 's';
 

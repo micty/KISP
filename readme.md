@@ -25,16 +25,22 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 4.0.0
+### default - 4.0.1
 
-- [KISP 接口文档 4.0.0](?type=default&version=4.0.0)
-- [kisp.debug.js](?file=default/4.0.0/kisp.debug.js) [源文件](data/default/4.0.0/kisp.debug.js)
-- [kisp.debug.css](?file=default/4.0.0/kisp.debug.css) [源文件](data/default/4.0.0/kisp.debug.css)
-- [kisp.min.js](?file=default/4.0.0/kisp.min.js) [源文件](data/default/4.0.0/kisp.min.js)
-- [kisp.min.css](?file=default/4.0.0/kisp.min.css) [源文件](data/default/4.0.0/kisp.min.css)
+- [KISP 接口文档 4.0.1](?type=default&version=4.0.1)
+- [kisp.debug.js](?file=default/4.0.1/kisp.debug.js) [源文件](data/default/4.0.1/kisp.debug.js)
+- [kisp.debug.css](?file=default/4.0.1/kisp.debug.css) [源文件](data/default/4.0.1/kisp.debug.css)
+- [kisp.min.js](?file=default/4.0.1/kisp.min.js) [源文件](data/default/4.0.1/kisp.min.js)
+- [kisp.min.css](?file=default/4.0.1/kisp.min.css) [源文件](data/default/4.0.1/kisp.min.css)
 
 
 ### 更新记录
+
+####v4.0.1
+
+2016-05-05
+- 优化视图的滑动后退逻辑。
+
 
 ####v4.0.0
 
@@ -47,7 +53,6 @@ KISP 框架
 - 模块 `Navigator` 增加方法 `get(index)`，以获取指定索引值的视图名称。 支持传一个负数进来。
 - 模块 `Navigator` 重载方法 `back(false)`，当传入一个 `false` 时，将不会触发事件。
 - 修改模块 `App` 的配置字段 `animation` 为 `animated`，并指定默认值为 `true`，即默认开启视图间的切换动画。
-
 
 
 
