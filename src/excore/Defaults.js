@@ -25,7 +25,7 @@ define('Defaults', function (require, module, exports) {
 
         var defaults = require(name + '.defaults');
         var config = require(name + '.config');
-        var obj = $.Object.extend({}, defaults, config);
+        var obj = $.Object.extendDeeply({}, defaults, config);
 
         cfg.set(name, obj);
 

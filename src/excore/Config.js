@@ -60,7 +60,7 @@ define('Config', function (require, module,  exports) {
                 if (name in name$config) {
                     obj = name$config[name];
                     if ($.Object.isPlain(obj)) { //纯对象
-                        obj = $.Object.extend(obj, config); //则合并
+                        obj = $.Object.extendDeeply(obj, config); //则合并
                     }
                     else { //其他的，则重设
                         obj = name$config[name] = config;

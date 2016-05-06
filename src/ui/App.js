@@ -154,9 +154,13 @@ define('App', function (require, module, exports) {
                     var deltaX = 0;     //当前的 x 坐标与开始时的 x 坐标的差值。
                     var hasTranslated = false;  //记录是否已发生了滑动变换。
 
-                    var slideWidth = meta.slide.width;
-                    if (slideWidth < 1) { //是小数，则当成百分比。
-                        slideWidth = clientWidth * slideWidth;
+                    var maskOpacity = meta.slide.mask;
+                    var left = meta.slide.left;
+                    var leftPercent = -left * 100 + '%';
+
+                    var right = meta.slide.right;
+                    if (right < 1) { //是小数，则当成百分比。
+                        right = clientWidth * right;
                     }
 
                     target.$.on({
@@ -207,7 +211,7 @@ define('App', function (require, module, exports) {
 
                                 current.$.css({
                                     'transition': 'none',               //先关闭动画。
-                                    'transform': 'translateX(-75%)',    //先隐藏到左边 75% 的位置。
+                                    'transform': 'translateX(' + leftPercent + ')', //先隐藏到左边的位置。
                                 });
 
                                 mask.$.removeClass('BeforeForward Forward BeforeBack Back');
@@ -215,13 +219,13 @@ define('App', function (require, module, exports) {
                             }
 
                             //让遮罩层的透明度跟着变化。
-                            var opacity = 0.4 * (1 - deltaX / clientWidth);
+                            var opacity = maskOpacity * (1 - 2 * deltaX / clientWidth);
                             mask.$.css('opacity', opacity);
 
                             target.$.css('transform', 'translateX(' + deltaX + 'px)');
 
                             //让下面的那层视图 current 跟着左右移动，但移动的速度要比 target 慢。
-                            var x = clientWidth * (-0.75) + deltaX * 0.7;
+                            var x = (deltaX - clientWidth) * left;
                             x = Math.min(x, 0); //不能大于 0，否则左边就会给移过头而出现空白。
 
                             current.$.css('transform', 'translateX(' + x + 'px)');
@@ -236,13 +240,13 @@ define('App', function (require, module, exports) {
                             slide.enabled = true;   //指示滑动已生效，用于通知 css 动画结束函数。
 
                             //水平滑动距离小于指定值，中止。
-                            var aborted = slide.aborted = deltaX < slideWidth;
+                            var aborted = slide.aborted = deltaX < right;
                             var translateX = aborted ? 0 : '100%';
                             var time = meta.slide.time / 1000 + 's';
 
                             mask.$.css({
-                                'opacity': aborted ? 0.4 : 0,   //如果滑动生效，则渐变到 0；否则恢复到滑动之前的0.4
-                                'transition': 'opacity ' + time,//恢复动画。
+                                'opacity': aborted ? maskOpacity : 0,//如果滑动生效，则渐变到 0；否则恢复到滑动之前的。
+                                'transition': 'opacity ' + time,    //恢复动画。
                             });
 
                             target.$.removeClass('Forward');
@@ -257,7 +261,7 @@ define('App', function (require, module, exports) {
                             current.$.css({
                                 'transition': 'transform ' + time,                  //恢复动画。
                                 '-webkit-transition': '-webkit-transform ' + time,  //兼容低版本的
-                                'transform': 'translateX(' + (aborted ? '-75%' : 0) + ')',
+                                'transform': 'translateX(' + (aborted ? leftPercent : 0) + ')',
                             });
 
                         },
