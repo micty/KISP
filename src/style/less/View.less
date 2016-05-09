@@ -13,39 +13,9 @@
         -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .translateX(@n) {
-        transform: translateX(@n);
-        -ms-transform: translateX(@n);
-        -moz-transform: translateX(@n);
-        -webkit-transform: translateX(@n);
-        -o-transform: translateX(@n);
-    }
-
-    .transition(@n) {
-        transition: transform @n;
-        -ms-transition: -ms-transform @n;
-        -moz-transition: -moz-transform @n;
-        -webkit-transition: -webkit-transform @n;
-        -o-transition: -o-transform @n;
-    }
-
-    &.BeforeForward {
-        .translateX(100%);
-    }
-
-    &.Forward {
-        .transition(0.5s);
-        .translateX(0px);
-        .shadow();
-    }
 
 
-    &.Back {
-        .transition(0.4s);
-        .shadow();
-    }
-
-    &.Shadow{
+    &.Shadow {
         .shadow();
     }
 

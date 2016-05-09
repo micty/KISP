@@ -7,27 +7,3 @@
   width: 100%;
   z-index: 1024;
 }
-.KISP.Mask.BeforeForward {
-  z-index: 2 !important;
-  opacity: 0 !important;
-}
-.KISP.Mask.Forward {
-  transition: opacity 0.5s;
-  -ms-transition: opacity 0.5s;
-  -moz-transition: opacity 0.5s;
-  -webkit-transition: opacity 0.5s;
-  -o-transition: opacity 0.5s;
-  opacity: 0.4 !important;
-}
-.KISP.Mask.BeforeBack {
-  z-index: 2 !important;
-  opacity: 0.4 !important;
-}
-.KISP.Mask.Back {
-  transition: opacity 0.4s;
-  -ms-transition: opacity 0.4s;
-  -moz-transition: opacity 0.4s;
-  -webkit-transition: opacity 0.4s;
-  -o-transition: opacity 0.4s;
-  opacity: 0 !important;
-}
