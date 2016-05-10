@@ -2,7 +2,7 @@
 * KISP - KISP JavaScript Library
 * name: default 
 * version: 4.1.0
-* build: 2016-05-09 17:30:53
+* build: 2016-05-10 10:11:03
 * files: 126(124)
 *    partial/default/begin.js
 *    core/Module.js
@@ -11999,11 +11999,11 @@ define('App.defaults', /**@lends App.defaults*/ {
     animated: true,
 
     slide: {
-        left: 0.75,     //下层视图隐藏在左边的宽度的百分比。
+        left: 0.6,     //下层视图隐藏在左边的宽度的百分比。
         right: 0.25,    //向右滑动的距离超过该值并松开滑动后才会触发滑动后退。
         k: 0.6,         //斜率
-        time: 300,      //动画时间，单位 ms
-        mask: 0.4,      //遮罩层的不透明度。
+        time: 400,      //动画时间，单位 ms
+        mask: 0.1,      //遮罩层的不透明度。
     },
 });
 
