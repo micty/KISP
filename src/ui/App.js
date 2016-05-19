@@ -7,14 +7,15 @@
 define('App', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
+    var Config = require('Config');
+    var Mask = require('Mask');
+    var Nav = module.require('Nav');
+    var Transition = module.require('Transition');
+    var Module = module.require('Module');
 
     var Mapper = MiniQuery.require('Mapper');
-    var Config = require('Config');
-
-    var Nav = module.require('Nav');
 
     var mapper = new Mapper();
-
 
     /**
     * 构造器。
@@ -28,7 +29,6 @@ define('App', function (require, module, exports) {
 
         var meta = {
             'name': name,
-            'mask': config.mask,
             'animated': config.animated,
             'slide': config.slide,
         };
@@ -76,64 +76,26 @@ define('App', function (require, module, exports) {
             Module.require(name); //启动
         },
 
-        /**
-        * 使用普通版来启动应用。
-        */
-        normal: function (factory) {
-
-            var meta = mapper.get(this);
-
-            this.init(function (require, module) {
-
-                
-                var nav = Nav.create(meta.mask);
-
-                //后退时触发
-                nav.on('back', function (current, target) {
-                    document.activeElement.blur(); // 关闭输入法
-                    current = module.require(current);
-                    target = module.require(target);
-                    current.hide();
-                    target.show();
-                });
-
-                //跳转到目标视图之前触发，先隐藏当前视图
-                nav.on('before-to', function (current, target) {
-                    current = module.require(current);
-                    current.hide();
-                });
-
-                //统一绑定视图跳转动作，在调用 nav.to(...) 时会给触发
-                nav.on('to', function (name, arg0, arg1, argN) {
-                    var args = [].slice.call(arguments, 1);
-                    var M = module.require(name);
-                    M.render.apply(M, args);
-                });
-
-                factory && factory(require, module, nav);
-            });
-
-        },
-
 
 
         /**
-        * 使用动画版来启动应用。
+        * 初始化执行环境，创建导航管理器和相应的 UI 组件，并启动应用程序。
+        * @param {function} factory 工厂函数，即启动函数。
         */
-        animate: function (factory) {
-
-            var Mask = require('Mask');
-            var Transition = module.require('Transition');
+        launch: function (factory) {
+           
             var self = this;
 
             this.init(function (require, module) {
 
-                var meta = mapper.get(self);
+                Module.enhance(module);
 
-                var view$bind = {}; //记录目标视图是否已绑定了 transitionend 事件。
+                var meta = mapper.get(self);
                 var eventName = Transition.getEventName();
+                var view$bind = {}; //记录目标视图是否已绑定了 transitionend 事件。
                 var mask = new Mask();
-                var nav = Nav.create();
+                var nav = Nav.create(module);
+
                 var animatedKey = 'animated-' + $.String.random(); //增加个随机数，防止无意中冲突。
                 var direction = ''; //记录视图是前进还是后退。
 
@@ -347,13 +309,11 @@ define('App', function (require, module, exports) {
                         }
                         else { //常规后退触发的。
                             if (direction == 'forward') {     //前进
-                                direction = '';
                                 current = nav.get(-2);
                                 current = module.require(current);
                                 current.hide();                     //要触发 hide 事件
                             }
                             else if (direction == 'back') {   //后退
-                                direction = '';
                                 target.$.removeClass('Shadow');
                                 target.hide();                      //要触发 hide 事件
                             }
@@ -380,12 +340,13 @@ define('App', function (require, module, exports) {
                     });
 
                     target.show();  //这里要触发 show 事件
-                    direction = 'back';
+                    
 
 
                     //为了防止跟上面的产生时间竞争，这里延迟一定时间后再开始动画。
                     setTimeout(function () {
 
+                        direction = 'back';
                         current.$.addClass('Shadow');
 
                         current.$.data(animatedKey, true);  //这个也要有。
@@ -419,23 +380,6 @@ define('App', function (require, module, exports) {
                 factory && factory(require, module, nav);
 
             });
-        },
-
-
-
-        /**
-        * 初始化执行环境，创建导航管理器和相应的 UI 组件，并启动应用程序。
-        * @param {function} factory 工厂函数，即启动函数。
-        */
-        launch: function (factory) {
-            var meta = mapper.get(this);
-           
-            if (meta.animated) {
-                this.animate(factory); //使用动画
-            }
-            else {
-                this.normal(factory);    //不使用动画
-            }
         },
 
      

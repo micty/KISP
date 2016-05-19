@@ -261,7 +261,6 @@ define('Navigator', function (require, module,  exports) {
             return statcks[index];
         },
 
-
     };
 
 

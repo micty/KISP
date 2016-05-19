@@ -3,9 +3,9 @@ module.exports = {
 
     copyTo: [
         'E:/Kingdee/vGuide/htdocs/f/kisp',
-        'E:/Kingdee/vStore/htdocs/f/kisp',
+        //'E:/Kingdee/vStore/htdocs/f/kisp',
 
-        'E:/Kingdee/house/mobile/htdocs/f/kisp',
+        //'E:/Kingdee/house/mobile/htdocs/f/kisp',
 
         //'I:/Studio/house/mobile/htdocs/f/kisp',
 
@@ -160,7 +160,15 @@ module.exports = {
                 {
                     dir: 'App',
                     files: [
+                        'Module.js',
                         'Nav.js',
+                        {
+                            dir: 'Nav',
+                            files: [
+                                'Loader.js',
+                            ],
+                        },
+
                         'Transition.js',
                     ],
                 },
@@ -256,6 +264,15 @@ module.exports = {
                         'Style.js',
                     ],
                 },
+
+                {
+                    dir: 'Package',
+                    files: [
+                        'Loader.js',
+                    ],
+                },
+                'Package.js',
+
                 'Panel.js',
                 'Scroller/pull.js',
                 'Scroller.js',
@@ -334,6 +351,7 @@ module.exports = {
                         'Mask.js',
                         'NoData.js',
                         'NumberPad.js',
+                        'Package.js',
                         'Panel.js',
                         'Scroller.js',
                         'Tabs.js',

@@ -25,16 +25,26 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 4.1.0
+### default - 5.0.0
 
-- [KISP 接口文档 4.1.0](?type=default&version=4.1.0)
-- [kisp.debug.js](?file=default/4.1.0/kisp.debug.js) [源文件](data/default/4.1.0/kisp.debug.js)
-- [kisp.debug.css](?file=default/4.1.0/kisp.debug.css) [源文件](data/default/4.1.0/kisp.debug.css)
-- [kisp.min.js](?file=default/4.1.0/kisp.min.js) [源文件](data/default/4.1.0/kisp.min.js)
-- [kisp.min.css](?file=default/4.1.0/kisp.min.css) [源文件](data/default/4.1.0/kisp.min.css)
+- [KISP 接口文档 5.0.0](?type=default&version=5.0.0)
+- [kisp.debug.js](?file=default/5.0.0/kisp.debug.js) [源文件](data/default/5.0.0/kisp.debug.js)
+- [kisp.debug.css](?file=default/5.0.0/kisp.debug.css) [源文件](data/default/5.0.0/kisp.debug.css)
+- [kisp.min.js](?file=default/5.0.0/kisp.min.js) [源文件](data/default/5.0.0/kisp.min.js)
+- [kisp.min.css](?file=default/5.0.0/kisp.min.css) [源文件](data/default/5.0.0/kisp.min.css)
 
 
 ### 更新记录
+
+
+####v5.0.0
+
+2016-05-11
+- 为简化设计与逻辑，不再保留无动画版的视图跳转。
+- 视图跳转中，不再支持延迟跳转，即第一个参数为数字的用法。 若要延迟跳转，请自行使用 `setTimeout()` 方式。
+- 地址栏中的 hash 值，随机串部分由原来的 8 位改成 4位，在确保随机唯一的前提下，更简洁。
+- 修复视图后退中的问题: 当两个视图连续快速后退时，最后一次的后退视图没有给隐藏和去掉阴影。
+
 
 ####v4.1.0
 
