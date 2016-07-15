@@ -88,6 +88,7 @@ define('App', function (require, module, exports) {
 
             this.init(function (require, module) {
 
+                //增强些功能
                 Module.enhance(module);
 
                 var meta = mapper.get(self);

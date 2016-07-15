@@ -30,6 +30,7 @@ define('Package/Loader', function (require, module, exports) {
             type: 'get',
             url: url,
             dataType: 'html',
+            cache: true,            //不需要加随机数。
             error: function () {
                 throw new Error('html 文件加载失败: ' + url);
             },
@@ -45,10 +46,11 @@ define('Package/Loader', function (require, module, exports) {
             type: 'get',
             url: url,
             dataType: 'script',
+            cache: true,            //不需要加随机数。
             error: function () {
                 throw new Error('js 文件加载失败: ' + url);
             },
-            success: function (html) {
+            success: function () {
                 fn && fn();
             },
         });

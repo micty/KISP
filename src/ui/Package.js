@@ -4,9 +4,11 @@ define('Package', function (require, module, exports) {
     var $ = require('$');
     var Loader = module.require('Loader');
 
+    var Config = require('Config');
+    var defaults = Config.clone(module.id);
 
     var packages = null; //所有需要异步加载的视图的总配置
-
+    var loading = null;
 
     function get(name, fn) {
 
@@ -23,10 +25,6 @@ define('Package', function (require, module, exports) {
 
 
         //首次加载总的 json 文件。
-
-        var Config = require('Config');
-        var defaults = Config.clone(module.id);
-
         $.ajax({
             type: 'get',
             dataType: 'json',
@@ -48,15 +46,29 @@ define('Package', function (require, module, exports) {
 
     function load(name, fn) {
 
+        var load = defaults.load || {};
+        var begin = load.begin;
+        var end = load.end;
+
+        if (begin) {
+            loading = begin(require, loading);
+        }
+
         get(name, function (data) {
 
             if (!data) {
+                end && end(require, loading);
                 fn && fn();
                 return;
             }
 
             //找到对应的配置节点，加载它所指定的资源文件
-            Loader.load(data, fn);
+            Loader.load(data, function () {
+
+                end && end(require, loading);
+                fn && fn();
+
+            });
 
         });
 
