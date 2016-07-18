@@ -50,6 +50,7 @@ Module.expose({
     'Navigator': true,
     'NoData': true,
     'NumberPad': true,
+    'Package': true,
     'Panel': true,
     'Scroller': true,
     'Tabs': true,
