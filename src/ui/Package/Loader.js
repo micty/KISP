@@ -34,9 +34,8 @@ define('Package/Loader', function (require, module, exports) {
             error: function (ajax, msg, error) {
                 throw error;
             },
-            success: function (html) {
-                $('body').append(html);
-                fn && fn();
+            success: function (content, msg, ajax) {
+                fn && fn(content);
             },
         });
     }
@@ -50,69 +49,73 @@ define('Package/Loader', function (require, module, exports) {
             error: function (ajax, msg, error) {
                 throw error;
             },
-            success: function () {
-                fn && fn();
+            success: function (content, msg, ajax) {
+                fn && fn(content);
             },
         });
     }
 
 
 
-    function checkReady(list, fn) {
-        var len = list.length;
+    function checkReady(obj, fn) {
 
-        for (var i = 0; i < len; i++) {
-            var item = list[i];
+        for (var type in obj) {
+            var item = obj[type];
+
             if (!item.ready) {
                 return;
             }
         }
-
-        fn && fn();
+    
+        fn && fn(obj);
     }
 
 
-    /**
-    * 并行的去加载全部资源。
-    */
-    function loadAll(data, fn) {
-
-        var list = ['css', 'html', 'js'];
-
-        list = $.Array.map(list, function (type) {
-
-            var url = data[type];
-            if (!url) {
-                return null;
-            }
-
-            return {
-                'url': url,
-                'load': loader[type], //对应的 load 方法。
-                'ready': false,
-            };
-        });
-
-
-        //并行去加载。
-        $.Array.each(list, function (item) {
-
-            var url = item.url;
-            var load = item.load;
-
-            load(url, function () {
-
-                item.ready = true;
-                checkReady(list, fn);
-            });
-        });
-
-    }
+    
+    
 
 
 
     return {
-        'load': loadAll,
+
+        /**
+        * 并行的去加载全部资源。
+        */
+        'load': function (data, fn) {
+
+            var obj = {};
+
+            $.Object.each(loader, function (type, load) {
+                var url = data[type];
+                if (!url) {
+                    return;
+                }
+
+                obj[type] = {
+                    'url': url,
+                    'ready': false,
+                    'content': '',
+                };
+            });
+
+
+
+            //并行去加载。
+            $.Object.each(obj, function (type, item) {
+
+                var url = item.url;
+                var load = loader[type]; //对应的 load 方法。
+
+                load(url, function (content) {
+
+                    item.ready = true;
+                    item.content = content || '';
+
+                    checkReady(obj, fn);
+                });
+            });
+
+        },
     };
 
 

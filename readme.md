@@ -39,8 +39,12 @@ KISP 框架
 
 ####v5.0.0
 
+2016-07-19
+- 优化模块 `Package/Loader` 中加载资源的方法，使加载成功后的结果通过回调函数传出去给调用者。
+- 给 `KISP` 增加快捷方法 `load(name, fn)`，以便让用户可以快捷调用内部方法 `Package.load(name, fn)`。
+
 2016-07-18
-- 公开模块 `Package`，以让开发者可以手动调用 `Package` 中的方法，如 `Package.load(name, fn)`。
+- 修复 `Package/Loader` 当加载 js 中错误时的提示错误。
 
 2016-05-19 ~ 2016-07-15
 - 增加按视图的分布式加载功能，对应的增加模块 `Package`、`Package/Loader`。

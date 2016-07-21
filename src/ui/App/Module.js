@@ -9,7 +9,7 @@ define('App/Module', function (require, module, exports) {
     function enhance(module) {
 
         var emitter = new Emitter();
-        var require = module.require.bind(module);
+        var requireSub = module.require.bind(module);
         var name$required = {};
 
 
@@ -33,7 +33,7 @@ define('App/Module', function (require, module, exports) {
 
             'require': function (name) {
 
-                var M = require(name);
+                var M = requireSub(name);
 
                 if (M && !name$required[name]) {
                     name$required[name] = true;
@@ -68,6 +68,51 @@ define('App/Module', function (require, module, exports) {
                 var M = module.require(name);
                 M.render.apply(M, args);
                 return M;
+            },
+
+
+            /**
+            * 异步加载指定的子模块并执行回调函数。
+            * 该方法会先尝试用同步方式加载子模块，如果成功则直接调用回调函数；否则使用异步方式加载。
+            * 一旦加载成功，在第二次及以后都会使用同步方式。
+            * @param {string} name 要加载的子模块名称。
+            * @param {string|Object} [container] 加载到的子模块的 html 内容需要附加到的容器(jQuery选择器)。
+            *   只有指定了该参数，并且加载到的 html 内容不为空才会附加到容器。
+            * @param {function} fn 加载成功后要执行的回调函数。
+            *   该函数会接收一个参数: 加载到的子模块实例。
+            */
+            'load': function (name, container, fn) {
+
+                //重载 load(name, fn);
+                if (typeof container == 'function') {
+                    fn = container;
+                    container = null;
+                }
+
+                var M = module.require(name);
+                if (M) {
+                    fn && fn(M);
+                    return;
+                }
+
+                var Package = require('Package');
+                Package.load(name, function (pack) {
+
+                    var item = pack['html'];
+                    if (container && item && item.content) {
+                        $(container).append(item.content);
+                    }
+                    
+
+                    var M = module.require(name);
+
+                    if (!M) {
+                        throw new Error('不存在名为 ' + name + ' 的子模块');
+                    }
+
+                    fn && fn(M);
+
+                });
             },
 
             'on': emitter.on.bind(emitter),

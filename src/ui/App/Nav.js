@@ -37,7 +37,13 @@ define('App/Nav', function (require, module, exports) {
             //尝试以异步方式去加载。
             Package = Package || require('Package');
 
-            Package.load(name, function () {
+            Package.load(name, function (pack) {
+
+                var item = pack['html'];
+                if (item) {
+                    $('body').append(item.content);
+                }
+
                 var M = module.require(name);
 
                 if (!M) {

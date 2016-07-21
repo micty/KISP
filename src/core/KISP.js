@@ -195,6 +195,17 @@ define('KISP', function (require, module, exports) {
 
         },
 
+        /**
+        * 加载指定名称的包资源，并在加载完成后执行一个回调。
+        * @param {string} name 包资源的名称。
+        * @param {function} fn 加载完成后要执行的回调。
+            该回调函数会接收到一个包资源的数据对象。
+        */
+        load: function (name, fn) {
+            var Package = require('Package');
+            Package.load(name, fn);
+        },
+
 
         
 
