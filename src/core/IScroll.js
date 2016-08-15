@@ -1,7 +1,7 @@
 
 /**
-* IScroll ¹ö¶¯Æ÷¡£
-* Ö÷ÒªÌá¹©Ö±½Ó²Ù×÷Ô­Ê¼µÄµÚÈý·½×é¼þ iScroll µÄÄÜÁ¦¡£
+* IScroll æ»šåŠ¨å™¨ã€‚
+* ä¸»è¦æä¾›ç›´æŽ¥æ“ä½œåŽŸå§‹çš„ç¬¬ä¸‰æ–¹ç»„ä»¶ iScroll çš„èƒ½åŠ›ã€‚
 * @class
 * @name IScroll
 */

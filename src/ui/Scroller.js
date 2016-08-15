@@ -204,7 +204,7 @@ define('Scroller', function (require, module,  exports) {
             var meta = mapper.get(this);
             var scroller = meta.scroller;
             scroller.isWaitingForManualReset = false;
-            //scroller.resetPosition(scroller.options.bounceTime);
+            scroller.resetPosition(scroller.options.bounceTime);
         },
 
         /**

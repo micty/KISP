@@ -3,8 +3,8 @@ module.exports = {
 
     copyTo: [
         //针对 pc 端
-        'E:/Kingdee/house/admin/htdocs/f/kisp',
-        'E:/Kingdee/house/demo/htdocs/f/kisp',
+        //'E:/Kingdee/house/admin/htdocs/f/kisp',
+        //'E:/Kingdee/house/demo/htdocs/f/kisp',
         'E:/Kingdee/house/permit/htdocs/f/kisp',
     ],
 
@@ -67,6 +67,7 @@ module.exports = {
                 {
                     dir: 'App',
                     files: [
+                        'Module.js',
                         'Nav.js',
                         'Transition.js',
                     ],
@@ -140,6 +141,15 @@ module.exports = {
                 },
 
                 'Navigator.js',
+
+                {
+                    dir: 'Package',
+                    files: [
+                        'Loader.js',
+                    ],
+                },
+                'Package.js',
+
                 'Panel.js',
                 'Tabs.js',
                 {
@@ -189,6 +199,7 @@ module.exports = {
                         'Dialog.js',
                         'Loading.js',
                         'Mask.js',
+                        'Package.js',
                         'Panel.js',
                         'Tabs.js',
                         'Template.js',

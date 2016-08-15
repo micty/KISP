@@ -37,17 +37,6 @@ module.exports = {
                 'KISP.js',
             ]
         },
-        //{
-        //    dir: 'compatible',
-        //    files: [
-        //        {
-        //            dir: 'jquery',
-        //            files: [
-        //                'animate.js',
-        //            ],
-        //        },
-        //    ],
-        //},
         {
             dir: 'crypto',
             files: [
@@ -131,12 +120,6 @@ module.exports = {
                         'ImageReader.js',
                     ],
                 },
-                //{
-                //    dir: 'seajs',
-                //    files: [
-                //        'Seajs.js',
-                //    ],
-                //},
                 {
                     dir: 'wechat',
                     files: [
@@ -162,13 +145,6 @@ module.exports = {
                     files: [
                         'Module.js',
                         'Nav.js',
-                        {
-                            dir: 'Nav',
-                            files: [
-                                'Loader.js',
-                            ],
-                        },
-
                         'Transition.js',
                     ],
                 },
