@@ -35,10 +35,14 @@ define('Package', function (require, module, exports) {
 
 
         //首次加载总的 json 文件。
+
+        var Url = require('Url');
+        var url = Url.root() + defaults.url;
+
         $.ajax({
             type: 'get',
             dataType: 'json',
-            url: defaults.url,
+            url: url,
 
             error: function () {
                 packages = false;   //显示指定为 false，表示已尝试加载过了。

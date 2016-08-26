@@ -57,6 +57,10 @@ define('Url', function (require, module, exports) {
                     root = root();
                 }
 
+                //确保以 '/' 结尾。
+                if (root.slice(-1) != '/') {
+                    root += '/';
+                }
             }
 
             return root;

@@ -84,12 +84,17 @@ define('Package/Loader', function (require, module, exports) {
         'load': function (data, fn) {
 
             var obj = {};
+            var Url = require('Url');
+            var root = Url.root();
 
             $.Object.each(loader, function (type, load) {
                 var url = data[type];
                 if (!url) {
                     return;
                 }
+          
+                
+                url = root + url;
 
                 obj[type] = {
                     'url': url,
