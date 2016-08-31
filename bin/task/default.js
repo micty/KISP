@@ -316,6 +316,12 @@ module.exports = {
                 {
                     dir: 'ui',
                     files: [
+                        {
+                            dir: 'App',
+                            files: [
+                                'Nav.js',
+                            ],
+                        },
                         'Alert.js',
                         'App.js',
                         'CityPicker.js',

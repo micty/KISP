@@ -79,10 +79,10 @@ define('App', function (require, module, exports) {
 
 
         /**
-        * 初始化执行环境，创建导航管理器和相应的 UI 组件，并启动应用程序。
+        * 使用动画版来启动应用。
         * @param {function} factory 工厂函数，即启动函数。
         */
-        launch: function (factory) {
+        animate: function (factory) {
            
             var self = this;
 
@@ -383,6 +383,62 @@ define('App', function (require, module, exports) {
             });
         },
 
+
+        /**
+        * 使用普通版来启动应用。
+        */
+        normal: function (factory) {
+
+            var meta = mapper.get(this);
+
+            this.init(function (require, module) {
+                //增强些功能
+                Module.enhance(module);
+
+                var nav = Nav.create(module);
+
+                //后退时触发
+                nav.on('back', function (current, target) {
+                    document.activeElement.blur(); // 关闭输入法
+                    current = module.require(current);
+                    target = module.require(target);
+                    current.hide();
+                    target.show();
+                });
+
+                //跳转到目标视图之前触发，先隐藏当前视图
+                nav.on('before-to', function (current, target) {
+                    current = module.require(current);
+                    current.hide();
+                });
+
+                //统一绑定视图跳转动作，在调用 nav.to(...) 时会给触发
+                nav.on('to', function (name, arg0, arg1, argN) {
+                    var args = [].slice.call(arguments, 1);
+                    var M = module.require(name);
+                    M.render.apply(M, args);
+                });
+
+                factory && factory(require, module, nav);
+            });
+
+        },
+
+
+        /**
+        * 初始化执行环境，创建导航管理器和相应的 UI 组件，并启动应用程序。
+        * @param {function} factory 工厂函数，即启动函数。
+        */
+        launch: function (factory) {
+            var meta = mapper.get(this);
+
+            if (meta.animated) {
+                this.animate(factory); //使用动画
+            }
+            else {
+                this.normal(factory);    //不使用动画
+            }
+        },
      
 
     };

@@ -3,6 +3,11 @@ define('App/Nav', function (require, module, exports) {
     var $ = require('$');
     var MiniQuery = require('MiniQuery');
     var Navigator = require('Navigator');
+  
+
+    var Config = require('Config');
+    var defaults = Config.clone(module.id);
+
 
     var Package = null;
 
@@ -34,14 +39,19 @@ define('App/Nav', function (require, module, exports) {
                 return;
             }
 
+
+
+            var container = defaults.container;
+
             //尝试以异步方式去加载。
             Package = Package || require('Package');
+
 
             Package.load(name, function (pack) {
 
                 var item = pack['html'];
                 if (item) {
-                    $('body').append(item.content);
+                    $(container).append(item.content);
                 }
 
                 var M = module.require(name);
