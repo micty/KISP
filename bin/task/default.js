@@ -12,8 +12,7 @@ module.exports = {
     ],
 
 
-    //需要独立存在的 html 文件。
-    //即不能转换成 js 代码且合并到 KISP 里的文件。
+
     htmlFiles: [
         {
             dir: 'iframe',

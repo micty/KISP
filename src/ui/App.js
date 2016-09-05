@@ -279,7 +279,12 @@ define('App', function (require, module, exports) {
                     // css 动画结束后执行。 
                     //注意在上面的 current 和 target 都会触发相应的动画结束事件。
                     target.$.on(eventName, function () {
-                        //debugger;
+                        
+                        //忽略掉视图内部的子节点冒泡上来的动画结束事件。 
+                        //this 表示当前的视图，即 target.$.get(0)。
+                        if (event.target !== this) {
+                            return;
+                        }
 
                         var animated = target.$.data(animatedKey);
                         target.$.data(animatedKey, true); //恢复使用动画。
