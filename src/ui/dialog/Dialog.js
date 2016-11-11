@@ -71,7 +71,8 @@ define('Dialog', function (require, module, exports) {
             'volatile': config.volatile,
             'zIndex': config['z-index'],        //生成透明层时要用到
             'data': {},                         //供 this.data() 方法使用
-            
+            'stopHide': false,                  //避免 masker 和 self 的 hide 死循环。
+
         };
 
         mapper.set(this, meta);
@@ -135,12 +136,19 @@ define('Dialog', function (require, module, exports) {
 
             meta.masker = new Mask({
                 'z-index': zIndex - 1,
+                'volatile': meta.volatile,
             });
 
             if (meta.volatile) {
                 var self = this;
-                meta.masker.on('click', function () {
-                    self.hide();
+                meta.masker.on('hide', function () {
+                    if (meta.stopHide) {
+                        meta.stopHide = false;
+                    }
+                    else {
+                        meta.stopHide = true;
+                        self.hide();
+                    }
                 });
             }
 
@@ -202,7 +210,13 @@ define('Dialog', function (require, module, exports) {
 
             var masker = meta.masker;
             if (masker) {
-                masker.hide();
+                if (meta.stopHide) {
+                    meta.stopHide = false;
+                }
+                else {
+                    meta.stopHide = true;
+                    masker.hide();
+                }
             }
 
             $(div).hide();

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+
+    <style>
+        .picker-columns{
+            height: 14rem !important;
+        }
+
+        .picker-modal{
+            background: #fff;
+        }
+
+        .picker-items {
+            font-size: 1rem;
+        }
+
+        .picker-center-highlight {
+            border: solid 1px #ddd;
+            border-left: none;
+            border-right: none;
+        }
+
+        .picker-center-highlight:before,
+        .picker-center-highlight:after {
+            display: none;
+        }
+
+    </style>
+</head>
+<body style="background:rgba(0, 0, 0, 0);">
+    <script src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script src='//g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js' charset='utf-8'></script>
+    <script src="//g.alicdn.com/msui/sm/0.6.2/js/sm-city-picker.min.js" charset="utf-8"></script>
+
+    <input type="text" id='city-picker' style="display:none;" />
+
+
+    <!--toolbar.begin
+
+    <header class="bar bar-nav">
+        <button id="btn-cancel" class="button button-link pull-left">取消</button>
+        <button id="btn-ok" class="button button-link pull-right">确定</button>
+        <h1 class="title">{title}</h1>
+    </header>
+
+    toolbar.end-->
+
+    <script>
+
+        $(function () {
+
+            var KISP = parent.KISP;
+            var $$ = KISP.require('MiniQuery');
+            var Url = $$.require('Url');
+
+            var qs = Url.getQueryString(window) || {};
+            var sample = $$.String.between(document.body.innerHTML, '<!--toolbar.begin', 'toolbar.end-->');
+            var title = decodeURIComponent(qs.title);
+            
+
+            //此时的 picker 是一个 jQuery 对象。
+            var picker = $("#city-picker").cityPicker({
+                'toolbarTemplate': $$.String.format(sample, {
+                    'title': title,
+                }),
+            });
+
+            picker.trigger('click');
+
+
+            //取出包装前的 picker。
+            picker = picker[0].__eleData.picker;
+
+
+            //原生 picker 的 setValue 方法有 bug。
+            //当设置多列的值时，只有第一列能设置成功，后面的两列则只会选中第一项。
+            //这里给后面的列加个延迟就可以了。
+            var setValue = picker.setValue.bind(picker);
+            picker.setValue = function (values) {
+
+                $$.Array.each(values, function (item, index) {
+
+                    setTimeout(function () {
+
+                        setValue(values);
+
+                    }, 200 * index);
+                });
+            };
+
+
+
+            $("#btn-cancel").on('click', function () {
+                picker.close();
+
+                //先让 picker 动画隐藏
+                setTimeout(function () {
+                    fire('cancel');
+                }, 300);
+            });
+
+
+            $("#btn-ok").on('click', function () {
+                picker.close();
+
+                //先让 picker 动画隐藏
+                setTimeout(function () {
+                    fire('ok');
+                }, 300);
+            });
+
+
+            window.addEventListener('message', function (event) {
+
+                var data = event.data;
+                var method = data.method;
+
+                method = picker[method];
+                if (method) {
+                    var args = data.args;
+                    method.apply(picker, args);
+                }
+
+               
+            });
+
+
+            //var iid = setInterval(function () {
+            //    //debugger;
+
+            //    if ($('.picker-modal').length > 0) {
+            //        clearInterval(iid);
+            //        fire('ready');
+            //    }
+
+            //}, 200);
+
+            fire('ready');
+
+
+
+            function fire(action) {
+
+                var values = picker.cols.map(function (item) {
+                    return item.value;
+                });
+
+                parent.postMessage({
+
+                    'from': 'KISP.CityPicker',
+                    'id': qs.id,
+                    'values': values,
+                    'action': action,
+
+                }, '*');
+            }
+
+        });
+
+     
+    </script>
+
+</body>
+</html>

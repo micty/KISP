@@ -249,6 +249,7 @@ module.exports = {
                 'Package.js',
 
                 'Panel.js',
+                'Router.js',
                 'Scroller/pull.js',
                 'Scroller.js',
                 'Slider.js',

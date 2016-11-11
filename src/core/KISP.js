@@ -207,6 +207,11 @@ define('KISP', function (require, module, exports) {
         },
 
 
+        route: function (name, fn) {
+            var Router = require('Router');
+            Router.set(name, fn);
+        },
+
         
 
     };

@@ -9,6 +9,8 @@ define('App', function (require, module, exports) {
     var MiniQuery = require('MiniQuery');
     var Config = require('Config');
     var Mask = require('Mask');
+    var Router = require('Router');
+
     var Nav = module.require('Nav');
     var Transition = module.require('Transition');
     var Module = module.require('Module');
@@ -382,6 +384,10 @@ define('App', function (require, module, exports) {
                 });
 
                 mask.render();
+
+                
+                var routers = Router.get(require, module, nav);
+                module.bind(routers);
 
                 factory && factory(require, module, nav);
 
