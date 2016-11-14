@@ -139,6 +139,10 @@ define('Dialog', function (require, module, exports) {
                 'volatile': meta.volatile,
             });
 
+            meta.masker.on('show', function () {
+                meta.stopHide = false; //重置，避免多次调用 dialog.show() 后的 masker 层无法隐藏。
+            });
+
             if (meta.volatile) {
                 var self = this;
                 meta.masker.on('hide', function () {

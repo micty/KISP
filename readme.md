@@ -25,17 +25,32 @@ KISP 框架
 - [Web 客户端存储](?file=docs/Storage.md)
 - [同源策略](?file=article/Same-origin-policy.md)
 
-### default - 5.1.1
+### default - 5.1.2
 
-- [KISP 接口文档 5.1.1](?type=default&version=5.1.1)
-- [kisp.debug.js](?file=default/5.1.1/kisp.debug.js) [源文件](data/default/5.1.1/kisp.debug.js)
-- [kisp.debug.css](?file=default/5.1.1/kisp.debug.css) [源文件](data/default/5.1.1/kisp.debug.css)
-- [kisp.min.js](?file=default/5.1.1/kisp.min.js) [源文件](data/default/5.1.1/kisp.min.js)
-- [kisp.min.css](?file=default/5.1.1/kisp.min.css) [源文件](data/default/5.1.1/kisp.min.css)
+- [KISP 接口文档 5.1.2](?type=default&version=5.1.2)
+- [kisp.debug.js](?file=default/5.1.2/kisp.debug.js) [源文件](data/default/5.1.2/kisp.debug.js)
+- [kisp.debug.css](?file=default/5.1.2/kisp.debug.css) [源文件](data/default/5.1.2/kisp.debug.css)
+- [kisp.min.js](?file=default/5.1.2/kisp.min.js) [源文件](data/default/5.1.2/kisp.min.js)
+- [kisp.min.css](?file=default/5.1.2/kisp.min.css) [源文件](data/default/5.1.2/kisp.min.css)
 
 
 ### 更新记录
 
+
+####v5.1.2
+
+2016-11-14
+- 修复组件 `Dialog` 因多次调用 show() 后无法隐藏 mask 层的问题。
+
+
+####v5.1.1
+
+2016-11-11
+- 修复组件 `Dialog` 的属性 `volatile` 无效的问题。
+
+
+2016-11-10
+- 增加模块 `Router` 和给 `KISP` 增加方法 `route(name, fn)`，以设定分路由。
 
 
 ####v5.0.1
