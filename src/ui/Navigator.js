@@ -198,8 +198,8 @@ define('Navigator', function (require, module,  exports) {
             }
 
 
-            statcks.splice(beginIndex, count);
-
+            var list = statcks.splice(beginIndex, count);
+            meta.emitter.fire('remove', [list]);
         },
 
         /**
@@ -228,9 +228,12 @@ define('Navigator', function (require, module,  exports) {
             var statcks = meta.statcks;
 
             statcks.reverse(); //先反转
-            statcks.splice(beginIndex, count);
 
+            var list = statcks.splice(beginIndex, count);
             meta.statcks = statcks.reverse(); //再反转回去
+
+            list = list.reverse();
+            meta.emitter.fire('remove', [list]);
 
         },
 

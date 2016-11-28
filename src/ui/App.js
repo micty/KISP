@@ -112,6 +112,14 @@ define('App', function (require, module, exports) {
                     aborted: false,     //记录是否取消了滑动后退。
                 };
 
+                nav.on('remove', function (list) {
+                    list.forEach(function (item) {
+                        item = module.require(item);
+                        item && item.hide();
+                    });
+
+                });
+
 
                 //绑定滑动返回。 跳转到目标视图之前触发。
                 nav.on('before-to', function (current, target) {

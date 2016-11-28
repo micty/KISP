@@ -2,8 +2,8 @@
 module.exports = {
 
     copyTo: [
-        'E:/Kingdee/vGuide/htdocs/f/kisp',
-        //'E:/Kingdee/vStore/htdocs/f/kisp',
+        //'E:/Kingdee/vGuide/htdocs/f/kisp',
+        'E:/Kingdee/vStore/htdocs/f/kisp',
 
         //'E:/Kingdee/house/mobile/htdocs/f/kisp',
 
