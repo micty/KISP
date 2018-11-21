@@ -28,18 +28,22 @@ module.exports = function (require, packer) {
     //把 package.json 文件复制出来。
     //把 readme.md 文件复制出来。
     packer.on('build', function () {
-        var files = [
-            'package.json',
-            'readme.md',
+        var list = [
+            {
+                src: `${options.src}package.json`,
+                dest: `${options.home}package.json`,
+            },
+            {
+                src: `../readme.md`,
+                dest: `${options.home}readme.md`,
+            },
         ];
 
-        files.forEach(function (file) {
-            var src = `${options.src}${file}`;
-            var dest = `${options.home}${file}`;
-
-            File.copy(src, dest);
+        list.forEach(function (item) {
+            File.copy(item.src, item.dest);
 
         });
+
     });
 
 };
