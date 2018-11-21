@@ -1,7 +1,10 @@
 
 /.svn
-/build
-/bin/node_modules
-/src/style/css
+/bak/
+/bin/**/node_modules/
+/bin/all.error.debug.js
+/bin/package-lock.json
 
+/build/**/node_modules/
+/src/**/node_modules/
 

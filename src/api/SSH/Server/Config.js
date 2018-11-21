@@ -4,11 +4,8 @@
 */
 define('SSH/Server/Config', function (require, module, exports) {
 
-    var $ = require('$');
-    var MiniQuery = require('MiniQuery');
-
-    var Emitter = MiniQuery.require('Emitter');
-    var Config = require('Config');
+    var Emitter = require('Emitter');
+    var Defaults = require('Defaults');
 
     var json = null;
     var storage = null;
@@ -21,16 +18,17 @@ define('SSH/Server/Config', function (require, module, exports) {
         }
 
         //首次创建
-        var defaults = Config.get(module.id);
+        var defaults = Defaults.get(module.id);
         var cache = defaults.cache;
 
 
         if (cache == 'session' || cache == 'local') {
 
-            //把首字母变大写
-            cache = cache[0].toUpperCase() + cache.slice(1);
+            //为了让自动化工具分析出依赖，这里要用完整的字符串常量作为 require() 的第一个参数。
+            var Storage = cache == 'session' ?
+                    require('SessionStorage') :
+                    require('LocalStorage');
 
-            var Storage = require(cache + 'Storage');
             storage = new Storage(module.id, {
                 name: 'KISP',
             });
@@ -49,7 +47,7 @@ define('SSH/Server/Config', function (require, module, exports) {
 
     function ajax(fn) {
 
-        var defaults = Config.get(module.id);
+        var defaults = Defaults.get(module.id);
         var url = defaults.url;
 
         $.getJSON(url, function (data) {
@@ -88,35 +86,37 @@ define('SSH/Server/Config', function (require, module, exports) {
     }
 
 
-    function get(fn) {
-
-        var defaults = Config.get(module.id);
-        var cache = defaults.cache;
-
-
-        if (cache && json) { //只有启用缓存时才从内存中读。
-            fn(json);
-            return;
-        }
-
-        var storage = getStorage();
-        if (storage) {
-            json = storage.get();
-            if (json) {
-                fn(json);
-                return;
-            }
-        }
-
-
-        ajax(fn);
-
-    }
+    
 
 
 
     return {
-        get: get,
+
+        'get': function (fn) {
+
+            var defaults = Defaults.get(module.id);
+            var cache = defaults.cache;
+
+
+            if (cache && json) { //只有启用缓存时才从内存中读。
+                fn(json);
+                return;
+            }
+
+            var storage = getStorage();
+            if (storage) {
+                json = storage.get();
+
+                if (json) {
+                    fn(json);
+                    return;
+                }
+            }
+
+
+            ajax(fn);
+
+        },
     };
 
 

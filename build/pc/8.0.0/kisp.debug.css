@@ -1,0 +1,569 @@
+.KISP.Alert pre.JSON {
+    text-align: start;
+    font-family: 'Fixedsys Excelsior 3.01';
+}
+
+.KISP.Confirm .OK {
+    color: red;
+}
+
+.KISP.Dialog {
+    position: fixed;
+    background: rgba(251, 251, 251, 0.94);
+    width: 100%;
+    width: 300px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    border: solid 1px #ccc;
+    transform: translate(-50%, -50%);
+    z-index: 1024;
+}
+.KISP.Dialog * {
+    font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+}
+.KISP.Dialog header {
+    font-weight: bold;
+    font-size: 17px;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+}
+.KISP.Dialog header.NoHeader {
+    /**无标题时*/
+    display: none;
+}
+.KISP.Dialog article {
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    text-align: center;
+    padding: 0px 20px;
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 44px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+.KISP.Dialog article.NoHeader {
+    /**无标题时*/
+    top: 10px;
+}
+.KISP.Dialog article.NoFooter {
+    /**无按钮时*/
+    bottom: 10px;
+}
+.KISP.Dialog article > div {
+    width: 100%;
+}
+.KISP.Dialog.main-fullscreen article {
+    bottom: 0;
+    top: 0;
+    padding: 0;
+}
+.KISP.Dialog footer {
+    border-top: solid 1px #ccc;
+    height: 44px;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    /*阻止文本选择，避免在 PC 端拖拽按钮时选中按钮的文本*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.KISP.Dialog footer button {
+    color: #007AFF;
+    font-size: 17px;
+    border: none;
+    outline: none;
+    border-right: solid 1px #ccc;
+    height: 44px;
+    line-height: 44px;
+    width: 50%;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    /**针对 PC 端*/
+    background: none;
+    margin-left: 0px;
+    /**按下去时*/
+}
+.KISP.Dialog footer button.Pressed {
+    background: #E3E3E5;
+}
+.KISP.Dialog footer button:first-child {
+    border-bottom-left-radius: 10px;
+}
+.KISP.Dialog footer button:last-child {
+    border-right: none;
+    border-bottom-right-radius: 10px;
+}
+.KISP.Dialog footer.Buttons-1 button {
+    width: 100%;
+}
+.KISP.Dialog footer.Buttons-2 button {
+    width: 50%;
+}
+.KISP.Dialog footer.Buttons-3 button {
+    width: 33.33%;
+}
+.KISP.Dialog footer.Buttons-4 button {
+    width: 25%;
+}
+.KISP.Dialog footer.Buttons-5 button {
+    width: 20%;
+}
+.KISP.Dialog footer.Buttons-6 button {
+    width: 16.66%;
+}
+.KISP.Dialog footer.Buttons-7 button {
+    width: 14.28%;
+}
+.KISP.Dialog footer.Buttons-8 button {
+    width: 12.5%;
+}
+.KISP.Dialog footer.Buttons-9 button {
+    width: 11.11%;
+}
+.KISP.Dialog footer.Buttons-10 button {
+    width: 10%;
+}
+
+.KISP.Loading-iOS {
+    position: absolute;
+    color: #fff;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 102px;
+    transform: translate(-50%, -50%);
+    z-index: 1024;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    /**同一行的*/
+    /**无文本时*/
+}
+.KISP.Loading-iOS.SameLine .Main {
+    margin-left: -34px;
+    margin-top: -9px;
+}
+.KISP.Loading-iOS.SameLine .Text {
+    margin-top: 0px;
+    margin-left: 26px;
+}
+.KISP.Loading-iOS.NoText {
+    width: 90px !important;
+    height: 80px !important;
+    margin-left: -45px !important;
+    margin-top: -40px !important;
+}
+.KISP.Loading-iOS.NoText .Main {
+    margin-top: -12px;
+}
+.KISP.Loading-iOS.NoText .Text {
+    display: none;
+}
+.KISP.Loading-iOS .Text {
+    display: inline-block;
+    margin-top: 45px;
+    text-align: center;
+    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+}
+.KISP.Loading-iOS .Main {
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 50%;
+    top: 50%;
+    margin-top: -16px;
+}
+.KISP.Loading-iOS .Main > div {
+    position: absolute;
+    background-color: #675e55;
+    width: 2px;
+    height: 5px;
+    border-radius: 8px;
+    -webkit-transform: scale(0.4);
+    transform: scale(0.4);
+    -webkit-animation: fadeG 1.1s linear infinite;
+    -moz-transform: scale(0.4);
+    -moz-animation: fadeG 1.1s linear infinite;
+    -o-transform: scale(0.4);
+    -o-animation: fadeG 1.1s linear infinite;
+    -ms-transform: scale(0.4);
+    -ms-animation: fadeG 1.1s linear infinite;
+}
+.KISP.Loading-iOS .Main .Item-0 {
+    -webkit-animation-delay: 0.1s;
+    -webkit-transform: rotate(0deg) translate(0, 0);
+    -moz-animation-delay: 0.1s;
+    -moz-transform: rotate(0deg) translate(0, 0);
+    -o-animation-delay: 0.1s;
+    -o-transform: rotate(0deg) translate(0, 0);
+    -ms-animation-delay: 0.1s;
+    -ms-transform: rotate(0deg) translate(0, 0);
+}
+.KISP.Loading-iOS .Main .Item-1 {
+    -webkit-animation-delay: 0.1s;
+    -webkit-transform: rotate(30deg) translate(3.5px, -1px);
+    -moz-animation-delay: 0.1s;
+    -moz-transform: rotate(30deg) translate(3.5px, -1px);
+    -o-animation-delay: 0.1s;
+    -o-transform: rotate(30deg) translate(3.5px, -1px);
+    -ms-animation-delay: 0.1s;
+    -ms-transform: rotate(30deg) translate(3.5px, -1px);
+}
+.KISP.Loading-iOS .Main .Item-2 {
+    -webkit-animation-delay: 0.2s;
+    -webkit-transform: rotate(60deg) translate(6px, -4px);
+    -moz-animation-delay: 0.2s;
+    -moz-transform: rotate(60deg) translate(6px, -4px);
+    -o-animation-delay: 0.2s;
+    -o-transform: rotate(60deg) translate(6px, -4px);
+    -ms-animation-delay: 0.2s;
+    -ms-transform: rotate(60deg) translate(6px, -4px);
+}
+.KISP.Loading-iOS .Main .Item-3 {
+    -webkit-animation-delay: 0.3s;
+    -webkit-transform: rotate(90deg) translate(7px, -7px);
+    -moz-animation-delay: 0.3s;
+    -moz-transform: rotate(90deg) translate(7px, -7px);
+    -o-animation-delay: 0.3s;
+    -o-transform: rotate(90deg) translate(7px, -7px);
+    -ms-animation-delay: 0.3s;
+    -ms-transform: rotate(90deg) translate(7px, -7px);
+}
+.KISP.Loading-iOS .Main .Item-4 {
+    -webkit-animation-delay: 0.4s;
+    -webkit-transform: rotate(120deg) translate(6px, -11px);
+    -moz-animation-delay: 0.4s;
+    -moz-transform: rotate(120deg) translate(6px, -11px);
+    -o-animation-delay: 0.4s;
+    -o-transform: rotate(120deg) translate(6px, -11px);
+    -ms-animation-delay: 0.4s;
+    -ms-transform: rotate(120deg) translate(6px, -11px);
+}
+.KISP.Loading-iOS .Main .Item-5 {
+    -webkit-animation-delay: 0.5s;
+    -webkit-transform: rotate(150deg) translate(3.5px, -13px);
+    -moz-animation-delay: 0.5s;
+    -moz-transform: rotate(150deg) translate(3.5px, -13px);
+    -o-animation-delay: 0.5s;
+    -o-transform: rotate(150deg) translate(3.5px, -13px);
+    -ms-animation-delay: 0.5s;
+    -ms-transform: rotate(150deg) translate(3.5px, -13px);
+}
+.KISP.Loading-iOS .Main .Item-6 {
+    -webkit-animation-delay: 0.5s;
+    -webkit-transform: rotate(0deg) translate(0px, 14px);
+    -moz-animation-delay: 0.5s;
+    -moz-transform: rotate(0deg) translate(0px, 14px);
+    -o-animation-delay: 0.5s;
+    -o-transform: rotate(0deg) translate(0px, 14px);
+    -ms-animation-delay: 0.5s;
+    -ms-transform: rotate(0deg) translate(0px, 14px);
+}
+.KISP.Loading-iOS .Main .Item-7 {
+    -webkit-animation-delay: 0.6s;
+    -webkit-transform: rotate(-150deg) translate(-3.5px, -13px);
+    -moz-animation-delay: 0.6s;
+    -moz-transform: rotate(-150deg) translate(-3.5px, -13px);
+    -o-animation-delay: 0.6s;
+    -o-transform: rotate(-150deg) translate(-3.5px, -13px);
+    -ms-animation-delay: 0.6s;
+    -ms-transform: rotate(-150deg) translate(-3.5px, -13px);
+}
+.KISP.Loading-iOS .Main .Item-8 {
+    -webkit-animation-delay: 0.7s;
+    -webkit-transform: rotate(-120deg) translate(-6px, -11px);
+    -moz-animation-delay: 0.7s;
+    -moz-transform: rotate(-120deg) translate(-6px, -11px);
+    -o-animation-delay: 0.7s;
+    -o-transform: rotate(-120deg) translate(-6px, -11px);
+    -ms-animation-delay: 0.7s;
+    -ms-transform: rotate(-120deg) translate(-6px, -11px);
+}
+.KISP.Loading-iOS .Main .Item-9 {
+    -webkit-animation-delay: 0.8s;
+    -webkit-transform: rotate(-90deg) translate(-7px, -7px);
+    -moz-animation-delay: 0.8s;
+    -moz-transform: rotate(-90deg) translate(-7px, -7px);
+    -o-animation-delay: 0.8s;
+    -o-transform: rotate(-90deg) translate(-7px, -7px);
+    -ms-animation-delay: 0.8s;
+    -ms-transform: rotate(-90deg) translate(-7px, -7px);
+}
+.KISP.Loading-iOS .Main .Item-10 {
+    -webkit-animation-delay: 0.9s;
+    -webkit-transform: rotate(-60deg) translate(-6px, -4px);
+    -moz-animation-delay: 0.9s;
+    -moz-transform: rotate(-60deg) translate(-6px, -4px);
+    -o-animation-delay: 0.9s;
+    -o-transform: rotate(-60deg) translate(-6px, -4px);
+    -ms-animation-delay: 0.9s;
+    -ms-transform: rotate(-60deg) translate(-6px, -4px);
+}
+.KISP.Loading-iOS .Main .Item-11 {
+    -webkit-animation-delay: 1s;
+    -webkit-transform: rotate(-30deg) translate(-3.5px, -1px);
+    -moz-animation-delay: 1s;
+    -moz-transform: rotate(-30deg) translate(-3.5px, -1px);
+    -o-animation-delay: 1s;
+    -o-transform: rotate(-30deg) translate(-3.5px, -1px);
+    -ms-animation-delay: 1s;
+    -ms-transform: rotate(-30deg) translate(-3.5px, -1px);
+}
+@-webkit-keyframes fadeG {
+    0% {
+      background-color: #fff;
+    }
+    100% {
+      background-color: #675e55;
+    }
+}
+@-moz-keyframes fadeG {
+    0% {
+      background-color: #fff;
+    }
+    100% {
+      background-color: #675e55;
+    }
+}
+@-o-keyframes fadeG {
+    0% {
+      background-color: #fff;
+    }
+    100% {
+      background-color: #675e55;
+    }
+}
+@-ms-keyframes fadeG {
+    0% {
+      background-color: #fff;
+    }
+    100% {
+      background-color: #675e55;
+    }
+}
+.KISP.Loading-iOS .Main.Large {
+    width: 27px;
+    height: 27px;
+    margin-top: -24px;
+}
+.KISP.Loading-iOS .Main.Large > div {
+    border-radius: 100%;
+    width: 3px;
+    height: 8px;
+}
+.KISP.Loading-iOS .Main.Large .Item-0 {
+    -webkit-animation-delay: 0s;
+    -webkit-transform: rotate(0deg) translate(0px, 0px);
+    -moz-animation-delay: 0s;
+    -moz-transform: rotate(0deg) translate(0px, 0px);
+    -o-animation-delay: 0s;
+    -o-transform: rotate(0deg) translate(0px, 0px);
+    -ms-animation-delay: 0s;
+    -ms-transform: rotate(0deg) translate(0px, 0px);
+}
+.KISP.Loading-iOS .Main.Large .Item-1 {
+    -webkit-animation-delay: 0.1s;
+    -webkit-transform: rotate(30deg) translate(4.8px, -1.5px);
+    -moz-animation-delay: 0.1s;
+    -moz-transform: rotate(30deg) translate(4.8px, -1.5px);
+    -o-animation-delay: 0.1s;
+    -o-transform: rotate(30deg) translate(4.8px, -1.5px);
+    -ms-animation-delay: 0.1s;
+    -ms-transform: rotate(30deg) translate(4.8px, -1.5px);
+}
+.KISP.Loading-iOS .Main.Large .Item-2 {
+    -webkit-animation-delay: 0.2s;
+    -webkit-transform: rotate(60deg) translate(8px, -5px);
+    -moz-animation-delay: 0.2s;
+    -moz-transform: rotate(60deg) translate(8px, -5px);
+    -o-animation-delay: 0.2s;
+    -o-transform: rotate(60deg) translate(8px, -5px);
+    -ms-animation-delay: 0.2s;
+    -ms-transform: rotate(60deg) translate(8px, -5px);
+}
+.KISP.Loading-iOS .Main.Large .Item-3 {
+    -webkit-animation-delay: 0.3s;
+    -webkit-transform: rotate(90deg) translate(9px, -9px);
+    -moz-animation-delay: 0.3s;
+    -moz-transform: rotate(90deg) translate(9px, -9px);
+    -o-animation-delay: 0.3s;
+    -o-transform: rotate(90deg) translate(9px, -9px);
+    -ms-animation-delay: 0.3s;
+    -ms-transform: rotate(90deg) translate(9px, -9px);
+}
+.KISP.Loading-iOS .Main.Large .Item-4 {
+    -webkit-animation-delay: 0.4s;
+    -webkit-transform: rotate(120deg) translate(8px, -14px);
+    -moz-animation-delay: 0.4s;
+    -moz-transform: rotate(120deg) translate(8px, -14px);
+    -o-animation-delay: 0.4s;
+    -o-transform: rotate(120deg) translate(8px, -14px);
+    -ms-animation-delay: 0.4s;
+    -ms-transform: rotate(120deg) translate(8px, -14px);
+}
+.KISP.Loading-iOS .Main.Large .Item-5 {
+    -webkit-animation-delay: 0.5s;
+    -webkit-transform: rotate(150deg) translate(4.5px, -17px);
+    -moz-animation-delay: 0.5s;
+    -moz-transform: rotate(150deg) translate(4.5px, -17px);
+    -o-animation-delay: 0.5s;
+    -o-transform: rotate(150deg) translate(4.5px, -17px);
+    -ms-animation-delay: 0.5s;
+    -ms-transform: rotate(150deg) translate(4.5px, -17px);
+}
+.KISP.Loading-iOS .Main.Large .Item-6 {
+    -webkit-animation-delay: 0.5s;
+    -webkit-transform: rotate(0deg) translate(0, 18px);
+    -moz-animation-delay: 0.5s;
+    -moz-transform: rotate(0deg) translate(0, 18px);
+    -o-animation-delay: 0.5s;
+    -o-transform: rotate(0deg) translate(0, 18px);
+    -ms-animation-delay: 0.5s;
+    -ms-transform: rotate(0deg) translate(0, 18px);
+}
+.KISP.Loading-iOS .Main.Large .Item-7 {
+    -webkit-animation-delay: 0.6s;
+    -webkit-transform: rotate(-150deg) translate(-4.5px, -17px);
+    -moz-animation-delay: 0.6s;
+    -moz-transform: rotate(-150deg) translate(-4.5px, -17px);
+    -o-animation-delay: 0.6s;
+    -o-transform: rotate(-150deg) translate(-4.5px, -17px);
+    -ms-animation-delay: 0.6s;
+    -ms-transform: rotate(-150deg) translate(-4.5px, -17px);
+}
+.KISP.Loading-iOS .Main.Large .Item-8 {
+    -webkit-animation-delay: 0.7s;
+    -webkit-transform: rotate(-120deg) translate(-8px, -14px);
+    -moz-animation-delay: 0.7s;
+    -moz-transform: rotate(-120deg) translate(-8px, -14px);
+    -o-animation-delay: 0.7s;
+    -o-transform: rotate(-120deg) translate(-8px, -14px);
+    -ms-animation-delay: 0.7s;
+    -ms-transform: rotate(-120deg) translate(-8px, -14px);
+}
+.KISP.Loading-iOS .Main.Large .Item-9 {
+    -webkit-animation-delay: 0.8s;
+    -webkit-transform: rotate(-90deg) translate(-9px, -9px);
+    -moz-animation-delay: 0.8s;
+    -moz-transform: rotate(-90deg) translate(-9px, -9px);
+    -o-animation-delay: 0.8s;
+    -o-transform: rotate(-90deg) translate(-9px, -9px);
+    -ms-animation-delay: 0.8s;
+    -ms-transform: rotate(-90deg) translate(-9px, -9px);
+}
+.KISP.Loading-iOS .Main.Large .Item-10 {
+    -webkit-animation-delay: 0.9s;
+    -webkit-transform: rotate(-60deg) translate(-8px, -5px);
+    -moz-animation-delay: 0.9s;
+    -moz-transform: rotate(-60deg) translate(-8px, -5px);
+    -o-animation-delay: 0.9s;
+    -o-transform: rotate(-60deg) translate(-8px, -5px);
+    -ms-animation-delay: 0.9s;
+    -ms-transform: rotate(-60deg) translate(-8px, -5px);
+}
+.KISP.Loading-iOS .Main.Large .Item-11 {
+    -webkit-animation-delay: 1s;
+    -webkit-transform: rotate(-30deg) translate(-4.8px, -1.5px);
+    -moz-animation-delay: 1s;
+    -moz-transform: rotate(-30deg) translate(-4.8px, -1.5px);
+    -o-animation-delay: 1s;
+    -o-transform: rotate(-30deg) translate(-4.8px, -1.5px);
+    -ms-animation-delay: 1s;
+    -ms-transform: rotate(-30deg) translate(-4.8px, -1.5px);
+}
+
+.KISP.Mask {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    opacity: 0.5;
+    background: #000;
+    width: 100%;
+    z-index: 1024;
+}
+
+.KISP.Toast {
+    position: absolute;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    border-radius: 10px;
+    bottom: initial;
+    color: #ffffff;
+    font-size: 15px;
+    height: 102px;
+    left: 50%;
+    right: initial;
+    top: 50%;
+    width: 120px;
+    z-index: 1024;
+    background: rgba(0, 0, 0, 0.701961);
+    transform: translate(-50%, -50%);
+}
+.KISP.Toast div {
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -32px;
+    width: 36px;
+    height: 36px;
+}
+.KISP.Toast div i {
+    font-size: 35px;
+}
+.KISP.Toast .Text {
+    display: block;
+    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+    padding: 0 10px;
+    text-align: center;
+    margin-top: 42px;
+}
+.KISP.Toast.NoText div i {
+    font-size: 60px;
+}
+.KISP.Toast.NoText .Text {
+    display: none;
+}
+.KISP.Toast.NoIcon div {
+    display: none;
+}
+
+.KISP.View {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+}
+.KISP.View.Shadow {
+    box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+    -ms-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+    -o-box-shadow: 10px 0px 12px 10px rgba(0, 0, 0, 0.3);
+}

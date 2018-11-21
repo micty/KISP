@@ -1,9 +1,0 @@
-﻿{
-    "title": "{title}",
-    "type": "接口文档 {version}",
-    "width": 200,
-    "jsdoc": "jsdoc/classes.min.json",
-    "items": [
-
-    ]
-}

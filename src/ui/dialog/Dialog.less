@@ -1,0 +1,159 @@
+﻿
+
+.KISP.Dialog {
+    
+    position: fixed;
+    background: rgba(251, 251, 251, 0.94);
+    width: 100%;
+    z-index: 1024;
+    width: 300px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    border: solid 1px #ccc;
+    transform: translate(-50%,-50%);
+    z-index: 1024;
+
+    * {
+        font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+    }
+
+    header {
+        font-weight: bold;
+        font-size: 17px;
+        height: 44px;
+        text-align: center;
+        line-height: 44px;
+
+        &.NoHeader { /**无标题时*/
+            display: none;
+        }
+    }
+
+    article {
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        text-align: center;
+        padding: 0px 20px;
+        overflow: hidden;
+        position: absolute;
+        top: 44px;
+        bottom: 44px;
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 16px;
+        word-wrap: break-word;
+
+        &.NoHeader { /**无标题时*/
+            top: 10px;
+        }
+
+        &.NoFooter { /**无按钮时*/
+            bottom: 10px;
+        }
+
+        > div {
+            width: 100%;
+        }
+    }
+
+    &.main-fullscreen {
+        article {
+            bottom: 0;
+            top: 0;
+            padding: 0;
+        }
+    }
+
+    footer {
+        border-top: solid 1px #ccc;
+        height: 44px;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        overflow: hidden;
+        /*阻止文本选择，避免在 PC 端拖拽按钮时选中按钮的文本*/
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        button {
+            color: #007AFF;
+            font-size: 17px;
+            border: none;
+            outline: none;
+            border-right: solid 1px #ccc;
+            height: 44px;
+            line-height: 44px;
+            width: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            display: inline-block;
+            float: left;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer; /**针对 PC 端*/
+            background: none;
+            margin-left: 0px;
+
+            /**按下去时*/
+            &.Pressed {
+                background: #E3E3E5;
+            }
+
+            &:first-child {
+                border-bottom-left-radius: 10px;
+            }
+
+            &:last-child {
+                border-right: none;
+                border-bottom-right-radius: 10px;
+            }
+        }
+
+        &.Buttons-1 button {
+            width: 100%;
+        }
+
+        &.Buttons-2 button {
+            width: 50%;
+        }
+
+        &.Buttons-3 button {
+            width: 33.33%;
+        }
+
+        &.Buttons-4 button {
+            width: 25%;
+        }
+
+        &.Buttons-5 button {
+            width: 20%;
+        }
+
+        &.Buttons-6 button {
+            width: 16.66%;
+        }
+
+        &.Buttons-7 button {
+            width: 14.28%;
+        }
+
+        &.Buttons-8 button {
+            width: 12.5%;
+        }
+
+        &.Buttons-9 button {
+            width: 11.11%;
+        }
+
+        &.Buttons-10 button {
+            width: 10%;
+        }
+    }
+}

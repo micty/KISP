@@ -6,31 +6,43 @@
 */
 define('KISP', function (require, module, exports) {
 
-    var cfg = null; //for data
-
-    module.exports = exports = /**@lends KISP*/ {
+    return /**@lends KISP*/ {
 
         /**
-        * 名称。 (由 grunt 自动插入)
+        * 名称。 
+        * (由 packer 自动插入)
         */
-        name: /**grunt-name-begin*/''/**grunt-name-end*/, //由 grunt 自动插入
+        name: /**{KISP.name*/''/**KISP.name}*/,
 
         /**
-        * 版本号。 (由 grunt 自动插入)
+        * 版本号。 (由 packer 自动插入)
         */
-        version: /**grunt-version-begin*/''/**grunt-version-end*/, //由 grunt 自动插入
+        version: /**{KISP.version*/''/**KISP.version}*/,
 
         /**
-        * 文件列表。 (由 grunt 自动插入)
-        * 
+        * 类型号。 (由 packer 自动插入)
+        * 值为 'debug' 或 'min'。
         */
-        files: /**grunt-files-begin*/[]/**grunt-files-end*/, //由 grunt 自动插入
+        edition: /**{KISP.edition*/''/**KISP.edition}*/,
 
         /**
-        * 获取已经定义的所有模块的描述信息。
-        * @function
+        * concat 版本的内容对应的 md5 值。 (由 packer 自动插入)
+        * 内容不包括本字段动态生成的值部分。
+        * 与生成的头部注释中的 md5 值是一致的。
         */
-        modules: Module.modules,
+        md5: /**{KISP.md5*/''/**KISP.md5}*/,
+
+        /**
+        * babel 版本号。 (由 packer 自动插入)
+        * 如果为空，则说明没有进行过 babel 转换。
+        */
+        babel: /**{KISP.babel*/''/**KISP.babel}*/,
+
+        /**
+        * KISP 对外公开可用的公共模块列表。 (由 packer 自动插入)
+        */
+        modules: /**{KISP.modules*/[]/**KISP.modules}*/,
+
 
         /**
         * 加载 KISP 框架内公开的模块。
@@ -40,29 +52,10 @@ define('KISP', function (require, module, exports) {
         *   var API = KISP.require('API');    
         */
         require: function (id) {
-            return Module.expose(id) ? require(id) : null;
+            return require(id); //暂时全部可加载。
+            //return InnerModules.expose(id) ? require(id) : null;
         },
 
-        /**
-        * 调用 KISP 框架内公开的模块的指定方法，并可传递一些参数。
-        * @param {string} id 模块的名称(id)。
-        * @param {string} name 要调用的方法名称。
-        * @param {Array} args 要传递参数列表。
-        * @return 返回方法执行后的返回结果。
-        */
-        invoke: function (id, name, args) {
-            var M = exports.require(id);
-            if (!M) {
-                throw new Error('不存在该模块或该模块为非公开模块。');
-            }
-
-            var fn = M[name];
-            if (typeof fn != 'function') {
-                throw new Error('模块 ' + id + ' 不存名为 ' + name + ' 的方法。');
-            }
-
-            return fn.apply(M, args);
-        },
 
         /**
         * 加载 KISP 框架内公开的模块，并创建它的一个实例。
@@ -75,23 +68,39 @@ define('KISP', function (require, module, exports) {
         *   var API = KISP.require('API');
         *   var api = new API({});
         */
-        create: function (id, config) {
-            var M = exports.require(id);
-
-            if (typeof M != 'function') {
-                return null;
-            }
-
-            var a = arguments;
-            var len = a.length - 1;
-
-            return len == 0 ? new M() : 
-                len == 1 ? new M(config) :
-                len == 2 ? new M(config, a[len]) :
-                len == 3 ? new M(config, a[2], a[len]) :
-                len == 4 ? new M(config, a[2], a[3], a[len]) : 
-                len == 5 ? new M(config, a[2], a[3], a[4], a[len]) : null;
+        create: function (id, ...args) {
+            var M = require(id);
+            return new M(...args);
         },
+
+
+        /**
+        * 获取或设置 KISP 内部模块的默认配置。
+        * @function
+        * @example
+        *   KISP.config({});    
+        */
+        config: InnerModules.bind('Defaults', 'config'),
+
+
+        /**
+        * 获取或设置业务层的自定义数据。
+        * 已重载 data(key); //获取指定键的数据。
+        * 已重载 data(key, value); //设置指定键的数据。
+        * 已重载 data(obj); //批量设置数据。
+        * 
+        * @param {string} key 要存储的数据的键。
+        * @param value 要存储的数据的值，可以是任何类型。
+        *   当不提供此参数时，则为 get 操作；
+        *   否则为 set 操作。
+        */
+        data: InnerModules.bind('Data', 'data'),
+
+
+        /**
+        * 设置顶级私有模块的路由。
+        */
+        route: InnerModules.bind('Router', 'set'),
 
         /**
         * 响应一个代理请求。
@@ -99,120 +108,55 @@ define('KISP', function (require, module, exports) {
         * @function
         * @example
         *   KISP.proxy({
-	            code: 200,
+                code: 200,
                 msg: 'ok',
                 data: {},
             });    
         */
-        proxy: Module.bind('Proxy', 'response'),
-
-        /**
-        * 获取或 设置 KISP 内部模块的默认配置。
-        * @function
-        * @example
-        *   KISP.config({});    
-        */
-        config: function (name, value) {
-
-            var Defaults = require('Defaults');
-            var len = arguments.length;
-
-            //get(name)
-            if (typeof name == 'string' && len == 1) { 
-                return Defaults.get(name);
-            }
-
-            //set
-            Defaults.set(name, value);
-
-        },
-
-        /**
-        * 给上层业务端提供存取配置数据的方法。
-        * 已重载成 get 和 set 两种方式。 
-        * 字符串中的 {~} 表示站头的根地址；{@} 表示使用的文件版本 debug 或 min。
-        * @param {string} name 要存储的数据的名称。
-        * @param value 要存储的数据的值，可以是任何类型。
-        *   当不提供此参数时，则为 get 操作；否则为 set 操作。
-        */
-        data: function (name, value) {
-
-            if (!cfg) { //首次使用
-                var Config = require('Config');
-                cfg = new Config();
-            }
-
-            // 重载批量设置 data({...})
-            if (typeof name == 'object') { 
-                cfg.set(name);
-                return;
-            }
-
-            //重载 data(name)
-            if (arguments.length == 1) {
-                return cfg.get(name);
-            }
-
-            cfg.set(name, value);
-
-        },
-
-        /**
-        * 弹出 alert 虚拟窗口。
-        * @param {string|Object} text 要显示的消息文本。
-            如果指定为一个对象，则先调用 JSON.string(text, null, 4) 得到字符串再进行显示。
-        */
-        alert: function (text, text1, textN, fn) {
-
-            var args = [].slice.call(arguments, 0);
-
-            var Alert = require('Alert');
-            Alert.show.apply(null, args);
-           
-        },
-
-        /**
-        * 弹出简单的 confirm 虚拟窗口。
-        * @param {string} text 要显示的消息文本。
-        * @param {function} fn 点击“确定”按钮后执行的回调函数。
-        */
-        confirm: function (text, fn) {
-            var Confirm = require('Confirm');
-            Confirm.show(text, fn);
-        },
+        //proxy: InnerModules.bind('Proxy', 'response'),
 
         /**
         * 初始化执行环境，并启动应用程序。
         * 该方法会预先定义一些公共模块，然后定义一个匿名模块并启动它。
         * @param {function} factory 工厂函数，即启动函数。
         */
-        launch: function (factory) {
+        launch: InnerModules.bind('App', 'launch'),
+      
+        /**
+        * 用 KISP 标准的方法定义一个 View 视图实例。
+        */
+        view: InnerModules.bind('View', 'define'),
 
-            var App = require('App');
-            var app = new App('');
-
-            app.launch(factory);
-
-        },
+        /**
+        * 用 KISP 标准的方法定义一个 Panel 面板实例。
+        */
+        panel: InnerModules.bind('Panel', 'define'),
 
         /**
         * 加载指定名称的包资源，并在加载完成后执行一个回调。
-        * @param {string} name 包资源的名称。
-        * @param {function} fn 加载完成后要执行的回调。
-            该回调函数会接收到一个包资源的数据对象。
+        * 或者加载总包文件。
+        * 已重载 load(done);       //加载总包文件。 此时回调函数接受到的数据结构为总包 json 文件中的结构。
+        * 已重载 load(name, done); //加载指定名称的分包资源。
         */
-        load: function (name, fn) {
-            var Package = require('Package');
-            Package.load(name, fn);
-        },
+        load: InnerModules.bind('Package', 'load'),
 
 
-        route: function (name, fn) {
-            var Router = require('Router');
-            Router.set(name, fn);
-        },
+        /**
+        * 弹出 alert 虚拟窗口。
+        * @param {string|Object} text 要显示的消息文本。
+        *   如果指定为一个对象，则先调用 JSON.string(text, null, 4) 得到字符串再进行显示。
+        * @param {function} fn 点击 `确定` 按钮后要执行的回调函数。
+        */
+        alert: InnerModules.bind('Alert', 'show'),
 
+        /**
+        * 弹出 confirm 虚拟窗口。
+        * @param {string} text 要显示的消息文本。
+        * @param {function} fnOK 点击 `确定` 按钮后要执行的回调函数。
+        * @param {function} fnCancel 点击 `取消` 按钮后要执行的回调函数。
+        */
+        confirm: InnerModules.bind('Confirm', 'show'),
         
-
     };
 });
+

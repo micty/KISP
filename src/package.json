@@ -1,0 +1,29 @@
+{
+    "name": "kisp",
+    "version": "8.0.1",
+    "description": "KISP is a fast, small, and feature-rich JavaScript library.",
+    "main": "kisp.debug.js",
+    "scripts": {
+    },
+    "keywords": [
+        "kisp",
+        "module",
+        "emitter",
+        "cmd"
+    ],
+    "author": {
+        "name": "mictydeng",
+        "email": "mictydeng@qq.com"
+    },
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/micty/KISP.git"
+    },
+    "dependencies": {
+       
+    },
+    "devDependencies": {
+
+    }
+}
