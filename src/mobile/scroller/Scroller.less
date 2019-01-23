@@ -1,0 +1,49 @@
+﻿
+.KISP.Scroller {
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+
+
+    .iScrollIndicator {
+        border: none !important;
+        width: 5px !important;
+    }
+
+    .iScrollVerticalScrollbar,
+    .iScrollLoneScrollbar {
+        width: 5px !important;
+        right: 2px !important;
+    }
+
+    .Scroller-Pulldown-Indicator {
+        position: absolute;
+        height: 26px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        font-size: 14px;
+        z-index: 1025;
+       
+    }
+
+    .Scroller-Pullup-Indicator {
+        position: absolute;
+        height: 26px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        font-size: 14px;
+        z-index: 1025;
+    }
+}

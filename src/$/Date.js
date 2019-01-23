@@ -47,7 +47,7 @@ define('Date', function (require, module, exports) {
     }
 
 
-    module.exports = exports = /**@lends Date */ {
+    return exports = /**@lends Date */ {
 
         /**
         * 把参数 value 解析成等价的日期时间实例。
@@ -399,11 +399,16 @@ define('Date', function (require, module, exports) {
 
         /**
         * 转换成最常用的字符串格式 `yyyy-MM-dd HH:mm:ss`。
-        * 如 `2018-04-16 09:26:59`
+        * 如 `2018-04-16 09:26:59`。
+        * 已重载 stringify();          //获取当前时间的字符串格式。
+        * 已重载 stringify(datetime);  //获取指定时间的字符串格式。
         */
         stringify: function (datetime) {
+            datetime = datetime || new Date();
+
             return exports.format(datetime, 'yyyy-MM-dd HH:mm:ss');
         },
+      
     };
 
 });

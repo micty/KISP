@@ -9,7 +9,7 @@ define('Hash', function (require, module, exports) {
 
 
 
-    return /**@lends Hash */ {
+    return exports = /**@lends Hash */ {
 
         /**
         * 获取指定 url 的 hash 中指定的键所对应的值。
@@ -176,7 +176,7 @@ define('Hash', function (require, module, exports) {
             }
 
 
-            var obj = module.exports.get(url); //获取全部 hash 字符串的 Object 形式
+            var obj = exports.get(url); //获取全部 hash 字符串的 Object 形式
 
             if (!obj) {
                 return false;
@@ -237,7 +237,7 @@ define('Hash', function (require, module, exports) {
             }
 
 
-            var hash = module.exports.get(window, '');
+            var hash = exports.get(window, '');
 
 
             //指定了要立即触发，则立即触发。
@@ -249,7 +249,7 @@ define('Hash', function (require, module, exports) {
             $(window).on('hashchange', function () {
                 var old = hash;
 
-                hash = module.exports.get(window, '');
+                hash = exports.get(window, '');
                 fn && fn(hash, old, false);
             });
           

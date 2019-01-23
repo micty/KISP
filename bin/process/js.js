@@ -50,7 +50,7 @@ module.exports = function (require, packer) {
     * 只保留特定标记内的代码，其它的全删除。
     */
     function processCodes(content) {
-        var regexp = /\/\/<for:[\s\S]*?>/g;
+        var regexp = /\/\/<for:[\s\S]*?---->/g;
         var tags = content.match(regexp);
 
         if (!tags) {
@@ -60,22 +60,22 @@ module.exports = function (require, packer) {
 
         //去重
         tags = new Set(tags);
-        tags = Array.from(tags); //如 tags = [ '//<for:mobile>', '//<for:pc>' ];
+        tags = Array.from(tags); //如 tags = [ '//<for:mobile---->', '//<for:pc---->' ];
 
 
         console.log(tags);
 
         tags.forEach(function (tag) {
-            //如从 `//<for:mobile>` 提取出 `mobile`。
-            var name = tag.replace('//<for:', '').replace('>', '');
+            //如从 `//<for:mobile---->` 提取出 `mobile`。
+            var name = tag.replace('//<for:', '').replace('---->', '');
 
             if (name == options.name) {
                 return;
             }
 
 
-            var begin = '//<for:' + name + '>'; //如  `//<for:mobile>`
-            var end = '//</for:' + name + '>';  //如  `//</for:mobile>`
+            var begin = `//<for:${name}---->`; //如  `//<for:mobile---->`
+            var end = `//<----for:${name}>`;  //如  `//<----for:mobile>`
 
 
             while (

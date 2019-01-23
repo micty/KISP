@@ -6,7 +6,7 @@
 */
 define('Math', function (require, module, exports) {
 
-    module.exports = exports = /**@lends Math*/ {
+    return exports = /**@lends Math*/ {
 
         /**
         * 产生指定闭区间的随机整数。

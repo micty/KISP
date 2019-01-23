@@ -22,14 +22,22 @@ module.exports = function (require, packer) {
 
 
         //查找第一个大写字母开头的词组。
-        var index = parts.findIndex(function (id, index) {
+        parts = parts.filter(function (id) {
             return (/^[A-Z]$/g).test(id[0]);
         });
 
-        var id = parts.slice(index).join('/');  //如 `Loading/Sample/iOS.html`。
+
+        console.log(parts);
+        var id = parts.join('/');  //如 `Loading/Sample/IOS.html`。
         var ext = Path.ext(id);                 //如 `.html`。
 
         id = id.slice(0, 0 - ext.length);       //去掉后缀，如 `Loading/Sample/iOS`。
+
+        if (!id) {
+            console.log('从 html 文件名解析出来的模块名为空:'.bgRed);
+            console.log(file.red);
+            throw new Error();
+        }
 
         console.log('生成 js 模块:'.bgCyan, id.cyan);
         modules.push(id);

@@ -1,0 +1,407 @@
+
+2019-01-19 12:26:17
+删除目录: ../build/mobile/8.1.0/
+写入 ../build/mobile/8.1.0/src/$/Array.js
+写入 ../build/mobile/8.1.0/src/$/Date.js
+写入 ../build/mobile/8.1.0/src/$/Emitter.js
+写入 ../build/mobile/8.1.0/src/$/Escape.js
+写入 ../build/mobile/8.1.0/src/$/Fn.js
+写入 ../build/mobile/8.1.0/src/$/Hash.js
+写入 ../build/mobile/8.1.0/src/$/JSON.js
+写入 ../build/mobile/8.1.0/src/$/Math.js
+写入 ../build/mobile/8.1.0/src/$/Object.js
+写入 ../build/mobile/8.1.0/src/$/Query.js
+写入 ../build/mobile/8.1.0/src/$/Script.js
+写入 ../build/mobile/8.1.0/src/$/String.js
+写入 ../build/mobile/8.1.0/src/$/StyleSheet.js
+写入 ../build/mobile/8.1.0/src/$/Tasks.js
+写入 ../build/mobile/8.1.0/src/$/Tree.js
+写入 ../build/mobile/8.1.0/src/api/API/Ajax.js
+写入 ../build/mobile/8.1.0/src/api/Proxy/Url.js
+写入 ../build/mobile/8.1.0/src/api/SSH/Server/Config.js
+写入 ../build/mobile/8.1.0/src/api/SSH/Ajax.js
+写入 ../build/mobile/8.1.0/src/api/SSH/Server.js
+写入 ../build/mobile/8.1.0/src/api/SSH.API/Ajax.js
+写入 ../build/mobile/8.1.0/src/api/API.js
+写入 ../build/mobile/8.1.0/src/api/Proxy.js
+写入 ../build/mobile/8.1.0/src/api/SSH.API.js
+写入 ../build/mobile/8.1.0/src/api/SSH.js
+写入 ../build/mobile/8.1.0/src/base/InnerModules.js
+写入 ../build/mobile/8.1.0/src/base/Module.js
+写入 ../build/mobile/8.1.0/src/base/ModuleManager.js
+写入 ../build/mobile/8.1.0/src/browser/app/App/Navigator/Views.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/mobile/8.1.0/src/browser/app/App/Navigator.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/mobile/8.1.0/src/browser/app/App.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Back.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Hash.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Meta.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Router.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator.js
+写入 ../build/mobile/8.1.0/src/browser/package/Package/All.js
+写入 ../build/mobile/8.1.0/src/browser/package/Package/Loader.js
+写入 ../build/mobile/8.1.0/src/browser/package/Package.js
+写入 ../build/mobile/8.1.0/src/browser/storage/LocalStorage.js
+写入 ../build/mobile/8.1.0/src/browser/storage/SessionStorage.js
+写入 ../build/mobile/8.1.0/src/browser/storage/Storage.js
+写入 ../build/mobile/8.1.0/src/browser/transition/TransitionEnd/Data.js
+写入 ../build/mobile/8.1.0/src/browser/transition/TransitionEnd/EventName.js
+写入 ../build/mobile/8.1.0/src/browser/transition/TransitionEnd.js
+写入 ../build/mobile/8.1.0/src/browser/Router.js
+写入 ../build/mobile/8.1.0/src/browser/Url.js
+写入 ../build/mobile/8.1.0/src/core/Config.js
+写入 ../build/mobile/8.1.0/src/core/Data.js
+写入 ../build/mobile/8.1.0/src/core/Defaults.js
+写入 ../build/mobile/8.1.0/src/core/KISP.js
+写入 ../build/mobile/8.1.0/src/core/Mapper.js
+写入 ../build/mobile/8.1.0/src/core/OuterModule.js
+写入 ../build/mobile/8.1.0/src/core/RandomId.js
+写入 ../build/mobile/8.1.0/src/core/Session.js
+写入 ../build/mobile/8.1.0/src/core/Style.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/Alert.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/App.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/Confirm.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/Dialog.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/Mask.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/Tabs.js
+写入 ../build/mobile/8.1.0/src/data/config/mobile/View.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/Alert.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/App.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/Dialog.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/Mask.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/Tabs.js
+写入 ../build/mobile/8.1.0/src/data/config/pc/View.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/SSH/Server/Config.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/SSH/Server.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/API.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/Proxy.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/SSH.API.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/api/SSH.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Alert.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/App.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Confirm.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Dialog.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Loading.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/LocalStorage.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Mask.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Navigator.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/OuterModule.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Package.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Panel.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Session.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/SessionStorage.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Tabs.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Toast.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/Url.js
+写入 ../build/mobile/8.1.0/src/data/defaults/common/View.js
+写入 ../build/mobile/8.1.0/src/data/defaults/mobile/Scroller.js
+写入 ../build/mobile/8.1.0/src/data/defaults/mobile/ViewSlider.js
+写入 ../build/mobile/8.1.0/src/f/iscroll/iscroll-probe.mod.debug.js
+写入 ../build/mobile/8.1.0/src/f/iscroll/iscroll-probe.mod.min.js
+写入 ../build/mobile/8.1.0/src/f/jquery/jquery-3.3.1.debug.js
+写入 ../build/mobile/8.1.0/src/f/jquery/jquery-3.3.1.min.js
+写入 ../build/mobile/8.1.0/src/lib/$.js
+写入 ../build/mobile/8.1.0/src/lib/IScroll.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Loading.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Loading.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/IScroll.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/Meta.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/Puller.js
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/Gradient.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/Touch.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/TransitionEnd.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Jump.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide.js
+写入 ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider.js
+写入 ../build/mobile/8.1.0/src/mobile/Touch.js
+写入 ../build/mobile/8.1.0/src/partial/begin.js
+写入 ../build/mobile/8.1.0/src/partial/end.js
+写入 ../build/mobile/8.1.0/src/third/CircularJSON.js
+写入 ../build/mobile/8.1.0/src/third/HTMLParser.js
+写入 ../build/mobile/8.1.0/src/third/MD5.js
+写入 ../build/mobile/8.1.0/src/ui/alert/Alert/Dialog/Height.js
+写入 ../build/mobile/8.1.0/src/ui/alert/Alert/Dialog.js
+写入 ../build/mobile/8.1.0/src/ui/alert/Alert.js
+写入 ../build/mobile/8.1.0/src/ui/confirm/Confirm.js
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Events.js
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Masker.js
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Style.js
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Template.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Masker.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Presettings.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Sample.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Style.js
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading.js
+写入 ../build/mobile/8.1.0/src/ui/mask/Mask/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/mask/Mask/Style.js
+写入 ../build/mobile/8.1.0/src/ui/mask/Mask.js
+写入 ../build/mobile/8.1.0/src/ui/panel/Panel/Container.js
+写入 ../build/mobile/8.1.0/src/ui/panel/Panel/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/panel/Panel.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/mobile/8.1.0/src/ui/tabs/Tabs/Events.js
+写入 ../build/mobile/8.1.0/src/ui/tabs/Tabs/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/tabs/Tabs.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template/Parser/Templates.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template/Child.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template/Parser.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template/Sample.js
+写入 ../build/mobile/8.1.0/src/ui/template/Template.js
+写入 ../build/mobile/8.1.0/src/ui/toast/Toast/Masker.js
+写入 ../build/mobile/8.1.0/src/ui/toast/Toast/Meta.js
+写入 ../build/mobile/8.1.0/src/ui/toast/Toast/Style.js
+写入 ../build/mobile/8.1.0/src/ui/toast/Toast.js
+写入 ../build/mobile/8.1.0/src/ui/view/View.js
+解析 html 文件名: ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html
+[
+    "Scroller",
+    "Pulldown",
+    "Indicator",
+    "Sample.html"
+]
+生成 js 模块: Scroller/Pulldown/Indicator/Sample
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html
+[
+    "Scroller",
+    "Pullup",
+    "Indicator",
+    "Sample.html"
+]
+生成 js 模块: Scroller/Pullup/Indicator/Sample
+写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/ui/alert/Alert/Sample.html
+[
+    "Alert",
+    "Sample.html"
+]
+生成 js 模块: Alert/Sample
+写入 ../build/mobile/8.1.0/src/ui/alert/Alert/Sample.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/ui/dialog/Dialog/Template/Sample.html
+[
+    "Dialog",
+    "Template",
+    "Sample.html"
+]
+生成 js 模块: Dialog/Template/Sample
+写入 ../build/mobile/8.1.0/src/ui/dialog/Dialog/Template/Sample.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/ui/loading/Loading/Sample/IOS.html
+[
+    "Loading",
+    "Sample",
+    "IOS.html"
+]
+生成 js 模块: Loading/Sample/IOS
+写入 ../build/mobile/8.1.0/src/ui/loading/Loading/Sample/IOS.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/ui/mask/Mask/Sample.html
+[
+    "Mask",
+    "Sample.html"
+]
+生成 js 模块: Mask/Sample
+写入 ../build/mobile/8.1.0/src/ui/mask/Mask/Sample.html.js
+解析 html 文件名: ../build/mobile/8.1.0/src/ui/toast/Toast/Sample.html
+[
+    "Toast",
+    "Sample.html"
+]
+生成 js 模块: Toast/Sample
+写入 ../build/mobile/8.1.0/src/ui/toast/Toast/Sample.html.js
+../build/mobile/8.1.0/src/core/KISP.js
+写入 ../build/mobile/8.1.0/meta/files.json
+写入 ../build/mobile/8.1.0/meta/id$mod.json
+写入 ../build/mobile/8.1.0/meta/id$file.json
+写入 ../build/mobile/8.1.0/meta/dep$ids.json
+合并 145 个文件:
+    ../build/mobile/8.1.0/src/partial/begin.js
+    ../build/mobile/8.1.0/src/base/Module.js
+    ../build/mobile/8.1.0/src/base/ModuleManager.js
+    ../build/mobile/8.1.0/src/base/InnerModules.js
+    ../build/mobile/8.1.0/src/$/Array.js
+    ../build/mobile/8.1.0/src/$/Date.js
+    ../build/mobile/8.1.0/src/$/String.js
+    ../build/mobile/8.1.0/src/$/Emitter.js
+    ../build/mobile/8.1.0/src/$/Object.js
+    ../build/mobile/8.1.0/src/$/Tree.js
+    ../build/mobile/8.1.0/src/$/Escape.js
+    ../build/mobile/8.1.0/src/$/Fn.js
+    ../build/mobile/8.1.0/src/$/Math.js
+    ../build/mobile/8.1.0/src/$/Hash.js
+    ../build/mobile/8.1.0/src/$/Query.js
+    ../build/mobile/8.1.0/src/$/JSON.js
+    ../build/mobile/8.1.0/src/$/Script.js
+    ../build/mobile/8.1.0/src/$/StyleSheet.js
+    ../build/mobile/8.1.0/src/$/Tasks.js
+    ../build/mobile/8.1.0/src/core/KISP.js
+    ../build/mobile/8.1.0/src/core/Defaults.js
+    ../build/mobile/8.1.0/src/core/Config.js
+    ../build/mobile/8.1.0/src/core/Data.js
+    ../build/mobile/8.1.0/src/browser/Router.js
+    ../build/mobile/8.1.0/src/api/Proxy.js
+    ../build/mobile/8.1.0/src/data/defaults/common/api/Proxy.js
+    ../build/mobile/8.1.0/src/browser/Url.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Url.js
+    ../build/mobile/8.1.0/src/api/Proxy/Url.js
+    ../build/mobile/8.1.0/src/browser/app/App.js
+    ../build/mobile/8.1.0/src/data/defaults/common/App.js
+    ../build/mobile/8.1.0/src/data/config/mobile/App.js
+    ../build/mobile/8.1.0/src/core/OuterModule.js
+    ../build/mobile/8.1.0/src/data/defaults/common/OuterModule.js
+    ../build/mobile/8.1.0/src/lib/$.js
+    ../build/mobile/8.1.0/src/mobile/Touch.js
+    ../build/mobile/8.1.0/src/browser/app/App/Navigator.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Navigator.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Meta.js
+    ../build/mobile/8.1.0/src/browser/storage/SessionStorage.js
+    ../build/mobile/8.1.0/src/data/defaults/common/SessionStorage.js
+    ../build/mobile/8.1.0/src/browser/storage/Storage.js
+    ../build/mobile/8.1.0/src/third/CircularJSON.js
+    ../build/mobile/8.1.0/src/browser/storage/LocalStorage.js
+    ../build/mobile/8.1.0/src/data/defaults/common/LocalStorage.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Hash.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Router.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Back.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider.js
+    ../build/mobile/8.1.0/src/data/defaults/mobile/ViewSlider.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Jump.js
+    ../build/mobile/8.1.0/src/browser/transition/TransitionEnd.js
+    ../build/mobile/8.1.0/src/browser/transition/TransitionEnd/Data.js
+    ../build/mobile/8.1.0/src/browser/transition/TransitionEnd/EventName.js
+    ../build/mobile/8.1.0/src/ui/mask/Mask.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Mask.js
+    ../build/mobile/8.1.0/src/data/config/mobile/Mask.js
+    ../build/mobile/8.1.0/src/core/Style.js
+    ../build/mobile/8.1.0/src/ui/mask/Mask/Sample.html.js
+    ../build/mobile/8.1.0/src/ui/mask/Mask/Style.js
+    ../build/mobile/8.1.0/src/ui/mask/Mask/Meta.js
+    ../build/mobile/8.1.0/src/core/RandomId.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/TransitionEnd.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/Gradient.js
+    ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Slide/Touch.js
+    ../build/mobile/8.1.0/src/browser/app/App/Navigator/Views.js
+    ../build/mobile/8.1.0/src/browser/package/Package.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Package.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Loading.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Sample.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Style.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Meta.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Masker.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Presettings.js
+    ../build/mobile/8.1.0/src/core/Session.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Session.js
+    ../build/mobile/8.1.0/src/browser/package/Package/All.js
+    ../build/mobile/8.1.0/src/browser/package/Package/Loader.js
+    ../build/mobile/8.1.0/src/ui/view/View.js
+    ../build/mobile/8.1.0/src/data/defaults/common/View.js
+    ../build/mobile/8.1.0/src/data/config/mobile/View.js
+    ../build/mobile/8.1.0/src/ui/panel/Panel.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Panel.js
+    ../build/mobile/8.1.0/src/ui/template/Template.js
+    ../build/mobile/8.1.0/src/third/HTMLParser.js
+    ../build/mobile/8.1.0/src/ui/template/Template/Meta.js
+    ../build/mobile/8.1.0/src/ui/template/Template/Parser.js
+    ../build/mobile/8.1.0/src/ui/template/Template/Parser/Templates.js
+    ../build/mobile/8.1.0/src/ui/template/Template/Sample.js
+    ../build/mobile/8.1.0/src/ui/template/Template/Child.js
+    ../build/mobile/8.1.0/src/ui/panel/Panel/Meta.js
+    ../build/mobile/8.1.0/src/ui/panel/Panel/Container.js
+    ../build/mobile/8.1.0/src/ui/alert/Alert.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Alert.js
+    ../build/mobile/8.1.0/src/data/config/mobile/Alert.js
+    ../build/mobile/8.1.0/src/ui/alert/Alert/Dialog.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Dialog.js
+    ../build/mobile/8.1.0/src/data/config/mobile/Dialog.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller.js
+    ../build/mobile/8.1.0/src/data/defaults/mobile/Scroller.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/Meta.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/IScroll.js
+    ../build/mobile/8.1.0/src/lib/IScroll.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/Puller.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Loading.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html.js
+    ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Loading.js
+    ../build/mobile/8.1.0/src/core/Mapper.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Style.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Meta.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Masker.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Events.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Template.js
+    ../build/mobile/8.1.0/src/ui/dialog/Dialog/Template/Sample.html.js
+    ../build/mobile/8.1.0/src/ui/alert/Alert/Dialog/Height.js
+    ../build/mobile/8.1.0/src/ui/alert/Alert/Sample.html.js
+    ../build/mobile/8.1.0/src/ui/confirm/Confirm.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Confirm.js
+    ../build/mobile/8.1.0/src/data/config/mobile/Confirm.js
+    ../build/mobile/8.1.0/src/api/API.js
+    ../build/mobile/8.1.0/src/data/defaults/common/api/API.js
+    ../build/mobile/8.1.0/src/api/API/Ajax.js
+    ../build/mobile/8.1.0/src/ui/tabs/Tabs.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Tabs.js
+    ../build/mobile/8.1.0/src/data/config/mobile/Tabs.js
+    ../build/mobile/8.1.0/src/ui/tabs/Tabs/Events.js
+    ../build/mobile/8.1.0/src/ui/tabs/Tabs/Meta.js
+    ../build/mobile/8.1.0/src/ui/toast/Toast.js
+    ../build/mobile/8.1.0/src/data/defaults/common/Toast.js
+    ../build/mobile/8.1.0/src/ui/toast/Toast/Sample.html.js
+    ../build/mobile/8.1.0/src/ui/toast/Toast/Style.js
+    ../build/mobile/8.1.0/src/ui/toast/Toast/Meta.js
+    ../build/mobile/8.1.0/src/ui/toast/Toast/Masker.js
+    ../build/mobile/8.1.0/src/third/MD5.js
+    ../build/mobile/8.1.0/src/ui/loading/Loading/Sample/IOS.html.js
+    ../build/mobile/8.1.0/src/partial/end.js
+写入 ../build/mobile/8.1.0/kisp.debug.js
+开始压缩 js 内容 453 KB ...
+
+2019-01-19 12:26:19
+成功压缩 js 内容 98 KB  压缩率 78.37%  耗时 1827 ms
+写入 ../build/mobile/8.1.0/kisp.min.js
+编译 less debug 版
+编译 ../build/mobile/8.1.0/src/mobile/scroller/Scroller.less
+编译 ../build/mobile/8.1.0/src/ui/alert/Alert.less
+编译 ../build/mobile/8.1.0/src/ui/confirm/Confirm.less
+编译 ../build/mobile/8.1.0/src/ui/dialog/Dialog.less
+编译 ../build/mobile/8.1.0/src/ui/loading/Loading.less
+编译 ../build/mobile/8.1.0/src/ui/mask/Mask.less
+编译 ../build/mobile/8.1.0/src/ui/toast/Toast.less
+编译 ../build/mobile/8.1.0/src/ui/view/View.less
+写入 ../build/mobile/8.1.0/kisp.debug.css
+编译 less min 版
+编译 ../build/mobile/8.1.0/src/mobile/scroller/Scroller.less
+编译 ../build/mobile/8.1.0/src/ui/alert/Alert.less
+编译 ../build/mobile/8.1.0/src/ui/confirm/Confirm.less
+编译 ../build/mobile/8.1.0/src/ui/dialog/Dialog.less
+编译 ../build/mobile/8.1.0/src/ui/loading/Loading.less
+编译 ../build/mobile/8.1.0/src/ui/mask/Mask.less
+编译 ../build/mobile/8.1.0/src/ui/toast/Toast.less
+编译 ../build/mobile/8.1.0/src/ui/view/View.less
+写入 ../build/mobile/8.1.0/kisp.min.css
+复制目录: ../build/mobile/8.1.0/src/f/jquery → ../build/mobile/8.1.0/jquery
+复制目录: ../build/mobile/8.1.0/src/f/iscroll → ../build/mobile/8.1.0/iscroll

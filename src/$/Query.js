@@ -9,7 +9,7 @@ define('Query', function (require, module, exports) {
     var $Object = require('Object');
 
 
-    module.exports = exports = /**@lends Query */ {
+    return exports = /**@lends Query */ {
 
 
         /**

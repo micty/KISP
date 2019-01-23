@@ -112,7 +112,7 @@ define('Script', function (require, module, exports) {
 
     
 
-    module.exports = exports = /**@lends Script*/ {
+    return exports = /**@lends Script*/ {
 
         /**
         * 跨浏览器动态加载 JS 文件，并在加载完成后执行指定的回调函数。

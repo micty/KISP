@@ -24,6 +24,25 @@ module.exports = function (require, packer) {
 
     });
 
+    //把 iscroll 目录复制出来。
+    packer.on('build', function () {
+        //只针对移动端。
+        if (options.name != 'mobile') {
+            return;
+        }
+
+        var opt = options.iscroll;
+        var src = opt.src;
+        var dest = opt.dest;
+
+        console.log('复制目录:', src.yellow, '→', dest.yellow);
+
+        Directory.copy(src, dest);
+
+    });
+
+
+
 
     //把 package.json 文件复制出来。
     //把 readme.md 文件复制出来。

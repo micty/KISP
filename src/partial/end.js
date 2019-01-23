@@ -1,10 +1,10 @@
 ﻿
 (function(require){
     var KISP = require('KISP');
-    var Module = require('Module');
+    var OuterModule = require('OuterModule');
 
-    global.KISP = KISP;
-    global.define = Module.define;  //这个 define 是对外的，跟内部用的 define 不是同一个。
+    global.KISP = KISP;                     //对外提供的命名空间 KISP。
+    global.define = OuterModule.define;     //这个 define 是对外的，跟内部用的 define 不是同一个。
 
 
 })(InnerModules.require);
@@ -13,7 +13,7 @@
 
 
 })(
-    window,  // 在浏览器环境中
+    window,  // 在浏览器环境中。
 
     top,
     parent,

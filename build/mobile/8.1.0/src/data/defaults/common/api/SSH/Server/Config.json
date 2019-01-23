@@ -1,0 +1,11 @@
+﻿{
+    "kisplusServerS": "http://kd.cmcloud.cn",
+    "kisplusAppsecret": "/KISWebapi/getServerUrl",
+    "kisplusApiRouter": "/Webapi/Router",
+    "ver": "1.0",
+    "fromtag": "Kingdee",
+    "AccKey": "1422862603",
+    "AccSecret": "VceMuNakxRhxnv38tt2QSUfwH2mwWnUXgSQDbyan",
+    "Debug": "false",
+    "DebugIP": "172.0.0.1"
+}

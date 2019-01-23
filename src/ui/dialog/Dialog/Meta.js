@@ -22,6 +22,7 @@ define('Dialog/Meta', function (require, module, exports) {
             var meta = {
                 'id': id,
                 'headerId': RandomId.get(prefix, 'header-', suffix),
+                'articleId': RandomId.get(prefix, 'article-', suffix),
                 'contentId': RandomId.get(prefix, 'content-', suffix),
                 'footerId': RandomId.get(prefix, 'footer-', suffix),
 

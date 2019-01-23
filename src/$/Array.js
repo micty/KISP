@@ -7,7 +7,7 @@
 define('Array', function (require, module, exports) {
 
 
-    module.exports = exports = /**@lends Array*/ {
+    return exports = /**@lends Array*/ {
 
 
         /**

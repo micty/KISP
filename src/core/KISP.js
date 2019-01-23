@@ -113,7 +113,7 @@ define('KISP', function (require, module, exports) {
                 data: {},
             });    
         */
-        //proxy: InnerModules.bind('Proxy', 'response'),
+        proxy: InnerModules.bind('Proxy', 'response'),
 
         /**
         * 初始化执行环境，并启动应用程序。

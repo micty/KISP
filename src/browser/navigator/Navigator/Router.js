@@ -8,7 +8,7 @@ define('Navigator/Router', function (require, module, exports) {
     return {
         create: function () {
 
-            var exports = {
+            var $exports = {
                 //静态映射表。
                 //优先级高于动态映射函数的。
                 view$hash: {},
@@ -27,11 +27,11 @@ define('Navigator/Router', function (require, module, exports) {
                 toHash: function (view) {
                     var hash = view;
 
-                    if (view in exports.view$hash) {
-                        hash = exports.view$hash[view];
+                    if (view in $exports.view$hash) {
+                        hash = $exports.view$hash[view];
                     }
-                    else if (typeof exports.view2hash == 'function') {
-                        hash = exports.view2hash(view);
+                    else if (typeof $exports.view2hash == 'function') {
+                        hash = $exports.view2hash(view);
                     }
 
                     hash = hash || '';
@@ -49,11 +49,11 @@ define('Navigator/Router', function (require, module, exports) {
                 toView: function (hash) {
                     var view = hash;
 
-                    if (hash in exports.hash$view) {
-                        view = exports.hash$view[hash];
+                    if (hash in $exports.hash$view) {
+                        view = $exports.hash$view[hash];
                     }
-                    else if (typeof exports.hash2view == 'function') {
-                        view = exports.hash2view(hash);
+                    else if (typeof $exports.hash2view == 'function') {
+                        view = $exports.hash2view(hash);
                     }
 
                     view = view || '';
@@ -66,7 +66,7 @@ define('Navigator/Router', function (require, module, exports) {
                 },
             };
 
-            return exports;
+            return $exports;
 
         },
     };

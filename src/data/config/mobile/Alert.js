@@ -4,6 +4,6 @@
 */
 define('Alert.config', /**@lends Alert.config*/ {
     width: '80%',
-
+    scrollable: true,
 });
 

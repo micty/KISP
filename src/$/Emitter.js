@@ -46,8 +46,8 @@ define('Emitter', function (require, module, exports) {
             emitter.on('click', function () {});
         */
         on: function (name, fn) {
-
-            //重载 on([]); 分两种情况。
+            //重载 on([]); 
+            //分两种情况。
             if (Array.isArray(name)) {
                 if (fn) { //重载 on(names, fn); 把多个事件名称绑定到同一个回调函数。
                     name.map(function (name) {
@@ -221,8 +221,6 @@ define('Emitter', function (require, module, exports) {
 
         },
 
-
-
         /**
         * 已重载。
         * 触发指定名称的事件，并可向事件处理函数传递一些参数。
@@ -236,10 +234,9 @@ define('Emitter', function (require, module, exports) {
         */
         fire: function (name, params) {
             var meta = mapper.get(this);
-            var tree = meta.tree;
-            var context = meta.context;
-            var args = Array.from(arguments);
+            var args = [...arguments];
 
+            //找到参数数组所在的位置。
             var index = args.findIndex(function (item, index) {
                 return Array.isArray(item);
             });
@@ -248,25 +245,22 @@ define('Emitter', function (require, module, exports) {
                 index = args.length;
             }
 
-            var names = args.slice(0, index);
-            var node = tree.get(names);
-            var returns = [];
+            var names = args.slice(0, index);   //参数数组之前的项，都当作事件名称。
+            var node = meta.tree.get(names);    //根据名称序列获取对应的信息节点。
 
-            if (!node) { //不存在该事件名对应的节点。
-                return returns;
+            //不存在该事件名序列对应的节点。
+            if (!node) { 
+                return [];
             }
+
 
             params = args[index] || [];
             node.count++;
 
-            node.list.forEach(function (fn, index) {
-                //让 fn 内的 this 指向 context，并收集返回值。
-                var value = fn.apply(context, params);
-                returns.push(value);
+            //依次执行回调列表的每一项，并收集返回值。
+            return node.list.map(function (fn, index) {
+                return fn.apply(meta.context, params);  //让 fn 内部的 this 指向 context，并收集返回值。
             });
-
-            return returns;
-
         },
 
         /**

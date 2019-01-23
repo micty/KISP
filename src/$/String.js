@@ -6,7 +6,53 @@
 */
 define('String', function (require, module, exports) {
 
-    module.exports = exports = /**@lends String */ {
+    //记录产生的随机串，避免意外重复。
+    var randoms = new Set();
+
+
+    return exports = /**@lends String */ {
+        /**
+        * 产生指定格式或长度的随机字符串。
+        * @param {string|int} [formater=12] 随机字符串的格式，或者长度（默认为12个字符）。
+            格式中的每个随机字符用 'x' 来占位，如 'xxxx-1x2x-xx'
+        * @return {string} 返回一个指定长度的随机字符串。
+        * @example
+            $String.random();      //返回一个 12 位的随机字符串
+            $String.random(64);    //返回一个 64 位的随机字符串
+            $String.random('xxxx-你好xx-xx'); //类似 'A3EA-你好B4-DC'
+        */
+        random: function (formater) {
+            if (formater === undefined) {
+                formater = 12;
+            }
+
+            //如果传入的是数字，则生成一个指定长度的格式字符串 'xxxxx...'
+            if (typeof formater == 'number') {
+                var size = formater + 1;
+                if (size < 0) {
+                    size = 0;
+                }
+                formater = [];
+                formater.length = size;
+                formater = formater.join('x');
+            }
+
+            var value = formater.replace(/x/g, function (c) {
+                var r = Math.random() * 16 | 0;
+                return r.toString(16);
+
+            }).toUpperCase();
+
+            //已存在，换一个。
+            if (randoms.has(value)) {
+                value = exports.random(formater);
+            }
+            else {
+                randoms.add(value);
+            }
+
+            return value;
+        },
 
         /**
         * 用指定的值去填充一个字符串。
@@ -194,37 +240,7 @@ define('String', function (require, module, exports) {
             return string.substr(startIndex, endIndex - startIndex);
         },
 
-        /**
-        * 产生指定格式或长度的随机字符串。
-        * @param {string|int} [formater=12] 随机字符串的格式，或者长度（默认为12个字符）。
-            格式中的每个随机字符用 'x' 来占位，如 'xxxx-1x2x-xx'
-        * @return {string} 返回一个指定长度的随机字符串。
-        * @example
-            $String.random();      //返回一个 12 位的随机字符串
-            $String.random(64);    //返回一个 64 位的随机字符串
-            $String.random('xxxx-你好xx-xx'); //类似 'A3EA-你好B4-DC'
-        */
-        random: function (formater) {
-            if (formater === undefined) {
-                formater = 12;
-            }
 
-            //如果传入的是数字，则生成一个指定长度的格式字符串 'xxxxx...'
-            if (typeof formater == 'number') {
-                var size = formater + 1;
-                if (size < 0) {
-                    size = 0;
-                }
-                formater = [];
-                formater.length = size;
-                formater = formater.join('x');
-            }
-
-            return formater.replace(/x/g, function (c) {
-                var r = Math.random() * 16 | 0;
-                return r.toString(16);
-            }).toUpperCase();
-        },
 
 
         //---------------转换部分 -----------------------------------------------------

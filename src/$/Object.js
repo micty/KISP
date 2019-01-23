@@ -6,9 +6,7 @@
 */
 define('Object', function (require, module, exports) {
 
-
-
-    module.exports = exports = /**@lends Object */ {
+    return exports = /**@lends Object */ {
 
         extend: Object.assign,
 

@@ -2,7 +2,7 @@
 
 
 module.exports = {
-    name: 'pc',
+    name: '',
     version: '',
 
     home: '../build/{name}/{version}/',
@@ -123,6 +123,11 @@ module.exports = {
     jquery: {
         src: '{src}f/jquery',
         dest: '{home}jquery',
+    },
+
+    iscroll: {
+        src: '{src}f/iscroll',
+        dest: '{home}iscroll',
     },
 
 };
