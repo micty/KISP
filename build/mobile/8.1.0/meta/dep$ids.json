@@ -9,8 +9,10 @@
         "App",
         "Navigator/Back",
         "Navigator/Hash",
+        "Navigator/Infos",
         "Navigator/Meta",
         "Navigator/Router",
+        "Navigator/Storage",
         "Navigator",
         "TransitionEnd",
         "Url",
@@ -168,17 +170,18 @@
     "SessionStorage": [
         "SSH/Server/Config",
         "SSH/Server",
-        "Navigator/Meta"
+        "Navigator/Storage"
     ],
     "LocalStorage": [
         "SSH/Server/Config",
         "SSH/Server",
-        "Navigator/Meta"
+        "Navigator/Storage"
     ],
     "Date": [
         "SSH/Ajax",
         "SSH/Server",
         "Navigator/Hash",
+        "Navigator/Infos",
         "Navigator/Meta"
     ],
     "MD5": [
@@ -264,8 +267,10 @@
         "App",
         "Navigator/Back",
         "Navigator/Hash",
+        "Navigator/Infos",
         "Navigator/Meta",
         "Navigator/Router",
+        "Navigator/Storage",
         "Package/All",
         "Package",
         "TransitionEnd",
@@ -297,16 +302,22 @@
     "Hash": [
         "Navigator/Hash"
     ],
+    "Navigator/Back": [
+        "Navigator"
+    ],
     "Navigator/Meta": [
         "Navigator"
     ],
     "Navigator/Hash": [
         "Navigator"
     ],
+    "Navigator/Infos": [
+        "Navigator"
+    ],
     "Navigator/Router": [
         "Navigator"
     ],
-    "Navigator/Back": [
+    "Navigator/Storage": [
         "Navigator"
     ],
     "Session": [

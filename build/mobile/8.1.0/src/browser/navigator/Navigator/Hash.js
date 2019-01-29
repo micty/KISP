@@ -11,6 +11,9 @@ define('Navigator/Hash', function (require, module, exports) {
         * 
         */
         init: function (meta) {
+            var emitter = meta.emitter;
+
+
             //监听窗口 hash 的变化。
             Hash.onchange(window, true, function (hash, old, isImmediate) {
                 //
@@ -29,15 +32,14 @@ define('Navigator/Hash', function (require, module, exports) {
                 }
 
 
-
                 if (isImmediate) {
-                    meta.emitter.fire('immediate', [hash, meta.hash$info]);
+                    emitter.fire('immediate', [hash, meta.hash$info]);
                 }
 
                 //空值。
                 if (!hash) {
                     old = meta.router.toView(old);
-                    meta.emitter.fire('none', [old]);
+                    emitter.fire('none', [old]);
                     return;
                 }
 
@@ -57,7 +59,7 @@ define('Navigator/Hash', function (require, module, exports) {
                         delete target.cache;    //一次性的，用完即删。
                     }
 
-                    meta.emitter.fire('view', [target.view, target.args, {
+                    emitter.fire('view', [target.view, target.args, {
                         'target': target,
                         'current': current,
                         'cache': cache,
@@ -66,7 +68,7 @@ define('Navigator/Hash', function (require, module, exports) {
                     if (current) {
                         var direction = target.timestamp > current.timestamp ? 'forward' : 'back';
 
-                        meta.emitter.fire(direction, [current.view, target.view]);
+                        emitter.fire(direction, [current.view, target.view]);
                     }
                     return;
                 }
@@ -77,10 +79,10 @@ define('Navigator/Hash', function (require, module, exports) {
 
                 //说明页面一进来时，地址栏中就含有了 hash。
                 if (isImmediate) {
-                    meta.emitter.fire('start', [hash, old]);
+                    emitter.fire('start', [hash, old]);
                 }
                 else {
-                    meta.emitter.fire('404', [hash, old]);
+                    emitter.fire('404', [hash, old]);
                 }
 
             });

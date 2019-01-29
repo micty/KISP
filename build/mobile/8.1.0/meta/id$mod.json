@@ -265,14 +265,21 @@
         },
         "file": "src/browser/navigator/Navigator/Hash.js"
     },
+    "Navigator/Infos": {
+        "id": "Navigator/Infos",
+        "dep$count": {
+            "$": 1,
+            "String": 1,
+            "Date": 1
+        },
+        "file": "src/browser/navigator/Navigator/Infos.js"
+    },
     "Navigator/Meta": {
         "id": "Navigator/Meta",
         "dep$count": {
             "$": 1,
             "String": 1,
-            "Date": 1,
-            "SessionStorage": 1,
-            "LocalStorage": 1
+            "Date": 1
         },
         "file": "src/browser/navigator/Navigator/Meta.js"
     },
@@ -284,16 +291,28 @@
         },
         "file": "src/browser/navigator/Navigator/Router.js"
     },
+    "Navigator/Storage": {
+        "id": "Navigator/Storage",
+        "dep$count": {
+            "$": 1,
+            "String": 1,
+            "SessionStorage": 1,
+            "LocalStorage": 1
+        },
+        "file": "src/browser/navigator/Navigator/Storage.js"
+    },
     "Navigator": {
         "id": "Navigator",
         "dep$count": {
             "String": 1,
             "Defaults": 1,
             "Emitter": 1,
+            "Navigator/Back": 1,
             "Navigator/Meta": 1,
             "Navigator/Hash": 1,
+            "Navigator/Infos": 1,
             "Navigator/Router": 1,
-            "Navigator/Back": 1
+            "Navigator/Storage": 1
         },
         "file": "src/browser/navigator/Navigator.js"
     },

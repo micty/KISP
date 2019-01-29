@@ -2,9 +2,9 @@
 * KISP JavaScript Library
 * name: mobile 
 * version: 8.1.0
-* build time: 2019-01-19 12:26:17
-* concat md5: E090867381A6F60F77914500C83F67B7
-* source files: 145(143)
+* build time: 2019-01-29 10:49:44
+* concat md5: E6C98F843C09956060F26B4896544DA7
+* source files: 147(145)
 *    partial/begin.js
 *    base/Module.js
 *    base/ModuleManager.js
@@ -44,16 +44,18 @@
 *    browser/app/App/Navigator.js
 *    browser/navigator/Navigator.js
 *    data/defaults/common/Navigator.js
+*    browser/navigator/Navigator/Back.js
 *    browser/navigator/Navigator/Meta.js
+*    browser/navigator/Navigator/Hash.js
+*    browser/navigator/Navigator/Infos.js
+*    browser/navigator/Navigator/Router.js
+*    browser/navigator/Navigator/Storage.js
 *    browser/storage/SessionStorage.js
 *    data/defaults/common/SessionStorage.js
 *    browser/storage/Storage.js
 *    third/CircularJSON.js
 *    browser/storage/LocalStorage.js
 *    data/defaults/common/LocalStorage.js
-*    browser/navigator/Navigator/Hash.js
-*    browser/navigator/Navigator/Router.js
-*    browser/navigator/Navigator/Back.js
 *    mobile/view-slider/ViewSlider.js
 *    data/defaults/mobile/ViewSlider.js
 *    mobile/view-slider/ViewSlider/Jump.js
@@ -4672,7 +4674,7 @@ define('KISP', function (require, module, exports) {
         * 内容不包括本字段动态生成的值部分。
         * 与生成的头部注释中的 md5 值是一致的。
         */
-        md5: 'E090867381A6F60F77914500C83F67B7',
+        md5: 'E6C98F843C09956060F26B4896544DA7',
 
         /**
         * babel 版本号。 (由 packer 自动插入)
@@ -6268,10 +6270,12 @@ define('Navigator', function (require, module, exports) {
     var $String = require('String');
     var Defaults = require('Defaults');
     var Emitter = require('Emitter');
+    var Back = module.require('Back');
     var Meta = module.require('Meta');
     var Hash = module.require('Hash');
+    var Infos = module.require('Infos');
     var Router = module.require('Router');
-    var Back = module.require('Back');
+    var Storage = module.require('Storage');
 
     var mapper = new Map();
 
@@ -6294,10 +6298,13 @@ define('Navigator', function (require, module, exports) {
 
         var emitter = new Emitter(this);
         var router = Router.create();
+        var storage = Storage.create(config);
+
 
         var meta = Meta.create(config, {
             'emitter': emitter,
             'router': router,
+            'storage': storage,
             'this': this,
         });
 
@@ -6411,8 +6418,8 @@ define('Navigator', function (require, module, exports) {
 
             var meta = mapper.get(this);
             var emitter = meta.emitter;
-            var current = meta.hash$info[meta.hash]; //跳转之前，原来的 hash 对应的视图信息。
-            var target = meta.setInfo(view, args);
+            var current = meta.hash$info[meta.hash];    //跳转之前，原来的 hash 对应的视图信息。
+            var target = Infos.set(meta, view, args);   //
 
 
             //已禁用。
@@ -6495,8 +6502,8 @@ define('Navigator', function (require, module, exports) {
             var offset = Back.getOffset(meta, options.target);  //为负数。
             var fireEvent = options.fireEvent;
             var cache = options.cache;
-
             var target = this.get(offset);
+
 
             meta.fireEvent = fireEvent === undefined ? true : !!fireEvent;  //如果未指定，则为 true。
 
@@ -6520,38 +6527,7 @@ define('Navigator', function (require, module, exports) {
         */
         get: function (view) {
             var meta = mapper.get(this);
-            var hash$info = meta.hash$info;
-
-            if (typeof view == 'string') {
-                var hash = meta.router.toHash(view);
-                return hash$info[hash];
-            }
-
-
-            var offset = view;
-
-            var list = Object.keys(hash$info).map(function (hash) {
-                return hash$info[hash];
-            });
-
-            //把视图信息按时间先后进行升排序。
-            list = list.sort(function (a, b) {
-                return a.timestamp > b.timestamp ? 1 : -1;
-            });
-
-
-            if (typeof offset != 'number') {
-                return list;
-            }
-
-
-            var current = hash$info[meta.hash]; //当前 hash 对应的视图信息。
-
-            var index = list.findIndex(function (info) {
-                return info === current;
-            });
-
-            return list[index + offset];
+            return Infos.get(meta, view);
         },
 
 
@@ -6694,35 +6670,95 @@ define('Navigator.defaults', /**@lends Navigator.defaults*/ {
 
 
 
+define('Navigator/Back', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+
+
+
+    return {
+        /**
+        * 获取指定目标视图相当于当前视图的偏移量。
+        */
+        getOffset: function (meta, target) {
+            if (!target) {
+                return -1;
+            }
+
+
+            var type = typeof target;
+
+            if (type == 'number') {
+                if (target < 0) {
+                    throw new Error(`要回退的步数(参数 target) 如果指定为数字时，只能是正数。`);
+                }
+
+                return 0 - (target || 1); //确保为负数。
+            }
+
+            //此时，把 target 当作一个 string，即目标视图名称。
+
+            if (type != 'string') {
+                throw new Error(`要回退的目标视图(参数 target) 只能是 number 或 string 类型。`);
+            }
+
+
+            var info = meta.hash$info[meta.hash]; //当前视图对应的信息。
+
+            if (!info) {
+                throw new Error(`当前视图为空，无法回退。`);
+            }
+
+
+            var list = meta.this.get();
+            var current = info.view;
+            var targetIndex = -1;
+            var currentIndex = -1;
+
+            list.forEach(function (info, index) {
+                var view = info.view;
+
+                if (view == target) {
+                    targetIndex = index;
+                }
+
+                if (view == current) {
+                    currentIndex = index;
+                }
+            });
+
+
+            if (targetIndex < 0) {
+                throw new Error(`历史记录中不存在名为 ${target} 的目标视图。`);
+            }
+
+
+            var offset = targetIndex - currentIndex;
+
+            if (offset == 0) {
+                throw new Error(`要回退到的目标视图 ${target} 即为当前视图。`);
+            }
+
+            if (offset > 0) {
+                throw new Error(`要回退到的目标视图 ${target} 在当前视图的后面，应该用前进。`);
+            }
+
+
+            return offset;
+
+
+
+        },
+    };
+});
+
 define('Navigator/Meta', function (require, module, exports) {
     var $ = require('$');
     var $String = require('String');
     var $Date = require('Date');
 
-    var id$existed = {}; //根据 id 记录对应的实例是否已创建。
+    var id$existed = {}; //根据 id 记录对应的实例是否已创建。 同一个 id 共用同一个 storage 空间。
 
-
-    function createStorage(type, id) {
-        if (!type) {
-            return null;
-        }
-
-        type = type.toLowerCase();
-
-
-        //为了方便自动化工具分析模块的依赖关系，必须在 require 里使用完速的常量的模块名称，
-        //而不能使用变量或动态拼接出来的名称，如 'Session' + 'Storage'。
-        var Storage =
-            type == 'session' ? require('SessionStorage') :
-            type == 'local' ? require('LocalStorage') : null;
-
-        if (!Storage) {
-            throw new Error(`不支持的 Storage 类型: ${type}`);
-        }
-
-        return new Storage(id);
-
-    }
 
 
 
@@ -6735,14 +6771,17 @@ define('Navigator/Meta', function (require, module, exports) {
             }
 
             if (id$existed[id]) {
-                throw new Error(`已存在 id 为 ${id} 的实例。`);
+                throw new Error(`${module.parent.id} 已存在 id 为 ${id} 的实例。`);
             }
 
             id$existed[id] = true;
 
 
-            var storage = createStorage(config.storage, id);
+
+            var storage = others.storage;
             var hash$info = storage ? storage.get('hash$info') || {} : {};
+
+
 
             var meta = {
                 'id': id,                   //实例 id，由业务层传入，确保唯一。
@@ -6751,13 +6790,11 @@ define('Navigator/Meta', function (require, module, exports) {
                 'rendered': false,          //记录是否调用过 render()。 
                 'enabled': config.enabled,  //是否启用。
 
-                'storage': storage,         //持久存储实例。
                 'hash$info': hash$info,     //hash 对应的视图信息。
+                'infos': [],                //视图信息列表，按时间升排序。
                 
+                'storage': null,            //持久存储实例。
                 'emitter': null,            //事件驱动器。
-                'this': null,               //当前实例，方便内部使用。
-
-
 
                 //hash 与 view 映射转换关系。 
                 //默认不进行转换，即 hash 与 view 相同。
@@ -6765,38 +6802,350 @@ define('Navigator/Meta', function (require, module, exports) {
                 //对应的视图却是 `UserList`，则要提供自定义的映射关系。
                 'router': null,
 
-                //设置视图信息。
-                'setInfo': function (view, args) {
-                    var hash = meta.router.toHash(view);
-                    var now = new Date();
-                    var datetime = $Date.stringify(now);
-                    var timestamp = now.getTime();
-
-                    var info = meta.hash$info[hash] = { //不要用外面的那个本函数外的那个 hash$info，因为它有可能改引用了。
-                        'view': view,
-                        'hash': hash,
-                        'datetime': datetime,   //此字段仅为了方便调试和查看。
-                        'timestamp': timestamp,
-                        'args': args || [],
-                        //'cache': false, //这个值会给动态写入，并且很快删除。　这里只是占位，方便阅读。 请不要在此加入该字段。
-                    };
-
-                    if (storage) {
-                        storage.set('hash$info', meta.hash$info);
-                    }
-
-                    return info;
-                },
-
-            
-
+                'this': null,               //当前实例，方便内部使用。
 
             };
+
+
 
             Object.assign(meta, others);
 
             return meta;
 
+        },
+    };
+});
+
+define('Navigator/Hash', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+    var $Date = require('Date');
+    var Hash = require('Hash');
+
+
+    return {
+        /**
+        * 
+        */
+        init: function (meta) {
+            var emitter = meta.emitter;
+
+
+            //监听窗口 hash 的变化。
+            Hash.onchange(window, true, function (hash, old, isImmediate) {
+                //
+                meta.hash = hash;
+
+                //已禁用。
+                //此值可给动态改变，因此需要每次都判断。
+                if (!meta.enabled) {
+                    return;
+                }
+
+                //此次已临时禁用事件。
+                if (!meta.fireEvent) {
+                    meta.fireEvent = true; //恢复启用事件，供下次使用。
+                    return;
+                }
+
+
+                if (isImmediate) {
+                    emitter.fire('immediate', [hash, meta.hash$info]);
+                }
+
+                //空值。
+                if (!hash) {
+                    old = meta.router.toView(old);
+                    emitter.fire('none', [old]);
+                    return;
+                }
+
+
+                //通过点击前进/后退按钮(或调用浏览器的前进/后退接口)，
+                //或在地址栏中手动输入 hash 导致的变化。
+                //此时 hash 值肯定非空(因为如果为空，前面就已拦截了)。
+                var target = meta.hash$info[hash];   //可能为空。
+                var current = meta.hash$info[old];   //可能为空。
+                
+                if (target) {
+                    var cache = true;
+
+                    //优先用指定的。
+                    if ('cache' in target) {
+                        cache = target.cache;
+                        delete target.cache;    //一次性的，用完即删。
+                    }
+
+                    emitter.fire('view', [target.view, target.args, {
+                        'target': target,
+                        'current': current,
+                        'cache': cache,
+                    }]);
+
+                    if (current) {
+                        var direction = target.timestamp > current.timestamp ? 'forward' : 'back';
+
+                        emitter.fire(direction, [current.view, target.view]);
+                    }
+                    return;
+                }
+
+
+                hash = meta.router.toView(hash);
+                old = meta.router.toView(old);
+
+                //说明页面一进来时，地址栏中就含有了 hash。
+                if (isImmediate) {
+                    emitter.fire('start', [hash, old]);
+                }
+                else {
+                    emitter.fire('404', [hash, old]);
+                }
+
+            });
+        },
+
+        /**
+        * 
+        */
+        set: function (hash) {
+            Hash.set(window, hash);
+        },
+    };
+});
+
+define('Navigator/Infos', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+    var $Date = require('Date');
+
+
+
+    //把视图信息按时间先后进行升排序。
+    function sort(hash$info) {
+
+        var list = Object.keys(hash$info).map(function (hash) {
+            return hash$info[hash];
+        });
+
+
+        list = list.sort(function (a, b) {
+            return a.timestamp > b.timestamp ? 1 : -1;
+        });
+
+        return list;
+
+    }
+
+
+
+    return {
+        /**
+        * 设置视图信息。
+        * 会把该视图信息的时间戳更新成最新的。
+        */
+        set: function (meta, view, args) {
+            var hash = meta.router.toHash(view);
+            var hash$info = meta.hash$info;
+            var storage = meta.storage;
+
+            var now = new Date();
+            var datetime = $Date.stringify(now);
+            var timestamp = now.getTime();
+
+            var info = hash$info[hash] = {
+                'view': view,           //视图名称。
+                'hash': hash,           //视图对应的 hash 串。
+                'datetime': datetime,   //此字段仅为了方便调试和查看。
+                'timestamp': timestamp, //时间戳数值。
+                'args': args || [],     //渲染视图对应的参数列表。
+                //'cache': false,       //这个值会给动态写入，并且很快删除。　这里只是占位，方便阅读。 请不要在此加入该字段。
+            };
+
+            //重新排序。
+            meta.infos = sort(hash$info);
+
+
+            if (storage) {
+                storage.set('hash$info', hash$info);
+            }
+
+
+            return info;
+
+        },
+
+        /**
+        * 获取视图信息。
+        * 已重载 get();        //获取全部视图信息，返回一个数组，按时间升序排序。
+        * 已重载 get(offset);  //获取指定偏移位置的目标视图信息，返回一个对象。
+        * 已重载 get(view);    //获取指定视图名称的目标视图信息，返回一个对象。
+        * 参数：
+        *   view: '',   //目标视图名称。
+        *   offset: 0,  //当前视图的偏移量为 0，比当前视图时间更早的，则为负数；否则为正数。
+        */
+        get: function (meta, view) {
+            var hash$info = meta.hash$info;
+
+            //此时为 get(view); 
+            //获取指定视图名称的目标视图信息，返回一个对象。
+            if (typeof view == 'string') {
+                var hash = meta.router.toHash(view);
+
+                return hash$info[hash];
+            }
+
+
+            var offset = view;
+            var list = meta.infos;
+
+            //此时为 get();
+            ///获取全部视图信息，返回一个数组，按时间升序排序。
+            if (typeof offset != 'number') {
+                return list;
+            }
+
+
+            //此时为 get(offset);
+            //获取指定偏移位置的目标视图信息，返回一个对象。
+
+            //当前 hash 对应的视图信息。
+            var current = hash$info[meta.hash];         
+
+            //当前视图信息所在的位置。
+            var index = list.findIndex(function (info) {
+                return info === current;
+            });
+
+
+            //要获取的目标视图信息。
+            var target = list[index + offset];
+
+            return target;
+
+        },
+
+    };
+});
+
+define('Navigator/Router', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+
+
+
+    return {
+        create: function () {
+
+            var $exports = {
+                //静态映射表。
+                //优先级高于动态映射函数的。
+                view$hash: {},
+                hash$view: {},
+
+                //动态映射函数。
+                //业务层可提供一个自定义的。
+                view2hash: null,
+                hash2view: null,
+
+
+                //以下两个函数内组件内部使用。
+
+                //把 view 转换成 hash。
+                //在调用 nav.to() 时进行调用的。
+                toHash: function (view) {
+                    var hash = view;
+
+                    if (view in $exports.view$hash) {
+                        hash = $exports.view$hash[view];
+                    }
+                    else if (typeof $exports.view2hash == 'function') {
+                        hash = $exports.view2hash(view);
+                    }
+
+                    hash = hash || '';
+
+                    if (typeof hash != 'string') {
+                        throw new Error('自定义的 view -> hash 的转换关系中，hash 必须为 string 类型。');
+                    }
+
+                    return hash;
+
+                },
+
+                //把 hash 转换成 view。
+                //在触发 `view` 事件时进行调用的。
+                toView: function (hash) {
+                    var view = hash;
+
+                    if (hash in $exports.hash$view) {
+                        view = $exports.hash$view[hash];
+                    }
+                    else if (typeof $exports.hash2view == 'function') {
+                        view = $exports.hash2view(hash);
+                    }
+
+                    view = view || '';
+
+                    if (typeof view != 'string') {
+                        throw new Error('自定义的 hash -> view 的转换关系中，view 必须为 string 类型。');
+                    }
+
+                    return view;
+                },
+            };
+
+            return $exports;
+
+        },
+    };
+});
+
+define('Navigator/Storage', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+
+
+
+
+
+    return {
+        /**
+        * 根据配置创建一个 storage 实例。
+        *
+        *   options = {
+        *       storage: 'session',     //存储的类型，只能是 'session' 或 'local'，否则将不会提供存储功能。
+        *       id: '',                 //Navigator 实例的 id。 用于区分不同实例对应的存储空间。
+        *   };
+        */
+        create: function (options) {
+            var storage = options.storage;
+            var id = options.id;
+
+            if (!storage) {
+                return null;
+            }
+
+
+
+            storage = storage.toLowerCase();
+
+
+            //为了方便自动化工具分析模块的依赖关系，
+            //必须在 require 里使用完整的、常量的模块名称，
+            //而不能使用变量或动态拼接出来的名称，如 'Session' + 'Storage'。
+            var Storage =
+                storage == 'session' ? require('SessionStorage') :
+                storage == 'local' ? require('LocalStorage') : null;
+
+            if (!Storage) {
+                throw new Error(`${module.id} 不支持 Storage 类型: ${storage}，请指定为 'session' 或 'local'。 `);
+            }
+
+
+            storage = new Storage(id);
+
+            return storage;
         },
     };
 });
@@ -7429,257 +7778,6 @@ define('LocalStorage.defaults', /**@lends LocalStorage.defaults*/ {
 
 
 
-define('Navigator/Hash', function (require, module, exports) {
-    var $ = require('$');
-    var $String = require('String');
-    var $Date = require('Date');
-    var Hash = require('Hash');
-
-
-    return {
-        /**
-        * 
-        */
-        init: function (meta) {
-            //监听窗口 hash 的变化。
-            Hash.onchange(window, true, function (hash, old, isImmediate) {
-                //
-                meta.hash = hash;
-
-                //已禁用。
-                //此值可给动态改变，因此需要每次都判断。
-                if (!meta.enabled) {
-                    return;
-                }
-
-                //此次已临时禁用事件。
-                if (!meta.fireEvent) {
-                    meta.fireEvent = true; //恢复启用事件，供下次使用。
-                    return;
-                }
-
-
-
-                if (isImmediate) {
-                    meta.emitter.fire('immediate', [hash, meta.hash$info]);
-                }
-
-                //空值。
-                if (!hash) {
-                    old = meta.router.toView(old);
-                    meta.emitter.fire('none', [old]);
-                    return;
-                }
-
-
-                //通过点击前进/后退按钮(或调用浏览器的前进/后退接口)，
-                //或在地址栏中手动输入 hash 导致的变化。
-                //此时 hash 值肯定非空(因为如果为空，前面就已拦截了)。
-                var target = meta.hash$info[hash];   //可能为空。
-                var current = meta.hash$info[old];   //可能为空。
-                
-                if (target) {
-                    var cache = true;
-
-                    //优先用指定的。
-                    if ('cache' in target) {
-                        cache = target.cache;
-                        delete target.cache;    //一次性的，用完即删。
-                    }
-
-                    meta.emitter.fire('view', [target.view, target.args, {
-                        'target': target,
-                        'current': current,
-                        'cache': cache,
-                    }]);
-
-                    if (current) {
-                        var direction = target.timestamp > current.timestamp ? 'forward' : 'back';
-
-                        meta.emitter.fire(direction, [current.view, target.view]);
-                    }
-                    return;
-                }
-
-
-                hash = meta.router.toView(hash);
-                old = meta.router.toView(old);
-
-                //说明页面一进来时，地址栏中就含有了 hash。
-                if (isImmediate) {
-                    meta.emitter.fire('start', [hash, old]);
-                }
-                else {
-                    meta.emitter.fire('404', [hash, old]);
-                }
-
-            });
-        },
-
-        /**
-        * 
-        */
-        set: function (hash) {
-            Hash.set(window, hash);
-        },
-    };
-});
-
-define('Navigator/Router', function (require, module, exports) {
-    var $ = require('$');
-    var $String = require('String');
-
-
-
-    return {
-        create: function () {
-
-            var $exports = {
-                //静态映射表。
-                //优先级高于动态映射函数的。
-                view$hash: {},
-                hash$view: {},
-
-                //动态映射函数。
-                //业务层可提供一个自定义的。
-                view2hash: null,
-                hash2view: null,
-
-
-                //以下两个函数内组件内部使用。
-
-                //把 view 转换成 hash。
-                //在调用 nav.to() 时进行调用的。
-                toHash: function (view) {
-                    var hash = view;
-
-                    if (view in $exports.view$hash) {
-                        hash = $exports.view$hash[view];
-                    }
-                    else if (typeof $exports.view2hash == 'function') {
-                        hash = $exports.view2hash(view);
-                    }
-
-                    hash = hash || '';
-
-                    if (typeof hash != 'string') {
-                        throw new Error('自定义的 view -> hash 的转换关系中，hash 必须为 string 类型。');
-                    }
-
-                    return hash;
-
-                },
-
-                //把 hash 转换成 view。
-                //在触发 `view` 事件时进行调用的。
-                toView: function (hash) {
-                    var view = hash;
-
-                    if (hash in $exports.hash$view) {
-                        view = $exports.hash$view[hash];
-                    }
-                    else if (typeof $exports.hash2view == 'function') {
-                        view = $exports.hash2view(hash);
-                    }
-
-                    view = view || '';
-
-                    if (typeof view != 'string') {
-                        throw new Error('自定义的 hash -> view 的转换关系中，view 必须为 string 类型。');
-                    }
-
-                    return view;
-                },
-            };
-
-            return $exports;
-
-        },
-    };
-});
-
-define('Navigator/Back', function (require, module, exports) {
-    var $ = require('$');
-    var $String = require('String');
-
-
-
-    return {
-        /**
-        * 获取指定目标视图相当于当前视图的偏移量。
-        */
-        getOffset: function (meta, target) {
-            if (!target) {
-                return -1;
-            }
-
-
-            var type = typeof target;
-
-            if (type == 'number') {
-                if (target < 0) {
-                    throw new Error(`要回退的步数(参数 target) 如果指定为数字时，只能是正数。`);
-                }
-
-                return 0 - (target || 1); //确保为负数。
-            }
-
-            //此时，把 target 当作一个 string，即目标视图名称。
-
-            if (type != 'string') {
-                throw new Error(`要回退的目标视图(参数 target) 只能是 number 或 string 类型。`);
-            }
-
-
-            var info = meta.hash$info[meta.hash]; //当前视图对应的信息。
-
-            if (!info) {
-                throw new Error(`当前视图为空，无法回退。`);
-            }
-
-
-            var list = meta.this.get();
-            var current = info.view;
-            var targetIndex = -1;
-            var currentIndex = -1;
-
-            list.forEach(function (info, index) {
-                var view = info.view;
-
-                if (view == target) {
-                    targetIndex = index;
-                }
-
-                if (view == current) {
-                    currentIndex = index;
-                }
-            });
-
-
-            if (targetIndex < 0) {
-                throw new Error(`历史记录中不存在名为 ${target} 的目标视图。`);
-            }
-
-
-            var offset = targetIndex - currentIndex;
-
-            if (offset == 0) {
-                throw new Error(`要回退到的目标视图 ${target} 即为当前视图。`);
-            }
-
-            if (offset > 0) {
-                throw new Error(`要回退到的目标视图 ${target} 在当前视图的后面，应该用前进。`);
-            }
-
-
-            return offset;
-
-
-
-        },
-    };
-});
-
 /**
 * 实现两个视图间跳转的滑动效果和手势滑动返回。
 */
@@ -7770,6 +7868,7 @@ define('ViewSlider/Jump', function (require, module, exports) {
     });
 
 
+
     function normalize(options) {
         var defaults = Defaults.clone(module.parent.id, options);
         var leftPercent = -defaults.left * 100 + '%';
@@ -7805,6 +7904,8 @@ define('ViewSlider/Jump', function (require, module, exports) {
     return {
         /**
         * 开始两个视图间的后退动画。
+        * 两个视图都从左向向滑动到右边。
+        * 初始时，current 视图在屏幕中全部显示； target 视图隐藏在最左边(约 -60% 的位置)。
         * 已重载 back(current, target);        //使用默认配置的动画版。
         * 已重载 back(current, target, {});    //使用指定配置的动画版。
         * 已重载 back(current, target, false); //禁用动画版。
@@ -7842,10 +7943,11 @@ define('ViewSlider/Jump', function (require, module, exports) {
             // target(1)
             zIndex(target, current);
 
-
+            //先把目标视图移到最左端。
             target.$.css({
-                'transform': `translateX(${leftPercent})`,
-                'transition': 'none',
+                'transform': `translateX(${leftPercent})`,  //如 `translateX(-60%)`。
+                'transition': 'none',                       //准备工作阶段，先暂时关闭动画。
+                '-webkit-transition': 'none',               //兼容低版本的。
             });
 
             target.show();  //这里要触发 show 事件
@@ -7914,7 +8016,12 @@ define('ViewSlider/Jump', function (require, module, exports) {
 
 
             //先把目标视图移到最右端。
-            target.$.css({ 'transform': 'translateX(100%)', });
+            target.$.css({
+                'transform': 'translateX(100%)',
+                'transition': 'none',               //准备工作阶段，先暂时关闭动画。
+                '-webkit-transition': 'none',       //兼容低版本的。
+            });
+
             target.$.show();
 
             masker.show();

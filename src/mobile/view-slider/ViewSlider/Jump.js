@@ -14,6 +14,7 @@ define('ViewSlider/Jump', function (require, module, exports) {
     });
 
 
+
     function normalize(options) {
         var defaults = Defaults.clone(module.parent.id, options);
         var leftPercent = -defaults.left * 100 + '%';
@@ -49,6 +50,8 @@ define('ViewSlider/Jump', function (require, module, exports) {
     return {
         /**
         * 开始两个视图间的后退动画。
+        * 两个视图都从左向向滑动到右边。
+        * 初始时，current 视图在屏幕中全部显示； target 视图隐藏在最左边(约 -60% 的位置)。
         * 已重载 back(current, target);        //使用默认配置的动画版。
         * 已重载 back(current, target, {});    //使用指定配置的动画版。
         * 已重载 back(current, target, false); //禁用动画版。
@@ -86,10 +89,11 @@ define('ViewSlider/Jump', function (require, module, exports) {
             // target(1)
             zIndex(target, current);
 
-
+            //先把目标视图移到最左端。
             target.$.css({
-                'transform': `translateX(${leftPercent})`,
-                'transition': 'none',
+                'transform': `translateX(${leftPercent})`,  //如 `translateX(-60%)`。
+                'transition': 'none',                       //准备工作阶段，先暂时关闭动画。
+                '-webkit-transition': 'none',               //兼容低版本的。
             });
 
             target.show();  //这里要触发 show 事件
@@ -158,7 +162,12 @@ define('ViewSlider/Jump', function (require, module, exports) {
 
 
             //先把目标视图移到最右端。
-            target.$.css({ 'transform': 'translateX(100%)', });
+            target.$.css({
+                'transform': 'translateX(100%)',
+                'transition': 'none',               //准备工作阶段，先暂时关闭动画。
+                '-webkit-transition': 'none',       //兼容低版本的。
+            });
+
             target.$.show();
 
             masker.show();

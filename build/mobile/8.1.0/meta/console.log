@@ -1,6 +1,8 @@
 
-2019-01-19 12:26:17
+2019-01-29 10:49:41
 删除目录: ../build/mobile/8.1.0/
+
+2019-01-29 10:49:43
 写入 ../build/mobile/8.1.0/src/$/Array.js
 写入 ../build/mobile/8.1.0/src/$/Date.js
 写入 ../build/mobile/8.1.0/src/$/Emitter.js
@@ -40,8 +42,10 @@
 写入 ../build/mobile/8.1.0/src/browser/app/App.js
 写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Back.js
 写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Hash.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Infos.js
 写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Meta.js
 写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Router.js
+写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator/Storage.js
 写入 ../build/mobile/8.1.0/src/browser/navigator/Navigator.js
 写入 ../build/mobile/8.1.0/src/browser/package/Package/All.js
 写入 ../build/mobile/8.1.0/src/browser/package/Package/Loader.js
@@ -110,6 +114,8 @@
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator.js
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Loading.js
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pulldown/Pulldown.js
+
+2019-01-29 10:49:44
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator.js
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup/Loading.js
 写入 ../build/mobile/8.1.0/src/mobile/scroller/Scroller/pullup/Pullup.js
@@ -231,7 +237,7 @@
 写入 ../build/mobile/8.1.0/meta/id$mod.json
 写入 ../build/mobile/8.1.0/meta/id$file.json
 写入 ../build/mobile/8.1.0/meta/dep$ids.json
-合并 145 个文件:
+合并 147 个文件:
     ../build/mobile/8.1.0/src/partial/begin.js
     ../build/mobile/8.1.0/src/base/Module.js
     ../build/mobile/8.1.0/src/base/ModuleManager.js
@@ -271,16 +277,18 @@
     ../build/mobile/8.1.0/src/browser/app/App/Navigator.js
     ../build/mobile/8.1.0/src/browser/navigator/Navigator.js
     ../build/mobile/8.1.0/src/data/defaults/common/Navigator.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Back.js
     ../build/mobile/8.1.0/src/browser/navigator/Navigator/Meta.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Hash.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Infos.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Router.js
+    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Storage.js
     ../build/mobile/8.1.0/src/browser/storage/SessionStorage.js
     ../build/mobile/8.1.0/src/data/defaults/common/SessionStorage.js
     ../build/mobile/8.1.0/src/browser/storage/Storage.js
     ../build/mobile/8.1.0/src/third/CircularJSON.js
     ../build/mobile/8.1.0/src/browser/storage/LocalStorage.js
     ../build/mobile/8.1.0/src/data/defaults/common/LocalStorage.js
-    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Hash.js
-    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Router.js
-    ../build/mobile/8.1.0/src/browser/navigator/Navigator/Back.js
     ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider.js
     ../build/mobile/8.1.0/src/data/defaults/mobile/ViewSlider.js
     ../build/mobile/8.1.0/src/mobile/view-slider/ViewSlider/Jump.js
@@ -378,11 +386,13 @@
     ../build/mobile/8.1.0/src/ui/loading/Loading/Sample/IOS.html.js
     ../build/mobile/8.1.0/src/partial/end.js
 写入 ../build/mobile/8.1.0/kisp.debug.js
-开始压缩 js 内容 453 KB ...
+开始压缩 js 内容 456 KB ...
 
-2019-01-19 12:26:19
-成功压缩 js 内容 98 KB  压缩率 78.37%  耗时 1827 ms
+2019-01-29 10:49:47
+成功压缩 js 内容 99 KB  压缩率 78.29%  耗时 3392 ms
 写入 ../build/mobile/8.1.0/kisp.min.js
+
+2019-01-29 10:49:48
 编译 less debug 版
 编译 ../build/mobile/8.1.0/src/mobile/scroller/Scroller.less
 编译 ../build/mobile/8.1.0/src/ui/alert/Alert.less

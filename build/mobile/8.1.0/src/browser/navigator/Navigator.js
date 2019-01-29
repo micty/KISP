@@ -8,10 +8,12 @@ define('Navigator', function (require, module, exports) {
     var $String = require('String');
     var Defaults = require('Defaults');
     var Emitter = require('Emitter');
+    var Back = module.require('Back');
     var Meta = module.require('Meta');
     var Hash = module.require('Hash');
+    var Infos = module.require('Infos');
     var Router = module.require('Router');
-    var Back = module.require('Back');
+    var Storage = module.require('Storage');
 
     var mapper = new Map();
 
@@ -34,10 +36,13 @@ define('Navigator', function (require, module, exports) {
 
         var emitter = new Emitter(this);
         var router = Router.create();
+        var storage = Storage.create(config);
+
 
         var meta = Meta.create(config, {
             'emitter': emitter,
             'router': router,
+            'storage': storage,
             'this': this,
         });
 
@@ -151,8 +156,8 @@ define('Navigator', function (require, module, exports) {
 
             var meta = mapper.get(this);
             var emitter = meta.emitter;
-            var current = meta.hash$info[meta.hash]; //跳转之前，原来的 hash 对应的视图信息。
-            var target = meta.setInfo(view, args);
+            var current = meta.hash$info[meta.hash];    //跳转之前，原来的 hash 对应的视图信息。
+            var target = Infos.set(meta, view, args);   //
 
 
             //已禁用。
@@ -235,8 +240,8 @@ define('Navigator', function (require, module, exports) {
             var offset = Back.getOffset(meta, options.target);  //为负数。
             var fireEvent = options.fireEvent;
             var cache = options.cache;
-
             var target = this.get(offset);
+
 
             meta.fireEvent = fireEvent === undefined ? true : !!fireEvent;  //如果未指定，则为 true。
 
@@ -260,38 +265,7 @@ define('Navigator', function (require, module, exports) {
         */
         get: function (view) {
             var meta = mapper.get(this);
-            var hash$info = meta.hash$info;
-
-            if (typeof view == 'string') {
-                var hash = meta.router.toHash(view);
-                return hash$info[hash];
-            }
-
-
-            var offset = view;
-
-            var list = Object.keys(hash$info).map(function (hash) {
-                return hash$info[hash];
-            });
-
-            //把视图信息按时间先后进行升排序。
-            list = list.sort(function (a, b) {
-                return a.timestamp > b.timestamp ? 1 : -1;
-            });
-
-
-            if (typeof offset != 'number') {
-                return list;
-            }
-
-
-            var current = hash$info[meta.hash]; //当前 hash 对应的视图信息。
-
-            var index = list.findIndex(function (info) {
-                return info === current;
-            });
-
-            return list[index + offset];
+            return Infos.get(meta, view);
         },
 
 
