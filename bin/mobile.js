@@ -87,12 +87,13 @@ packer.launch(function (require, module, exports) {
         var dirs = [
             {
                 src: `${options.home}`,
-                dest: `E:/Studio/KISP/test/house-mobile/htdocs/f/kisp/`,
+                //dest: `E:/Studio/KISP/test/house-mobile/htdocs/f/kisp/`,
+                dest: `E:/Web/kis-cloud-app/htdocs/f/kisp/`,
             },
-            {
-                src: `${options.home}`,
-                dest: `E:/Web/kis-cloud-mobile/htdocs/f/kisp/`,
-            },
+            //{
+            //    src: `${options.home}`,
+            //    dest: `E:/Web/kis-cloud-mobile/htdocs/f/kisp/`,
+            //},
         ];
 
 

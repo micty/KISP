@@ -1,12 +1,12 @@
-
+ï»¿
 define('Mask/Meta', function (require, module, exports) {
     var $ = require('$');
     var $String = require('String');
     var RandomId = require('RandomId');
 
 
-    var prefix = 'KISP-Mask-';  //ÓÃÓÚÉú³É×é¼ş id µÄÇ°×º²¿·Ö¡£
-    var suffix = 4;             //ÓÃÓÚÉú³É×é¼ş id µÄËæ»ú²¿·ÖµÄ³¤¶È¡£
+    var prefix = 'KISP-Mask-';  //ç”¨äºç”Ÿæˆç»„ä»¶ id çš„å‰ç¼€éƒ¨åˆ†ã€‚
+    var suffix = 4;             //ç”¨äºç”Ÿæˆç»„ä»¶ id çš„éšæœºéƒ¨åˆ†çš„é•¿åº¦ã€‚
 
 
 
@@ -19,15 +19,15 @@ define('Mask/Meta', function (require, module, exports) {
             var meta = {
                 'id': id,
                 'sample': '',
-                'eventName': eventName,         //¼æÈİ PC ¶ËºÍÒÆ¶¯¶Ë¡£ PC ¶ËµÄÎª `click`£¬ÒÆ¶¯¶ËµÄÎª `touch`¡£
-                'volatile': volatile,           //ÊÇ·ñÒ×ÏûÊ§µÄ¡£ ¼´µã»÷ºó×Ô¶¯Òş²Ø¡£
-                'container': config.container,  //×é¼şÒª×°ÈëµÄÈİÆ÷ DOM ½Úµã¡£
-                'duration': config.duration,    //Òª³ÖĞøÏÔÊ¾µÄÊ±¼ä£¬µ¥Î»ÊÇºÁÃë¡£
+                'eventName': eventName,         //å…¼å®¹ PC ç«¯å’Œç§»åŠ¨ç«¯ã€‚ PC ç«¯çš„ä¸º `click`ï¼Œç§»åŠ¨ç«¯çš„ä¸º `touch`ã€‚
+                'volatile': volatile,           //æ˜¯å¦æ˜“æ¶ˆå¤±çš„ã€‚ å³ç‚¹å‡»åè‡ªåŠ¨éšè—ã€‚
+                'container': config.container,  //ç»„ä»¶è¦è£…å…¥çš„å®¹å™¨ DOM èŠ‚ç‚¹ã€‚
+                'duration': config.duration,    //è¦æŒç»­æ˜¾ç¤ºçš„æ—¶é—´ï¼Œå•ä½æ˜¯æ¯«ç§’ã€‚
 
-                'emitter': null,    //ÊÂ¼şÇı¶¯Æ÷¡£
-                'style': null,      //ÑùÊ½¶ÔÏó¡£
-                'this': null,       //µ±Ç°ÊµÀı£¬·½±ãÄÚ²¿Ê¹ÓÃ¡£
-                '$': null,          //×é¼ş×îÍâ²ãµÄ DOM ½ÚµãµÄ jQuery ÊµÀı¡£
+                'emitter': null,    //äº‹ä»¶é©±åŠ¨å™¨ã€‚
+                'style': null,      //æ ·å¼å¯¹è±¡ã€‚
+                'this': null,       //å½“å‰å®ä¾‹ï¼Œæ–¹ä¾¿å†…éƒ¨ä½¿ç”¨ã€‚
+                '$': null,          //ç»„ä»¶æœ€å¤–å±‚çš„ DOM èŠ‚ç‚¹çš„ jQuery å®ä¾‹ã€‚
 
                 'bindVolatile': function (fn) {
                     if (!volatile) {
