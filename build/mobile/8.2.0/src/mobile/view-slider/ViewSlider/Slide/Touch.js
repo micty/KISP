@@ -7,13 +7,19 @@ define('ViewSlider/Slide/Touch', function (require, module, exports) {
 
     //在两个视图中间的遮罩层，动画结束后隐藏。
     //用于产生随 touchmove 的明暗变化效果。
-    var masker = new Mask({ 'z-index': 2, });
+    var masker = new Mask({
+        'z-index': 2,       //源视图和目标视图分别为3 和 1。
+        'fadeIn': false,    //禁用淡入。
+        'fadeOut': false,   //禁用淡出。
+    });
 
     //在两个视图上面的遮罩层，动画结束后隐藏。
     //用于 touchend 后在动画过程中锁住视图，防止用户操作。
     var masker2 = new Mask({
         'z-index': 4,
         'opacity': 0,
+        'fadeIn': false,    //禁用淡入。
+        'fadeOut': false,   //禁用淡出。
     });
 
     //关闭动画效果的样式。

@@ -25,6 +25,17 @@ define('Mask.defaults', /**@lends Mask.defaults*/ {
     */
     duration: 0,
 
+    /**
+    * 显示时要使用淡入动画的时间。 
+    * 如果不指定或指定为 0，则禁用淡入动画。
+    */
+    fadeIn: 0,
+
+    /**
+    * 隐藏时要使用淡出动画的时间。 
+    * 如果不指定或指定为 0，则禁用淡出动画。
+    */
+    fadeOut: 0,
 
     /**
     * 组件用到的 css 类名。
@@ -34,7 +45,7 @@ define('Mask.defaults', /**@lends Mask.defaults*/ {
     /**
     * 不透明度。
     */
-    opacity: '',
+    opacity: 0.5,
 
     /**
     * 组件的 css 样式 z-index 值。

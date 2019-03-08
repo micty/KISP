@@ -23,6 +23,9 @@ define('Mask/Meta', function (require, module, exports) {
                 'volatile': volatile,           //是否易消失的。 即点击后自动隐藏。
                 'container': config.container,  //组件要装入的容器 DOM 节点。
                 'duration': config.duration,    //要持续显示的时间，单位是毫秒。
+                'fadeIn': config.fadeIn,        //显示时要使用淡入动画的时间。 如果不指定或指定为 0，则禁用淡入动画。
+                'fadeOut': config.fadeOut,      //隐藏时要使用淡出动画的时间。 如果不指定或指定为 0，则禁用淡出动画。
+                'opacity': config.opacity,      //不透明度。 在淡入淡出时要到进行计算。
 
                 'emitter': null,    //事件驱动器。
                 'style': null,      //样式对象。

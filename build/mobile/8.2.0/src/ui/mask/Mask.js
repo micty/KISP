@@ -125,6 +125,7 @@ define('Mask', function (require, module, exports) {
         *   config = {
         *       quiet: false,   //是否触发 `show` 事件。 该选项仅开放给组件内部使用。
         *       duration: 0,    //要持续显示的时间，单位是毫秒。 如果不指定，则使用创建实例时的配置。
+        *       fadeIn: 200,    //可选。 需要淡入的动画时间，如果不指定或为指定为 0，则禁用淡入动画。
         *   };
         */
         show: function (config) {
@@ -132,13 +133,15 @@ define('Mask', function (require, module, exports) {
 
             var meta = mapper.get(this);
             var duration = 'duration' in config ? config.duration : meta.duration;
+            var fadeIn = 'fadeIn' in config ? config.fadeIn : meta.fadeIn;
+
 
             //尚未渲染。
             //首次渲染。
             if (!meta.$) {
                 this.render();
             }
-           
+
 
             if (duration) {
                 setTimeout(function () {
@@ -146,7 +149,18 @@ define('Mask', function (require, module, exports) {
                 }, duration);
             }
 
+
+            if (fadeIn) {
+                meta.$.css('opacity', 0);
+            }
+
             meta.$.show();
+
+            if (fadeIn) {
+                meta.$.animate({
+                    'opacity': meta.opacity,
+                }, fadeIn);
+            }
 
             //没有明确指定要使用安静模式，则触发事件。
             if (!config.quiet) {
@@ -155,12 +169,20 @@ define('Mask', function (require, module, exports) {
 
         },
 
+
         /**
         * 隐藏遮罩层。
         * 触发事件: `hide`。
+        * 如果在 hide 事件中明确返回 false，则取消隐藏。
+        *   config = {
+        *       fadeOut: 200,    //可选。 需要淡出的动画时间，如果不指定或为指定为 0，则禁用淡出动画。
+        *   };
         */
-        hide: function () {
+        hide: function (config) {
+            config = config || {};
+
             var meta = mapper.get(this);
+            var fadeOut = 'fadeOut' in config ? config.fadeOut : meta.fadeOut;
 
             //尚未渲染。
             if (!meta.$) {
@@ -174,11 +196,22 @@ define('Mask', function (require, module, exports) {
                 return false;
             }
 
-           
-            meta.$.hide();
 
+            if (fadeOut) {
 
+                meta.$.animate({
+                    'opacity': 0,
+
+                }, fadeOut, function () {
+                    meta.$.css('opacity', meta.opacity);
+                    meta.$.hide();
+                });
+            }
+            else {
+                meta.$.hide();
+            }
         },
+
 
         /**
         * 移除本组件已生成的 DOM 节点。

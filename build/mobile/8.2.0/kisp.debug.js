@@ -2,8 +2,8 @@
 * KISP JavaScript Library
 * name: mobile 
 * version: 8.2.0
-* build time: 2019-03-07 09:39:04
-* concat md5: A852BF42E28B36780E0CC3FC4F3AB989
+* build time: 2019-03-08 14:01:17
+* concat md5: 607890598CC8283B1629BF2C306831C4
 * source files: 147(145)
 *    partial/begin.js
 *    base/Module.js
@@ -4676,7 +4676,7 @@ define('KISP', function (require, module, exports) {
         * 内容不包括本字段动态生成的值部分。
         * 与生成的头部注释中的 md5 值是一致的。
         */
-        md5: 'A852BF42E28B36780E0CC3FC4F3AB989',
+        md5: '607890598CC8283B1629BF2C306831C4',
 
         /**
         * babel 版本号。 (由 packer 自动插入)
@@ -8347,6 +8347,7 @@ define('Mask', function (require, module, exports) {
         *   config = {
         *       quiet: false,   //是否触发 `show` 事件。 该选项仅开放给组件内部使用。
         *       duration: 0,    //要持续显示的时间，单位是毫秒。 如果不指定，则使用创建实例时的配置。
+        *       fadeIn: 200,    //可选。 需要淡入的动画时间，如果不指定或为指定为 0，则禁用淡入动画。
         *   };
         */
         show: function (config) {
@@ -8354,13 +8355,15 @@ define('Mask', function (require, module, exports) {
 
             var meta = mapper.get(this);
             var duration = 'duration' in config ? config.duration : meta.duration;
+            var fadeIn = 'fadeIn' in config ? config.fadeIn : meta.fadeIn;
+
 
             //尚未渲染。
             //首次渲染。
             if (!meta.$) {
                 this.render();
             }
-           
+
 
             if (duration) {
                 setTimeout(function () {
@@ -8368,7 +8371,18 @@ define('Mask', function (require, module, exports) {
                 }, duration);
             }
 
+
+            if (fadeIn) {
+                meta.$.css('opacity', 0);
+            }
+
             meta.$.show();
+
+            if (fadeIn) {
+                meta.$.animate({
+                    'opacity': meta.opacity,
+                }, fadeIn);
+            }
 
             //没有明确指定要使用安静模式，则触发事件。
             if (!config.quiet) {
@@ -8377,12 +8391,20 @@ define('Mask', function (require, module, exports) {
 
         },
 
+
         /**
         * 隐藏遮罩层。
         * 触发事件: `hide`。
+        * 如果在 hide 事件中明确返回 false，则取消隐藏。
+        *   config = {
+        *       fadeOut: 200,    //可选。 需要淡出的动画时间，如果不指定或为指定为 0，则禁用淡出动画。
+        *   };
         */
-        hide: function () {
+        hide: function (config) {
+            config = config || {};
+
             var meta = mapper.get(this);
+            var fadeOut = 'fadeOut' in config ? config.fadeOut : meta.fadeOut;
 
             //尚未渲染。
             if (!meta.$) {
@@ -8396,11 +8418,22 @@ define('Mask', function (require, module, exports) {
                 return false;
             }
 
-           
-            meta.$.hide();
 
+            if (fadeOut) {
 
+                meta.$.animate({
+                    'opacity': 0,
+
+                }, fadeOut, function () {
+                    meta.$.css('opacity', meta.opacity);
+                    meta.$.hide();
+                });
+            }
+            else {
+                meta.$.hide();
+            }
         },
+
 
         /**
         * 移除本组件已生成的 DOM 节点。
@@ -8533,6 +8566,17 @@ define('Mask.defaults', /**@lends Mask.defaults*/ {
     */
     duration: 0,
 
+    /**
+    * 显示时要使用淡入动画的时间。 
+    * 如果不指定或指定为 0，则禁用淡入动画。
+    */
+    fadeIn: 0,
+
+    /**
+    * 隐藏时要使用淡出动画的时间。 
+    * 如果不指定或指定为 0，则禁用淡出动画。
+    */
+    fadeOut: 0,
 
     /**
     * 组件用到的 css 类名。
@@ -8542,7 +8586,7 @@ define('Mask.defaults', /**@lends Mask.defaults*/ {
     /**
     * 不透明度。
     */
-    opacity: '',
+    opacity: 0.5,
 
     /**
     * 组件的 css 样式 z-index 值。
@@ -8863,6 +8907,9 @@ define('Mask/Meta', function (require, module, exports) {
                 'volatile': volatile,           //是否易消失的。 即点击后自动隐藏。
                 'container': config.container,  //组件要装入的容器 DOM 节点。
                 'duration': config.duration,    //要持续显示的时间，单位是毫秒。
+                'fadeIn': config.fadeIn,        //显示时要使用淡入动画的时间。 如果不指定或指定为 0，则禁用淡入动画。
+                'fadeOut': config.fadeOut,      //隐藏时要使用淡出动画的时间。 如果不指定或指定为 0，则禁用淡出动画。
+                'opacity': config.opacity,      //不透明度。 在淡入淡出时要到进行计算。
 
                 'emitter': null,    //事件驱动器。
                 'style': null,      //样式对象。
@@ -9249,13 +9296,19 @@ define('ViewSlider/Slide/Touch', function (require, module, exports) {
 
     //在两个视图中间的遮罩层，动画结束后隐藏。
     //用于产生随 touchmove 的明暗变化效果。
-    var masker = new Mask({ 'z-index': 2, });
+    var masker = new Mask({
+        'z-index': 2,       //源视图和目标视图分别为3 和 1。
+        'fadeIn': false,    //禁用淡入。
+        'fadeOut': false,   //禁用淡出。
+    });
 
     //在两个视图上面的遮罩层，动画结束后隐藏。
     //用于 touchend 后在动画过程中锁住视图，防止用户操作。
     var masker2 = new Mask({
         'z-index': 4,
         'opacity': 0,
+        'fadeIn': false,    //禁用淡入。
+        'fadeOut': false,   //禁用淡出。
     });
 
     //关闭动画效果的样式。
