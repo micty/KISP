@@ -2,8 +2,8 @@
 * KISP JavaScript Library
 * name: mobile 
 * version: 8.2.0
-* build time: 2019-03-08 14:01:17
-* concat md5: 607890598CC8283B1629BF2C306831C4
+* build time: 2019-03-15 15:02:05
+* concat md5: 6257F2E1C0C4A1984C49272BAD513901
 * source files: 147(145)
 *    partial/begin.js
 *    base/Module.js
@@ -4676,7 +4676,7 @@ define('KISP', function (require, module, exports) {
         * 内容不包括本字段动态生成的值部分。
         * 与生成的头部注释中的 md5 值是一致的。
         */
-        md5: '607890598CC8283B1629BF2C306831C4',
+        md5: '6257F2E1C0C4A1984C49272BAD513901',
 
         /**
         * babel 版本号。 (由 packer 自动插入)
@@ -10676,6 +10676,7 @@ define('Panel', function (require, module, exports) {
         var meta = Meta.create(config, {
             'moudle': null,                 //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="xx"]'。
             'container': container,         //
+            'tplContainer': container,      //
             '$emitter': new Emitter(),      //供外部用的事件管理器。
             'emitter': new Emitter(this),   //内部使用的事件管理器。
             '$': $(container),              //当前实例关联的 DOM 节点对应的 jQuery 实例。
@@ -10811,7 +10812,7 @@ define('Panel', function (require, module, exports) {
             var tpl = meta.tpl;
 
             if (!tpl) {
-                tpl = meta.tpl = new Template(meta.container);
+                tpl = meta.tpl = new Template(meta.tplContainer);
             }
 
             if (process) {
@@ -11097,7 +11098,7 @@ define('Panel', function (require, module, exports) {
         * 已重载 set(obj);         //批量设置。
         * 已重载 set(key, value);  //单个设置。
         * @param {string} key 要设置的属性的名称。 
-        *   目前支持的字段有：'show'、'rendered'、'$'。
+        *   目前支持的字段有：'show'、'rendered'、'$'、'container'、'visible'、'template'。
         * @param value 要设置的属性的值，可以是任何类型。
         */
         set: function (key, value) {
@@ -11133,6 +11134,15 @@ define('Panel', function (require, module, exports) {
                 //允许设置可见性的初始状态，以便在不调用 render() 的前提下直接调用 show() 或 hide()。
                 case 'visible':
                     meta.visible = !!value;
+                    break;
+
+                //设置新的模板容器，这样可以把指定的子部分当成模板进行填充，而不影响其它部分。
+                case 'template':
+                    if (meta.tpl) {
+                        throw new Error(`当前实例中已创建了模板实例，无法再修改模板实例所关联的 DOM 容器。`);
+                    }
+
+                    meta.tplContainer = meta.$.find(value);
                     break;
                 default:
                     throw new Error(`目前不支持设置属性: ${key}`);
@@ -12436,10 +12446,11 @@ define('Panel/Meta', function (require, module, exports) {
                 'id': id,               //实例的 id，全局唯一。
                 'container': '',        //容器的 DOM 节点(或其对应的选择器)。
                 'rendered': false,      //是否已渲染过。
-                'renderArgs': [],       //render() 时的参数数组，用于 refresh()。
+                'renderArgs': [],       //最近一次 render() 时的参数数组，用于 refresh()。
                 'show': config.show,    //是否在组件 render() 后自动调用 show() 方法以进行显示。
                 'visible': false,       //当前组件是否可见。
 
+                'tplContainer': null,   //用于构造 Template 实例即 tpl 时的参数。 默认为当前 panel 实例的 container，但可以指定来改变。
                 'module': null,         //如果非空，则是由 Panel.define() 创建的。 此时 container='[data-panel="xx"]' 的形式。
                 '$': null,              //当前实例关联的 DOM 节点对应的 jQuery 实例。
                 '$emitter': null,       //供外部用的事件管理器。

@@ -1,8 +1,8 @@
 
-2019-03-08 14:01:16
+2019-03-15 15:01:59
 删除目录: ../build/mobile/8.2.0/
 
-2019-03-08 14:01:17
+2019-03-15 15:02:04
 写入 ../build/mobile/8.2.0/src/$/Array.js
 写入 ../build/mobile/8.2.0/src/$/Date.js
 写入 ../build/mobile/8.2.0/src/$/Emitter.js
@@ -57,6 +57,8 @@
 写入 ../build/mobile/8.2.0/src/browser/transition/TransitionEnd/EventName.js
 写入 ../build/mobile/8.2.0/src/browser/transition/TransitionEnd.js
 写入 ../build/mobile/8.2.0/src/browser/Router.js
+
+2019-03-15 15:02:05
 写入 ../build/mobile/8.2.0/src/browser/Url.js
 写入 ../build/mobile/8.2.0/src/core/Config.js
 写入 ../build/mobile/8.2.0/src/core/Data.js
@@ -387,10 +389,10 @@
     ../build/mobile/8.2.0/src/ui/loading/Loading/Sample/IOS.html.js
     ../build/mobile/8.2.0/src/partial/end.js
 写入 ../build/mobile/8.2.0/kisp.debug.js
-开始压缩 js 内容 458 KB ...
+开始压缩 js 内容 459 KB ...
 
-2019-03-08 14:01:19
-成功压缩 js 内容 99 KB  压缩率 78.38%  耗时 2253 ms
+2019-03-15 15:02:08
+成功压缩 js 内容 99 KB  压缩率 78.43%  耗时 2518 ms
 写入 ../build/mobile/8.2.0/kisp.min.js
 编译 less debug 版
 编译 ../build/mobile/8.2.0/src/mobile/scroller/Scroller.less
@@ -407,8 +409,6 @@
 编译 ../build/mobile/8.2.0/src/ui/alert/Alert.less
 编译 ../build/mobile/8.2.0/src/ui/confirm/Confirm.less
 编译 ../build/mobile/8.2.0/src/ui/dialog/Dialog.less
-
-2019-03-08 14:01:20
 编译 ../build/mobile/8.2.0/src/ui/loading/Loading.less
 编译 ../build/mobile/8.2.0/src/ui/mask/Mask.less
 编译 ../build/mobile/8.2.0/src/ui/toast/Toast.less

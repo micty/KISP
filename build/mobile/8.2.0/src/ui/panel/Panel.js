@@ -28,6 +28,7 @@ define('Panel', function (require, module, exports) {
         var meta = Meta.create(config, {
             'moudle': null,                 //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="xx"]'。
             'container': container,         //
+            'tplContainer': container,      //
             '$emitter': new Emitter(),      //供外部用的事件管理器。
             'emitter': new Emitter(this),   //内部使用的事件管理器。
             '$': $(container),              //当前实例关联的 DOM 节点对应的 jQuery 实例。
@@ -163,7 +164,7 @@ define('Panel', function (require, module, exports) {
             var tpl = meta.tpl;
 
             if (!tpl) {
-                tpl = meta.tpl = new Template(meta.container);
+                tpl = meta.tpl = new Template(meta.tplContainer);
             }
 
             if (process) {
@@ -449,7 +450,7 @@ define('Panel', function (require, module, exports) {
         * 已重载 set(obj);         //批量设置。
         * 已重载 set(key, value);  //单个设置。
         * @param {string} key 要设置的属性的名称。 
-        *   目前支持的字段有：'show'、'rendered'、'$'。
+        *   目前支持的字段有：'show'、'rendered'、'$'、'container'、'visible'、'template'。
         * @param value 要设置的属性的值，可以是任何类型。
         */
         set: function (key, value) {
@@ -485,6 +486,15 @@ define('Panel', function (require, module, exports) {
                 //允许设置可见性的初始状态，以便在不调用 render() 的前提下直接调用 show() 或 hide()。
                 case 'visible':
                     meta.visible = !!value;
+                    break;
+
+                //设置新的模板容器，这样可以把指定的子部分当成模板进行填充，而不影响其它部分。
+                case 'template':
+                    if (meta.tpl) {
+                        throw new Error(`当前实例中已创建了模板实例，无法再修改模板实例所关联的 DOM 容器。`);
+                    }
+
+                    meta.tplContainer = meta.$.find(value);
                     break;
                 default:
                     throw new Error(`目前不支持设置属性: ${key}`);
