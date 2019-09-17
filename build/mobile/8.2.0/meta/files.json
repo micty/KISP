@@ -110,6 +110,7 @@
     "src/ui/mask/Mask.js",
     "src/ui/panel/Panel/Container.js",
     "src/ui/panel/Panel/Meta.js",
+    "src/ui/panel/Panel/Params.js",
     "src/ui/panel/Panel.js",
     "src/ui/tabs/Tabs/Events.js",
     "src/ui/tabs/Tabs/Meta.js",

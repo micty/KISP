@@ -30,6 +30,7 @@ define('API/Ajax', function (require, module, exports) {
     *       //当 method 为 'post' 时，数据放在 form-data 表单中。
     *       data: {},           //可选，要发送的数据。 
     *       query: {},          //可选，要发送的查询字符串数据。 该字段仅在 method 为 'post' 时可用。
+    *       headers: {},        //可选，要发送的请求头数据。
     *
     *       field: {            //响应中的映射字段。
     *           code: 'code',   //状态码。
@@ -166,6 +167,16 @@ define('API/Ajax', function (require, module, exports) {
                 fnFail && fnFail(code, json[field.msg], json, xhr);
             }
         };
+
+        //设置请求头。
+        var headers = config.headers;
+
+        if (headers) {
+            $Object.each(headers, function (key, value) {
+                xhr.setRequestHeader(key, value);
+            });
+        }
+        
 
         if (method == 'post') {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

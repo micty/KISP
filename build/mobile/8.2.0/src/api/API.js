@@ -66,6 +66,7 @@ define('API', function (require, module, exports) {
             'proxy': proxy,
             'serialize': config.serialize,
             'timeout': config.timeout,
+            'headers': config.headers, 
 
             success: function (data, json, xhr) { //成功
                 fireEvent('success', [data, json, xhr]);

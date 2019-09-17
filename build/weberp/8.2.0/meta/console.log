@@ -1,0 +1,408 @@
+
+2019-05-16 14:27:59
+删除目录: ../build/weberp/8.2.0/
+写入 ../build/weberp/8.2.0/src/$/Array.js
+写入 ../build/weberp/8.2.0/src/$/Date.js
+写入 ../build/weberp/8.2.0/src/$/Emitter.js
+写入 ../build/weberp/8.2.0/src/$/Escape.js
+写入 ../build/weberp/8.2.0/src/$/Fn.js
+写入 ../build/weberp/8.2.0/src/$/Hash.js
+写入 ../build/weberp/8.2.0/src/$/JSON.js
+写入 ../build/weberp/8.2.0/src/$/Math.js
+写入 ../build/weberp/8.2.0/src/$/Object.js
+写入 ../build/weberp/8.2.0/src/$/Query.js
+写入 ../build/weberp/8.2.0/src/$/Script.js
+写入 ../build/weberp/8.2.0/src/$/String.js
+写入 ../build/weberp/8.2.0/src/$/StyleSheet.js
+写入 ../build/weberp/8.2.0/src/$/Tasks.js
+写入 ../build/weberp/8.2.0/src/$/Tree.js
+写入 ../build/weberp/8.2.0/src/api/API/Ajax.js
+写入 ../build/weberp/8.2.0/src/api/Proxy/Url.js
+写入 ../build/weberp/8.2.0/src/api/SSH/Server/Config.js
+写入 ../build/weberp/8.2.0/src/api/SSH/Ajax.js
+写入 ../build/weberp/8.2.0/src/api/SSH/Server.js
+写入 ../build/weberp/8.2.0/src/api/SSH.API/Ajax.js
+写入 ../build/weberp/8.2.0/src/api/API.js
+写入 ../build/weberp/8.2.0/src/api/Proxy.js
+写入 ../build/weberp/8.2.0/src/api/SSH.API.js
+写入 ../build/weberp/8.2.0/src/api/SSH.js
+写入 ../build/weberp/8.2.0/src/base/InnerModules.js
+写入 ../build/weberp/8.2.0/src/base/Module.js
+写入 ../build/weberp/8.2.0/src/base/ModuleManager.js
+写入 ../build/weberp/8.2.0/src/browser/app/App/Navigator/Views.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/weberp/8.2.0/src/browser/app/App/Navigator.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/weberp/8.2.0/src/browser/app/App.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Back.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Hash.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Infos.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Meta.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Router.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator/Storage.js
+写入 ../build/weberp/8.2.0/src/browser/navigator/Navigator.js
+写入 ../build/weberp/8.2.0/src/browser/package/Package/All.js
+写入 ../build/weberp/8.2.0/src/browser/package/Package/Loader.js
+写入 ../build/weberp/8.2.0/src/browser/package/Package.js
+写入 ../build/weberp/8.2.0/src/browser/storage/LocalStorage.js
+写入 ../build/weberp/8.2.0/src/browser/storage/SessionStorage.js
+写入 ../build/weberp/8.2.0/src/browser/storage/Storage.js
+写入 ../build/weberp/8.2.0/src/browser/transition/TransitionEnd/Data.js
+写入 ../build/weberp/8.2.0/src/browser/transition/TransitionEnd/EventName.js
+写入 ../build/weberp/8.2.0/src/browser/transition/TransitionEnd.js
+写入 ../build/weberp/8.2.0/src/browser/Router.js
+写入 ../build/weberp/8.2.0/src/browser/Url.js
+写入 ../build/weberp/8.2.0/src/core/Config.js
+写入 ../build/weberp/8.2.0/src/core/Data.js
+写入 ../build/weberp/8.2.0/src/core/Defaults.js
+写入 ../build/weberp/8.2.0/src/core/KISP.js
+写入 ../build/weberp/8.2.0/src/core/Mapper.js
+写入 ../build/weberp/8.2.0/src/core/OuterModule.js
+写入 ../build/weberp/8.2.0/src/core/RandomId.js
+写入 ../build/weberp/8.2.0/src/core/Session.js
+写入 ../build/weberp/8.2.0/src/core/Style.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/Alert.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/App.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/Confirm.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/Dialog.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/Mask.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/Tabs.js
+写入 ../build/weberp/8.2.0/src/data/config/mobile/View.js
+
+2019-05-16 14:28:00
+写入 ../build/weberp/8.2.0/src/data/config/pc/Alert.js
+写入 ../build/weberp/8.2.0/src/data/config/pc/App.js
+写入 ../build/weberp/8.2.0/src/data/config/pc/Dialog.js
+写入 ../build/weberp/8.2.0/src/data/config/pc/Mask.js
+写入 ../build/weberp/8.2.0/src/data/config/pc/Tabs.js
+写入 ../build/weberp/8.2.0/src/data/config/pc/View.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/SSH/Server/Config.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/SSH/Server.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/API.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/Proxy.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/SSH.API.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/api/SSH.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Alert.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/App.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Confirm.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Dialog.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Loading.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/LocalStorage.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Mask.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Navigator.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/OuterModule.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Package.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Panel.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Session.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/SessionStorage.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Tabs.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Toast.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/Url.js
+写入 ../build/weberp/8.2.0/src/data/defaults/common/View.js
+写入 ../build/weberp/8.2.0/src/data/defaults/mobile/Scroller.js
+写入 ../build/weberp/8.2.0/src/data/defaults/mobile/ViewSlider.js
+写入 ../build/weberp/8.2.0/src/f/iscroll/iscroll-probe.mod.debug.js
+写入 ../build/weberp/8.2.0/src/f/iscroll/iscroll-probe.mod.min.js
+写入 ../build/weberp/8.2.0/src/f/jquery/jquery-2.1.1.debug.js
+写入 ../build/weberp/8.2.0/src/f/jquery/jquery-2.1.1.min.js
+写入 ../build/weberp/8.2.0/src/f/jquery/jquery-3.3.1.debug.js
+写入 ../build/weberp/8.2.0/src/f/jquery/jquery-3.3.1.min.js
+写入 ../build/weberp/8.2.0/src/lib/$.js
+写入 ../build/weberp/8.2.0/src/lib/IScroll.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Loading.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup/Loading.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/IScroll.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/Meta.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/Puller.js
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider/Slide/Gradient.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider/Slide/Touch.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider/Slide/TransitionEnd.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider/Jump.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider/Slide.js
+写入 ../build/weberp/8.2.0/src/mobile/view-slider/ViewSlider.js
+写入 ../build/weberp/8.2.0/src/mobile/Touch.js
+写入 ../build/weberp/8.2.0/src/partial/begin.js
+写入 ../build/weberp/8.2.0/src/partial/end.js
+写入 ../build/weberp/8.2.0/src/third/CircularJSON.js
+写入 ../build/weberp/8.2.0/src/third/HTMLParser.js
+写入 ../build/weberp/8.2.0/src/third/MD5.js
+写入 ../build/weberp/8.2.0/src/ui/alert/Alert/Dialog/Height.js
+写入 ../build/weberp/8.2.0/src/ui/alert/Alert/Dialog.js
+写入 ../build/weberp/8.2.0/src/ui/alert/Alert.js
+写入 ../build/weberp/8.2.0/src/ui/confirm/Confirm.js
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Events.js
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Masker.js
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Style.js
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Template.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Masker.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Presettings.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Sample.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Style.js
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading.js
+写入 ../build/weberp/8.2.0/src/ui/mask/Mask/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/mask/Mask/Style.js
+写入 ../build/weberp/8.2.0/src/ui/mask/Mask.js
+写入 ../build/weberp/8.2.0/src/ui/panel/Panel/Container.js
+写入 ../build/weberp/8.2.0/src/ui/panel/Panel/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/panel/Panel/Params.js
+写入 ../build/weberp/8.2.0/src/ui/panel/Panel.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/weberp/8.2.0/src/ui/tabs/Tabs/Events.js
+写入 ../build/weberp/8.2.0/src/ui/tabs/Tabs/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/tabs/Tabs.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template/Parser/Templates.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template/Child.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template/Parser.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template/Sample.js
+写入 ../build/weberp/8.2.0/src/ui/template/Template.js
+写入 ../build/weberp/8.2.0/src/ui/toast/Toast/Masker.js
+写入 ../build/weberp/8.2.0/src/ui/toast/Toast/Meta.js
+写入 ../build/weberp/8.2.0/src/ui/toast/Toast/Style.js
+写入 ../build/weberp/8.2.0/src/ui/toast/Toast.js
+[
+    "//<for:mobile---->"
+]
+写入 ../build/weberp/8.2.0/src/ui/view/View.js
+解析 html 文件名: ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html
+[
+    "Scroller",
+    "Pulldown",
+    "Indicator",
+    "Sample.html"
+]
+生成 js 模块: Scroller/Pulldown/Indicator/Sample
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html
+[
+    "Scroller",
+    "Pullup",
+    "Indicator",
+    "Sample.html"
+]
+生成 js 模块: Scroller/Pullup/Indicator/Sample
+写入 ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/ui/alert/Alert/Sample.html
+[
+    "Alert",
+    "Sample.html"
+]
+生成 js 模块: Alert/Sample
+写入 ../build/weberp/8.2.0/src/ui/alert/Alert/Sample.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/ui/dialog/Dialog/Template/Sample.html
+[
+    "Dialog",
+    "Template",
+    "Sample.html"
+]
+生成 js 模块: Dialog/Template/Sample
+写入 ../build/weberp/8.2.0/src/ui/dialog/Dialog/Template/Sample.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/ui/loading/Loading/Sample/IOS.html
+[
+    "Loading",
+    "Sample",
+    "IOS.html"
+]
+生成 js 模块: Loading/Sample/IOS
+写入 ../build/weberp/8.2.0/src/ui/loading/Loading/Sample/IOS.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/ui/mask/Mask/Sample.html
+[
+    "Mask",
+    "Sample.html"
+]
+生成 js 模块: Mask/Sample
+写入 ../build/weberp/8.2.0/src/ui/mask/Mask/Sample.html.js
+解析 html 文件名: ../build/weberp/8.2.0/src/ui/toast/Toast/Sample.html
+[
+    "Toast",
+    "Sample.html"
+]
+生成 js 模块: Toast/Sample
+写入 ../build/weberp/8.2.0/src/ui/toast/Toast/Sample.html.js
+../build/weberp/8.2.0/src/core/KISP.js
+写入 ../build/weberp/8.2.0/meta/files.json
+写入 ../build/weberp/8.2.0/meta/id$mod.json
+写入 ../build/weberp/8.2.0/meta/id$file.json
+写入 ../build/weberp/8.2.0/meta/dep$ids.json
+合并 128 个文件:
+    ../build/weberp/8.2.0/src/partial/begin.js
+    ../build/weberp/8.2.0/src/base/Module.js
+    ../build/weberp/8.2.0/src/base/ModuleManager.js
+    ../build/weberp/8.2.0/src/base/InnerModules.js
+    ../build/weberp/8.2.0/src/$/Array.js
+    ../build/weberp/8.2.0/src/$/Date.js
+    ../build/weberp/8.2.0/src/$/String.js
+    ../build/weberp/8.2.0/src/$/Emitter.js
+    ../build/weberp/8.2.0/src/$/Object.js
+    ../build/weberp/8.2.0/src/$/Tree.js
+    ../build/weberp/8.2.0/src/$/Escape.js
+    ../build/weberp/8.2.0/src/$/Fn.js
+    ../build/weberp/8.2.0/src/$/Math.js
+    ../build/weberp/8.2.0/src/$/Hash.js
+    ../build/weberp/8.2.0/src/$/Query.js
+    ../build/weberp/8.2.0/src/$/JSON.js
+    ../build/weberp/8.2.0/src/$/Script.js
+    ../build/weberp/8.2.0/src/$/StyleSheet.js
+    ../build/weberp/8.2.0/src/$/Tasks.js
+    ../build/weberp/8.2.0/src/core/KISP.js
+    ../build/weberp/8.2.0/src/core/Defaults.js
+    ../build/weberp/8.2.0/src/core/Config.js
+    ../build/weberp/8.2.0/src/core/Data.js
+    ../build/weberp/8.2.0/src/browser/Router.js
+    ../build/weberp/8.2.0/src/api/Proxy.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/Proxy.js
+    ../build/weberp/8.2.0/src/browser/Url.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Url.js
+    ../build/weberp/8.2.0/src/api/Proxy/Url.js
+    ../build/weberp/8.2.0/src/browser/app/App.js
+    ../build/weberp/8.2.0/src/data/defaults/common/App.js
+    ../build/weberp/8.2.0/src/core/OuterModule.js
+    ../build/weberp/8.2.0/src/data/defaults/common/OuterModule.js
+    ../build/weberp/8.2.0/src/lib/$.js
+    ../build/weberp/8.2.0/src/browser/app/App/Navigator.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Navigator.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Back.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Meta.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Hash.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Infos.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Router.js
+    ../build/weberp/8.2.0/src/browser/navigator/Navigator/Storage.js
+    ../build/weberp/8.2.0/src/browser/storage/SessionStorage.js
+    ../build/weberp/8.2.0/src/data/defaults/common/SessionStorage.js
+    ../build/weberp/8.2.0/src/browser/storage/Storage.js
+    ../build/weberp/8.2.0/src/third/CircularJSON.js
+    ../build/weberp/8.2.0/src/browser/storage/LocalStorage.js
+    ../build/weberp/8.2.0/src/data/defaults/common/LocalStorage.js
+    ../build/weberp/8.2.0/src/browser/app/App/Navigator/Views.js
+    ../build/weberp/8.2.0/src/browser/package/Package.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Package.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Loading.js
+    ../build/weberp/8.2.0/src/core/Style.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Sample.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Style.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Meta.js
+    ../build/weberp/8.2.0/src/core/RandomId.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Masker.js
+    ../build/weberp/8.2.0/src/ui/mask/Mask.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Mask.js
+    ../build/weberp/8.2.0/src/ui/mask/Mask/Sample.html.js
+    ../build/weberp/8.2.0/src/ui/mask/Mask/Style.js
+    ../build/weberp/8.2.0/src/ui/mask/Mask/Meta.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Presettings.js
+    ../build/weberp/8.2.0/src/core/Session.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Session.js
+    ../build/weberp/8.2.0/src/browser/package/Package/All.js
+    ../build/weberp/8.2.0/src/browser/package/Package/Loader.js
+    ../build/weberp/8.2.0/src/ui/view/View.js
+    ../build/weberp/8.2.0/src/data/defaults/common/View.js
+    ../build/weberp/8.2.0/src/ui/panel/Panel.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Panel.js
+    ../build/weberp/8.2.0/src/ui/template/Template.js
+    ../build/weberp/8.2.0/src/third/HTMLParser.js
+    ../build/weberp/8.2.0/src/ui/template/Template/Meta.js
+    ../build/weberp/8.2.0/src/ui/template/Template/Parser.js
+    ../build/weberp/8.2.0/src/ui/template/Template/Parser/Templates.js
+    ../build/weberp/8.2.0/src/ui/template/Template/Sample.js
+    ../build/weberp/8.2.0/src/ui/template/Template/Child.js
+    ../build/weberp/8.2.0/src/core/Mapper.js
+    ../build/weberp/8.2.0/src/ui/panel/Panel/Meta.js
+    ../build/weberp/8.2.0/src/ui/panel/Panel/Container.js
+    ../build/weberp/8.2.0/src/ui/panel/Panel/Params.js
+    ../build/weberp/8.2.0/src/ui/alert/Alert.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Alert.js
+    ../build/weberp/8.2.0/src/ui/alert/Alert/Dialog.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Dialog.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Style.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Meta.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Masker.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Events.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Template.js
+    ../build/weberp/8.2.0/src/ui/dialog/Dialog/Template/Sample.html.js
+    ../build/weberp/8.2.0/src/ui/alert/Alert/Dialog/Height.js
+    ../build/weberp/8.2.0/src/ui/alert/Alert/Sample.html.js
+    ../build/weberp/8.2.0/src/ui/confirm/Confirm.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Confirm.js
+    ../build/weberp/8.2.0/src/api/API.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/API.js
+    ../build/weberp/8.2.0/src/api/API/Ajax.js
+    ../build/weberp/8.2.0/src/api/SSH.API.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/SSH.API.js
+    ../build/weberp/8.2.0/src/api/SSH.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/SSH.js
+    ../build/weberp/8.2.0/src/api/SSH/Server.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/SSH/Server.js
+    ../build/weberp/8.2.0/src/third/MD5.js
+    ../build/weberp/8.2.0/src/api/SSH/Server/Config.js
+    ../build/weberp/8.2.0/src/data/defaults/common/api/SSH/Server/Config.js
+    ../build/weberp/8.2.0/src/api/SSH/Ajax.js
+    ../build/weberp/8.2.0/src/api/SSH.API/Ajax.js
+    ../build/weberp/8.2.0/src/ui/tabs/Tabs.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Tabs.js
+    ../build/weberp/8.2.0/src/ui/tabs/Tabs/Events.js
+    ../build/weberp/8.2.0/src/ui/tabs/Tabs/Meta.js
+    ../build/weberp/8.2.0/src/ui/toast/Toast.js
+    ../build/weberp/8.2.0/src/data/defaults/common/Toast.js
+    ../build/weberp/8.2.0/src/ui/toast/Toast/Sample.html.js
+    ../build/weberp/8.2.0/src/ui/toast/Toast/Style.js
+    ../build/weberp/8.2.0/src/ui/toast/Toast/Meta.js
+    ../build/weberp/8.2.0/src/ui/toast/Toast/Masker.js
+    ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pulldown/Pulldown/Indicator/Sample.html.js
+    ../build/weberp/8.2.0/src/mobile/scroller/Scroller/pullup/Pullup/Indicator/Sample.html.js
+    ../build/weberp/8.2.0/src/ui/loading/Loading/Sample/IOS.html.js
+    ../build/weberp/8.2.0/src/partial/end.js
+写入 ../build/weberp/8.2.0/kisp.debug.js
+开始压缩 js 内容 426 KB ...
+
+2019-05-16 14:28:03
+成功压缩 js 内容 92 KB  压缩率 78.40%  耗时 2821 ms
+写入 ../build/weberp/8.2.0/kisp.min.js
+编译 less debug 版
+编译 ../build/weberp/8.2.0/src/mobile/scroller/Scroller.less
+编译 ../build/weberp/8.2.0/src/ui/alert/Alert.less
+编译 ../build/weberp/8.2.0/src/ui/confirm/Confirm.less
+编译 ../build/weberp/8.2.0/src/ui/dialog/Dialog.less
+编译 ../build/weberp/8.2.0/src/ui/loading/Loading.less
+编译 ../build/weberp/8.2.0/src/ui/mask/Mask.less
+编译 ../build/weberp/8.2.0/src/ui/toast/Toast.less
+编译 ../build/weberp/8.2.0/src/ui/view/View.less
+写入 ../build/weberp/8.2.0/kisp.debug.css
+编译 less min 版
+编译 ../build/weberp/8.2.0/src/mobile/scroller/Scroller.less
+编译 ../build/weberp/8.2.0/src/ui/alert/Alert.less
+编译 ../build/weberp/8.2.0/src/ui/confirm/Confirm.less
+编译 ../build/weberp/8.2.0/src/ui/dialog/Dialog.less
+编译 ../build/weberp/8.2.0/src/ui/loading/Loading.less
+编译 ../build/weberp/8.2.0/src/ui/mask/Mask.less
+编译 ../build/weberp/8.2.0/src/ui/toast/Toast.less
+编译 ../build/weberp/8.2.0/src/ui/view/View.less
+写入 ../build/weberp/8.2.0/kisp.min.css
+babel 转换 ../build/weberp/8.2.0/kisp.debug.js
+
+2019-05-16 14:28:06
+写入 ../build/weberp/8.2.0/kisp.babel.debug.js
+开始压缩 js 内容 464 KB ...
+
+2019-05-16 14:28:08
+成功压缩 js 内容 96 KB  压缩率 79.31%  耗时 2366 ms
+写入 ../build/weberp/8.2.0/kisp.babel.min.js
+复制目录: ../build/weberp/8.2.0/src/f/jquery → ../build/weberp/8.2.0/jquery

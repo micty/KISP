@@ -11,6 +11,7 @@ define('Panel', function (require, module, exports) {
     var Template = require('Template');
     var Meta = module.require('Meta');
     var Container = module.require('Container');
+    var Params = module.require('Params');
 
     var mapper = require('Mapper');         //这里要用有继承关系的 Mapper。 因为作为父类。
     var id$panel = {};
@@ -235,9 +236,6 @@ define('Panel', function (require, module, exports) {
             return meta.rendered;
         },
 
-
-
-
         /**
         * 触发外部的事件。
         */
@@ -249,46 +247,48 @@ define('Panel', function (require, module, exports) {
         },
 
         /**
-        * 批量绑定(委托)事件到 panel.$ 对象多个元素上。
+        * 批量绑定(委托)事件到 panel.$ 对象的多个元素上。
         * 该方法可以批量绑定一个或多个不同的(委托)事件到多个元素上。
         * 该方法是以事件为组长、选择器为组员进行绑定的。
-        * 已重载 $on(name$selector$fn);    //绑定多个(委托)事件到多个元素上。
-        * 已重载 $on(name, selector$fn);   //绑定单个(委托)事件到多个元素上。
+        * 已重载 $on(name$selector$fn);            //绑定多个(委托)事件到多个元素上。
+        * 已重载 $on(name$fn);                     //绑定多个事件到当前元素上。
+
+        * 已重载 $on(name, selector$fn);           //绑定单个(委托)事件到多个元素上。
+        * 已重载 $on(name, fn);                    //绑定单个事件到当前元素上。
+
+        * 已重载 $on(name, sample, selector$fn);   //绑定单个(委托)事件到多个元素上，这些元素的选择器有共同的填充模板。 此时 sample 中的 `{value}` 会给 selector$fn 中的 selector 填充。
+        * 已重载 $on(name, selector, fn);          //绑定单个(委托)事件到单个元素上。
         *   
         *   name: '',           //事件名。 如 `click`。
         *   selector$fn: {      //选择器对应的事件处理器。
-        *       '#id-0': fn0,   //
-        *       '#id-1': fn1,   //
+        *       '#id-0': fn,    //
+        *       '#id-1': fn,    //
         *   },
         *
         * 例如，绑定多个(委托)事件到多个元素上：
         *   $on({
         *       'click': {
-        *           '#id-0': fn10,
-        *           '#id-1': fn11,
+        *           '#id-0': fn,
+        *           '#id-1': fn,
         *       },
         *       'keyup': {
-        *           '#id-0': fn20,
-        *           '#id-1': fn21,
+        *           '#id-0': fn,
+        *           '#id-1': fn,
         *       },
         *   });
+        * 例如，绑定选择器有共同模板的多个元素：
+        *   $on('click', '[data-cmd="{value}"]', {
+        *       'print': fn,
+        *       'top': fn,
+        *   });
+        *   等价于：
+        *   $on('click', {
+        *       '[data-cmd="print"]': fn,
+        *       '[data-cmd="top"]': fn,
+        *   });
         */
-        $on: function (name, selector$fn) {
-            var name$selector$fn = null;
-
-            if (typeof name == 'string') {
-                //重载 $on(name, selector$fn);
-                //单个事件，多个元素的情况。
-                name$selector$fn = { [name]: selector$fn, };
-            }
-            else if (typeof name == 'object') {
-                //重载 $on(name$selector$fn);
-                //多个事件，多个元素的情况。
-                name$selector$fn = name;
-            }
-            else {
-                throw new Error(`无法识别参数 name 的类型。`);
-            }
+        $on: function (name, sample, selector$fn) {
+            var name$selector$fn = Params.normalize(name, sample, selector$fn);
 
             if (!name$selector$fn) {
                 return;
@@ -302,9 +302,10 @@ define('Panel', function (require, module, exports) {
                     return;
                 }
 
+                //重载 $on(name$fn); 
                 //如 $on({ 'click': fn, });
                 if (typeof selector$fn == 'function') {
-                    meta.$.on(name, selector$fn); //此时，selector$fn 就是 fn。
+                    meta.$.on(name, selector$fn); //此时的 selector$fn 就是 fn。
                     return;
                 }
 

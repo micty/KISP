@@ -1,0 +1,66 @@
+﻿
+.KISP.Toast {
+    position: absolute;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    border-radius: 10px;
+    bottom: initial;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    height: 102px;
+    left: 50%;
+    right: initial;
+    top: 50%;
+    width: 120px;
+    z-index: 1024;
+    background: rgba(0, 0, 0, 0.701961);
+    transform: translate(-50%, -50%);
+
+
+    div {
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -18px;
+        margin-top: -32px;
+        width: 36px;
+        height: 36px;
+
+        i {
+            font-size: 35px;
+        }
+    }
+
+    .Text {
+        display: block;
+        font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+        padding: 0 10px;
+        text-align: center;
+        margin-top: 42px;
+    }
+
+
+
+    &.NoText {
+        div {
+            i {
+                font-size: 60px;
+            }
+        }
+
+        .Text {
+            display: none;
+        }
+    }
+
+    &.NoIcon {
+        div {
+            display: none;
+        }
+    }
+}

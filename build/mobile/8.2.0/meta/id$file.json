@@ -93,6 +93,7 @@
     "Mapper": "src/core/Mapper.js",
     "Panel/Meta": "src/ui/panel/Panel/Meta.js",
     "Panel/Container": "src/ui/panel/Panel/Container.js",
+    "Panel/Params": "src/ui/panel/Panel/Params.js",
     "Alert": "src/ui/alert/Alert.js",
     "Alert.defaults": "src/data/defaults/common/Alert.js",
     "Alert.config": "src/data/config/mobile/Alert.js",

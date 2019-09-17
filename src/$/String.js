@@ -6,8 +6,6 @@
 */
 define('String', function (require, module, exports) {
 
-    //记录产生的随机串，避免意外重复。
-    var randoms = new Set();
 
 
     return exports = /**@lends String */ {
@@ -28,6 +26,7 @@ define('String', function (require, module, exports) {
 
             //如果传入的是数字，则生成一个指定长度的格式字符串 'xxxxx...'
             if (typeof formater == 'number') {
+
                 var size = formater + 1;
                 if (size < 0) {
                     size = 0;
@@ -43,13 +42,6 @@ define('String', function (require, module, exports) {
 
             }).toUpperCase();
 
-            //已存在，换一个。
-            if (randoms.has(value)) {
-                value = exports.random(formater);
-            }
-            else {
-                randoms.add(value);
-            }
 
             return value;
         },

@@ -8,5 +8,14 @@ define('Mask.config', /**@lends Mask.config*/ {
     */
     eventName: 'click',
 
+
+
+    style: {
+        /**
+        * PC 端的用 fixed 定位。
+        */
+        position: 'fixed',
+    },
+
 });
 

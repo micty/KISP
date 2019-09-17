@@ -5,7 +5,7 @@
 * https://github.com/developit/htmlParser
 */
 define('HTMLParser', function (require, module) {
-    
+
     var exports = {},
             util = {},
             splitAttrsTokenizer = /([a-z0-9_\:\-]*)\s*?=\s*?(['"]?)(.*?)\2\s+/gim,
@@ -33,15 +33,9 @@ define('HTMLParser', function (require, module) {
         a.prototype.constructor = a;
     };
 
-    util.selfClosingTags = {
-        img: 1,
-        br: 1,
-        hr: 1,
-        meta: 1,
-        link: 1,
-        base: 1,
-        input: 1,
-    };
+    //by micty。
+    //已添加了更多的。
+    util.selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'frame', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'object', 'param', 'source'];
 
     util.getElementsByTagName = function (el, tag) {
         var els = [], c = 0, i, n;
@@ -313,7 +307,9 @@ define('HTMLParser', function (require, module) {
                 commitTextNode();
                 tags.push(tag);
                 tag.parentNode.childNodes.push(tag);
-                if ((token[4] && token[4].indexOf('/') > -1) || util.selfClosingTags.hasOwnProperty(tag.nodeName)) {
+
+                //by micty。
+                if ((token[4] && token[4].indexOf('/') > -1) || util.selfClosingTags.includes(tag.nodeName)) {
                     tag.documentPosition.closeTag = tag.documentPosition.openTag;
                     tag.isSelfClosingTag = true;
                     tag.innerHTML = '';

@@ -2,9 +2,9 @@
 * KISP JavaScript Library
 * name: mobile 
 * version: 8.2.0
-* build time: 2019-03-15 15:02:05
-* concat md5: 6257F2E1C0C4A1984C49272BAD513901
-* source files: 147(145)
+* build time: 2019-03-28 18:18:09
+* concat md5: A23A7C9576B8D3A3B765E2A40AD4F129
+* source files: 148(146)
 *    partial/begin.js
 *    base/Module.js
 *    base/ModuleManager.js
@@ -103,6 +103,7 @@
 *    core/Mapper.js
 *    ui/panel/Panel/Meta.js
 *    ui/panel/Panel/Container.js
+*    ui/panel/Panel/Params.js
 *    ui/alert/Alert.js
 *    data/defaults/common/Alert.js
 *    data/config/mobile/Alert.js
@@ -1519,8 +1520,6 @@ define('Date', function (require, module, exports) {
 */
 define('String', function (require, module, exports) {
 
-    //记录产生的随机串，避免意外重复。
-    var randoms = new Set();
 
 
     return exports = /**@lends String */ {
@@ -1541,6 +1540,7 @@ define('String', function (require, module, exports) {
 
             //如果传入的是数字，则生成一个指定长度的格式字符串 'xxxxx...'
             if (typeof formater == 'number') {
+
                 var size = formater + 1;
                 if (size < 0) {
                     size = 0;
@@ -1556,13 +1556,6 @@ define('String', function (require, module, exports) {
 
             }).toUpperCase();
 
-            //已存在，换一个。
-            if (randoms.has(value)) {
-                value = exports.random(formater);
-            }
-            else {
-                randoms.add(value);
-            }
 
             return value;
         },
@@ -4676,7 +4669,7 @@ define('KISP', function (require, module, exports) {
         * 内容不包括本字段动态生成的值部分。
         * 与生成的头部注释中的 md5 值是一致的。
         */
-        md5: '6257F2E1C0C4A1984C49272BAD513901',
+        md5: 'A23A7C9576B8D3A3B765E2A40AD4F129',
 
         /**
         * babel 版本号。 (由 packer 自动插入)
@@ -10659,6 +10652,7 @@ define('Panel', function (require, module, exports) {
     var Template = require('Template');
     var Meta = module.require('Meta');
     var Container = module.require('Container');
+    var Params = module.require('Params');
 
     var mapper = require('Mapper');         //这里要用有继承关系的 Mapper。 因为作为父类。
     var id$panel = {};
@@ -10883,9 +10877,6 @@ define('Panel', function (require, module, exports) {
             return meta.rendered;
         },
 
-
-
-
         /**
         * 触发外部的事件。
         */
@@ -10897,46 +10888,48 @@ define('Panel', function (require, module, exports) {
         },
 
         /**
-        * 批量绑定(委托)事件到 panel.$ 对象多个元素上。
+        * 批量绑定(委托)事件到 panel.$ 对象的多个元素上。
         * 该方法可以批量绑定一个或多个不同的(委托)事件到多个元素上。
         * 该方法是以事件为组长、选择器为组员进行绑定的。
-        * 已重载 $on(name$selector$fn);    //绑定多个(委托)事件到多个元素上。
-        * 已重载 $on(name, selector$fn);   //绑定单个(委托)事件到多个元素上。
+        * 已重载 $on(name$selector$fn);            //绑定多个(委托)事件到多个元素上。
+        * 已重载 $on(name$fn);                     //绑定多个事件到当前元素上。
+
+        * 已重载 $on(name, selector$fn);           //绑定单个(委托)事件到多个元素上。
+        * 已重载 $on(name, fn);                    //绑定单个事件到当前元素上。
+
+        * 已重载 $on(name, sample, selector$fn);   //绑定单个(委托)事件到多个元素上，这些元素的选择器有共同的填充模板。 此时 sample 中的 `{value}` 会给 selector$fn 中的 selector 填充。
+        * 已重载 $on(name, selector, fn);          //绑定单个(委托)事件到单个元素上。
         *   
         *   name: '',           //事件名。 如 `click`。
         *   selector$fn: {      //选择器对应的事件处理器。
-        *       '#id-0': fn0,   //
-        *       '#id-1': fn1,   //
+        *       '#id-0': fn,    //
+        *       '#id-1': fn,    //
         *   },
         *
         * 例如，绑定多个(委托)事件到多个元素上：
         *   $on({
         *       'click': {
-        *           '#id-0': fn10,
-        *           '#id-1': fn11,
+        *           '#id-0': fn,
+        *           '#id-1': fn,
         *       },
         *       'keyup': {
-        *           '#id-0': fn20,
-        *           '#id-1': fn21,
+        *           '#id-0': fn,
+        *           '#id-1': fn,
         *       },
         *   });
+        * 例如，绑定选择器有共同模板的多个元素：
+        *   $on('click', '[data-cmd="{value}"]', {
+        *       'print': fn,
+        *       'top': fn,
+        *   });
+        *   等价于：
+        *   $on('click', {
+        *       '[data-cmd="print"]': fn,
+        *       '[data-cmd="top"]': fn,
+        *   });
         */
-        $on: function (name, selector$fn) {
-            var name$selector$fn = null;
-
-            if (typeof name == 'string') {
-                //重载 $on(name, selector$fn);
-                //单个事件，多个元素的情况。
-                name$selector$fn = { [name]: selector$fn, };
-            }
-            else if (typeof name == 'object') {
-                //重载 $on(name$selector$fn);
-                //多个事件，多个元素的情况。
-                name$selector$fn = name;
-            }
-            else {
-                throw new Error(`无法识别参数 name 的类型。`);
-            }
+        $on: function (name, sample, selector$fn) {
+            var name$selector$fn = Params.normalize(name, sample, selector$fn);
 
             if (!name$selector$fn) {
                 return;
@@ -10950,9 +10943,10 @@ define('Panel', function (require, module, exports) {
                     return;
                 }
 
+                //重载 $on(name$fn); 
                 //如 $on({ 'click': fn, });
                 if (typeof selector$fn == 'function') {
-                    meta.$.on(name, selector$fn); //此时，selector$fn 就是 fn。
+                    meta.$.on(name, selector$fn); //此时的 selector$fn 就是 fn。
                     return;
                 }
 
@@ -12555,6 +12549,92 @@ define('Panel/Container', function (require, module, exports) {
 });
 
 
+
+define('Panel/Params', function (require, module, exports) {
+    var $ = require('$');
+    var $String = require('String');
+    var $Object = require('Object');
+
+
+
+    return {
+        /**
+        * 针对方法 panel.$on() 提供标准化参数的能力，以支持多样化的重载情况。
+        * 已重载 $on(name$selector$fn);            //绑定多个(委托)事件到多个元素上。
+        * 已重载 $on(name$fn);                     //绑定多个事件到当前元素上。
+
+        * 已重载 $on(name, selector$fn);           //绑定单个(委托)事件到多个元素上。
+        * 已重载 $on(name, fn);                    //绑定单个事件到当前元素上。
+
+        * 已重载 $on(name, sample, selector$fn);   //绑定单个(委托)事件到多个元素上，这些元素的选择器有共同的填充模板。
+        * 已重载 $on(name, selector, fn);          //绑定单个(委托)事件到单个元素上。
+        */
+        normalize: function (name, sample, selector$fn) {
+            var type = typeof name;
+
+            //重载 $on(name$selector$fn);
+            //重载 $on(name$fn);
+            if (type == 'object') {
+                return name;
+            }
+
+            //此时要求 name 必须为一个 string。
+            if (type != 'string') {
+                throw new Error(`无法识别参数 name 的类型。`);
+            }
+
+
+            type = typeof sample;
+
+            //重载 $on(name, selector$fn); 
+            //重载 $on(name, fn);      
+            if (type == 'object' || type == 'function') {
+                return { [name]: sample, };
+            }
+
+
+            //此时要求 sample 必须为一个 string。
+            if (type != 'string') {
+                throw new Error(`无法识别参数 sample 的类型。`);
+            }
+
+            type = typeof selector$fn;
+
+
+            //重载 $on(name, selector, fn);
+            if (type == 'function') {
+                return {
+                    [name]: {
+                        [sample]: selector$fn,  //此时 sample 为 selector，而 selector$fn 为 fn。
+                    },
+                };
+            }
+
+            //重载 $on(name, sample, selector$fn);
+            if (type == 'object') {
+                var all = {};
+
+                $Object.each(selector$fn, function (selector, fn) {
+                    //如填充前的 sample 为 `[data-cmd="{value}"]`，且 selector 为 `print`，
+                    //则填充后的 selector 为 `[data-cmd="print"]`。
+                    selector = $String.format(sample, {
+                        'value': selector,
+                    });
+
+                    all[selector] = fn;
+                });
+
+                return {
+                    [name]: all,
+                };
+            }
+
+
+            throw new Error(`无法识别参数 selector$fn 的类型。`);
+
+        },
+    };
+});
 /**
 * alert 对话框。
 * @namespace
@@ -13542,7 +13622,7 @@ define('Scroller.defaults', /**@lends Scroller.defaults*/ {
             start: '↓ 下拉刷新',
             reach: '↑ 释放立即刷新',
             loading: '加载中...',
-            success: '√ 刷新成功',
+            success: '刷新成功',
         },
 
         load: null,
@@ -15010,7 +15090,9 @@ define('Confirm.defaults', /**@lends Confirm.defaults*/ {
     height: 140,
     autoClose: true,
     volatile: false,
+
     'z-index': 99999,
+
     buttons: [
         { text: '确定', cmd: 'ok', cssClass: 'OK', },
         { text: '取消', cmd: 'cancel', cssClass: 'Cancel' },
@@ -15097,6 +15179,7 @@ define('API', function (require, module, exports) {
             'proxy': proxy,
             'serialize': config.serialize,
             'timeout': config.timeout,
+            'headers': config.headers, 
 
             success: function (data, json, xhr) { //成功
                 fireEvent('success', [data, json, xhr]);
@@ -15414,6 +15497,11 @@ define('API.defaults', /**@lends API.defaults*/ {
     query: null,
 
     /**
+    * 要发送的请求头。
+    */
+    headers: null,
+
+    /**
     * 请求超时的最大值(毫秒)。
     * 0 表示由浏览器控制，代码层面不控制。
     */
@@ -15480,6 +15568,7 @@ define('API/Ajax', function (require, module, exports) {
     *       //当 method 为 'post' 时，数据放在 form-data 表单中。
     *       data: {},           //可选，要发送的数据。 
     *       query: {},          //可选，要发送的查询字符串数据。 该字段仅在 method 为 'post' 时可用。
+    *       headers: {},        //可选，要发送的请求头数据。
     *
     *       field: {            //响应中的映射字段。
     *           code: 'code',   //状态码。
@@ -15616,6 +15705,16 @@ define('API/Ajax', function (require, module, exports) {
                 fnFail && fnFail(code, json[field.msg], json, xhr);
             }
         };
+
+        //设置请求头。
+        var headers = config.headers;
+
+        if (headers) {
+            $Object.each(headers, function (key, value) {
+                xhr.setRequestHeader(key, value);
+            });
+        }
+        
 
         if (method == 'post') {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

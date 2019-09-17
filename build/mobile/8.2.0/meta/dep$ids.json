@@ -38,6 +38,7 @@
         "Mask",
         "Panel/Container",
         "Panel/Meta",
+        "Panel/Params",
         "Tabs/Events",
         "Tabs/Meta",
         "Template/Parser/Templates",
@@ -73,6 +74,7 @@
         "Dialog",
         "Loading/Style",
         "Mask/Style",
+        "Panel/Params",
         "Panel",
         "Tabs",
         "Template/Parser/Templates",
@@ -291,6 +293,7 @@
         "Loading/Meta",
         "Mask/Meta",
         "Panel/Meta",
+        "Panel/Params",
         "Tabs/Meta",
         "Toast/Masker",
         "Toast/Meta"
@@ -526,6 +529,9 @@
         "Panel"
     ],
     "Panel/Container": [
+        "Panel"
+    ],
+    "Panel/Params": [
         "Panel"
     ],
     "Tabs/Events": [

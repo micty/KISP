@@ -45,7 +45,7 @@ define('Scroller.defaults', /**@lends Scroller.defaults*/ {
             start: '↓ 下拉刷新',
             reach: '↑ 释放立即刷新',
             loading: '加载中...',
-            success: '√ 刷新成功',
+            success: '刷新成功',
         },
 
         load: null,

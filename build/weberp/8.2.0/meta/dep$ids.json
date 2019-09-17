@@ -1,0 +1,563 @@
+{
+    "String": [
+        "Date",
+        "Query",
+        "Script",
+        "API/Ajax",
+        "SSH/Ajax",
+        "SSH/Server",
+        "App",
+        "Navigator/Back",
+        "Navigator/Hash",
+        "Navigator/Infos",
+        "Navigator/Meta",
+        "Navigator/Router",
+        "Navigator/Storage",
+        "Navigator",
+        "TransitionEnd",
+        "Url",
+        "RandomId",
+        "Session",
+        "Scroller/Pulldown/Indicator",
+        "Scroller/Pulldown/Loading",
+        "Scroller/Pullup/Indicator",
+        "Scroller/Pullup/Loading",
+        "ViewSlider/Slide/TransitionEnd",
+        "ViewSlider/Jump",
+        "ViewSlider",
+        "Alert/Dialog/Height",
+        "Alert/Dialog",
+        "Alert",
+        "Confirm",
+        "Dialog/Events",
+        "Dialog/Meta",
+        "Dialog/Template",
+        "Loading/Meta",
+        "Loading",
+        "Mask/Meta",
+        "Mask",
+        "Panel/Container",
+        "Panel/Meta",
+        "Panel/Params",
+        "Tabs/Events",
+        "Tabs/Meta",
+        "Template/Parser/Templates",
+        "Template/Child",
+        "Template/Meta",
+        "Template/Sample",
+        "Template",
+        "Toast/Meta",
+        "Toast"
+    ],
+    "Object": [
+        "Emitter",
+        "Hash",
+        "Query",
+        "Script",
+        "StyleSheet",
+        "Tree",
+        "API/Ajax",
+        "SSH/Ajax",
+        "SSH.API/Ajax",
+        "SSH.API",
+        "SSH",
+        "Router",
+        "Config",
+        "Data",
+        "Defaults",
+        "Style",
+        "Scroller/IScroll",
+        "Scroller/Meta",
+        "Scroller",
+        "Touch",
+        "Dialog/Style",
+        "Dialog",
+        "Loading/Style",
+        "Mask/Style",
+        "Panel/Params",
+        "Panel",
+        "Tabs",
+        "Template/Parser/Templates",
+        "Template/Child",
+        "Template/Meta",
+        "Template/Sample",
+        "Template",
+        "Toast/Style"
+    ],
+    "Tree": [
+        "Emitter"
+    ],
+    "Math": [
+        "Fn"
+    ],
+    "Query": [
+        "Hash",
+        "API/Ajax",
+        "Proxy/Url",
+        "SSH/Ajax",
+        "Package/All"
+    ],
+    "Array": [
+        "Object",
+        "String",
+        "App/Navigator/Views",
+        "Dialog/Events",
+        "Dialog/Template",
+        "Tabs/Events"
+    ],
+    "Emitter": [
+        "Tasks",
+        "SSH/Server/Config",
+        "API",
+        "SSH.API",
+        "SSH",
+        "Navigator",
+        "OuterModule",
+        "Scroller",
+        "ViewSlider",
+        "Dialog",
+        "Loading",
+        "Mask",
+        "Panel",
+        "Tabs",
+        "Template",
+        "Toast"
+    ],
+    "Proxy": [
+        "API/Ajax",
+        "KISP"
+    ],
+    "JSON": [
+        "API/Ajax",
+        "Proxy"
+    ],
+    "Defaults": [
+        "Proxy/Url",
+        "SSH/Server/Config",
+        "SSH/Server",
+        "API",
+        "Proxy",
+        "SSH.API",
+        "SSH",
+        "App",
+        "Navigator",
+        "Package",
+        "LocalStorage",
+        "SessionStorage",
+        "Url",
+        "KISP",
+        "OuterModule",
+        "Session",
+        "Scroller",
+        "ViewSlider/Jump",
+        "ViewSlider/Slide",
+        "ViewSlider",
+        "Alert/Dialog",
+        "Confirm",
+        "Dialog",
+        "Loading",
+        "Mask",
+        "Panel/Container",
+        "Panel",
+        "Tabs",
+        "Toast",
+        "View"
+    ],
+    "Url": [
+        "Proxy/Url",
+        "SSH/Server",
+        "Proxy",
+        "Package/All"
+    ],
+    "SessionStorage": [
+        "SSH/Server/Config",
+        "SSH/Server",
+        "Navigator/Storage"
+    ],
+    "LocalStorage": [
+        "SSH/Server/Config",
+        "SSH/Server",
+        "Navigator/Storage"
+    ],
+    "Date": [
+        "SSH/Ajax",
+        "SSH/Server",
+        "Navigator/Hash",
+        "Navigator/Infos",
+        "Navigator/Meta"
+    ],
+    "MD5": [
+        "SSH/Ajax",
+        "SSH/Server"
+    ],
+    "API": [
+        "SSH/Ajax",
+        "SSH/Server",
+        "SSH"
+    ],
+    "SSH/Server/Config": [
+        "SSH/Server"
+    ],
+    "SSH": [
+        "SSH.API/Ajax",
+        "SSH.API"
+    ],
+    "Fn": [
+        "API",
+        "Proxy",
+        "SSH.API",
+        "Scroller",
+        "ViewSlider/Slide"
+    ],
+    "Mapper": [
+        "API",
+        "SSH.API",
+        "SSH",
+        "Dialog",
+        "Panel",
+        "View"
+    ],
+    "API/Ajax": [
+        "API"
+    ],
+    "Script": [
+        "Proxy"
+    ],
+    "Proxy/Url": [
+        "Proxy"
+    ],
+    "SSH.API/Ajax": [
+        "SSH.API"
+    ],
+    "SSH/Server": [
+        "SSH"
+    ],
+    "SSH/Ajax": [
+        "SSH"
+    ],
+    "Tasks": [
+        "App/Navigator/Views",
+        "App/Navigator",
+        "Package/All",
+        "Package/Loader",
+        "Package"
+    ],
+    "Package": [
+        "App/Navigator/Views",
+        "KISP"
+    ],
+    "Navigator": [
+        "App/Navigator"
+    ],
+    "App/Navigator/Views": [
+        "App/Navigator"
+    ],
+    "OuterModule": [
+        "App",
+        "Panel"
+    ],
+    "Router": [
+        "App",
+        "KISP"
+    ],
+    "KISP": [
+        "App",
+        "Storage"
+    ],
+    "$": [
+        "App",
+        "Navigator/Back",
+        "Navigator/Hash",
+        "Navigator/Infos",
+        "Navigator/Meta",
+        "Navigator/Router",
+        "Navigator/Storage",
+        "Package/All",
+        "Package",
+        "TransitionEnd",
+        "Scroller/Pulldown/Indicator",
+        "Scroller/Pulldown/Loading",
+        "Scroller/Pullup/Indicator",
+        "Scroller/Pullup/Loading",
+        "Scroller/IScroll",
+        "Scroller/Meta",
+        "Scroller",
+        "Touch",
+        "Dialog/Masker",
+        "Dialog/Meta",
+        "Loading/Masker",
+        "Loading/Meta",
+        "Mask/Meta",
+        "Panel/Meta",
+        "Panel/Params",
+        "Tabs/Meta",
+        "Toast/Masker",
+        "Toast/Meta"
+    ],
+    "App/Navigator": [
+        "App"
+    ],
+    "Hash": [
+        "Navigator/Hash"
+    ],
+    "Navigator/Back": [
+        "Navigator"
+    ],
+    "Navigator/Meta": [
+        "Navigator"
+    ],
+    "Navigator/Hash": [
+        "Navigator"
+    ],
+    "Navigator/Infos": [
+        "Navigator"
+    ],
+    "Navigator/Router": [
+        "Navigator"
+    ],
+    "Navigator/Storage": [
+        "Navigator"
+    ],
+    "Session": [
+        "Package/All",
+        "Package"
+    ],
+    "Package/All": [
+        "Package"
+    ],
+    "Package/Loader": [
+        "Package"
+    ],
+    "Storage": [
+        "LocalStorage",
+        "SessionStorage"
+    ],
+    "CircularJSON": [
+        "Storage"
+    ],
+    "TransitionEnd/Data": [
+        "TransitionEnd"
+    ],
+    "TransitionEnd/EventName": [
+        "TransitionEnd"
+    ],
+    "Config": [
+        "Data",
+        "Defaults"
+    ],
+    "Data": [
+        "KISP"
+    ],
+    "App": [
+        "KISP"
+    ],
+    "View": [
+        "KISP"
+    ],
+    "Panel": [
+        "KISP",
+        "Scroller/Pulldown/Indicator",
+        "Scroller/Pullup/Indicator",
+        "View"
+    ],
+    "Alert": [
+        "KISP"
+    ],
+    "Confirm": [
+        "KISP"
+    ],
+    "Scroller/Pulldown/Indicator/Sample": [
+        "Scroller/Pulldown/Indicator"
+    ],
+    "Loading": [
+        "Scroller/Pulldown/Loading",
+        "Scroller/Pullup/Loading",
+        "Package.defaults"
+    ],
+    "Scroller/Pulldown/Indicator": [
+        "Scroller/Pulldown"
+    ],
+    "Scroller/Pulldown/Loading": [
+        "Scroller/Pulldown"
+    ],
+    "Scroller/Pullup/Indicator/Sample": [
+        "Scroller/Pullup/Indicator"
+    ],
+    "Scroller/Pullup/Indicator": [
+        "Scroller/Pullup"
+    ],
+    "Scroller/Pullup/Loading": [
+        "Scroller/Pullup"
+    ],
+    "IScroll": [
+        "Scroller/IScroll"
+    ],
+    "RandomId": [
+        "Scroller/Meta",
+        "Dialog/Meta",
+        "Loading/Meta",
+        "Mask/Meta",
+        "Panel/Meta",
+        "Tabs/Meta",
+        "Template/Meta",
+        "Toast/Meta"
+    ],
+    "Scroller/Meta": [
+        "Scroller"
+    ],
+    "Scroller/IScroll": [
+        "Scroller"
+    ],
+    "Scroller/Puller": [
+        "Scroller"
+    ],
+    "Scroller/Pulldown": [
+        "Scroller"
+    ],
+    "Scroller/Pullup": [
+        "Scroller"
+    ],
+    "Mask": [
+        "ViewSlider/Slide/Touch",
+        "ViewSlider/Jump",
+        "Dialog/Masker",
+        "Loading/Masker",
+        "Toast/Masker"
+    ],
+    "TransitionEnd": [
+        "ViewSlider/Slide/TransitionEnd",
+        "ViewSlider/Jump"
+    ],
+    "ViewSlider/Slide/TransitionEnd": [
+        "ViewSlider/Slide"
+    ],
+    "ViewSlider/Slide/Gradient": [
+        "ViewSlider/Slide"
+    ],
+    "ViewSlider/Slide/Touch": [
+        "ViewSlider/Slide"
+    ],
+    "ViewSlider/Jump": [
+        "ViewSlider"
+    ],
+    "ViewSlider/Slide": [
+        "ViewSlider"
+    ],
+    "Dialog": [
+        "Alert/Dialog",
+        "Confirm"
+    ],
+    "Alert/Dialog/Height": [
+        "Alert/Dialog"
+    ],
+    "Alert/Dialog": [
+        "Alert"
+    ],
+    "Alert/Sample": [
+        "Alert"
+    ],
+    "Template": [
+        "Dialog/Events",
+        "Dialog/Template",
+        "Panel",
+        "Tabs"
+    ],
+    "Style": [
+        "Dialog/Style",
+        "Dialog/Template",
+        "Loading/Style",
+        "Loading",
+        "Mask/Style",
+        "Mask",
+        "Toast/Style",
+        "Toast"
+    ],
+    "Dialog/Template/Sample": [
+        "Dialog/Template"
+    ],
+    "Dialog/Style": [
+        "Dialog"
+    ],
+    "Dialog/Meta": [
+        "Dialog"
+    ],
+    "Dialog/Masker": [
+        "Dialog"
+    ],
+    "Dialog/Events": [
+        "Dialog"
+    ],
+    "Dialog/Template": [
+        "Dialog"
+    ],
+    "Loading/Sample": [
+        "Loading"
+    ],
+    "Loading/Style": [
+        "Loading"
+    ],
+    "Loading/Meta": [
+        "Loading"
+    ],
+    "Loading/Masker": [
+        "Loading"
+    ],
+    "Loading/Presettings": [
+        "Loading"
+    ],
+    "Mask/Sample": [
+        "Mask"
+    ],
+    "Mask/Style": [
+        "Mask"
+    ],
+    "Mask/Meta": [
+        "Mask"
+    ],
+    "Panel/Meta": [
+        "Panel"
+    ],
+    "Panel/Container": [
+        "Panel"
+    ],
+    "Panel/Params": [
+        "Panel"
+    ],
+    "Tabs/Events": [
+        "Tabs"
+    ],
+    "Tabs/Meta": [
+        "Tabs"
+    ],
+    "HTMLParser": [
+        "Template/Parser",
+        "Template"
+    ],
+    "Template/Parser/Templates": [
+        "Template/Parser"
+    ],
+    "Template/Meta": [
+        "Template"
+    ],
+    "Template/Parser": [
+        "Template"
+    ],
+    "Template/Sample": [
+        "Template"
+    ],
+    "Template/Child": [
+        "Template"
+    ],
+    "Toast/Sample": [
+        "Toast"
+    ],
+    "Toast/Style": [
+        "Toast"
+    ],
+    "Toast/Meta": [
+        "Toast"
+    ],
+    "Toast/Masker": [
+        "Toast"
+    ]
+}

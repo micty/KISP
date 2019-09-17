@@ -880,6 +880,15 @@
         },
         "file": "src/ui/panel/Panel/Meta.js"
     },
+    "Panel/Params": {
+        "id": "Panel/Params",
+        "dep$count": {
+            "$": 1,
+            "String": 1,
+            "Object": 1
+        },
+        "file": "src/ui/panel/Panel/Params.js"
+    },
     "Panel": {
         "id": "Panel",
         "dep$count": {
@@ -890,7 +899,8 @@
             "Template": 1,
             "Mapper": 1,
             "Panel/Meta": 1,
-            "Panel/Container": 1
+            "Panel/Container": 1,
+            "Panel/Params": 1
         },
         "file": "src/ui/panel/Panel.js"
     },

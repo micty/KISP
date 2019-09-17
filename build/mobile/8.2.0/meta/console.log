@@ -1,9 +1,11 @@
 
-2019-03-15 15:01:59
+2019-03-28 18:18:06
 删除目录: ../build/mobile/8.2.0/
 
-2019-03-15 15:02:04
+2019-03-28 18:18:07
 写入 ../build/mobile/8.2.0/src/$/Array.js
+
+2019-03-28 18:18:08
 写入 ../build/mobile/8.2.0/src/$/Date.js
 写入 ../build/mobile/8.2.0/src/$/Emitter.js
 写入 ../build/mobile/8.2.0/src/$/Escape.js
@@ -57,8 +59,6 @@
 写入 ../build/mobile/8.2.0/src/browser/transition/TransitionEnd/EventName.js
 写入 ../build/mobile/8.2.0/src/browser/transition/TransitionEnd.js
 写入 ../build/mobile/8.2.0/src/browser/Router.js
-
-2019-03-15 15:02:05
 写入 ../build/mobile/8.2.0/src/browser/Url.js
 写入 ../build/mobile/8.2.0/src/core/Config.js
 写入 ../build/mobile/8.2.0/src/core/Data.js
@@ -129,6 +129,8 @@
 写入 ../build/mobile/8.2.0/src/mobile/view-slider/ViewSlider/Jump.js
 写入 ../build/mobile/8.2.0/src/mobile/view-slider/ViewSlider/Slide.js
 写入 ../build/mobile/8.2.0/src/mobile/view-slider/ViewSlider.js
+
+2019-03-28 18:18:09
 写入 ../build/mobile/8.2.0/src/mobile/Touch.js
 写入 ../build/mobile/8.2.0/src/partial/begin.js
 写入 ../build/mobile/8.2.0/src/partial/end.js
@@ -159,6 +161,7 @@
 写入 ../build/mobile/8.2.0/src/ui/mask/Mask.js
 写入 ../build/mobile/8.2.0/src/ui/panel/Panel/Container.js
 写入 ../build/mobile/8.2.0/src/ui/panel/Panel/Meta.js
+写入 ../build/mobile/8.2.0/src/ui/panel/Panel/Params.js
 写入 ../build/mobile/8.2.0/src/ui/panel/Panel.js
 [
     "//<for:mobile---->"
@@ -240,7 +243,7 @@
 写入 ../build/mobile/8.2.0/meta/id$mod.json
 写入 ../build/mobile/8.2.0/meta/id$file.json
 写入 ../build/mobile/8.2.0/meta/dep$ids.json
-合并 147 个文件:
+合并 148 个文件:
     ../build/mobile/8.2.0/src/partial/begin.js
     ../build/mobile/8.2.0/src/base/Module.js
     ../build/mobile/8.2.0/src/base/ModuleManager.js
@@ -339,6 +342,7 @@
     ../build/mobile/8.2.0/src/core/Mapper.js
     ../build/mobile/8.2.0/src/ui/panel/Panel/Meta.js
     ../build/mobile/8.2.0/src/ui/panel/Panel/Container.js
+    ../build/mobile/8.2.0/src/ui/panel/Panel/Params.js
     ../build/mobile/8.2.0/src/ui/alert/Alert.js
     ../build/mobile/8.2.0/src/data/defaults/common/Alert.js
     ../build/mobile/8.2.0/src/data/config/mobile/Alert.js
@@ -389,10 +393,10 @@
     ../build/mobile/8.2.0/src/ui/loading/Loading/Sample/IOS.html.js
     ../build/mobile/8.2.0/src/partial/end.js
 写入 ../build/mobile/8.2.0/kisp.debug.js
-开始压缩 js 内容 459 KB ...
+开始压缩 js 内容 462 KB ...
 
-2019-03-15 15:02:08
-成功压缩 js 内容 99 KB  压缩率 78.43%  耗时 2518 ms
+2019-03-28 18:18:14
+成功压缩 js 内容 100 KB  压缩率 78.35%  耗时 4188 ms
 写入 ../build/mobile/8.2.0/kisp.min.js
 编译 less debug 版
 编译 ../build/mobile/8.2.0/src/mobile/scroller/Scroller.less

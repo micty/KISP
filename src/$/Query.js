@@ -9,6 +9,46 @@ define('Query', function (require, module, exports) {
     var $Object = require('Object');
 
 
+    //把指定的 url 中的查询字符串替换成目标查询字符串。 
+    //同时会保留原有的 hash 串。
+    function replace(url, qs) {
+        qs = qs || '';
+
+        if (typeof qs == 'object') {
+            qs = exports.stringify(qs);
+        }
+        
+        if (qs) {
+            qs = '?' + qs;
+        }
+
+        var hasQuery = url.includes('?');
+        var hasHash = url.includes('#');
+        var parts = [];
+
+
+        if (hasQuery && hasHash) {
+            parts = url.split(/\?|#/g);
+            return parts[0] + qs + '#' + parts[2];
+        }
+
+        if (hasQuery) {
+            parts = url.split('?');
+            return parts[0] + qs;
+        }
+
+        if (hasHash) {
+            parts = url.split('#');
+            return parts[0] + qs + '#' + parts[1];
+        }
+
+
+        return url + qs;
+    }
+
+
+
+
     return exports = /**@lends Query */ {
 
 
@@ -275,6 +315,49 @@ define('Query', function (require, module, exports) {
 
 
         /**
+        * 删除指定的 url 的查询字符串。
+        * 已重载 remove(url);          //删除全部查询字符串。
+        * 已重载 remove(url, key);     //删除指定键的查询字符串。
+        * 已重载 remove(window);       //删除指定 window 窗口的全部查询字符串，会导致页面刷新。
+        * 已重载 remove(window, key);  //删除指定 window 窗口的指定键查询字符串，会导致页面刷新。
+        * 已重载 remove(location);     //删除指定 location 窗口的全部查询字符串，会导致页面刷新。
+        * 已重载 remove(location, key);//删除指定 location 窗口的指定键查询字符串，会导致页面刷新。
+        */
+        remove: function (url, key) {
+            var location = null;
+
+            if (typeof url == 'object') {
+                if ('href' in url) {
+                    location = url;         //location
+                }
+                else {
+                    location = url.location; //window
+                }
+
+                url = location.href;
+            }
+
+
+            var qs = '';
+
+            if (key) {
+                qs = exports.get(url);
+                delete qs[key];
+            }
+
+            url = replace(url, qs);
+
+            //设置整个 location.href 会刷新
+            if (location) {
+                location.href = url;
+            }
+
+            return url;
+
+        },
+
+
+        /**
         * 给指定的 url 添加一个随机查询字符串。
         * 注意，该方法会保留之前的查询字符串，并且添加一个键名为随机字符串而值为空字符串的查询字符串。
         * @param {string} url 组装前的 url。
@@ -312,7 +395,6 @@ define('Query', function (require, module, exports) {
             Query.set('http://test.com?a=1&b=2#hash', {a: 3, d: 4});  
         */
         set: function (url, key, value) {
-
             var location = null;
 
             if (typeof url == 'object') {
@@ -322,46 +404,26 @@ define('Query', function (require, module, exports) {
                 else {      
                     location = url.location; //window
                 }
+
                 url = location.href;
             }
 
 
+            var qs = '';
             var type = typeof key;
             var isValueType = (/^(string|number|boolean)$/).test(type);
 
-            var qs = '';
-
             //set(url, qs);
-            if (arguments.length == 2 && isValueType) { 
+            if (arguments.length == 2 && isValueType) {
                 qs = encodeURIComponent(key);
             }
             else {
-                var obj = type == 'object' ? key : $Object.make(key, value);
-                qs = exports.stringify(obj);
+                qs = type == 'object' ? key : $Object.make(key, value);
             }
 
 
+            url = replace(url, qs);
 
-            var hasQuery = url.indexOf('?') > -1;
-            var hasHash = url.indexOf('#') > -1;
-            var a;
-
-            if (hasQuery && hasHash) {
-                a = url.split(/\?|#/g);
-                return a[0] + '?' + qs + '#' + a[2];
-            }
-
-            if (hasQuery) {
-                a = url.split('?');
-                return a[0] + '?' + qs;
-            }
-
-            if (hasHash) {
-                a = url.split('#');
-                return a[0] + '?' + qs + '#' + a[1];
-            }
-
-            url = url + '?' + qs;
 
             //设置整个 location.href 会刷新
             if (location) {

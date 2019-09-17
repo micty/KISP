@@ -1,4 +1,4 @@
-
+ï»¿
 /**
 * 
 */
@@ -8,7 +8,7 @@ define('Template/Parser/Templates', function (require, module, exports) {
 
 
     /**
-    * »ñÈ¡Ö¸¶¨ template ½ÚµãµÄ¸¸Ç× template ½Úµã(¡£
+    * è·å–æŒ‡å®š template èŠ‚ç‚¹çš„çˆ¶äº² template èŠ‚ç‚¹(ã€‚
     */
     function getParent(tpl) {
         tpl = tpl.parentNode;
@@ -32,8 +32,8 @@ define('Template/Parser/Templates', function (require, module, exports) {
 
 
         /**
-        * °ÑËùÓĞµÄ template ½ÚµãĞÅÏ¢ÌáÈ¡³öÀ´¡£
-        * ·µ»ØÒ»¸öÓÉ¶¥²ã template ½Úµã¶ÔÓ¦µÄÃèÊöĞÅÏ¢¶ÔÏó×é³ÉµÄÊı×é¡£
+        * æŠŠæ‰€æœ‰çš„ template èŠ‚ç‚¹ä¿¡æ¯æå–å‡ºæ¥ã€‚
+        * è¿”å›ä¸€ä¸ªç”±é¡¶å±‚ template èŠ‚ç‚¹å¯¹åº”çš„æè¿°ä¿¡æ¯å¯¹è±¡ç»„æˆçš„æ•°ç»„ã€‚
         */
         get: function (dom) {
             var tpls = dom.getElementsByTagName('template');
@@ -53,7 +53,7 @@ define('Template/Parser/Templates', function (require, module, exports) {
                     'sample': innerHTML,
                     'parent': null,
                     'attributes': attributes,
-                    'items': [],    //Ö±½ÓÏÂ¼¶ÁĞ±í¡£
+                    'items': [],    //ç›´æ¥ä¸‹çº§åˆ—è¡¨ã€‚
                 };
 
                 tpl$item.set(tpl, item);
@@ -66,16 +66,16 @@ define('Template/Parser/Templates', function (require, module, exports) {
                 var tpl = getParent(item.node);
                 var parent = tpl$item.get(tpl);
 
-                //ÊÕ¼¯¸ù½Úµã¡£
+                //æ”¶é›†æ ¹èŠ‚ç‚¹ã€‚
                 if (!parent) {
                     return true;
                 }
 
-                //Ë³±ã´¦ÀíÒ»ÏÂÆäËü¡£
+                //é¡ºä¾¿å¤„ç†ä¸€ä¸‹å…¶å®ƒã€‚
                 item.parent = parent;
                 parent.items.push(item);
 
-                //Ìæ»»µô×ÓÄ£°åÔÚ¸¸Ä£°åÖĞµÄÄÚÈİ¡£
+                //æ›¿æ¢æ‰å­æ¨¡æ¿åœ¨çˆ¶æ¨¡æ¿ä¸­çš„å†…å®¹ã€‚
                 var sample = parent.sample;
                 var outerHTML = item.outerHTML;
                 var placeholder = item.placeholder;
