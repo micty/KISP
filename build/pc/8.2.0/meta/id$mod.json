@@ -450,6 +450,8 @@
     "OuterModule": {
         "id": "OuterModule",
         "dep$count": {
+            "String": 1,
+            "Object": 1,
             "Defaults": 1,
             "Emitter": 1
         },

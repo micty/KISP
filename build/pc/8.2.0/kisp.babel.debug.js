@@ -10,8 +10,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 * KISP JavaScript Library
 * name: pc 
 * version: 8.2.0
-* build time: 2019-09-17 11:11:28
-* concat md5: A69CEBECA20B169EF683D33E2E2FC9C8
+* build time: 2019-09-18 16:43:19
+* concat md5: 291855C7EF9649F4A3D9DD46D4FE5789
 * source files: 123(121)
 *    partial/begin.js
 *    base/Module.js
@@ -4316,7 +4316,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   * 内容不包括本字段动态生成的值部分。
                   * 与生成的头部注释中的 md5 值是一致的。
                   */
-                md5: 'A69CEBECA20B169EF683D33E2E2FC9C8',
+                md5: '291855C7EF9649F4A3D9DD46D4FE5789',
 
                 /**
                 * babel 版本号。 (由 packer 自动插入)
@@ -5291,6 +5291,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     * @name OuterModule
     */
     define('OuterModule', function (require, module, exports) {
+        var $String = require('String');
+        var $Object = require('Object');
         var Defaults = require('Defaults');
         var Emitter = require('Emitter');
 
@@ -5300,6 +5302,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         //对外给业务层使用的模块管理器。
         var mm = new ModuleManager(defaults);
+
+        //针对模板模块。
+        var id$factory = {};
 
         return (/**@lends Module*/{
                 /**
@@ -5311,10 +5316,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 * 定义指定名称的模块。
                 * 该方法对外给业务层使用的。
                 * @function
-                * @param {string} id 模块的名称。
+                * @param {string} id 模块的名称。 可以是一个模板。
                 * @param {Object|function} factory 模块的导出函数或对象。
                 */
-                'define': mm.define.bind(mm),
+                'define': function define(id, factory) {
+
+                    var isTPL = id.includes('{') && id.includes('}'); // id 为一个模板字符串，如 `{prefix}/Address`。
+
+                    if (isTPL) {
+                        id$factory[id] = factory; //定义一个模板模块，则先缓存起来。
+                    } else {
+                        mm.define(id, factory);
+                    }
+                },
 
                 /**
                 * 加载指定的模块。
@@ -5325,7 +5339,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 * @param {string} id 模块的名称。
                 * @return 返回指定的模块。 
                 */
-                'require': mm.require.bind(mm)
+                'require': mm.require.bind(mm),
+
+                /**
+                * 填充一个模板模块，以生成（定义）一个真正的模块。
+                *   sid: '',    //模板模板的 id，如 `{prefix}/Address`
+                *   data: {},   //要填充的数据，如 { prefix: 'Demo/User', }
+                */
+                'fill': function fill(sid, data) {
+
+                    //需要扫描所有模板，同时填充它的子模块。
+                    $Object.each(id$factory, function (id, factory) {
+
+                        //如 sid 为 `{prefix}/Address`，
+                        //则所有以它为开头的模板模块都要填充，
+                        //如 id 为 `{prefix}/Address/API`
+                        if (!id.startsWith(sid)) {
+                            return;
+                        }
+
+                        //填充成完整的模块 id。
+                        id = $String.format(id, data);
+
+                        console.log('\u52A8\u6001\u5B9A\u4E49\u6A21\u5757: ' + id);
+
+                        mm.define(id, factory);
+                    });
+                }
 
             }
         );
@@ -8583,7 +8623,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var Params = module.require('Params');
 
         var mapper = require('Mapper'); //这里要用有继承关系的 Mapper。 因为作为父类。
-        var id$panel = {};
+        var id$panel = {}; //
+        var id$options = {}; //
+
         var defaults = Defaults.clone(module.id);
 
         /**
@@ -8594,7 +8636,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             config = Defaults.clone(module.id, config);
 
             var meta = Meta.create(config, {
-                'moudle': null, //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="xx"]'。
+                'moudle': null, //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="XXX"]'。
                 'container': container, //
                 'tplContainer': container, //
                 '$emitter': new Emitter(), //供外部用的事件管理器。
@@ -9129,11 +9171,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 };
 
                 OuterModule.define(id, function ($require, $module, $exports) {
-                    var container = Container.get(id, options.defaults); //如 `[data-panel="/Users/Main"]`。
-                    var panel = new options.constructor(container);
-                    var meta = mapper.get(panel);
+                    id = $module.id; //此 id 才是完整的 id。 外面的那个可能是个模板 id。
 
-                    meta.module = panel.module = $module; //指示此 panel 由 Panel.define() 创建的。
+                    var container = Container.get(id, options.defaults); //如 `[data-panel="/Users/Main"]`。
+                    var panel = new options.constructor(container); //如 new Panel(`[data-panel="/Users/Main"]`)。
+                    var meta = mapper.get(panel); //获取 panel 对应的元数据。
+
+                    //指示此 panel 由 Panel.define() 创建的。
+                    meta.module = panel.module = $module;
 
                     //注意，参数中的 factory 并不是真正的工厂函数，本函数体才是。
                     //因此，参数中的 factory 的返回值 $exports 只是一个部分的导出对象。 
@@ -13047,6 +13092,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         global.KISP = KISP; //对外提供的命名空间 KISP。
         global.define = OuterModule.define; //这个 define 是对外的，跟内部用的 define 不是同一个。
+        global.define.fill = OuterModule.fill; //提供一个快捷方式。
 
     })(InnerModules.require);
 })(window, // 在浏览器环境中。

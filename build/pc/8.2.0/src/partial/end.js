@@ -5,6 +5,7 @@
 
     global.KISP = KISP;                     //对外提供的命名空间 KISP。
     global.define = OuterModule.define;     //这个 define 是对外的，跟内部用的 define 不是同一个。
+    global.define.fill = OuterModule.fill;  //提供一个快捷方式。
 
 
 })(InnerModules.require);

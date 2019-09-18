@@ -14,7 +14,9 @@ define('Panel', function (require, module, exports) {
     var Params = module.require('Params');
 
     var mapper = require('Mapper');         //这里要用有继承关系的 Mapper。 因为作为父类。
-    var id$panel = {};
+    var id$panel = {};                      //
+    var id$options = {};                    //
+
     var defaults = Defaults.clone(module.id);
 
 
@@ -27,7 +29,7 @@ define('Panel', function (require, module, exports) {
         config = Defaults.clone(module.id, config);
 
         var meta = Meta.create(config, {
-            'moudle': null,                 //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="xx"]'。
+            'moudle': null,                 //如果非空，则是由 Panel.define() 创建的，此时 container='[data-panel="XXX"]'。
             'container': container,         //
             'tplContainer': container,      //
             '$emitter': new Emitter(),      //供外部用的事件管理器。
@@ -555,12 +557,16 @@ define('Panel', function (require, module, exports) {
                 'defaults': defaults,
             };
 
-            OuterModule.define(id, function ($require, $module, $exports) {
-                var container = Container.get(id, options.defaults);  //如 `[data-panel="/Users/Main"]`。
-                var panel = new options.constructor(container);
-                var meta = mapper.get(panel);
 
-                meta.module = panel.module = $module;    //指示此 panel 由 Panel.define() 创建的。
+            OuterModule.define(id, function ($require, $module, $exports) {
+                id = $module.id;    //此 id 才是完整的 id。 外面的那个可能是个模板 id。
+
+                var container = Container.get(id, options.defaults);    //如 `[data-panel="/Users/Main"]`。
+                var panel = new options.constructor(container);         //如 new Panel(`[data-panel="/Users/Main"]`)。
+                var meta = mapper.get(panel);                           //获取 panel 对应的元数据。
+
+                //指示此 panel 由 Panel.define() 创建的。
+                meta.module = panel.module = $module;    
 
                 //注意，参数中的 factory 并不是真正的工厂函数，本函数体才是。
                 //因此，参数中的 factory 的返回值 $exports 只是一个部分的导出对象。 

@@ -1,8 +1,6 @@
 
-2019-09-17 11:11:26
+2019-09-18 16:43:18
 删除目录: ../build/pc/8.2.0/
-
-2019-09-17 11:11:27
 写入 ../build/pc/8.2.0/src/$/Array.js
 写入 ../build/pc/8.2.0/src/$/Date.js
 写入 ../build/pc/8.2.0/src/$/Emitter.js
@@ -73,6 +71,8 @@
 写入 ../build/pc/8.2.0/src/data/config/mobile/Dialog.js
 写入 ../build/pc/8.2.0/src/data/config/mobile/Mask.js
 写入 ../build/pc/8.2.0/src/data/config/mobile/Tabs.js
+
+2019-09-18 16:43:19
 写入 ../build/pc/8.2.0/src/data/config/mobile/View.js
 写入 ../build/pc/8.2.0/src/data/config/pc/Alert.js
 写入 ../build/pc/8.2.0/src/data/config/pc/App.js
@@ -238,8 +238,6 @@
 写入 ../build/pc/8.2.0/src/ui/toast/Toast/Sample.html.js
 ../build/pc/8.2.0/src/core/KISP.js
 写入 ../build/pc/8.2.0/meta/files.json
-
-2019-09-17 11:11:28
 写入 ../build/pc/8.2.0/meta/id$mod.json
 写入 ../build/pc/8.2.0/meta/id$file.json
 写入 ../build/pc/8.2.0/meta/dep$ids.json
@@ -368,10 +366,12 @@
     ../build/pc/8.2.0/src/ui/loading/Loading/Sample/IOS.html.js
     ../build/pc/8.2.0/src/partial/end.js
 写入 ../build/pc/8.2.0/kisp.debug.js
-开始压缩 js 内容 390 KB ...
 
-2019-09-17 11:11:30
-成功压缩 js 内容 82 KB  压缩率 78.97%  耗时 2598 ms
+2019-09-18 16:43:20
+开始压缩 js 内容 392 KB ...
+
+2019-09-18 16:43:22
+成功压缩 js 内容 83 KB  压缩率 78.83%  耗时 2775 ms
 写入 ../build/pc/8.2.0/kisp.min.js
 编译 less debug 版
 编译 ../build/pc/8.2.0/src/mobile/scroller/Scroller.less
@@ -386,6 +386,8 @@
 编译 less min 版
 编译 ../build/pc/8.2.0/src/mobile/scroller/Scroller.less
 编译 ../build/pc/8.2.0/src/ui/alert/Alert.less
+
+2019-09-18 16:43:23
 编译 ../build/pc/8.2.0/src/ui/confirm/Confirm.less
 编译 ../build/pc/8.2.0/src/ui/dialog/Dialog.less
 编译 ../build/pc/8.2.0/src/ui/loading/Loading.less
@@ -395,11 +397,11 @@
 写入 ../build/pc/8.2.0/kisp.min.css
 babel 转换 ../build/pc/8.2.0/kisp.debug.js
 
-2019-09-17 11:11:33
+2019-09-18 16:43:25
 写入 ../build/pc/8.2.0/kisp.babel.debug.js
-开始压缩 js 内容 426 KB ...
+开始压缩 js 内容 428 KB ...
 
-2019-09-17 11:11:35
-成功压缩 js 内容 86 KB  压缩率 79.81%  耗时 2171 ms
+2019-09-18 16:43:27
+成功压缩 js 内容 86 KB  压缩率 79.91%  耗时 2113 ms
 写入 ../build/pc/8.2.0/kisp.babel.min.js
 复制目录: ../build/pc/8.2.0/src/f/jquery → ../build/pc/8.2.0/jquery

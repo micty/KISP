@@ -156,6 +156,7 @@ define('KISP', function (require, module, exports) {
         * @param {function} fnCancel 点击 `取消` 按钮后要执行的回调函数。
         */
         confirm: InnerModules.bind('Confirm', 'show'),
+
         
     };
 });
