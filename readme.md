@@ -91,12 +91,12 @@ KISP.launch(function (require, module, nav) {
 ## 架构图
 
 ### KISP 架构
-![](upload/paste/2019-09-03/152524-FFFF.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-03/152524-FFFF.png)
 
 
 ### 应用架构
 
-![](upload/paste/2019-09-05/113508-6023.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-05/113508-6023.png)
 
 
 ## 模块管理
@@ -486,7 +486,7 @@ KISP.proxy(function (data, config) {
 
 大多数 Web 动态语言如 `JSP`、`ASP.NET`、`PHP` 等都是后台填充。此处关注的是前端填充，作为对比，它们的架构关系为：
 
-![](upload/paste/2019-09-02/160840-0330.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/160840-0330.png)
 
 ### 前端模板填充
 
@@ -494,7 +494,7 @@ KISP.proxy(function (data, config) {
  
  > 在 DOM 性能上，通过填充后的内容字符串，一次性设置到容器 DOM 结点的 innerHTML 属性，可以极大提高渲染性能。
  
-![](upload/paste/2019-09-02/160438-7981.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/160438-7981.png)
  
 KISP 使用符合 W3C 标准的模板标签 `<template>...</template>` 对 HTML 模板内容进行表示。`<template>` 标签已在 HTML5 标准中原生支持，是存放 HTML 模板内容的最好的容器。
 
@@ -600,7 +600,7 @@ KISP 针对 JavaScript 语言自身的一些设计不足，提供了若干个语
 
 实际应用中，每个项目可能各有不同，需要根据自身的情况去定制 KISP 内部模块的行为，因此需要一份自定义配置去（部分或全部）覆盖 KISP 内部提供默认配置。影响 KISP 内部模块的配置自底向上可以分为四个层次，层次上面配置的会覆盖下层的配置，换言之，越上层的配置优先级越高。对于复合对象，它们使用的是深度合并。
 
-![](upload/paste/2019-09-04/113256-1ECD.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/113256-1ECD.png)
 
 ### 框架层通用默认配置
 
@@ -803,7 +803,7 @@ scroller.render();
 
  > 在单页应用（`SPA`）中，浏览器的地址都是指向同一个页面。浏览器的前进、后退按钮已变得不可用，因为并未发生页面的跳转。视图成了单页应用中的 “逻辑页面”，要表示出视图间的顺序关系，恢复传统的浏览器前进、后退、刷新功能，就很有必要实现一个视图导航器。
  
-![](upload/paste/2019-09-03/170326-DEC2.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-03/170326-DEC2.png)
 
 ### 优点
 
@@ -911,7 +911,7 @@ nav.route({
 
 前端页面经典的三层结构：
 
-![](upload/paste/2019-09-02/111307-3F03.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/111307-3F03.png)
 
 ### HTML 模块
 
@@ -921,7 +921,7 @@ nav.route({
 
 通过在 HTML 标记指定的 DOM 节点为 `data-panel="id"` 即可声明一个 `HTML 模块`。
 
-![](upload/paste/2019-09-02/112937-17EC.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/112937-17EC.png)
 
 ### UI 模块
 
@@ -930,7 +930,7 @@ nav.route({
 
 一般来说，我们建立一个 `HTML 模块`，是为了方便用对应的 `JS 模块` 去操纵它，而不会让它成为一个孤立的 UI 模块。因此，从这个角度来说，一个 `HTML 模块` 必定有一个同名（id）的 `JS 模块` 存在并且维护它的功能逻辑。`HTML 模块` 和对应的 `JS 模块` 组成了一个通用的 `UI 模块`。即：
 
-![](upload/paste/2019-09-02/112609-313E.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/112609-313E.png)
 
 
 ### 通用 UI 模块类：`Panel`
@@ -998,15 +998,15 @@ KISP.panel(id, function (require, module, panel) {
  例如：
  
  1. 首先在页面上确定 UI 位置：
- ![](upload/paste/2019-09-02/110014-5F5D.png)
+ ![](http://www.definejs.com/data/upload/paste/2019-09-02/110014-5F5D.png)
  
  2. 通过查看 DOM 元素，确定它所在的 HTML 模块为 `/AccountUsers/Main/List`：
-![](upload/paste/2019-09-02/110041-EF85.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/110041-EF85.png)
 
  3. 根据 HTML 模块的 id 确定 JS 模块为 `/AccountUsers/Main/List`。
  
  4. 在项目中找到 JS 模块：
-![](upload/paste/2019-09-02/110654-005F.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-02/110654-005F.png)
 
  5. 进一步确定要修改的代码位置。
  
@@ -1128,11 +1128,11 @@ panel.$bind({
 
  > 在单页应用的模式下，我们使用 `KISP` 作为前端开发框架，结合 `web-master` 自动化开发工具，在 Web 项目中享受到了很多开发中的好处，也提升了用户体验。随着 Web 项目功能越来越复杂，视图和模块数越来越多，纯粹的单页应用模式也暴露了致命的问题：**文件体积过大，首屏加载太慢，严重影响了用户体验**。
 
-![](upload/paste/2019-09-04/160939-D5F1.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/160939-D5F1.png)
 
 ### 为什么需要分布式加载
 
-![](upload/paste/2019-09-04/161204-E5CB.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/161204-E5CB.png)
 
 ### 独立包
 
@@ -1169,9 +1169,9 @@ panel.$bind({
 
 例如针对上面的例子，用户进入视图 `Products` 后，KISP 会从总的描述信息包 `all.json` 中获取到该独立包的资源路径，并采用异步的方式进行自动加载，加载成功后再渲染该视图。
 
-![](upload/paste/2019-09-04/164924-7EC2.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/164924-7EC2.png)
 
-![](upload/paste/2019-09-04/164949-404F.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/164949-404F.png)
 
 #### 手动加载
 
@@ -1183,7 +1183,7 @@ KISP.load('DatePicker', function (info) {
 });
 ```
 
-![](upload/paste/2019-09-04/165514-956A.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/165514-956A.png)
 
 ### 生命周期
 
@@ -1216,8 +1216,8 @@ KISP.load('DatePicker', function (info) {
 
  > 分与合是一种对立、统一的关系，互为补充、互相促进。
 
-![](upload/paste/2019-09-04/170338-C17C.png)
-![](upload/paste/2019-09-04/170358-2906.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/170338-C17C.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/170358-2906.png)
 
 
 
@@ -1226,7 +1226,7 @@ KISP.load('DatePicker', function (info) {
 
 ### Dialog 对话框
 
-![](upload/paste/2019-09-04/110636-FA84.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/110636-FA84.png)
 
 ``` js
 var Dialog = KISP.require('Dilaog');
@@ -1245,7 +1245,7 @@ dialog.show();
 ### Alert 对话框
 模仿浏览器原生的 `alert` 对话框，提供了一个更美观、简洁的弹出层 `alert` 对话框。
 
-![](upload/paste/2019-09-04/104806-E0F8.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/104806-E0F8.png)
 
 ``` js
 KISP.alert('hello', function () {
@@ -1260,7 +1260,7 @@ KISP.alert('hello', function () {
 ### Confirm 对话框
 模仿浏览器原生的 `confirm` 对话框，提供了一个更美观、简洁的弹出层 `confirm` 对话框。
 
-![](upload/paste/2019-09-04/105446-37A4.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/105446-37A4.png)
 
 ``` js
 KISP.confirm('你确定要执行此操作吗？', function () {
@@ -1275,7 +1275,7 @@ KISP.confirm('你确定要执行此操作吗？', function () {
 
 ### Toast 对话框
 
-![](upload/paste/2019-09-04/111033-FFA9.png)![](upload/paste/2019-09-04/111119-9C33.png)![](upload/paste/2019-09-04/111710-3FAC.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-04/111033-FFA9.png)![](http://www.definejs.com/data/upload/paste/2019-09-04/111119-9C33.png)![](http://www.definejs.com/data/upload/paste/2019-09-04/111710-3FAC.png)
 
 ``` js
 var Toast = KISP.require('Toast');
@@ -1309,7 +1309,7 @@ toast2.show('提示信息');
 
 
 ### Loading 加载中组件
-![](upload/paste/2019-09-05/094351-A8F3.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-05/094351-A8F3.png)
 
 ``` js
 
@@ -1324,9 +1324,9 @@ loading.show('加载中...');
 ### Tabs 通用页签组件
 具有互斥性质的列表项，都可以用 `Tabs` 组件来管理。
 
-![](upload/paste/2019-09-05/094726-178F.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-05/094726-178F.png)
 
-![](upload/paste/2019-09-05/094809-E8D8.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-05/094809-E8D8.png)
 
 ``` html
 <ul data-panel="/AccountBaks/Tabs" class="change-tab">
@@ -1392,7 +1392,7 @@ KISP.panel('/AccountBaks/Tabs', function (require, module, panel) {
 
 提供默认的遮罩层实现，可以监听 `show`、`hide` 事件，也可以指定是否为易消失的（即点击遮罩层后自动消失）。
 
-![](upload/paste/2019-09-05/095950-24F2.png)
+![](http://www.definejs.com/data/upload/paste/2019-09-05/095950-24F2.png)
 
 ``` js
 //创建实例。
