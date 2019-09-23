@@ -9,25 +9,25 @@ KISP 前端框架
 ``` js
 //程序入口，主控制器。
 KISP.launch(function (require, module, nav) {
-	//加载 KISP 内部的公有模块。
-	var Emitter = KISP.require('Emitter');   
+    //加载 KISP 内部的公有模块。
+    var Emitter = KISP.require('Emitter');   
     
     //加载业务层的公有模块。
-	var API = require('API');		
+    var API = require('API');        
     
     //加载业务层的私有模块。
-    var Login = module.require('Login');	 
+    var Login = module.require('Login');     
     
     //绑定事件。
     Login.on({
-    	'success': function (user) {
-        	//跳转到 `Master` 视图。
-        	nav.to('Master');	
+        'success': function (user) {
+            //跳转到 `Master` 视图。
+            nav.to('Master');    
         },
         
         'reset': function () {
-        	//跳转到 `Reset` 视图。
-        	nav.to('Reset');	
+            //跳转到 `Reset` 视图。
+            nav.to('Reset');    
         },
     });
     
@@ -50,7 +50,7 @@ KISP.launch(function (require, module, nav) {
     
  - **适用于 PC 端和移动端**
  
- 	KISP 内部提供的模块既可以用于 PC 端，也可以用于移动端，差异化部分采用了配置的方式进行解决。
+     KISP 内部提供的模块既可以用于 PC 端，也可以用于移动端，差异化部分采用了配置的方式进行解决。
  
  - **支持 IE (9+)**
  
@@ -83,9 +83,9 @@ KISP.launch(function (require, module, nav) {
  - **纯原生前端开发，符合 W3C 标准**
     - 纯原生的 html、css、js 开发，无任何自创的、不符合 W3C 标准的规则、语法和标记等。
     - 学习曲线非常平缓。作为一名前端者，只要你懂 W3C 标准，，只需要很小的学习成本即可上手使用。
-	- 对前端人员更友好，前后端完全分离，前端人员更专注在原生的、传统的和标准的页面开发。
-	- 避免学习新的文件类型、语法和标签，如 `.vue`、`.jsx` 等非标准文件，`v-bind`、`v-for` 等非 W3C 标准的语法。
-	- html、js 代码互相分离，避免 js 里掺杂 html 内容。
+    - 对前端人员更友好，前后端完全分离，前端人员更专注在原生的、传统的和标准的页面开发。
+    - 避免学习新的文件类型、语法和标签，如 `.vue`、`.jsx` 等非标准文件，`v-bind`、`v-for` 等非 W3C 标准的语法。
+    - html、js 代码互相分离，避免 js 里掺杂 html 内容。
     
 
 ## 架构图
@@ -109,7 +109,7 @@ KISP 内部模块和外部的业务层模块分属于两个独立的模块管理
 //业务层的文件 `API.js`
 //定义一个公共模块 `API`。
 define('API', function (rquire, module, exports) {
-	var API = KISP.require('API'); //加载 KISP 内部的模块 `API`。
+    var API = KISP.require('API'); //加载 KISP 内部的模块 `API`。
     
     //...
 });
@@ -122,7 +122,7 @@ define('API', function (rquire, module, exports) {
 
 ``` js
 define('Test', function (rquire, module, exports) {
-	var API = require('API'); //加载业务层的公共模块 API。
+    var API = require('API'); //加载业务层的公共模块 API。
     
     //...
 });
@@ -136,21 +136,21 @@ define('Test', function (rquire, module, exports) {
 ``` js
 //通过工厂函数的方式，定义一个名为 User 的公共模块。
 define('User', function (require, module, exports) {
-	//do something 1
+    //do something 1
     //do something 2
     //...
     //do something n
     
     //需要对外暴露（导出）的模块成员。
     return  {
-    	foo: 'KISP',
+        foo: 'KISP',
         bar: function (){ },
     };
 });
 
 //通过导出对象的方式，定义一个名为 Config 的公共模块。
 define('Config', {
-	foo: 'name',
+    foo: 'name',
     bar: 123,
 });
 
@@ -258,11 +258,11 @@ var emitter = new Emitter();
 
 //绑定事件。
 emitter.on('click', 'update', function (value) {
-	console.log('click 中的 update 事件触发了，收到的值为：', value);
+    console.log('click 中的 update 事件触发了，收到的值为：', value);
 });
 
 emitter.on('click', 'delete', function (value) {
-	console.log('click 中的 delete 事件触发了，收到的值为：', value);
+    console.log('click 中的 delete 事件触发了，收到的值为：', value);
 });
 
 
@@ -277,13 +277,13 @@ emitter.fire('click', 'delete', [200]);
 ``` js
 //批量绑定的方式。
 emitter.on('click', {
-	'update': function (value) {
-		console.log('click 中的 update 事件触发了，收到的值为：', value);
-	},
+    'update': function (value) {
+        console.log('click 中的 update 事件触发了，收到的值为：', value);
+    },
     
     'delete': function (value) {
-		console.log('click 中的 delete 事件触发了，收到的值为：', value);
-	},
+        console.log('click 中的 delete 事件触发了，收到的值为：', value);
+    },
 });
 
 ```
@@ -307,9 +307,9 @@ emitter.on('name0', 'name1', ..., 'nameN', fn);
 
 ``` js
 emitter.on({
-	'name0': {
-    	'name1': {
-        	...
+    'name0': {
+        'name1': {
+            ...
             'nameN': fn,
         },
     },
@@ -332,14 +332,14 @@ var api = new API('test/get_user_list');
 
 //绑定各种事件。
 api.on({
-	//发起请求之前触发。
-	'request': function () {
-    	//loading.show('加载中...');
+    //发起请求之前触发。
+    'request': function () {
+        //loading.show('加载中...');
     },
     
     //接收到响应后触发。
     'response': function () {
-    	//loading.hide();
+        //loading.hide();
     },
     
     //成功时触发。
@@ -360,7 +360,7 @@ api.on({
 
 //发起请求。
 api.post({
-	//....	各种数据字段
+    //....    各种数据字段
 });
 ```
 
@@ -395,10 +395,10 @@ KISP 提供了 `Proxy` 类来建立本地代理以模拟服务器响应，需要
 var API = KISP.require('API');
 
 var api = new API('get_user_list', {
-	proxy: '.json', 	//等价于 `get_user_list.json`。
-    proxy: '.js',	   //等价于 `get_user_list.js`。
-    proxy: true,	    //等价于 proxy: '.js'。
-    proxy: '...',	   //指定为其它具体的名称。
+    proxy: '.json',     //等价于 `get_user_list.json`。
+    proxy: '.js',       //等价于 `get_user_list.js`。
+    proxy: true,        //等价于 proxy: '.js'。
+    proxy: '...',       //指定为其它具体的名称。
 });
 
 ```
@@ -411,10 +411,10 @@ var api = new API('get_user_list', {
 
 ``` json 
 {
-	"code": 200,
+    "code": 200,
     "msg": "success",
     "data": [
-    	{ "id": 1001, "name": "李明", "age": 30 },
+        { "id": 1001, "name": "李明", "age": 30 },
         { "id": 1002, "name": "张小婷", "age": 25 },
     ],
 
@@ -437,10 +437,10 @@ var api = new API('get_user_list', {
 
 ``` js
 KISP.proxy({
-	code: 200,
+    code: 200,
     msg: 'success',
     data: [
-    	{ id: 1001, name: '李明', age: 30 },
+        { id: 1001, name: '李明', age: 30 },
         { id: 1002, name: '张小婷', age: 25 },
     ],
 });
@@ -463,13 +463,13 @@ KISP.proxy({
 
 ``` js
 KISP.proxy(function (data, config) {
-	
+    
     //可以根据传入的 data 来动态构造数据。
     //此处可以有很复杂的构造数据逻辑，如生成随机数据、分页、存取本地数据等。
     var list = [ ]; 
     
     return {
-    	code: 200,
+        code: 200,
         msg: 'success',
         data: list,
     };
@@ -609,7 +609,7 @@ KISP 内部中通过 `模块名.defaults` 定义的配置为通用的默认配�
 ``` js
 //API 模块的默认配置
 define('API.defaults', {
-	//配置字段...
+    //配置字段...
 });
 
 ```
@@ -654,13 +654,13 @@ define('Dialog.config', {
 ``` js
 //批量配置的方式。
 KISP.config({
-	//针对 `API` 模块的配置。
-	'API': {
-    	url: 'http://kisapp.kingdee.com:88/api/user/', 
+    //针对 `API` 模块的配置。
+    'API': {
+        url: 'http://kisapp.kingdee.com:88/api/user/', 
         successCode: '0000',
     },
     
-	//更多模块的配置...
+    //更多模块的配置...
 });
 
 ```
@@ -668,8 +668,8 @@ KISP.config({
 
 ``` js
 KISP.config('API', {
-	url: 'http://kisapp.kingdee.com:88/api/user/', 
-	successCode: '0000',
+    url: 'http://kisapp.kingdee.com:88/api/user/', 
+    successCode: '0000',
 });
 
 ```
@@ -683,8 +683,8 @@ var API = KISP.require('API');.
 
 //在创建实例时传入配置。
 var api = new API('get_user_list', {
-	url: 'http://kisapp.kingdee.com:88/api/user/', 
-	successCode: '0000',
+    url: 'http://kisapp.kingdee.com:88/api/user/', 
+    successCode: '0000',
 });
 
 ```
@@ -701,10 +701,10 @@ var api = new API('get_user_list', {
 ``` js
 //批量设置的方式。
 KISP.data({
-	
+    
     //针对模块 `/Products/Main/API` 自定义数据。
-	'/Products/Main/API': {
-    	//配置选项...
+    '/Products/Main/API': {
+        //配置选项...
     },
 
 });
@@ -713,7 +713,7 @@ KISP.data({
 //单个设置的方式。
 //针对模块 `/Products/Main/API` 自定义数据。
 KISP.data('/Products/Main/API', {
-	//配置选项...
+    //配置选项...
 });
 
 ```
@@ -722,8 +722,8 @@ KISP.data('/Products/Main/API', {
 
 ``` js
 define('/Products/Main/API', function (require, module, exports) {
-	//获取当前模块的自定义数据。
-	var defaults = KISP.data(module.id);
+    //获取当前模块的自定义数据。
+    var defaults = KISP.data(module.id);
     
     //...
 });
@@ -737,10 +737,10 @@ define('/Products/Main/API', function (require, module, exports) {
 ``` js 
 //不推荐。
 KISP.data({
-	//此自定义数据针对的使用对象不清晰，
+    //此自定义数据针对的使用对象不清晰，
     //时间长了、模块数增多后不敢修改。
-	'pager': {
-    	
+    'pager': {
+        
     },
 });
 ```
@@ -763,21 +763,21 @@ KISP.data({
 var Scroller = KISP.require('Scroller');
 
 var scroller = new Scroller({
-	top: '100px',
+    top: '100px',
     bottom: '50px',
     container: 'div',
 });
 
 //启用下拉刷新。
 scroller.pulldown(function (done) {
-	//请求后台接口重新拉取数据。
+    //请求后台接口重新拉取数据。
     //完成后执行传入的回调函数 done()。
     
 });
 
 //启用上拉加载更多。
 scroller.pullup(function (done) {
-	//请求后台接口拉取下一页数据。
+    //请求后台接口拉取下一页数据。
     //完成后执行传入的回调函数 done()。
 });
 
@@ -820,25 +820,25 @@ KISP 在启动入口会传入一个 `Navigator` 的实例 `nav`，业务层直�
 
 ``` js
 KISP.launch(function (require, module, nav) {
-	
+    
     nav.on({
         //只要视图发生变化就触发。
         'view': function (view, args, info) {
             
         },
 
-		//状态栏无任何视图名时触发。
+        //状态栏无任何视图名时触发。
         'none': function () {
-            nav.to('Login');	//
+            nav.to('Login');    //
         },
-		
+        
         //页面开始运行时触发。
         'start': function (hash, old) {
-		
+        
         },
     });
 
-	//开始解析和监听地址栏中的 hash。
+    //开始解析和监听地址栏中的 hash。
     nav.render();
     
     //跳转到指定视图。
@@ -865,14 +865,14 @@ KISP.launch(function (require, module, nav) {
 
 //静态路由。
 nav.route({
-	/**
+    /**
     * 把视图名映射成 hash。
     */
     view$hash: {
         'Login': '/index.html',
     },
 
-	/**
+    /**
     * 把 hash 映射成视图名。
     */
     hash$view: {
@@ -946,7 +946,7 @@ KISP.panel(id, function (require, module, panel) {
     * 初始化。
     * 只会执行一次，适合用来绑定事件。
     */
-	panel.on('init', function () {
+    panel.on('init', function () {
     
     });
     
@@ -1024,8 +1024,8 @@ KISP.panel(id, function (require, module, panel) {
 ``` js
 //对一组不同的元素绑定 `click` 事件。
 panel.$on('click', {
-	'[data-cmd="update"]': function (event) {
-    	
+    '[data-cmd="update"]': function (event) {
+        
     },
     
     'input[type="text"]': function (event) {
@@ -1041,8 +1041,8 @@ panel.$on('click', {
 
 //为方便代码聚合，还可以把多个事件合并写在一起。
 panel.$on({
-	'click': {
-		'[data-cmd="update"]': function (event) {
+    'click': {
+        '[data-cmd="update"]': function (event) {
 
         },
 
@@ -1058,7 +1058,7 @@ panel.$on({
     },
     
     'keydown': {
-    	'button': function (event) {
+        'button': function (event) {
 
         },
         //更多元素...
@@ -1075,8 +1075,8 @@ panel.$on({
 ``` js
 //对一个文本输入框批量绑定事件。
 panel.$bind('input[type="text"]', {
-	'focus': function (event) {
-    	
+    'focus': function (event) {
+        
     },
     
     'blur': function (event) {
@@ -1093,24 +1093,24 @@ panel.$bind('input[type="text"]', {
 
 //为方便代码聚合，还可以把多个元素合并写在一起。
 panel.$bind({
-	'input[type="text"]': {
-    	'focus': function (event) {
-    	
-      	},
+    'input[type="text"]': {
+        'focus': function (event) {
+        
+          },
 
-      	'blur': function (event) {
+          'blur': function (event) {
 
-      	},
+          },
 
-      	'change': function (event) {
+          'change': function (event) {
 
-      	},
+          },
 
-      	//更多事件...
+          //更多事件...
     },
     
     'button': {
-    	'click': function (event) { 
+        'click': function (event) { 
         
         },
         
@@ -1179,7 +1179,7 @@ panel.$bind({
 
 ``` js
 KISP.load('DatePicker', function (info) {
-	
+    
 });
 ```
 
@@ -1232,7 +1232,7 @@ KISP.load('DatePicker', function (info) {
 var Dialog = KISP.require('Dilaog');
 
 var dialog = new Dialog({
-	title: '标题',
+    title: '标题',
     content: '你好，内容',
     width: 400,
     height: 200,
@@ -1249,7 +1249,7 @@ dialog.show();
 
 ``` js
 KISP.alert('hello', function () {
-	//点击 `确定` 后要执行的回调函数。该函数是可选的。
+    //点击 `确定` 后要执行的回调函数。该函数是可选的。
 });
 ```
 
@@ -1264,10 +1264,10 @@ KISP.alert('hello', function () {
 
 ``` js
 KISP.confirm('你确定要执行此操作吗？', function () {
-	//点击 `确定` 后要执行的回调函数。该函数是可选的。
+    //点击 `确定` 后要执行的回调函数。该函数是可选的。
     
 }, function () {
-	//点击 `取消` 后要执行的回调函数。该函数是可选的。
+    //点击 `取消` 后要执行的回调函数。该函数是可选的。
 });
 ```
 
@@ -1282,8 +1282,8 @@ var Toast = KISP.require('Toast');
 
 //成功图标。
 var toast1 = new Toast({
-	icon: 'check',
-    duration: 1500,		//1500 毫秒后自动消失。
+    icon: 'check',
+    duration: 1500,        //1500 毫秒后自动消失。
 });
 
 toast1.show('操作成功');
@@ -1291,7 +1291,7 @@ toast1.show('操作成功');
 
 //失败图标。
 var toast2 = new Toast({
-	icon: 'close',
+    icon: 'close',
 });
 
 toast2.show('操作失败');
@@ -1300,7 +1300,7 @@ toast2.show('操作失败');
 
 //无图标。
 var toast3 = new Toast({
-	icon: '',
+    icon: '',
 });
 
 toast2.show('提示信息');
@@ -1348,12 +1348,12 @@ KISP.panel('/AccountBaks/Tabs', function (require, module, panel) {
         { text: '私有云备份', cmd: 'private', },
     ];
 
-	/**
+    /**
     * 初始化。
     * 只会执行一次，适合用来绑定事件。
     */
     panel.on('init', function () {
-    	//创建实例。
+        //创建实例。
         tabs = KISP.create('Tabs', {
             container: panel.$,             //页签的容器。
             selector: '>li',                //页签项的元素选择器。
@@ -1377,13 +1377,13 @@ KISP.panel('/AccountBaks/Tabs', function (require, module, panel) {
 
     });
 
-	/**
+    /**
     * 渲染。
     * 每调次调用 render() 都会执行。
     */
     panel.on('render', function () {
-        tabs.render(list);	//填充并渲染。
-        tabs.active(1);	   //激活指定的项。
+        tabs.render(list);    //填充并渲染。
+        tabs.active(1);       //激活指定的项。
     });
 
 });
@@ -1403,7 +1403,7 @@ var masker = KISP.create('Mask', {
 
 //绑定事件。
 masker.on({
-	//显示时触发。
+    //显示时触发。
     'show': function () {
     
     },
