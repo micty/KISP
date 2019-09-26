@@ -30,7 +30,8 @@ define('OuterModule', function (require, module, exports) {
         'defaults': defaults,
 
         /**
-        * 定义指定名称的模块。
+        * 定义一个指定名称的静态模块。
+        * 或者定义一个动态模块，模块的 id 是一个模板字符串。
         * 该方法对外给业务层使用的。
         * @function
         * @param {string} id 模块的名称。 可以是一个模板。
@@ -38,7 +39,8 @@ define('OuterModule', function (require, module, exports) {
         */
         'define': function (id, factory) {
             
-            var isTPL = id.includes('{') && id.includes('}');   // id 为一个模板字符串，如 `{prefix}/Address`。
+            // id 为一个模板字符串，如 `{prefix}/Address`。
+            var isTPL = id.includes('{') && id.includes('}');   
 
             if (isTPL) {
                 id$factory[id] = factory;   //定义一个模板模块，则先缓存起来。
@@ -61,7 +63,8 @@ define('OuterModule', function (require, module, exports) {
         'require': mm.require.bind(mm),
      
         /**
-        * 填充一个模板模块，以生成（定义）一个真正的模块。
+        * 使用模板模块动态定义一个模块。
+        * 即填充一个模板模块，以生成（定义）一个真正的模块。
         *   sid: '',    //模板模板的 id，如 `{prefix}/Address`
         *   data: {},   //要填充的数据，如 { prefix: 'Demo/User', }
         */
@@ -70,9 +73,8 @@ define('OuterModule', function (require, module, exports) {
             //需要扫描所有模板，同时填充它的子模块。
             $Object.each(id$factory, function (id, factory) {
 
-                //如 sid 为 `{prefix}/Address`，
-                //则所有以它为开头的模板模块都要填充，
-                //如 id 为 `{prefix}/Address/API`
+                //所有以 sid 为开头的模板模块都要填充，
+                //如 sid 为 `{prefix}/Address`，id 为 `{prefix}/Address/API`
                 if (!id.startsWith(sid)) {
                     return;
                 }

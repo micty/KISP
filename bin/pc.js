@@ -88,9 +88,17 @@ packer.launch(function (require, module, exports) {
             //    //dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
                 
             //},
+            //{
+            //    src: `${options.home}`,
+            //    dest: `E:/Web/kis-o2o/htdocs/f/kisp/`,
+            //},
+            //{
+            //    src: `${options.home}`,
+            //    dest: `E:/Studio/markdoc-admin/htdocs/f/kisp/`,
+            //},
             {
                 src: `${options.home}`,
-                dest: `E:/Web/kis-o2o/htdocs/f/kisp/`,
+                dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
             },
         ];
 
