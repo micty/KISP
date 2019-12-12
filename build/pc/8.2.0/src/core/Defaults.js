@@ -53,7 +53,22 @@ define('Defaults', function (require, module, exports) {
         * 已重载 set(name, data); //单个设置。
         */
         set: function (name, data) {
-            var obj = typeof name == 'object' ? name : { [name]: data, };
+            var obj = {};
+
+            //此时为 set(keys, data); 
+            //即多个 key 共用一个 data 作为值。
+            if (Array.isArray(name)) {
+                var keys = name;
+
+                keys.forEach(function (key) {
+                    obj[key] = data;
+                });
+            }
+            else {
+                obj = typeof name == 'object' ? name : { [name]: data, };
+            }
+
+
 
             $Object.each(obj, function (name, data) {
                 init(name);

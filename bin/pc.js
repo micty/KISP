@@ -81,25 +81,25 @@ packer.launch(function (require, module, exports) {
         var options = packer.options;
 
         var dirs = [
-            //{
-            //    src: `${options.home}`,
-            //    //dest: `E:/Web/study/htdocs/f/kisp/`,
-            //    dest: `E:/Web/kis-cloud/htdocs/f/kisp/`,
-            //    //dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
+            {
+                src: `${options.home}`,
+                //dest: `E:/Web/study/htdocs/f/kisp/`,
+                dest: `E:/Web/kis-cloud/htdocs/f/kisp/`,
+                //dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
                 
-            //},
-            //{
-            //    src: `${options.home}`,
-            //    dest: `E:/Web/kis-o2o/htdocs/f/kisp/`,
-            //},
+            },
+            {
+                src: `${options.home}`,
+                dest: `E:/Web/kis-o2o/htdocs/f/kisp/`,
+            },
             //{
             //    src: `${options.home}`,
             //    dest: `E:/Studio/markdoc-admin/htdocs/f/kisp/`,
             //},
-            {
-                src: `${options.home}`,
-                dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
-            },
+            //{
+            //    src: `${options.home}`,
+            //    dest: `E:/Studio/markdoc/htdocs/f/kisp/`,
+            //},
         ];
 
 

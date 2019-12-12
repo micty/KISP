@@ -2,8 +2,8 @@
 * KISP JavaScript Library
 * name: pc 
 * version: 8.2.0
-* build time: 2019-09-24 10:09:47
-* concat md5: D2080A4AF82F28DEB471F2951F9B36CD
+* build time: 2019-11-19 11:19:58
+* concat md5: DBB65D2794D4C7D3A1B982D591767901
 * source files: 123(121)
 *    partial/begin.js
 *    base/Module.js
@@ -577,7 +577,10 @@ var ModuleManager = (function (Module) {
 
             //--------------------------------------------------------------------------------
             //factory 是个工厂函数。
-            var exports = {};
+
+            //同时也要赋值给 module.exports，针对两个模块间的循环 require 时用到。
+            //因为此时在 factory 中会提前用到 exports。
+            var exports = module.exports = {}; 
 
      
             //mod 就是工厂函数 factory(require, module, exports) 中的第二个参数啦。
@@ -600,8 +603,10 @@ var ModuleManager = (function (Module) {
             if (exports === undefined) { 
                 exports = mod.exports;
             }
+            
+            //这条是必须的。 因为 factory() 可能返回了一个新的导出对象。
+            module.exports = exports; 
 
-            module.exports = exports;
 
             //这条，给提供业务层提供方便。
             //即使业务层是通过 return 来返回导出对象，
@@ -4706,7 +4711,7 @@ define('KISP', function (require, module, exports) {
         * 内容不包括本字段动态生成的值部分。
         * 与生成的头部注释中的 md5 值是一致的。
         */
-        md5: 'D2080A4AF82F28DEB471F2951F9B36CD',
+        md5: 'DBB65D2794D4C7D3A1B982D591767901',
 
         /**
         * babel 版本号。 (由 packer 自动插入)
@@ -4966,7 +4971,22 @@ define('Defaults', function (require, module, exports) {
         * 已重载 set(name, data); //单个设置。
         */
         set: function (name, data) {
-            var obj = typeof name == 'object' ? name : { [name]: data, };
+            var obj = {};
+
+            //此时为 set(keys, data); 
+            //即多个 key 共用一个 data 作为值。
+            if (Array.isArray(name)) {
+                var keys = name;
+
+                keys.forEach(function (key) {
+                    obj[key] = data;
+                });
+            }
+            else {
+                obj = typeof name == 'object' ? name : { [name]: data, };
+            }
+
+
 
             $Object.each(obj, function (name, data) {
                 init(name);
@@ -5048,17 +5068,33 @@ define('Config', function (require, module,  exports) {
         /**
         * 设置指定模块的默认配置。
         * 会深度合并传入的目标的子对象与原配置中的对应的子对象。
-        * 已重载 set({...});       //批量设置。
-        * 已重载 set(name, data);  //单个设置。
+        * 已重载 set({...});       //批量设置多个 key，每个 key 有自己的值部分 。
+        * 已重载 set(keys, data);  //批量设置多个 key，每个 key 共用一个值部分。
+        * 已重载 set(name, data);  //单个设置一个 key 和一个值。
         *
         * @param {string} name 要设置的模块的名称。
         * @param {Object} data 要设置的默认配置对象。
         */
         set: function (name, data) {
+            var obj = {};
+
+            //此时为 set(keys, data); 
+            //即多个 key 共用一个 data 作为值。
+            if (Array.isArray(name)) {
+                var keys = name;
+
+                keys.forEach(function (key) {
+                    obj[key] = data;
+                });
+            }
+            else {
+                obj = typeof name == 'object' ? name : { [name]: data, };
+            }
+
+
+
             var meta = mapper.get(this);
             var name$data = meta.name$data;
-            var obj = typeof name == 'object' ? name : { [name]: data, };
-
 
             $Object.each(obj, function (name, data) {
 
@@ -5137,6 +5173,7 @@ define('Data', function (require, module, exports) {
         * 获取或设置业务层的自定义数据。
         * 已重载 data(key); //获取指定键的数据。
         * 已重载 data(key, value); //设置指定键的数据。
+        * 已重载 data(keys, value); //批量设置多个键，共用一个数据作为值。
         * 已重载 data(obj); //批量设置数据。
         * 
         * @param {string} key 要存储的数据的键。

@@ -29,17 +29,33 @@ define('Config', function (require, module,  exports) {
         /**
         * 设置指定模块的默认配置。
         * 会深度合并传入的目标的子对象与原配置中的对应的子对象。
-        * 已重载 set({...});       //批量设置。
-        * 已重载 set(name, data);  //单个设置。
+        * 已重载 set({...});       //批量设置多个 key，每个 key 有自己的值部分 。
+        * 已重载 set(keys, data);  //批量设置多个 key，每个 key 共用一个值部分。
+        * 已重载 set(name, data);  //单个设置一个 key 和一个值。
         *
         * @param {string} name 要设置的模块的名称。
         * @param {Object} data 要设置的默认配置对象。
         */
         set: function (name, data) {
+            var obj = {};
+
+            //此时为 set(keys, data); 
+            //即多个 key 共用一个 data 作为值。
+            if (Array.isArray(name)) {
+                var keys = name;
+
+                keys.forEach(function (key) {
+                    obj[key] = data;
+                });
+            }
+            else {
+                obj = typeof name == 'object' ? name : { [name]: data, };
+            }
+
+
+
             var meta = mapper.get(this);
             var name$data = meta.name$data;
-            var obj = typeof name == 'object' ? name : { [name]: data, };
-
 
             $Object.each(obj, function (name, data) {
 

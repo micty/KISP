@@ -18,6 +18,7 @@ define('Data', function (require, module, exports) {
         * 获取或设置业务层的自定义数据。
         * 已重载 data(key); //获取指定键的数据。
         * 已重载 data(key, value); //设置指定键的数据。
+        * 已重载 data(keys, value); //批量设置多个键，共用一个数据作为值。
         * 已重载 data(obj); //批量设置数据。
         * 
         * @param {string} key 要存储的数据的键。

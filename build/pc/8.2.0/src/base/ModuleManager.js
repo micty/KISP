@@ -229,7 +229,10 @@ var ModuleManager = (function (Module) {
 
             //--------------------------------------------------------------------------------
             //factory 是个工厂函数。
-            var exports = {};
+
+            //同时也要赋值给 module.exports，针对两个模块间的循环 require 时用到。
+            //因为此时在 factory 中会提前用到 exports。
+            var exports = module.exports = {}; 
 
      
             //mod 就是工厂函数 factory(require, module, exports) 中的第二个参数啦。
@@ -252,8 +255,10 @@ var ModuleManager = (function (Module) {
             if (exports === undefined) { 
                 exports = mod.exports;
             }
+            
+            //这条是必须的。 因为 factory() 可能返回了一个新的导出对象。
+            module.exports = exports; 
 
-            module.exports = exports;
 
             //这条，给提供业务层提供方便。
             //即使业务层是通过 return 来返回导出对象，
